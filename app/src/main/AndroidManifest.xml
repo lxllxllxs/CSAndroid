@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.yiyekeji.coolschool">
-
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -13,7 +16,9 @@
         <meta-data android:name="design_width" android:value="720"></meta-data>
         <meta-data android:name="design_height" android:value="1280"></meta-data>
 
-        <activity android:name="com.yiyekeji.coolschool.ui.MainActivity">
+        <activity android:name="com.yiyekeji.coolschool.ui.MainActivity"
+            android:launchMode="singleInstance"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
