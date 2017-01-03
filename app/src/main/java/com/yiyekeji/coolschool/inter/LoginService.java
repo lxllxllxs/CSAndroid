@@ -1,6 +1,6 @@
 package com.yiyekeji.coolschool.inter;
 
-import com.yiyekeji.coolschool.bean.UserInfoFactory;
+import com.yiyekeji.coolschool.bean.UserInfo;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -12,5 +12,5 @@ import retrofit2.http.POST;
  */
 public interface LoginService {
     @POST("login")
-    Call<ResponseBody> listRepos(@Body UserInfoFactory.UserInfo user);
+    Call<ResponseBody> listRepos(@Body UserInfo user);
 }

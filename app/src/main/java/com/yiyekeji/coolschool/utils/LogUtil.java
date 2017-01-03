@@ -9,6 +9,8 @@ import com.yiyekeji.coolschool.Config;
  * Created by zhouyaozhong on 15/12/2.
  */
 public class LogUtil {
+    private final static  String TAG="LogUtil";
+
     public static void i(String tag, String msg) {
         if(Config.DEBUG) {
             Log.i(tag, msg);
@@ -56,7 +58,11 @@ public class LogUtil {
             Log.d(tag, msg);
         }
     }
-
+    public static void d(String msg) {
+        if(Config.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
 
     public static void d(String tag, Object msg) {
         if(Config.DEBUG) {

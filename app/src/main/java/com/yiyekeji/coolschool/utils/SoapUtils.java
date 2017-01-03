@@ -1,24 +1,15 @@
 package com.yiyekeji.coolschool.utils;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.google.protobuf.AbstractMessage;
-import com.yiyekeji.coolschool.Config;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class SoapUtils {
-	private static Handler mainHandler;
 
-	public static void call(final AbstractMessage msg,final CallBack callBack) {
+/*	public static void call(final String method,final AbstractMessage msg,final CallBack callBack) {
 		Runnable requestRunnable = new Runnable() {
 			public void run() {
 				try {
-					URL url = new URL(Config.BASE_URL+"login");
+					URL url = new URL(Config.BASE_URL+method);
 					HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 					urlConnection.setRequestMethod("POST");
 					urlConnection.setReadTimeout(5000);
@@ -40,14 +31,8 @@ public class SoapUtils {
 		};
 		ThreadPools.getInstance().addRunnable(requestRunnable);
 	}
-	
-	
-	private static void initHandler() {
-		if(mainHandler == null) {
-			mainHandler = new Handler(Looper.getMainLooper());
-		}
-	}
-	
+	*/
+
 
 	public interface CallBack {
 		public void onSuccess(InputStream inputStream) throws IOException;
