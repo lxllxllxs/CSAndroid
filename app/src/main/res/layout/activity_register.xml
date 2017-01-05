@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ledt="http://schemas.android.com/apk/res-auto"
+    xmlns:cb="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,36 +11,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_loginName"
+    <LinearLayout
+        android:layout_marginTop="30px"
+        android:orientation="vertical"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText=""
-        ledt:text="用户账号"/>
+        android:layout_height="wrap_content">
+        <com.yiyekeji.coolschool.widget.LableEditView
+            android:id="@+id/ledt_loginName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ledt:edtText=""
+            ledt:text="用户账号"/>
 
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText=""
-        ledt:text="登录密码"/>
+        <com.yiyekeji.coolschool.widget.LableEditView
+            android:id="@+id/ledt_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ledt:edtText=""
+            ledt:text="登录密码"/>
+        <com.yiyekeji.coolschool.widget.LableEditView
+            android:id="@+id/ledt_confrimPwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ledt:edtText=""
+            ledt:text="确认密码"/>
+        <com.yiyekeji.coolschool.widget.LableEditView
+            android:id="@+id/ledt_realName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ledt:edtText=""
+            ledt:text="真实姓名"/>
 
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_confrimPwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText=""
-        ledt:text="确认密码"/>
+        <com.yiyekeji.coolschool.widget.CButton
+            android:layout_marginTop="30px"
+            android:id="@+id/cb_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            cb:cb_text="注册"
+            />
+    </LinearLayout>
 
-
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_companyName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText=""
-        ledt:text="真实姓名"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout>

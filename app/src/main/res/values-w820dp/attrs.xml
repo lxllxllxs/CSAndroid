@@ -8,4 +8,9 @@
         <attr name="receiveDigits" format="boolean"/>
     </declare-styleable>
 
+
+    <declare-styleable name="CButton">
+        <attr name="cb_text" format="string" />
+        <attr name="cb_color" format="integer" />
+    </declare-styleable>
 </resources>

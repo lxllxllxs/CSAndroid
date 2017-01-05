@@ -34,7 +34,6 @@ public class MainActivity extends BaseActivity {
 
         LoginService loginService = retrofit.create(LoginService.class);
         UserInfo userInfo = new UserInfo();
-        userInfo.setPwd("123");
         userInfo.setName("lxl");
         StringBuilder sb = new StringBuilder();
         sb.append("{")
@@ -50,7 +49,6 @@ public class MainActivity extends BaseActivity {
         Gson gson = new Gson();
         UserInfo info=gson.fromJson(sb.toString(),UserInfo.class);
         LogUtil.d("GSOn",info.toString());
-        LogUtil.d("UserInfo123", info.getName() + "==" + info.getPwd());
         Call<ResponseBody> call = loginService.listRepos(userInfo);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
