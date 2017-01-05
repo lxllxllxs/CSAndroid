@@ -10,10 +10,6 @@ import com.yiyekeji.coolschool.inter.LoginService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.LogUtil;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -49,17 +45,6 @@ public class MainActivity extends BaseActivity {
         Gson gson = new Gson();
         UserInfo info=gson.fromJson(sb.toString(),UserInfo.class);
         LogUtil.d("GSOn",info.toString());
-        Call<ResponseBody> call = loginService.listRepos(userInfo);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-
-        });
 
 
     }

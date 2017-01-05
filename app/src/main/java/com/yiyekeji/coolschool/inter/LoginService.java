@@ -11,6 +11,6 @@ import retrofit2.http.POST;
  * Created by lxl on 2016/12/25.
  */
 public interface LoginService {
-    @POST("login")
-    Call<ResponseBody> listRepos(@Body UserInfo user);
+    @POST("user/appLogin")
+    Call<ResponseBody> login(@Body UserInfo user);
 }
