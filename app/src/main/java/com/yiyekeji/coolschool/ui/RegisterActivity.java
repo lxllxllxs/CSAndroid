@@ -9,6 +9,7 @@ import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.inter.RegisterService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.LogUtil;
+import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.LableEditView;
@@ -76,6 +77,15 @@ public class RegisterActivity extends BaseActivity {
         }
         if (!pwd.equals(repeatPwd)){
             showShortToast("两次密码不一致！！");
+            return;
+        }
+
+        if (!RegexUtils.checkChinese(realName)){
+            showShortToast("姓名请输入中文！");
+            return;
+        }
+        if (!RegexUtils.checkDigit(loginName)){
+            showShortToast("请输入正确学号！");
             return;
         }
 

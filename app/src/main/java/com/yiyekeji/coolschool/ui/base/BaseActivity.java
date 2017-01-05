@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.yiyekeji.coolschool.App;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 /**
@@ -17,6 +18,7 @@ public    class BaseActivity extends AutoLayoutActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.addActivity(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -25,7 +27,6 @@ public    class BaseActivity extends AutoLayoutActivity implements View.OnClickL
         }
 
     }
-
 
     private Toast shortToast, longToast ;
 
@@ -56,5 +57,6 @@ public    class BaseActivity extends AutoLayoutActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        App.removeActivity(this);
     }
 }

@@ -22,26 +22,26 @@
             android:id="@+id/ledt_loginName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText=""
+            ledt:edtText="学号/工号"
             ledt:text="用户账号"/>
 
         <com.yiyekeji.coolschool.widget.LableEditView
             android:id="@+id/ledt_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText=""
+            ledt:edtText="最少3位最多6位"
             ledt:text="登录密码"/>
         <com.yiyekeji.coolschool.widget.LableEditView
             android:id="@+id/ledt_confrimPwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText=""
+            ledt:edtText="最少3位最多6位"
             ledt:text="确认密码"/>
         <com.yiyekeji.coolschool.widget.LableEditView
             android:id="@+id/ledt_realName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText=""
+            ledt:edtText="真实姓名"
             ledt:text="真实姓名"/>
 
         <com.yiyekeji.coolschool.widget.CButton
@@ -49,7 +49,7 @@
             android:id="@+id/cb_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            cb:cb_text="注册"
+            cb:cb_text="确定"
             />
     </LinearLayout>
 

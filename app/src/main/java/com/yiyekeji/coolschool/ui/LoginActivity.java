@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
@@ -85,6 +86,7 @@ public class LoginActivity extends BaseActivity {
                 UserInfo userInfo = GsonUtil.fromJSon(response.body().charStream(),UserInfo.class) ;
                 if (userInfo != null) {
                     showShortToast("成功登录！");
+                    App.userInfo = userInfo;
                 } else {
                     showShortToast(rb.getMessage());
                 }
