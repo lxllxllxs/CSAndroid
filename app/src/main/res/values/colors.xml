@@ -4,48 +4,23 @@
     <color name="colorPrimaryDark">#E03131</color>
     <color name="colorAccent">#98C782</color>
 
-
-    <color name="color_tangerine">#F7B64A</color>
     <color name="theme_red">#E03131</color>
-    <color name="theme_deeppurple">#2C3465</color>
     <color name="theme_blue">#3883EF</color>
-    <color name="theme_gray">#909090</color>
-    <color name="theme_lightblue">#def3f9</color>
-    <color name="theme_lightgray">#F4F4F4</color>
-    <color name="green_background">#98C782</color>
-    <color name="blue_text">#3388CC</color>
-    <color name="green_line">#398D07</color>
-    <color name="yellow_line">#FAF7C0</color>
-    <color name="text_orange">#FC6A54</color>
-    <color name="text_violet">#D333A4</color>
 
     <color name="white">#ffffff</color>
-    <color name="black">#323232</color>
-    <color name="text_black">#333333</color>
-    <color name="red">#ff0000</color>
-    <color name="red_light">#ED7474</color>
-    <color name="blue">#0000ff</color>
-    <color name="blue_light">#4FC1E9</color>
-    <color name="blue_backgroud">#3883ef</color>
-    <color name="blue_press">#38ADFF</color>
-    <color name="green">#00ff00</color>
+
+    <color name="black">#222222</color>
+    <color name="text_black">#666666</color>
+    <color name="light_black">#9d9d9d</color>
+    <color name="text_red">#e4393c</color>
+
     <color name="gray">#EBEBEB</color>
-    <color name="gray_line">#E6E6E6</color>
-    <color name="gray_light">#F2F2F2</color>
     <color name="gray_text">#999999</color>
+
     <color name="transparent">#00ffffff</color>
-    <color name="button_gray">#dbdbdb</color>
-    <color name="line_gray">#F4F4F4</color>
-    <color name="gray_black">#7b7b7b</color>
-    <color name="gesture_background">#ff303237</color>
-    <color name="text_hint_color">#AAA</color>
-    <color name="bg_gray_color">#808080</color>
-    <color name="black_light">#413a3c</color>
     <color name="orange">#FF5608</color>
-    <color name="orange_light">#F9B908</color>
-    <color name="base1_grey">#eeeeee</color>
     <color name="background_gray">#eeeeee</color>
-    <color name="base2_grey">#aaaaaa</color>
-    <color name="base3_grey">#999999</color>
-    <color name="base4_grey">#777777</color>
+    <color name="line_gray">#e8e8e8</color>
+
+
 </resources>

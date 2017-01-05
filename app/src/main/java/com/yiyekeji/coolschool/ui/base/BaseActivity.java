@@ -1,8 +1,10 @@
 package com.yiyekeji.coolschool.ui.base;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -10,17 +12,18 @@ import com.zhy.autolayout.AutoLayoutActivity;
 /**
  * Created by Administrator on 2016/10/23.
  */
-public  abstract  class BaseActivity extends AutoLayoutActivity implements View.OnClickListener {
+public    class BaseActivity extends AutoLayoutActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }*/
+        }
+
     }
 
 
@@ -44,10 +47,6 @@ public  abstract  class BaseActivity extends AutoLayoutActivity implements View.
     public void finish() {
         super.finish();
     }
-
-
-
-
 
     @Override
     public void onClick(View v) {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LableEditView">
+        <attr name="textSize" format="dimension" />
+        <attr name="edtText" format="string" />
+        <attr name="text" format="string" />
+        <attr name="line" format="integer" />
+        <attr name="receiveDigits" format="boolean"/>
+    </declare-styleable>
+
+</resources>
