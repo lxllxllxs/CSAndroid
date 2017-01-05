@@ -90,12 +90,19 @@ public class RegisterActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBean>() {
             @Override
             public void onResponse(Call<ResponseBean> call, Response<ResponseBean> response) {
-                LogUtil.d(response.body().toString());
+                ResponseBean rb = response.body();
+                LogUtil.d(rb.toString());
+                if (rb.getResult().equals("1")){
+                    showShortToast("注册成功！");
+                }else {
+                    showShortToast("操作失败！"+rb.getMessage());
+                }
+
             }
 
             @Override
             public void onFailure(Call<ResponseBean> call, Throwable t) {
-
+                showShortToast(t.toString());
             }
         });
 

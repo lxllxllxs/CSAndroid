@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="200px" />
+    <LinearLayout
+        android:layout_marginRight="30px"
+        android:layout_marginLeft="30px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_4radiu_whitesolid_graystroke"
+        android:layout_height="88px">
+        <ImageView
+            android:padding="20px"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_account"
+            android:layout_width="88px"
+            android:layout_height="88px" />
+        <EditText
+            android:background="@drawable/bg_4radiu_whitesolid_graystroke"
+            android:id="@+id/edt_name"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginRight="30px"
+        android:layout_marginLeft="30px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_4radiu_whitesolid_graystroke"
+        android:layout_height="88px">
+        <ImageView
+            android:padding="20px"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_pwd"
+            android:layout_width="88px"
+            android:layout_height="88px" />
+        <EditText
+            android:background="@drawable/bg_4radiu_whitesolid_graystroke"
+            android:id="@+id/edt_pwd"
+            android:layout_weight="1"
+            android:layout_width="0px"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>
