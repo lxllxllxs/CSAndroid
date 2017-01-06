@@ -12,10 +12,9 @@
     <color name="black">#222222</color>
     <color name="text_black">#666666</color>
     <color name="light_black">#9d9d9d</color>
-    <color name="text_red">#e4393c</color>
 
     <color name="gray">#EBEBEB</color>
-    <color name="gray_text">#999999</color>
+    <color name="gray_text">#9d9d9d</color>
 
     <color name="transparent">#00ffffff</color>
     <color name="orange">#FF5608</color>

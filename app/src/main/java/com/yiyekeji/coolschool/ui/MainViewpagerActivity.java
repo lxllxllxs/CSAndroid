@@ -25,7 +25,7 @@ public class MainViewpagerActivity extends BaseActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
 
-    private String[] titles={"常见问题","亿业规则","联系客服"};
+    private String[] titles={"首页","商场","我的"};
     private int[] resId={R.mipmap.ic_home,R.mipmap.ic_market,R.mipmap.ic_my};
     private int[] resIdNo={R.mipmap.ic_home_no,R.mipmap.ic_market_no,R.mipmap.ic_my_no};
 
