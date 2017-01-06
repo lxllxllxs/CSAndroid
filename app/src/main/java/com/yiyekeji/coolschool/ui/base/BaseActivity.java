@@ -3,11 +3,14 @@ package com.yiyekeji.coolschool.ui.base;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yiyekeji.coolschool.App;
+import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.widget.LoadDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -30,6 +33,49 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
 
     }
 
+    /**
+     * 获取dialog对象
+     *
+     * @return
+     */
+    protected LoadDialog getLoadDialog() {
+        return BaseActivity.mdDialog;
+    }
+    /**
+     * 创建loadDialog
+     *mdialog静态持有引用被finsh掉的activity 导致android.view.WindowManager$BadTokenException: Unable to add window -- token android.os.Bind。。
+     * @param msg
+     */
+    public  void showLoadDialog(String msg) {
+        if (mdDialog == null) {
+            mdDialog = new LoadDialog(App.getContext(), R.layout.layout_load_dialog,
+                    R.style.DialogLogin);
+            mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        }
+        if (BaseActivity.mdDialog.isShowing()) {
+            return;
+        }
+        initLoadDialog(msg);
+        // 默认不能按屏幕取消dialog
+        BaseActivity.mdDialog.setCanceledOnTouchOutside(false);
+        BaseActivity.mdDialog.show();
+    }
+
+    /**
+     * 载入loadDialog控件
+     *
+     * @param msg
+     * @param
+     */
+    protected  void initLoadDialog(String msg) {
+
+        View view = BaseActivity.mdDialog.getEntryView();
+        ((TextView) view.findViewById(R.id.CtvInitTip)).setText(msg);
+        if (TextUtils.isEmpty(msg)) {
+            ((TextView) view.findViewById(R.id.CtvInitTip))
+                    .setVisibility(View.GONE);
+        }
+    }
     private Toast shortToast, longToast ;
 
     protected void showShortToast(CharSequence text) {

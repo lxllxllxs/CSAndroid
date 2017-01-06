@@ -6,20 +6,6 @@
         <RelativeLayout
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-            <com.yiyekeji.market.widgets.PullToRefreshRecycleView
-                android:background="@color/white"
-                android:id="@+id/prrv_pull_refresh_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="#00000000"
-                android:divider="#19000000"
-                android:dividerHeight="1dp"
-                android:fadingEdge="none"
-                android:focusableInTouchMode="true"
-                android:fastScrollEnabled="false"
-                android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true"
-                android:smoothScrollbar="true" />
             <TextView
                 android:id="@+id/tv_empty_view"
                 android:textSize="30px"

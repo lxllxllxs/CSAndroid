@@ -60,7 +60,7 @@ public class BaseFragment extends Fragment {
         if (BaseActivity.mdDialog.isShowing()) {
             return;
         }
-        initProgressDialog(msg);
+        initLoadDialog(msg);
         // 默认不能按屏幕取消dialog
         BaseActivity.mdDialog.setCanceledOnTouchOutside(false);
         BaseActivity.mdDialog.show();
@@ -93,7 +93,7 @@ public class BaseFragment extends Fragment {
      * @param msg
      * @param
      */
-    protected  void initProgressDialog(String msg) {
+    protected  void initLoadDialog(String msg) {
 
         View view = BaseActivity.mdDialog.getEntryView();
         ((TextView) view.findViewById(R.id.CtvInitTip)).setText(msg);

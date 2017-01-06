@@ -14,6 +14,7 @@ import com.yiyekeji.coolschool.inter.LoginService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.utils.SPUtils;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.LableEditView;
 
@@ -40,6 +41,9 @@ public class LoginActivity extends BaseActivity {
     @InjectView(R.id.tv_findPwd)
     TextView tvFindPwd;
 
+
+    private final String LOGIN_NAME="loginName";
+    private final String PWD="pwd";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +53,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        if (SPUtils.contains(this,LOGIN_NAME)){
+            ledtLoginName.setEditText(SPUtils.getString(this,LOGIN_NAME));
+        }
+        if (SPUtils.contains(this,PWD)){
+            ledtPwd.setEditText(SPUtils.getString(this,PWD));
+        }
     }
 
     @OnClick({R.id.cb_login, R.id.tv_register, R.id.tv_findPwd})
@@ -74,28 +83,41 @@ public class LoginActivity extends BaseActivity {
             showShortToast("账号或密码不能为空！");
             return ;
         }
+        doAfterSuccess();
         UserInfo user = new UserInfo();
         user.setUserNum(name);
         user.setPassword(pwd);
         LoginService loginService = RetrofitUtil.create(LoginService.class);
         Call<ResponseBody> call=loginService.login(user);
+        showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                ResponseBean rb = GsonUtil.fromJSon(response.body().charStream(), ResponseBean.class);
-                UserInfo userInfo = GsonUtil.fromJSon(response.body().charStream(),UserInfo.class) ;
-                if (userInfo != null) {
+                getLoadDialog().dismiss();
+                if (response.code()!=200){
+                    showShortToast("网络错误"+response.code());
+                    return;
+                }
+                App.userInfo = GsonUtil.fromJSon(response.body().charStream(),UserInfo.class) ;
+                if (App.userInfo != null) {
                     showShortToast("成功登录！");
-                    App.userInfo = userInfo;
+                    startActivity(MainViewpagerActivity.class);
                 } else {
+                    ResponseBean rb = GsonUtil.fromJSon(response.body().charStream(), ResponseBean.class);
                     showShortToast(rb.getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
                 showShortToast(t.toString());
             }
         });
+    }
+
+    private void doAfterSuccess() {
+        SPUtils.put(LoginActivity.this, LOGIN_NAME, ledtLoginName.getEditText());
+        SPUtils.put(LoginActivity.this,PWD,ledtPwd.getEditText());
     }
 }
