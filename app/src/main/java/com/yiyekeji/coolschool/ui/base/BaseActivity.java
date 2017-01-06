@@ -8,13 +8,15 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.yiyekeji.coolschool.App;
+import com.yiyekeji.coolschool.widget.LoadDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 /**
  * Created by Administrator on 2016/10/23.
  */
-public    class BaseActivity extends AutoLayoutActivity implements View.OnClickListener {
+public  class BaseActivity extends AutoLayoutActivity implements View.OnClickListener {
 
+    public static LoadDialog mdDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+            <com.yiyekeji.market.widgets.PullToRefreshRecycleView
+                android:background="@color/white"
+                android:id="@+id/prrv_pull_refresh_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="#00000000"
+                android:divider="#19000000"
+                android:dividerHeight="1dp"
+                android:fadingEdge="none"
+                android:focusableInTouchMode="true"
+                android:fastScrollEnabled="false"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+                android:smoothScrollbar="true" />
+            <TextView
+                android:id="@+id/tv_empty_view"
+                android:textSize="30px"
+                android:textColor="@color/text_black"
+                android:text="暂无内容"
+                android:gravity="center"
+                android:clickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+</FrameLayout>

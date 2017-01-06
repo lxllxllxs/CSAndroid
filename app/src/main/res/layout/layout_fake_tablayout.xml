@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:id="@+id/ll_parent"
+    android:layout_height="80px">
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv1"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:textSize="28px"
+            android:text="tab1"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="77px" />
+        <View
+            android:id="@+id/v1"
+            android:background="@color/theme_blue"
+            android:layout_width="match_parent"
+            android:layout_height="3px"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll2"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv2"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:textSize="28px"
+            android:text="tab2"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="77px" />
+        <View
+            android:id="@+id/v2"
+            android:layout_width="match_parent"
+            android:layout_height="3px"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll3"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv3"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:textSize="28px"
+            android:text="tab3"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="77px" />
+        <View
+            android:id="@+id/v3"
+            android:layout_width="match_parent"
+            android:layout_height="3px"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll4"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="@color/text_black"
+            android:textSize="28px"
+            android:text="tab4"
+            android:id="@+id/tv4"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="77px" />
+        <View
+            android:id="@+id/v4"
+            android:layout_width="match_parent"
+            android:layout_height="3px"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll5"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="@color/text_black"
+            android:textSize="28px"
+            android:text="tab4"
+            android:id="@+id/tv5"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="77px" />
+        <View
+            android:id="@+id/v5"
+            android:layout_width="match_parent"
+            android:layout_height="3px"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll6"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="@color/text_black"
+            android:textSize="28px"
+            android:text="tab4"
+            android:id="@+id/tv6"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="77px" />
+        <View
+            android:id="@+id/v6"
+            android:layout_width="match_parent"
+            android:layout_height="3px"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
