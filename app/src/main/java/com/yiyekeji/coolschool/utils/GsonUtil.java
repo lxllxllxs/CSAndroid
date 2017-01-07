@@ -2,6 +2,9 @@ package com.yiyekeji.coolschool.utils;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
@@ -12,18 +15,49 @@ import retrofit2.Response;
  */
 public class GsonUtil {
     private static Gson gson = new Gson();
-    public static <T> T fromJSon(Response<ResponseBody> json, Class<T> tClass){
+
+
+    /**
+     * 第一层解析 不需要标签
+     * @param jsonString
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public static <T> T fromJSon(String jsonString,Class<T> tClass){
+        return gson.fromJson(jsonString,tClass);
+    }
+
+    /**
+     * 第二层 当作是内部类 需要标签
+     * @param jsonString
+     * @param tClass
+     * @param modelTag
+     * @param <T>
+     * @return
+     */
+    public static <T> T fromJSon(String jsonString,Class<T> tClass,String modelTag){
         try {
-            return gson.fromJson(json.body().string(),tClass);
-        } catch (IOException e) {
+            JSONObject object=new JSONObject(jsonString);
+            return gson.fromJson(object.getString(modelTag),tClass);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
     }
 
 
-
-    public static <T> T fromJSon(String jsonString,Class<T> tClass){
-        return gson.fromJson(jsonString,tClass);
+    /**
+     * 将ResponseBody的内容提出来 否则刷一次就空了
+     * @param response
+     * @return
+     */
+    public static String toJsonString(Response<ResponseBody> response){
+        try {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

@@ -97,18 +97,18 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
-                UserInfo userInfo=null;
                 if (response.code()!=200){
                     showShortToast("网络错误"+response.code());
                     return;
                 }
-                    userInfo = GsonUtil.fromJSon(response,UserInfo.class) ;
-                ResponseBean rb = GsonUtil.fromJSon(response, ResponseBean.class);
+                String jsonString = GsonUtil.toJsonString(response);
+                UserInfo  userInfo= GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
-//                    getUserInfo();
+                    App.userInfo=userInfo;
+                    getUserInfo();
                 } else {
-
                     showShortToast(rb.getMessage());
                 }
             }
@@ -136,11 +136,12 @@ public class LoginActivity extends BaseActivity {
                     showShortToast("网络错误"+response.code());
                     return;
                 }
-                App.userInfo = GsonUtil.fromJSon(response,UserInfo.class) ;
+                String jsonString = GsonUtil.toJsonString(response);
+                App.userInfo = GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
                 if (App.userInfo != null) {
                     startActivity(MainViewpagerActivity.class);
                 } else {
-                    ResponseBean rb = GsonUtil.fromJSon(response, ResponseBean.class);
+                    ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                     showShortToast(rb.getMessage());
                 }
             }
