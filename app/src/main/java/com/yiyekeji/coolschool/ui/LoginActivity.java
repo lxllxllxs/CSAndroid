@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
                     App.userInfo=userInfo;
-                    getUserInfo();
+                    startActivity(MainViewpagerActivity.class);
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -124,32 +124,5 @@ public class LoginActivity extends BaseActivity {
     private void savaLoginInfo(){
         SPUtils.put(LoginActivity.this, LOGIN_NAME, ledtLoginName.getEditText());
         SPUtils.put(LoginActivity.this,PWD,ledtPwd.getEditText());
-    }
-    private void getUserInfo() {
-        Call<ResponseBody> call=loginService.getUserInfo(App.userInfo);
-        showLoadDialog("");
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
-                if (response.code()!=200){
-                    showShortToast("网络错误"+response.code());
-                    return;
-                }
-                String jsonString = GsonUtil.toJsonString(response);
-                App.userInfo = GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
-                if (App.userInfo != null) {
-                    startActivity(MainViewpagerActivity.class);
-                } else {
-                    ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
-                    showShortToast(rb.getMessage());
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
-                showShortToast(t.toString());
-            }
-        });
     }
 }

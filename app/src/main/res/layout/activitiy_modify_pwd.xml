@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              xmlns:ledt="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.yiyekeji.coolschool.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_loginName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText=""
+        ledt:text="旧密码"/>
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="最少3位最多6位"
+        ledt:text="登录密码"/>
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_confrimPwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="最少3位最多6位"
+        ledt:text="确认密码"/>
+</LinearLayout>
