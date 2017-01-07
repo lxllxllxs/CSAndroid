@@ -7,7 +7,7 @@ import android.view.Window;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
-import com.yiyekeji.coolschool.ui.fragment.InformationChildFragment2;
+import com.yiyekeji.coolschool.ui.fragment.HomeFragment;
 import com.yiyekeji.coolschool.widget.FakeTabHost;
 
 import java.util.ArrayList;
@@ -40,9 +40,9 @@ public class MainViewpagerActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        fragmentList.add(new InformationChildFragment2());
-        fragmentList.add(new InformationChildFragment2());
-        fragmentList.add(new InformationChildFragment2());
+        fragmentList.add(new HomeFragment());
+        fragmentList.add(new HomeFragment());
+        fragmentList.add(new HomeFragment());
         tabHost.setTabHost(fragmentList,titles,resId,resIdNo,viewpager);
     }
 

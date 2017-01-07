@@ -12,16 +12,14 @@ import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import butterknife.ButterKnife;
 
 /**
- * 行业话题 不根据地区筛选
- * Created by lxl on 2016/8/22.
  */
-public class InformationChildFragment2 extends BaseFragment {
+public class AccountFragment extends BaseFragment {
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_information_child1_2_3_4, container, false);
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         ButterKnife.inject(this, view);
         return view;
