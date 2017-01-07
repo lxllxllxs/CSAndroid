@@ -45,12 +45,13 @@ public class ModifySexActivity extends BaseActivity {
     }
 
     private void initView() {
+        titleBar.initView(this);
         switch (sex){
             case 0:
-                setMale();
+                setFemale();
                 break;
             case 1:
-                setFemale();
+                setMale();
                 break;
             case 2:
                 setSecret();
@@ -78,6 +79,7 @@ public class ModifySexActivity extends BaseActivity {
         Intent intent1 = new Intent();
         intent1.putExtra("sex", sex);
         setResult(RESULT_OK,intent1);
+        finish();
     }
 
     private void setSecret(){

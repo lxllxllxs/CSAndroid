@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.ui.fragment.AccountFragment;
 import com.yiyekeji.coolschool.ui.fragment.HomeFragment;
 import com.yiyekeji.coolschool.widget.FakeTabHost;
 
@@ -40,7 +41,7 @@ public class MainViewpagerActivity extends BaseActivity {
     private void initViewPager() {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new HomeFragment());
-        fragmentList.add(new HomeFragment());
+        fragmentList.add(new AccountFragment());
         tabHost.setTabHost(fragmentList,titles,resId,resIdNo,viewpager);
     }
 

@@ -42,8 +42,25 @@ public class UserInfo  {
                 '}';
     }
 
-    private String isSupplier;
-    private String sex;
+    private int isSupplier;
+    private int sex;
+
+    public void setIsSupplier(int isSupplier) {
+        this.isSupplier = isSupplier;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public int getIsSupplier() {
+        return isSupplier;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
     private String regTime;
 
     public String getName() {
@@ -158,13 +175,6 @@ public class UserInfo  {
         this.phone = phone;
     }
 
-    public String getIsSupplier() {
-        return isSupplier;
-    }
-
-    public void setIsSupplier(String isSupplier) {
-        this.isSupplier = isSupplier;
-    }
 
     public String getRegTime() {
         return regTime;
@@ -174,13 +184,6 @@ public class UserInfo  {
         this.regTime = regTime;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
 
 
 }

@@ -36,27 +36,47 @@
 
         <activity
             android:name=".ui.MainViewpagerActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:label="主页"
             android:screenOrientation="portrait"
             />
         <activity
             android:name=".ui.RegisterActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:label="注册"
             android:screenOrientation="portrait"
             />
-
+        <activity
+            android:name=".ui.UserInfomationActivity"
+            android:label="个人信息"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:label="test"
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.ModifyRealNameActivity"
+            android:label="修改姓名"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.ModifySexActivity"
-            android:configChanges="orientation|keyboardHidden"
             android:label="修改性别"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.ModifyMobileActivity"
+            android:label="修改手机号"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.ModifyEmailActivity"
+            android:label="修改邮箱"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.ModifyAddressActivity"
+            android:label="修改地址"
             android:screenOrientation="portrait"
             />
     </application>

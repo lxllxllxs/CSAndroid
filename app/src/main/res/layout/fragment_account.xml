@@ -2,10 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.yiyekeji.coolschool.widget.TitleBar
-        android:id="@+id/title_bar"
+
+    <LinearLayout
+        android:background="@color/white"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:orientation="horizontal"
+        android:id="@+id/ll_userInfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="70px">
+        <ImageView
+            android:src="@mipmap/ic_setting"
+            android:layout_width="44px"
+            android:layout_height="match_parent"/>
+        <Space
+            android:layout_width="30px"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:text="个人信息"
+            android:textSize="24px"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"/>
 
     <LinearLayout
         android:background="@color/white"
