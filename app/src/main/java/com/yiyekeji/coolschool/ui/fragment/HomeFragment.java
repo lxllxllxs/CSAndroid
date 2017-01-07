@@ -12,7 +12,7 @@ import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.MainMenu;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
-import com.yiyekeji.coolschool.widget.GridItemDecoration;
+import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,9 +65,9 @@ public class HomeFragment extends BaseFragment {
 
     private void initView() {
         mAdapter = new HomeAdapter(getActivity(), mainMenuList);
-        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
-        recyclerView.addItemDecoration(new GridItemDecoration());
+        recyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override

@@ -13,4 +13,7 @@ import retrofit2.http.POST;
 public interface LoginService {
     @POST("user/appLogin")
     Call<ResponseBody> login(@Body UserInfo user);
+
+    @POST("user/appGetUserInfo")
+    Call<ResponseBody> getUserInfo(@Body UserInfo user);
 }

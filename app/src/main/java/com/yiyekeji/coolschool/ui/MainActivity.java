@@ -32,12 +32,14 @@ public class MainActivity extends BaseActivity {
         UserInfo userInfo = new UserInfo();
         userInfo.setName("lxl");
         StringBuilder sb = new StringBuilder();
-        sb.append("{")
+        sb .append("\"userInfo\"")
+                .append(":")
+                .append("{")
                 .append("\"name\"")
                 .append(":")
                 .append("\"lxl\"")
                 .append(",")
-                .append("\"pwd\"")
+                .append("\"password\"")
                 .append(":")
                 .append("\"123\"")
                 .append("}");

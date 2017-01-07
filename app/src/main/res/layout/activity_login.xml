@@ -36,9 +36,13 @@
         android:layout_width="match_parent"
         android:layout_height="1px"/>
 
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="80px" />
+
     <com.yiyekeji.coolschool.widget.CButton
         android:id="@+id/cb_login"
-        android:layout_marginTop="30px"
         android:layout_marginRight="30px"
         android:layout_marginLeft="30px"
         cb:cb_text="登录"

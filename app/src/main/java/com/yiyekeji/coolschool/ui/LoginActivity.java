@@ -72,10 +72,13 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_findPwd:
+                Intent intent1 = new Intent(this, MainActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
 
+    LoginService loginService;
     private void login() {
         String name = ledtLoginName.getEditText();
         String pwd = ledtPwd.getEditText();
@@ -83,27 +86,29 @@ public class LoginActivity extends BaseActivity {
             showShortToast("账号或密码不能为空！");
             return ;
         }
-        doAfterSuccess();
+        savaLoginInfo();
         UserInfo user = new UserInfo();
         user.setUserNum(name);
         user.setPassword(pwd);
-        LoginService loginService = RetrofitUtil.create(LoginService.class);
+        loginService= RetrofitUtil.create(LoginService.class);
         Call<ResponseBody> call=loginService.login(user);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
+                UserInfo userInfo=null;
                 if (response.code()!=200){
                     showShortToast("网络错误"+response.code());
                     return;
                 }
-                App.userInfo = GsonUtil.fromJSon(response.body().charStream(),UserInfo.class) ;
-                if (App.userInfo != null) {
+                    userInfo = GsonUtil.fromJSon(response,UserInfo.class) ;
+                ResponseBean rb = GsonUtil.fromJSon(response, ResponseBean.class);
+                if (userInfo!=null) {
                     showShortToast("成功登录！");
-                    startActivity(MainViewpagerActivity.class);
+//                    getUserInfo();
                 } else {
-                    ResponseBean rb = GsonUtil.fromJSon(response.body().charStream(), ResponseBean.class);
+
                     showShortToast(rb.getMessage());
                 }
             }
@@ -116,8 +121,34 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void doAfterSuccess() {
+    private void savaLoginInfo(){
         SPUtils.put(LoginActivity.this, LOGIN_NAME, ledtLoginName.getEditText());
         SPUtils.put(LoginActivity.this,PWD,ledtPwd.getEditText());
+    }
+    private void getUserInfo() {
+        Call<ResponseBody> call=loginService.getUserInfo(App.userInfo);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code()!=200){
+                    showShortToast("网络错误"+response.code());
+                    return;
+                }
+                App.userInfo = GsonUtil.fromJSon(response,UserInfo.class) ;
+                if (App.userInfo != null) {
+                    startActivity(MainViewpagerActivity.class);
+                } else {
+                    ResponseBean rb = GsonUtil.fromJSon(response, ResponseBean.class);
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(t.toString());
+            }
+        });
     }
 }
