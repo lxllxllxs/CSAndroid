@@ -3,6 +3,7 @@ package com.yiyekeji.coolschool.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -91,6 +92,9 @@ public class LoginActivity extends BaseActivity {
         final UserInfo user = new UserInfo();
         user.setUserNum(name);
         user.setPassword(pwd);
+        TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        String szImei = TelephonyMgr.getDeviceId();
+        user.setImei(szImei);
         userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call= userService.login(user);
         showLoadDialog("");
@@ -108,6 +112,7 @@ public class LoginActivity extends BaseActivity {
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
                     userInfo.setPassword("");//清除密码
+
                     App.userInfo=userInfo;
 
                     startActivity(MainViewpagerActivity.class);

@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         ledt:edtText="6~8位"
         ledt:isPwd="true"
-        ledt:text="登录密码"/>
+        ledt:text="新密码    "/>
     <com.yiyekeji.coolschool.widget.LableEditView
         android:id="@+id/ledt_reaptPwd"
         android:layout_width="match_parent"

@@ -71,6 +71,7 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("密码不能为空！");
             return;
         }
+
         if (TextUtils.isEmpty(repeatPwd)) {
             showShortToast("确认密码不能为空！");
             return;
@@ -84,8 +85,16 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("姓名请输入中文！");
             return;
         }
+        if (realName.length()<2||realName.length()>6){
+            showShortToast("姓名长度为2~6位！");
+            return;
+        }
         if (!RegexUtils.checkDigit(loginName)){
-            showShortToast("请输入正确学号！");
+            showShortToast("学工号为10位数字！");
+            return;
+        }
+        if (loginName.length()!=10){
+            showShortToast("学工号为10位数字！");
             return;
         }
 

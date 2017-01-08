@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
@@ -109,12 +110,31 @@ public class ModifyUserInfoActivity extends BaseActivity {
             userInfo.setAddr(ledtModifyAddress.getEditText());
         }
         if (REQUEST_CODE==UserInfomationActivity.MOBILE){
-            userInfo.setPhone(ledtModifyMobile.getEditText());
+            String mobile=ledtModifyMobile.getEditText();
+            if (!RegexUtils.checkMobile(mobile)) {
+                showShortToast("手机号码不正确！");
+                return;
+            }
+            userInfo.setPhone(mobile);
         }
         if (REQUEST_CODE==UserInfomationActivity.EMAIL){
-            userInfo.setEmail(ledtModifyEmail.getEditText());
+            String email=ledtModifyEmail.getEditText();
+            if (!RegexUtils.checkEmail(email)){
+                showShortToast("邮箱地址不正确！");
+                return;
+            }
+            userInfo.setEmail(email);
         }
         if (REQUEST_CODE==UserInfomationActivity.REAL_NAME){
+            String name=ledtModifyName.getEditText();
+            if (!RegexUtils.checkChinese(name)){
+                showShortToast("只能中文！");
+                return;
+            }
+            if (name.length()<2||name.length()>6){
+                showShortToast("2~6位中文！");
+                return;
+            }
             userInfo.setName(ledtModifyName.getEditText());
         }
         Intent intent1=new Intent();

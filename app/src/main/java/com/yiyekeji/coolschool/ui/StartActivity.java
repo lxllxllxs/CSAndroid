@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.yiyekeji.coolschool.App;
@@ -41,6 +42,9 @@ public class StartActivity extends BaseActivity {
         if (SPUtils.contains(this,PWD)){
             user.setPassword(SPUtils.getString(this,PWD));
         }
+        TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        String szImei = TelephonyMgr.getDeviceId();
+        user.setImei(szImei);
     }
     private void login() {
         if (TextUtils.isEmpty(user.getUserNum())||  TextUtils.isEmpty(user.getPassword())) {
