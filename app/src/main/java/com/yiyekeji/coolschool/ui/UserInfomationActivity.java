@@ -62,33 +62,37 @@ public class UserInfomationActivity extends BaseActivity {
 
     UserInfo useInfo;
 
-    final int REAL_NAME = 0;
-    final int SEX = 1;
-    final int ADDRESS = 2;
-    final int EMAIL = 3;
-    final int MOBILE =4;
+    public static final int REAL_NAME = 0;
+    public static final int SEX = 1;
+    public static final int ADDRESS = 2;
+    public static final int EMAIL = 3;
+    public static final int MOBILE =4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_infomation);
         ButterKnife.inject(this);
         initData();
-        initView();
-    }
-
-    private void initData() {
-        useInfo = App.userInfo;
-    }
-
-    private void initView() {
         titleBar.initView(this);
-
         titleBar.setBackOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveUserInfo();
             }
         });
+        initView();
+    }
+
+    private void initData() {
+        //克隆值
+        try {
+            useInfo = (UserInfo) App.userInfo.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initView() {
         tvUserNo.setText(useInfo.getUserNum());
         tvUserType.setText(useInfo.getRoleType()==0?"学生":"老师");
         tvRealName.setText(useInfo.getName());
@@ -99,31 +103,31 @@ public class UserInfomationActivity extends BaseActivity {
         tvEmail.setText(useInfo.getEmail());
     }
 
-
     @OnClick({R.id.ll_realName, R.id.ll_sex, R.id.ll_mobile, R.id.ll_email, R.id.ll_address})
     public void onClick(View view) {
+        Intent intent = new Intent(this, ModifyUserInfoActivity.class);
+        intent.putExtra("userInfo",useInfo);
         switch (view.getId()) {
             case R.id.ll_realName:
-                Intent intent0 = new Intent(this, ModifyRealNameActivity.class);
-                startActivityForResult(intent0,REAL_NAME);
+                intent.setFlags(REAL_NAME);
+                startActivityForResult(intent,REAL_NAME);
                 break;
             case R.id.ll_sex:
-                Intent intent = new Intent(this, ModifySexActivity.class);
                 intent.putExtra("sex", useInfo.getSex());
+                intent.setFlags(SEX);
                 startActivityForResult(intent,SEX);
                 break;
             case R.id.ll_mobile:
-                Intent intent1 = new Intent(this, ModifyMobileActivity.class);
-
-                startActivityForResult(intent1,MOBILE);
+                intent.setFlags(MOBILE);
+                startActivityForResult(intent,MOBILE);
                 break;
             case R.id.ll_email:
-                Intent intent2 = new Intent(this, ModifyEmailActivity.class);
-                startActivityForResult(intent2,EMAIL);
+                intent.setFlags(EMAIL);
+                startActivityForResult(intent,EMAIL);
                 break;
             case R.id.ll_address:
-                Intent intent3 = new Intent(this, ModifyAddressActivity.class);
-                startActivityForResult(intent3,ADDRESS);
+                intent.setFlags(ADDRESS);
+                startActivityForResult(intent,ADDRESS);
                 break;
         }
     }
@@ -134,23 +138,7 @@ public class UserInfomationActivity extends BaseActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        switch (requestCode) {
-            case REAL_NAME:
-                useInfo.setName(data.getStringExtra("realName"));
-                break;
-            case SEX:
-                useInfo.setSex(data.getIntExtra("sex",2));
-                break;
-            case ADDRESS:
-                useInfo.setAddr(data.getStringExtra("address"));
-                break;
-            case MOBILE:
-                useInfo.setPhone(data.getStringExtra("mobile"));
-                break;
-            case EMAIL:
-                useInfo.setEmail(data.getStringExtra("email"));
-                break;
-        }
+        useInfo=data.getParcelableExtra("userInfo");
         initView();
     }
 
@@ -159,7 +147,14 @@ public class UserInfomationActivity extends BaseActivity {
         saveUserInfo();
     }
 
+    /**
+     * 如果没有改动就不用保存
+     */
     private void saveUserInfo() {
+        if (App.userInfo.equals(useInfo)){
+            finish();
+            return;
+        }
         UserService userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call=userService.appUpdateUserInfo(useInfo);
 
@@ -172,6 +167,7 @@ public class UserInfomationActivity extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("保存成功！");
+                    App.userInfo=GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo");
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -181,9 +177,8 @@ public class UserInfomationActivity extends BaseActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
                 showShortToast(t.getMessage());
+                finish();
             }
         });
-
-
     }
 }

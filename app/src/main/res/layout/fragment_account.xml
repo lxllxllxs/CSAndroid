@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:id="@+id/ll_userInfo"
         android:layout_width="match_parent"
-        android:layout_height="70px">
+        android:layout_height="87px">
         <ImageView
             android:src="@mipmap/ic_setting"
             android:layout_width="44px"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"/>
         <TextView
             android:text="个人信息"
-            android:textSize="24px"
+            android:textSize="30px"
             android:gravity="center"
             android:textColor="@color/text_black"
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:orientation="horizontal"
         android:id="@+id/ll_setting"
         android:layout_width="match_parent"
-        android:layout_height="70px">
+        android:layout_height="87px">
         <ImageView
             android:src="@mipmap/ic_setting"
             android:layout_width="44px"
@@ -52,7 +52,7 @@
             android:layout_height="match_parent"/>
         <TextView
             android:text="设置"
-            android:textSize="24px"
+            android:textSize="30px"
             android:gravity="center"
             android:textColor="@color/text_black"
             android:layout_width="wrap_content"

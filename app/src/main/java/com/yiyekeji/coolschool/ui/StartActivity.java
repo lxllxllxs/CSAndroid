@@ -1,0 +1,80 @@
+package com.yiyekeji.coolschool.ui;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+
+import com.yiyekeji.coolschool.App;
+import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.inter.UserService;
+import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.utils.SPUtils;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by lxl on 2017/1/8.
+ */
+public class StartActivity extends BaseActivity {
+    private final String LOGIN_NAME="loginName";
+    private final String PWD="pwd";
+    UserInfo user = new UserInfo();
+    UserService userService;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
+        initView();
+        login();
+    }
+
+    private void initView() {
+        if (SPUtils.contains(this,LOGIN_NAME)){
+            user.setUserNum(SPUtils.getString(this,LOGIN_NAME));
+        }
+        if (SPUtils.contains(this,PWD)){
+            user.setPassword(SPUtils.getString(this,PWD));
+        }
+    }
+    private void login() {
+        if (TextUtils.isEmpty(user.getUserNum())||  TextUtils.isEmpty(user.getPassword())) {
+            startActivity(LoginActivity.class);
+            return;
+        }
+        userService = RetrofitUtil.create(UserService.class);
+        Call<ResponseBody> call= userService.login(user);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code()!=200){
+                    showShortToast("网络错误"+response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                UserInfo  userInfo= GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (userInfo!=null) {
+                    showShortToast("成功登录！");
+                    userInfo.setPassword("");//清除密码
+                    App.userInfo=userInfo;
+                    startActivity(MainViewpagerActivity.class);
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(t.toString());
+            }
+        });
+    }
+}

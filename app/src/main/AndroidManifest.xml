@@ -26,7 +26,7 @@
         <meta-data android:name="design_width" android:value="720"></meta-data>
         <meta-data android:name="design_height" android:value="1280"></meta-data>
 
-        <activity android:name="com.yiyekeji.coolschool.ui.LoginActivity"
+        <activity android:name=".ui.StartActivity"
                   android:launchMode="singleTask"
             >
             <intent-filter>
@@ -35,6 +35,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="主页"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.MainViewpagerActivity"
             android:label="主页"
@@ -62,33 +68,13 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".ui.ModifyPwdActivity"
-            android:label="修改密码"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name=".ui.ModifyRealNameActivity"
-            android:label="修改姓名"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name=".ui.ModifySexActivity"
+            android:name=".ui.ModifyUserInfoActivity"
             android:label="修改性别"
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".ui.ModifyMobileActivity"
-            android:label="修改手机号"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name=".ui.ModifyEmailActivity"
-            android:label="修改邮箱"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name=".ui.ModifyAddressActivity"
-            android:label="修改地址"
+            android:name=".ui.ModifyPwdActivity"
+            android:label="修改密码"
             android:screenOrientation="portrait"
             />
     </application>

@@ -48,6 +48,9 @@ public class TitleBar extends AutoRelativeLayout {
         iv_back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (extraListener != null) {
+                    extraListener.doExtra();
+                }
                 activity.finish();
             }
         });
@@ -57,6 +60,16 @@ public class TitleBar extends AutoRelativeLayout {
     public void setBackOnClickListener(OnClickListener ck){
         iv_back.setOnClickListener(ck);
     }
+
+    public void setExtraListener(ExtraListener extraListener){
+        this.extraListener = extraListener;
+    }
+
+    public interface ExtraListener{
+        void doExtra();
+    }
+
+    private ExtraListener extraListener;
 
     /**
      * 传context 手动设置标题

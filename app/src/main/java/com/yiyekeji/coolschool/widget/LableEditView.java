@@ -2,7 +2,6 @@ package com.yiyekeji.coolschool.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.content.ContextCompat;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -75,7 +74,6 @@ public class LableEditView extends AutoRelativeLayout {
 
         textView=(TextView) findViewById(R.id.tv_lable);
         textView.setText(mText);
-        textView.setTextColor(ContextCompat.getColor(context,R.color.black));
 
         editText.setHint(mEditText);
         editText.setLines(line);
