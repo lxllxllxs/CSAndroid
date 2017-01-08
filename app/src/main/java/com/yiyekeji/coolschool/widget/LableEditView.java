@@ -3,8 +3,7 @@ package com.yiyekeji.coolschool.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
-import android.text.InputType;
-import android.text.method.NumberKeyListener;
+import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.EditText;
@@ -23,9 +22,6 @@ public class LableEditView extends AutoRelativeLayout {
     TextView textView;
     EditText editText;
     private  int line=1;
-    private Boolean isDigits = false;
-
-
 
     public LableEditView(Context context) {
         super(context);
@@ -47,6 +43,9 @@ public class LableEditView extends AutoRelativeLayout {
     public void initView(AttributeSet attrs){
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LableEditView);
         int n = a.getIndexCount();
+
+        LayoutInflater.from(context).inflate(R.layout.layout_lable_edit_view, this);
+        editText=(EditText)findViewById(R.id.edt_content);
         for (int i = 0; i < n; i++)
         {
             int attr = a.getIndex(i);
@@ -64,36 +63,22 @@ public class LableEditView extends AutoRelativeLayout {
                 case R.styleable.LableEditView_line:
                     line =a.getInteger(attr,1);
                     break;
-                case R.styleable.LableEditView_receiveDigits:
-            //        line =a.getInteger(attr,1);
-                    isDigits = a.getBoolean(attr,false);
+                case R.styleable.LableEditView_isPwd:
+                    if (a.getBoolean(attr,false)){
+                        editText.setTransformationMethod(PasswordTransformationMethod.getInstance()); //设置为密码输入框
+                    }
                     break;
             }
 
         }
         a.recycle();
 
-        LayoutInflater.from(context).inflate(R.layout.layout_lable_edit_view, this);
         textView=(TextView) findViewById(R.id.tv_lable);
         textView.setText(mText);
         textView.setTextColor(ContextCompat.getColor(context,R.color.black));
 
-        editText=(EditText)findViewById(R.id.edt_content);
         editText.setHint(mEditText);
         editText.setLines(line);
-        if(isDigits){
-            editText.setKeyListener(new NumberKeyListener() {
-                @Override
-                protected char[] getAcceptedChars() {
-                    return new char[]{ '1', '2', '3', '4', '5', '6', '7', '8','9', '0'};
-                }
-
-                @Override
-                public int getInputType() {
-                    return InputType.TYPE_CLASS_PHONE;
-                }
-            });
-        }
 
     }
 

@@ -54,6 +54,10 @@ public class TitleBar extends AutoRelativeLayout {
         setTitleText(activity.getTitle());
     }
 
+    public void setBackOnClickListener(OnClickListener ck){
+        iv_back.setOnClickListener(ck);
+    }
+
     /**
      * 传context 手动设置标题
      * @param context

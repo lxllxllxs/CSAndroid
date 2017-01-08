@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.UserInfo;
-import com.yiyekeji.coolschool.inter.LoginService;
+import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.LogUtil;
 
@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        LoginService loginService = retrofit.create(LoginService.class);
+        UserService userService = retrofit.create(UserService.class);
         UserInfo userInfo = new UserInfo();
         userInfo.setName("lxl");
         StringBuilder sb = new StringBuilder();

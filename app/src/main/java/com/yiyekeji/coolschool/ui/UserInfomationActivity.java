@@ -8,13 +8,21 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lxl on 2017/1/7.
@@ -75,6 +83,12 @@ public class UserInfomationActivity extends BaseActivity {
     private void initView() {
         titleBar.initView(this);
 
+        titleBar.setBackOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveUserInfo();
+            }
+        });
         tvUserNo.setText(useInfo.getUserNum());
         tvUserType.setText(useInfo.getRoleType()==0?"学生":"老师");
         tvRealName.setText(useInfo.getName());
@@ -138,6 +152,38 @@ public class UserInfomationActivity extends BaseActivity {
                 break;
         }
         initView();
+    }
+
+    @Override
+    public void onBackPressed() {
+        saveUserInfo();
+    }
+
+    private void saveUserInfo() {
+        UserService userService = RetrofitUtil.create(UserService.class);
+        Call<ResponseBody> call=userService.appUpdateUserInfo(useInfo);
+
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    showShortToast("保存成功！");
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+                finish();
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(t.getMessage());
+            }
+        });
+
 
     }
 }

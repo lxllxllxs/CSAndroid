@@ -1,5 +1,8 @@
 package com.yiyekeji.coolschool.utils;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -25,7 +28,25 @@ public class GsonUtil {
      * @return
      */
     public static <T> T fromJSon(String jsonString,Class<T> tClass){
+        if (TextUtils.isEmpty(jsonString)) {
+            try {
+                return tClass.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
         return gson.fromJson(jsonString,tClass);
+    }
+    public static <T> T fromJSon(Response<ResponseBody> response,Class<T> tClass){
+        String jsonString="";
+        try {
+             jsonString = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fromJSon(jsonString, tClass);
     }
 
     /**
@@ -52,7 +73,11 @@ public class GsonUtil {
      * @param response
      * @return
      */
+    @NonNull
     public static String toJsonString(Response<ResponseBody> response){
+        if (response.body() == null) {
+            return "";
+        }
         try {
             return response.body().string();
         } catch (IOException e) {

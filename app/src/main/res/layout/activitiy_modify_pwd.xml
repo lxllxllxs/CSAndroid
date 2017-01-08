@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               xmlns:ledt="http://schemas.android.com/apk/res-auto"
+              xmlns:cb="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -11,21 +12,36 @@
         android:layout_height="wrap_content"/>
 
     <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_loginName"
+        android:id="@+id/ledt_oldPwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText=""
-        ledt:text="旧密码"/>
+        ledt:edtText="ss"
+        ledt:isPwd="true"
+        ledt:text="旧密码    "/>
     <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_pwd"
+        android:id="@+id/ledt_newPwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText="最少3位最多6位"
+        ledt:edtText="6~8位"
+        ledt:isPwd="true"
         ledt:text="登录密码"/>
     <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_confrimPwd"
+        android:id="@+id/ledt_reaptPwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText="最少3位最多6位"
-        ledt:text="确认密码"/>
+        ledt:edtText="重复密码"
+        ledt:isPwd="true"
+        ledt:text="重复密码"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"/>
+    
+    <com.yiyekeji.coolschool.widget.CButton
+        android:id="@+id/cb_confirm"
+        android:layout_marginRight="30px"
+        android:layout_marginLeft="30px"
+        cb:cb_text="确定"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

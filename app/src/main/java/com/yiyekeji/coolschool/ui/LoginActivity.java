@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -10,7 +11,7 @@ import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
-import com.yiyekeji.coolschool.inter.LoginService;
+import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
@@ -78,7 +79,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    LoginService loginService;
+    UserService userService;
     private void login() {
         String name = ledtLoginName.getEditText();
         String pwd = ledtPwd.getEditText();
@@ -87,11 +88,11 @@ public class LoginActivity extends BaseActivity {
             return ;
         }
         savaLoginInfo();
-        UserInfo user = new UserInfo();
+        final UserInfo user = new UserInfo();
         user.setUserNum(name);
         user.setPassword(pwd);
-        loginService= RetrofitUtil.create(LoginService.class);
-        Call<ResponseBody> call=loginService.login(user);
+        userService = RetrofitUtil.create(UserService.class);
+        Call<ResponseBody> call= userService.login(user);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -106,7 +107,9 @@ public class LoginActivity extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
+                    userInfo.setPassword("");//清除密码
                     App.userInfo=userInfo;
+
                     startActivity(MainViewpagerActivity.class);
                 } else {
                     showShortToast(rb.getMessage());
@@ -124,5 +127,21 @@ public class LoginActivity extends BaseActivity {
     private void savaLoginInfo(){
         SPUtils.put(LoginActivity.this, LOGIN_NAME, ledtLoginName.getEditText());
         SPUtils.put(LoginActivity.this,PWD,ledtPwd.getEditText());
+    }
+
+
+    /**
+     * 连续点击两次 关闭
+     */
+    long[] mHits = new long[2];
+    @Override
+    public void onBackPressed() {
+        System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+        //实现左移，然后最后一个位置更新距离开机的时间，如果最后一个时间和最开始时间小于500，即双击
+        mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+        showShortToast("再次点击退出应用");
+        if (mHits[0] >= (SystemClock.uptimeMillis() - 1000)) {
+            App.removeAllActivity();
+        }
     }
 }

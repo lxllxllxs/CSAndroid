@@ -27,6 +27,7 @@
         <meta-data android:name="design_height" android:value="1280"></meta-data>
 
         <activity android:name="com.yiyekeji.coolschool.ui.LoginActivity"
+                  android:launchMode="singleTask"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -37,6 +38,7 @@
         <activity
             android:name=".ui.MainViewpagerActivity"
             android:label="主页"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             />
         <activity
@@ -50,8 +52,18 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.SettingActivity"
+            android:label="设置"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.MainActivity"
             android:label="test"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.ModifyPwdActivity"
+            android:label="修改密码"
             android:screenOrientation="portrait"
             />
         <activity

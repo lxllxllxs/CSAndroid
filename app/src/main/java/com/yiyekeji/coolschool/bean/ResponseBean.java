@@ -8,7 +8,7 @@ public class ResponseBean {
     private String message;
 
     public String getResult() {
-        return result;
+        return result==null?"0000":result;
     }
 
     public void setResult(String result) {
@@ -24,7 +24,7 @@ public class ResponseBean {
     }
 
     public String getMessage() {
-        return message;
+        return message==null?"unknown error":message;
     }
 
     public void setMessage(String message) {

@@ -5,7 +5,7 @@
         <attr name="edtText" format="string" />
         <attr name="text" format="string" />
         <attr name="line" format="integer" />
-        <attr name="receiveDigits" format="boolean"/>
+        <attr name="isPwd" format="boolean"/>
     </declare-styleable>
 
 

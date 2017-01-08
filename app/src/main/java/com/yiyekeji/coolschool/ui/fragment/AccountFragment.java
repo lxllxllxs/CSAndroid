@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.ui.SettingActivity;
 import com.yiyekeji.coolschool.ui.UserInfomationActivity;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 
@@ -55,7 +56,7 @@ public class AccountFragment extends BaseFragment {
                 intent.setClass(getActivity(), UserInfomationActivity.class);
                 break;
             case R.id.ll_setting:
-                intent.setClass(getActivity(), UserInfomationActivity.class);
+                intent.setClass(getActivity(), SettingActivity.class);
                 break;
         }
         startActivity(intent);
