@@ -6,7 +6,8 @@ import android.text.TextUtils;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
-import com.yiyekeji.coolschool.inter.RegisterService;
+import com.yiyekeji.coolschool.inter.CommonService;
+import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RegexUtils;
@@ -14,10 +15,15 @@ import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
+import com.zhy.autolayout.utils.ScreenUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,7 +110,7 @@ public class RegisterActivity extends BaseActivity {
         userInfo.setPassword(pwd);
         userInfo.setRoleType(roleTye);
 
-        RegisterService service = RetrofitUtil.create(RegisterService.class);
+        UserService service = RetrofitUtil.create(UserService.class);
         Call<ResponseBean> call = service.register(userInfo);
         call.enqueue(new Callback<ResponseBean>() {
             @Override
@@ -113,15 +119,41 @@ public class RegisterActivity extends BaseActivity {
                 LogUtil.d(rb.toString());
                 if (rb.getResult().equals("1")){
                     showShortToast("注册成功！");
+                    upLoadPhoneModel();//只上传一次设备数据
                 }else {
                     showShortToast("操作失败！"+rb.getMessage());
                 }
-
             }
-
             @Override
             public void onFailure(Call<ResponseBean> call, Throwable t) {
                 showShortToast(t.toString());
+            }
+        });
+    }
+
+
+
+
+    /**
+     *  pType	String	手机型号
+     pSize	String 	手机屏幕大小
+     */
+    private void upLoadPhoneModel(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("pType",android.os.Build.MODEL);
+        int[] screenSize= ScreenUtils.getScreenSize(this,true);
+        String Size=screenSize[0]+"×"+screenSize[1];
+        params.put("pSize",Size);
+        LogUtil.d("upLoadPhoneModel",params.toString());
+        CommonService commonService = RetrofitUtil.create(CommonService.class);
+        Call<ResponseBody> call = commonService.appUploadPhoneModel(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                LogUtil.d("onResponse","upload phone params successful!");
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
 

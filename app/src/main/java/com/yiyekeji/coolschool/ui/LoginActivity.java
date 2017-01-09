@@ -112,9 +112,7 @@ public class LoginActivity extends BaseActivity {
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
                     userInfo.setPassword("");//清除密码
-
                     App.userInfo=userInfo;
-
                     startActivity(MainViewpagerActivity.class);
                 } else {
                     showShortToast(rb.getMessage());

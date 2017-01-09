@@ -22,8 +22,8 @@ public class RegexUtils {
     public static boolean checkEmail(String email) { 
         String regex = "\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?"; 
         return Pattern.matches(regex, email); 
-    } 
-     
+    }
+
     /**
      * 验证身份证号码
      * @param idCard 居民身份证号码15位或18位，最后一位可能是数字或字母

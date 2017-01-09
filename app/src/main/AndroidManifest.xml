@@ -51,6 +51,16 @@
             android:name=".ui.RegisterActivity"
             android:label="注册"
             android:screenOrientation="portrait"
+        />
+        <activity
+            android:name=".ui.RollCallActivitiy"
+            android:label="点名"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.SignInActivity"
+            android:label="签到"
+            android:screenOrientation="portrait"
             />
         <activity
             android:name=".ui.UserInfomationActivity"

@@ -37,6 +37,7 @@ public class MainViewpagerActivity extends BaseActivity {
         setContentView(R.layout.activity_main_viewpager);
         ButterKnife.inject(this);
         initView();
+
         initViewPager();
     }
 
@@ -49,9 +50,6 @@ public class MainViewpagerActivity extends BaseActivity {
 
     private void initView() {
     }
-
-
-
     /**
      * 连续点击两次 关闭
      */

@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.inter;
 
+import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
 
 import java.util.Map;
@@ -13,6 +14,9 @@ import retrofit2.http.POST;
  * Created by lxl on 2016/12/25.
  */
 public interface UserService {
+
+    @POST("user/appRegister")
+    Call<ResponseBean> register(@Body UserInfo user);
     @POST("user/appLogin")
     Call<ResponseBody> login(@Body UserInfo user);
 
@@ -21,7 +25,6 @@ public interface UserService {
 
     @POST("user/appUpdateUserInfo")
     Call<ResponseBody> appUpdateUserInfo(@Body UserInfo user);
-
 
     /**
      *
@@ -37,4 +40,6 @@ public interface UserService {
      */
     @POST("user/appUpdatePsw")
     Call<ResponseBody> appUpdatePsw(@Body Map<String, Object> params);
+
+
 }
