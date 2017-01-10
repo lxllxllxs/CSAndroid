@@ -8,10 +8,10 @@ import com.yiyekeji.coolschool.ui.base.BaseActivity;
 /**
  * Created by lxl on 2017/1/9.
  */
-public class RollCallActivitiy extends BaseActivity {
+public class StudentSignInActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_roll_call);
+        setContentView(R.layout.activity_sign_in);
     }
 }

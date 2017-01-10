@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -66,6 +67,17 @@ public class GsonUtil {
         }
         return null;
     }
+
+    public static <T> T listFromJSon(String jsonString, Type type, String modelTag){
+        try {
+            JSONObject object=new JSONObject(jsonString);
+            return gson.fromJson(object.getString(modelTag),type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
     /**

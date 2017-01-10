@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.MainMenu;
+import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
@@ -48,7 +50,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initData() {
-        MainMenu m1=new MainMenu("点名",R.mipmap.user_seller_order,null);
+        MainMenu m1 = null;
+        if (App.userInfo.getRoleType() == 1) {
+            m1 = new MainMenu("点名", R.mipmap.user_seller_order, TeacherRollCallActivitiy.class);
+        } else {
+            m1 = new MainMenu("签到", R.mipmap.user_seller_order, null);
+        }
+
         MainMenu m2=new MainMenu("收件",R.mipmap.user_seller_order,null);
         MainMenu m3=new MainMenu("订水",R.mipmap.user_seller_order,null);
         MainMenu m4=new MainMenu("送水",R.mipmap.user_seller_order,null);
