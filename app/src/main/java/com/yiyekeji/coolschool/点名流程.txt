@@ -1,0 +1,31 @@
+1.签到开始，教师 拉取课程名单        接口A
+2.教师 选择某一课程进行点名(需要上传教师的坐标) 接口B
+3.后台查找指点课程 获取该课程下所有名单   接口B返回 获取名单结果0或1，并开始计时作业
+创建全局变量：HashMap<teacher,List<Student>> a并开始计时作业
+用来记录签到情况的teacher属性：
+userNum,realName,X,Y，courseId
+4.教师 每隔15s获取最新的课程签到情况 接口C
+
+用来记录签到情况的Student 属性：
+userNo ,
+realName,
+IMEI,
+isSignIn,
+ip
+;
+短连接还是长连接：
+5---1.websocket :当学生端进入签到界面时 ，app WebSocket开始连接，连接成功后，服务端List<session>添加该会话，
+使用websocket的话需要在学生连通之后上传其所有的课程的老师id，
+然后再根据老师id查找正在点名的记录，不为空，返回的内容：（老师id，老师的坐标，课程名称）
+学生端收到成功信息 弹出签到确定对话框，上传签到Student参数。
+
+
+5---2. 普通post请求：需要老师先进行点名再让学生签到（websocket可监听最新的HashMap<teacher,List<Student>>
+变化从而更新正在点名的课程列表），学生拉取正在点名的课程（返回的内容：老师id，老师的坐标，课程名称），
+学生端选择一门课程后发送Student信息：userNum,realName,ip,IEMI,teacherId（因为一个老师只可能同时点一门课）
+
+
+6,后台根据teacherId找到相应的teacher键再拿到对应List<Student>（同时点名的不会很多，性能不怕），如果学号和真实姓名相等，且该学生中的IMEI和ip中在List<Student>中均是唯一的，则
+签到成功，否则失败，并返回结果到学生端。注意：不能通过签到成功就移除Student的方式，要检验其他有无重复IMEI或ip用到。
+7.点名时间到，HashMap a移除指定的键值，到另一个HashMap b中，签到的学生找不到指定键 签到失败，提示已过期，
+教师端在a中找不到指定键，从b中找（教师端最后一次更新签到情况，给出最终旷课名单），随后删除b中该条记录。签到结束

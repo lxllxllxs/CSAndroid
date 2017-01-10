@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.GlideCacheUtil;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
@@ -44,6 +45,8 @@ public class SettingActivity extends BaseActivity {
 
     private void initView() {
         titleBar.initView(this);
+        tvCacheSize.setText(GlideCacheUtil.getInstance().getCacheSize(this));
+
     }
 
     @OnClick({R.id.ll_modifyPwd, R.id.ll_clearCache, R.id.ll_aboutUs,R.id.cb_signOut})
@@ -52,11 +55,30 @@ public class SettingActivity extends BaseActivity {
             case R.id.ll_modifyPwd:
                 startActivity(ModifyPwdActivity.class);
                 break;
-            case R.id.ll_clearCache:
+            case R.id.ll_clearCache: {
+                AlertDialog.Builder buidler = new AlertDialog.Builder(this);
+                buidler.setMessage("确定清除所有缓存吗？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showLoadDialog("");
+                                GlideCacheUtil.getInstance().clearImageAllCache(SettingActivity.this);
+                                GlideCacheUtil.getInstance().clearImageDiskCache(SettingActivity.this);
+                                getLoadDialog().dismiss();
+                            }
+                        })
+                        .show();
+            }
                 break;
             case R.id.ll_aboutUs:
                 break;
-            case R.id.cb_signOut:
+            case R.id.cb_signOut: {
                 AlertDialog.Builder buidler = new AlertDialog.Builder(this);
                 buidler.setMessage("确定退出登录吗？")
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -68,11 +90,12 @@ public class SettingActivity extends BaseActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                App.userInfo=null;
+                                App.userInfo = null;
                                 startActivity(LoginActivity.class);
                             }
                         })
                         .show();
+            }
                 break;
 
         }
