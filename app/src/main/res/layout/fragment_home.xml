@@ -6,10 +6,13 @@
     android:orientation="vertical"
     >
 
-       <com.yiyekeji.coolschool.widget.TitleBar
-           android:id="@+id/title_bar"
+       <TextView
+           android:textColor="@color/white"
+           android:textSize="30px"
+           android:text="首页"
+           android:background="@color/theme_red"
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"/>
+           android:layout_height="88px" />
        <Space
            android:layout_width="match_parent"
            android:layout_height="300px" />

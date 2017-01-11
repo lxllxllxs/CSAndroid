@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +32,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
         mInflater = LayoutInflater.from(context);
     }
 
-
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View arg0)
         {
             super(arg0);
@@ -54,7 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
      * 创建ViewHolder
      */
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
         View view = mInflater.inflate(R.layout.item_home_menu_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -63,7 +62,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
         viewHolder.ll_parent=(LinearLayout)view.findViewById(R.id.ll_parent);
         return viewHolder;
     }
-
 
     /**
      * 设置布局控件内容
@@ -84,7 +82,39 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
             }
         });
     }
+    @Override
+    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if(manager instanceof GridLayoutManager) {
+            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    int type = getItemViewType(position);
+                    switch (type){
+                        case TYPE_NORMAL:
+                            return 1;
+                        case TYPE_HEAD:
+                            return gridManager.getSpanCount();
+                        default:
+                            return 3;
+                    }
+                }
+            });
+        }
+    }
 
+    private final  int TYPE_HEAD=0x123;
+    private final  int TYPE_NORMAL=0x122;
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0){
+            return TYPE_HEAD;
+        }else {
+            return TYPE_NORMAL;
+        }
+    }
     /**
      * 自定义一个回调点击函数
      * @author lxl

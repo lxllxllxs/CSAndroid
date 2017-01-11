@@ -15,7 +15,6 @@ import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
-import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,6 @@ public class HomeFragment extends BaseFragment {
 
     @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @InjectView(R.id.title_bar)
-    TitleBar titleBar;
 
     private HomeAdapter mAdapter;
     private List<MainMenu> mainMenuList = new ArrayList<>();
@@ -60,15 +57,15 @@ public class HomeFragment extends BaseFragment {
         } else {
             m1 = new MainMenu("签到", R.mipmap.ic_sign_in, null);
         }
-
+        /**
+         * 订水送水的交换图标
+         */
         MainMenu m2 = new MainMenu("上门收件", R.mipmap.ic_take_express, null);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, null);
-        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_order_water, null);
-
-        MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_deliver_water, null);
+        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
+        MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
         MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, null);
         MainMenu m7 = new MainMenu("广告", R.mipmap.ic_ad, null);
-
         mainMenuList.add(m1);
         mainMenuList.add(m2);
         mainMenuList.add(m3);
@@ -76,11 +73,9 @@ public class HomeFragment extends BaseFragment {
         mainMenuList.add(m5);
         mainMenuList.add(m6);
         mainMenuList.add(m7);
-
     }
 
     private void initView() {
-        titleBar.initView(getActivity(),"首页");
 
         mAdapter = new HomeAdapter(getActivity(), mainMenuList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));

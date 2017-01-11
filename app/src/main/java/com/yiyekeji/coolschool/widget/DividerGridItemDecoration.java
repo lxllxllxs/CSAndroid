@@ -53,7 +53,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
             spanCount = ((StaggeredGridLayoutManager) layoutManager)
                     .getSpanCount();
         }
-        return spanCount;
+        return spanCount+1;//强行加一 因为用了setSpanSizeLookup之后 一格往上移动变成行， 需要再画多一列
     }
 
     public void drawHorizontal(Canvas c, RecyclerView parent)
