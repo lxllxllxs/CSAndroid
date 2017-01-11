@@ -5,17 +5,17 @@ package com.yiyekeji.coolschool.bean;
  */
 public class CourseInfo {
 
-    private  String  id;
+    private  int  id;
     private  String  count;
     private  String  courseName;
     private  String  roomNum;
     private  String  courseClass;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

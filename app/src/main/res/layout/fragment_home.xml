@@ -6,7 +6,10 @@
     android:orientation="vertical"
     >
 
-
+       <com.yiyekeji.coolschool.widget.TitleBar
+           android:id="@+id/title_bar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
        <Space
            android:layout_width="match_parent"
            android:layout_height="300px" />

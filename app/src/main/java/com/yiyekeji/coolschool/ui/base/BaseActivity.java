@@ -85,6 +85,15 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
         }
         shortToast.show();
     }
+    protected void showLongToast(CharSequence text) {
+        if(longToast==null){
+            longToast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        }else{
+            longToast.setText(text);
+        }
+        longToast.show();
+    }
+
 
     public void startActivity(Class<?extends BaseActivity> activity){
         Intent intent =new Intent(this,activity);

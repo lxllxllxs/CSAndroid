@@ -1,8 +1,15 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
@@ -15,6 +22,7 @@ import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.widget.DividerItemDecoration;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -32,11 +40,12 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/1/9.
  */
-public class TeacherRollCallActivitiy extends BaseActivity {
+public class TeacherRollCallActivitiy extends BaseActivity implements LocationListener {
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
     @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
+    private LocationManager locationManager;
 
     private List<CourseInfo> courseInfos = new ArrayList<>();
     private CourseInfoAdapter mAdapter;
@@ -49,11 +58,17 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         initView();
     }
 
+
     private void initData() {
         mAdapter=new CourseInfoAdapter(this,courseInfos);
-        RollCallService service = RetrofitUtil.create(RollCallService.class);
+        getCourseList();
+    }
+
+    RollCallService service;
+    private void getCourseList() {
+        service = RetrofitUtil.create(RollCallService.class);
         Map<String, Object> params = new HashMap<>();
-        params.put("tid", App.userInfo.getId());
+        params.put("tnum", App.userInfo.getUserNum());
         params.put("tokenId", App.userInfo.getTokenId());
         Call<ResponseBody> call = service.getAllCourse(params);
         showLoadDialog("");
@@ -65,8 +80,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     courseInfos = GsonUtil.listFromJSon(jsonString,
-                            new TypeToken<List<CourseInfo>>() {
-                            }.getType(), "courseInfo");
+                            new TypeToken<List<CourseInfo>>() {}.getType(), "courseInfo");
                     LogUtil.d("CourseInfo", courseInfos.size());
                     mAdapter.notifyDataSetChanged(courseInfos);
                 } else {
@@ -79,8 +93,89 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         });
     }
 
-    private void initView() {
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    private void startRollCall(CourseInfo info){
+        Map<String, Object> params = new HashMap<>();
+
+        params.put("tokenId", App.userInfo.getTokenId());
+        params.put("courseId", info.getId());
+        params.put("userNum", App.userInfo.getUserNum());
+        params.put("realName", App.userInfo.getName());
+        params.put("xPosition",50.00);
+        params.put("yPosition",50.00);
+        RollCallService callService = RetrofitUtil.create(RollCallService.class);
+        Call<ResponseBody> call = callService.startCallName(params);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    showShortToast("已开始点名");
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+            }
+        });
+
     }
+
+
+    private void initView() {
+        titleBar.initView(this);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter.setOnItemClickLitener(new CourseInfoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                setLocation();
+                startRollCall(courseInfos.get(position));
+            }
+        });
+    }
+
+    private void setLocation(){
+        showLoadDialog("正在定位...");
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        getLoadDialog().dismiss();
+        App.myLocation.setX(location.getLatitude());
+        App.myLocation.setY(location.getLongitude());
+        showLongToast(location.toString()+"==="+App.myLocation.toString());
+        // 如果只是需要定位一次，这里就移除监听，停掉服务。如果要进行实时定位，可以在退出应用或者其他时刻停掉定位服务。
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
 }

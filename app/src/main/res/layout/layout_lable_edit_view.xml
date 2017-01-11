@@ -3,9 +3,10 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="87px"
-              android:background="@color/white"
+
     >
     <LinearLayout
+        android:background="@color/white"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="87px">
@@ -18,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="30px"
-            android:textColor="@color/text_black"
+            android:textColor="@color/black"
             />
         <EditText
             android:id="@+id/edt_content"
@@ -33,8 +34,4 @@
             android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
             />
     </LinearLayout>
-    <View
-        android:background="@color/line_gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
 </LinearLayout>

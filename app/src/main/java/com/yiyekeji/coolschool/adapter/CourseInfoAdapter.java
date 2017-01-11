@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,9 +39,10 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
             AutoUtils.autoSize(arg0);
         }
 
-        ImageView ivHead;
-        TextView tvId;
-        TextView tvName;
+        TextView tvCourseName;
+        TextView tvCout;
+        TextView  tvClass;
+        TextView  tvCheck;
         LinearLayout llContainer;
     }
 
@@ -58,6 +58,11 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = mInflater.inflate(R.layout.item_course_info_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
+        viewHolder.tvCourseName=(TextView)view.findViewById(R.id.tv_courseName);
+        viewHolder.tvCout=(TextView)view.findViewById(R.id.tv_count);
+        viewHolder.tvClass=(TextView)view.findViewById(R.id.tv_class);
+        viewHolder.tvCheck=(TextView)view.findViewById(R.id.tv_checkList);
         return viewHolder;
     }
 
@@ -68,6 +73,14 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         CourseInfo courseInfo = courseInfoList.get(i);
+
+        String s=courseInfo.getCourseName()+"("+courseInfo.getRoomNum()+")";
+        viewHolder.tvCourseName.setText(s);
+        viewHolder.tvCout.setText(courseInfo.getCount());
+        viewHolder.tvClass.setText(courseInfo.getCourseClass());
+
+
+
         if (mOnItemClickLitener != null) {
             viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
                 @Override

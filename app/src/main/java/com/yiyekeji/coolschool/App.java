@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.yiyekeji.coolschool.bean.MyLocation;
 import com.yiyekeji.coolschool.bean.UserInfo;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class App extends Application{
     public static  boolean isLogin;
-
+    public static MyLocation myLocation=new MyLocation();
     public static UserInfo userInfo = new UserInfo();
     public static List<Activity> activityList = new ArrayList<>();
     public static Context context;

@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ledt:edtText="请输入密码"
+        ledt:isPwd="true"
         ledt:text="密码"/>
     <View
         android:background="@color/gray"

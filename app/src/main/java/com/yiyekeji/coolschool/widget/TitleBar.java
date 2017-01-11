@@ -33,7 +33,6 @@ public class TitleBar extends AutoRelativeLayout {
         super(context, attrs);
     }
 
-
     /**
      * 传activity设置标题
      * @param activity

@@ -16,4 +16,6 @@ public interface RollCallService {
     @POST("callname/getAllCourse")
     Call<ResponseBody> getAllCourse(@Body Map<String, Object> params);
 
+    @POST("callname/startCallName")
+    Call<ResponseBody> startCallName(@Body Map<String, Object> params);
 }
