@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.MainMenu;
+import com.yiyekeji.coolschool.ui.StudentSignInActivity;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
@@ -55,7 +56,7 @@ public class HomeFragment extends BaseFragment {
         if (App.userInfo.getRoleType() == 1) {
             m1 = new MainMenu("点名", R.mipmap.ic_roll_call, TeacherRollCallActivitiy.class);
         } else {
-            m1 = new MainMenu("签到", R.mipmap.ic_sign_in, null);
+            m1 = new MainMenu("签到", R.mipmap.ic_sign_in, StudentSignInActivity.class);
         }
         /**
          * 订水送水的交换图标
