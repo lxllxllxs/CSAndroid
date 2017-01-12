@@ -50,6 +50,7 @@ public class MainViewpagerActivity extends BaseActivity {
 
     private void initView() {
     }
+
     /**
      * 连续点击两次 关闭
      */

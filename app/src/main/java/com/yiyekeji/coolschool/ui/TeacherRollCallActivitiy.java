@@ -96,7 +96,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
 
     private void startRollCall(CourseInfo info){
         Map<String, Object> params = new HashMap<>();
-
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("courseId", info.getId());
         params.put("userNum", App.userInfo.getUserNum());
@@ -114,6 +113,7 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("已开始点名");
+                    startActivity(DynamicSignInActivity.class);
                 } else {
                     showShortToast(rb.getMessage());
                 }
