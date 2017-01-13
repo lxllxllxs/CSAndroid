@@ -46,7 +46,6 @@
         <activity
             android:name=".ui.MainViewpagerActivity"
             android:label="主页"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             />
         <activity

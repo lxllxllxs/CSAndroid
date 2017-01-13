@@ -1,5 +1,7 @@
 package com.yiyekeji.coolschool.inter;
 
+import com.yiyekeji.coolschool.bean.StudentSign;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -18,4 +20,14 @@ public interface RollCallService {
 
     @POST("callname/startCallName")
     Call<ResponseBody> startCallName(@Body Map<String, Object> params);
+
+
+
+    @POST("callname/getMyCourse")
+    Call<ResponseBody> getMyCourse(@Body Map<String, Object> params);
+
+
+
+    @POST("callname/studentSignIn")
+    Call<ResponseBody> studentSignIn(@Body StudentSign studentSign);
 }

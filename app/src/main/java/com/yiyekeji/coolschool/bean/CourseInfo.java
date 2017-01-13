@@ -10,9 +10,29 @@ public class CourseInfo {
     private  String  courseName;
     private  String  roomNum;
     private  String  courseClass;
-
+    private String   courseNo;
     public int getId() {
         return id;
+    }
+
+    public String getCourseNo() {
+        return courseNo;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseInfo{" +
+                "id=" + id +
+                ", count='" + count + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", roomNum='" + roomNum + '\'' +
+                ", courseClass='" + courseClass + '\'' +
+                ", courseNo='" + courseNo + '\'' +
+                '}';
+    }
+
+    public void setCourseNo(String courseNo) {
+        this.courseNo = courseNo;
     }
 
     public void setId(int id) {

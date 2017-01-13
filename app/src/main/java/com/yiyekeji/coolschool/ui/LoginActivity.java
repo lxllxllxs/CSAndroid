@@ -67,23 +67,23 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cb_login:
-                login();
+                login("1111111111", "qqqqqq");
+//                login(ledtLoginName.getEditText(), ledtPwd.getEditText());
                 break;
             case R.id.tv_register:
                 Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_findPwd:
-                Intent intent1 = new Intent(this, MainActivity.class);
-                startActivity(intent1);
+                login("3112002665", "qqqqqq");
+                /*Intent intent1 = new Intent(this, MainActivity.class);
+                startActivity(intent1);*/
                 break;
         }
     }
 
     UserService userService;
-    private void login() {
-        String name = ledtLoginName.getEditText();
-        String pwd = ledtPwd.getEditText();
+    private void login(String name,String pwd) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
             showShortToast("账号或密码不能为空！");
             return ;
@@ -113,7 +113,9 @@ public class LoginActivity extends BaseActivity {
                     showShortToast("成功登录！");
                     userInfo.setPassword("");//清除密码
                     App.userInfo=userInfo;
-                    startActivity(MainViewpagerActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
+                    startActivity(intent);
+
                 } else {
                     showShortToast(rb.getMessage());
                 }

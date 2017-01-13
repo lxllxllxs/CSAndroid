@@ -96,12 +96,16 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
 
     private void startRollCall(CourseInfo info){
         Map<String, Object> params = new HashMap<>();
+
         params.put("tokenId", App.userInfo.getTokenId());
+        params.put("courseNo", "cs4");
         params.put("courseId", info.getId());
+        params.put("courseName", info.getCourseName());
         params.put("userNum", App.userInfo.getUserNum());
         params.put("realName", App.userInfo.getName());
         params.put("xPosition",50.00);
         params.put("yPosition",50.00);
+
         RollCallService callService = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = callService.startCallName(params);
         showLoadDialog("");
@@ -117,9 +121,7 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
                 } else {
                     showShortToast(rb.getMessage());
                 }
-
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
