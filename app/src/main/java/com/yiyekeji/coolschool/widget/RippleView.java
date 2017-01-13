@@ -149,7 +149,8 @@ public class RippleView extends View {
 
 	// 停止动画
 	public void stop() {
-		isStarting = false;
+//		isStarting = false;
+		mTimer.cancel();
 	}
 
 	// 判断是都在不在执行

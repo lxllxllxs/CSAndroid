@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool.ui;
 
 import android.os.Bundle;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
@@ -90,7 +91,7 @@ public class StudentSignInActivity extends BaseActivity {
         params.put("courseNo", App.userInfo.getUserNum());*/
         List<String> courseNos = new ArrayList<>();
         for (CourseInfo info:infos){
-            courseNos.add(String.valueOf(info.getId()));
+            courseNos.add(info.getCourseNo());
         }
         StudentSign signIn = new StudentSign();
 
@@ -103,6 +104,8 @@ public class StudentSignInActivity extends BaseActivity {
         service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call= service.studentSignIn(signIn);
         showLoadDialog("");
+        Gson gson = new Gson();
+        LogUtil.d("StudentSign"+gson.toJson(signIn));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

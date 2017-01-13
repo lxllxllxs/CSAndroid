@@ -41,6 +41,12 @@ public class DynamicSignInActivity extends BaseActivity {
         rippleView.start();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        rippleView.stop();
+    }
+
     private void initData() {
 
     }
