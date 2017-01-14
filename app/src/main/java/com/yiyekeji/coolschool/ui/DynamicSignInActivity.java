@@ -3,7 +3,7 @@ package com.yiyekeji.coolschool.ui;
 import android.os.Bundle;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.adapter.HaveNameAdapter;
+import com.yiyekeji.coolschool.ui.adapter.HaveNameAdapter;
 import com.yiyekeji.coolschool.inter.HaveName;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.widget.RippleView;

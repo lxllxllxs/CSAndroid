@@ -48,12 +48,10 @@
             android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/tv_checkList"
-            android:text="查看"
+            android:text="查看缺勤记录"
             android:textSize="24px"
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
             android:textColor="@color/theme_red"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>

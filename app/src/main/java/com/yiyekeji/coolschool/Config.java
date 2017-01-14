@@ -5,7 +5,7 @@ package com.yiyekeji.coolschool;
  */
 public class Config {
 //    public static final String BASE_URL="http://192.168.10.187:8080/cs/";
-//    public static final String BASE_URL="http://59.110.143.46:8080/cs/";
-    public static final String BASE_URL="http://192.168.1.102:8080/cs/";
+    public static final String BASE_URL="http://59.110.143.46:8080/cs/";
+//    public static final String BASE_URL="http://192.168.1.102:8080/cs/";
     public static final boolean DEBUG=true;
 }

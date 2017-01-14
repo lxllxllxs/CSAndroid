@@ -1,6 +1,7 @@
-package com.yiyekeji.coolschool.adapter;
+package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CourseInfo;
+import com.yiyekeji.coolschool.ui.AbsenceListActivtiy;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -21,11 +23,11 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
 
     private LayoutInflater mInflater;
     private List<CourseInfo> courseInfoList;
-
+    private  Context context;
     public CourseInfoAdapter(Context context, List<CourseInfo> courseInfoList) {
         this.courseInfoList = courseInfoList;
         mInflater = LayoutInflater.from(context);
-
+        this.context=context;
     }
 
     public void notifyDataSetChanged(List<CourseInfo> courseInfos) {
@@ -79,8 +81,13 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
         viewHolder.tvCout.setText(courseInfo.getCount());
         viewHolder.tvClass.setText(courseInfo.getCourseClass());
 
-
-
+        viewHolder.tvCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AbsenceListActivtiy.class);
+                context.startActivity(intent);
+            }
+        });
         if (mOnItemClickLitener != null) {
             viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
                 @Override

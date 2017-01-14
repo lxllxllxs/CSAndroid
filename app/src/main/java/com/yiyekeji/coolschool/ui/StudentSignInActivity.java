@@ -11,8 +11,10 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.StudentSign;
 import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
+import com.yiyekeji.coolschool.utils.NetUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 
 import java.util.ArrayList;
@@ -63,14 +65,10 @@ public class StudentSignInActivity extends BaseActivity {
                         new TypeToken<List<CourseInfo>>() {}.getType(),"courseInfo") ;
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (infos!=null) {
-                    for (CourseInfo info:infos){
-                        LogUtil.d(info.toString());
-                    }
+                    startSignIn();
                 } else {
                     showShortToast(rb.getMessage());
                 }
-
-                startSignIn();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -79,7 +77,6 @@ public class StudentSignInActivity extends BaseActivity {
             }
         });
     }
-
 
     private void  startSignIn(){
 /*        Map<String, Object> params = new HashMap<>();
@@ -95,9 +92,9 @@ public class StudentSignInActivity extends BaseActivity {
         }
         StudentSign signIn = new StudentSign();
 
-        signIn.setIp("192.168.10.187");
+        signIn.setIp(NetUtils.getIpAddress());
         signIn.setCourseNo(courseNos);
-        signIn.setIMEI("123456789");
+        signIn.setImei(CommonUtils.getIMEI());
         signIn.setTokenId(App.userInfo.getTokenId());
         signIn.setUserNum(App.userInfo.getUserNum());
 
@@ -106,6 +103,7 @@ public class StudentSignInActivity extends BaseActivity {
         showLoadDialog("");
         Gson gson = new Gson();
         LogUtil.d("StudentSign"+gson.toJson(signIn));
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

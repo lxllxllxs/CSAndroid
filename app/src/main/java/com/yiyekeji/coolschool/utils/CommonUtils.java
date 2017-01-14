@@ -5,6 +5,8 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 
+import com.yiyekeji.coolschool.App;
+
 import java.util.List;
 
 /**
@@ -13,6 +15,11 @@ import java.util.List;
 public class CommonUtils {
     private int cellId = 0;
     private int lac = 0;
+
+    public static String getIMEI(){
+        TelephonyManager TelephonyMgr = (TelephonyManager) App.getContext().getSystemService(App.getContext().TELEPHONY_SERVICE);
+        return TelephonyMgr.getDeviceId();
+    }
 
     /**
      * 功能描述：通过手机信号获取基站信息

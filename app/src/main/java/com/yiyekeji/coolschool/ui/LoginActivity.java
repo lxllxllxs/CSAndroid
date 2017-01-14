@@ -3,7 +3,6 @@ package com.yiyekeji.coolschool.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.utils.SPUtils;
@@ -92,9 +92,8 @@ public class LoginActivity extends BaseActivity {
         final UserInfo user = new UserInfo();
         user.setUserNum(name);
         user.setPassword(pwd);
-        TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-        String szImei = TelephonyMgr.getDeviceId();
-        user.setImei(szImei);
+
+        user.setImei(CommonUtils.getIMEI());
         userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call= userService.login(user);
         showLoadDialog("");

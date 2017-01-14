@@ -14,7 +14,7 @@ import android.view.View;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.adapter.CourseInfoAdapter;
+import com.yiyekeji.coolschool.ui.adapter.CourseInfoAdapter;
 import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.RollCallService;
@@ -61,7 +61,7 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
 
     private void initData() {
         mAdapter=new CourseInfoAdapter(this,courseInfos);
-        getCourseList();
+        setLocation();
     }
 
     RollCallService service;
@@ -94,18 +94,17 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
     }
 
 
-
     private void startRollCall(CourseInfo info){
         Map<String, Object> params = new HashMap<>();
 
         params.put("tokenId", App.userInfo.getTokenId());
-        params.put("courseNo", "cs4");
+        params.put("courseNo", info.getCourseNo());
         params.put("courseId", info.getId());
         params.put("courseName", info.getCourseName());
         params.put("userNum", App.userInfo.getUserNum());
         params.put("realName", App.userInfo.getName());
-        params.put("xPosition",50.00);
-        params.put("yPosition",50.00);
+        params.put("xPosition",latitude);
+        params.put("yPosition",longitude);
 
         RollCallService callService = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = callService.startCallName(params);
@@ -149,29 +148,43 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
     private void setLocation(){
         showLoadDialog("正在定位...");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null) {
+        if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getLoadDialog().dismiss();
+                showLongToast("没有GPS定位权限！");
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        } else if (locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getLoadDialog().dismiss();
+                showLongToast("没有NET定位权限！");
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
     }
-
+    private double latitude,longitude;
     @Override
     public void onLocationChanged(Location location) {
         getLoadDialog().dismiss();
-        App.myLocation.setX(location.getLatitude());
-        App.myLocation.setY(location.getLongitude());
-        showLongToast(location.toString()+"==="+App.myLocation.toString());
+        latitude=location.getLatitude();
+        longitude=location.getLongitude();
+        showLongToast(location.toString()+"==="+latitude+longitude);
         // 如果只是需要定位一次，这里就移除监听，停掉服务。如果要进行实时定位，可以在退出应用或者其他时刻停掉定位服务。
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            getLoadDialog().dismiss();
+            showLongToast("没有GPS定位权限！");
             return;
         }
         locationManager.removeUpdates(this);
+        getCourseList();
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        getLoadDialog().dismiss();
+        showLongToast(status+"");
     }
 
     @Override

@@ -49,7 +49,7 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
         if (mdDialog == null) {
             mdDialog = new LoadDialog(App.getContext(), R.layout.layout_load_dialog,
                     R.style.DialogLogin);
-            mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
         }
         if (BaseActivity.mdDialog.isShowing()) {
             return;

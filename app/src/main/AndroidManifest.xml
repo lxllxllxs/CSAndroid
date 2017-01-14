@@ -89,6 +89,16 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.AbsenceListActivtiy"
+            android:label="缺席记录"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.AbsenceRecordAty"
+            android:label="缺席名单"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.ModifyPwdActivity"
             android:label="修改密码"
             android:screenOrientation="portrait"

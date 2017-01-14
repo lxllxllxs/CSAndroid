@@ -7,28 +7,30 @@ import java.util.List;
  */
 public class StudentSign {
     private String userNum;
-    private List<String> courseNo;//课程编号
-    private String IMEI;
+    private String realName;
     private String ip;
+    private String imei;
     private String tokenId;
-
-    public String getUserNum() {
-        return userNum;
+    private List<String> courseNo;//课程编号
+    public String getTokenId() {
+        return tokenId;
     }
 
     @Override
     public String toString() {
-        return "StudentSign{" +
+        return "Student{" +
                 "userNum='" + userNum + '\'' +
-                ", courseNo=" + courseNo +
-                ", IMEI='" + IMEI + '\'' +
+                ", realName='" + realName + '\'' +
                 ", ip='" + ip + '\'' +
+                ", imei='" + imei + '\'' +
                 ", tokenId='" + tokenId + '\'' +
+                ", courseNo=" + courseNo +
+                ", isSignIn=" + isSignIn +
                 '}';
     }
 
-    public void setUserNum(String userNum) {
-        this.userNum = userNum;
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 
     public List<String> getCourseNo() {
@@ -39,32 +41,36 @@ public class StudentSign {
         this.courseNo = courseNo;
     }
 
-    public String getIMEI() {
-        return IMEI;
+    private int isSignIn = 0;
+    public String getUserNum() {
+        return userNum;
     }
-
-    public void setIMEI(String IMEI) {
-        this.IMEI = IMEI;
+    public void setUserNum(String userNum) {
+        this.userNum = userNum;
     }
-
+    public String getRealName() {
+        return realName;
+    }
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
     public String getIp() {
         return ip;
     }
-
     public void setIp(String ip) {
         this.ip = ip;
     }
 
-    public String getTokenId() {
-        return tokenId;
+    public String getImei() {
+        return imei;
     }
-
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public void setImei(String imei) {
+        this.imei = imei;
     }
-
-/*    private float longitude;//经度
-    private float latitude;//纬度*/
-
-
+    public int getIsSignIn() {
+        return isSignIn;
+    }
+    public void setIsSignIn(int isSignIn) {
+        this.isSignIn = isSignIn;
+    }
 }
