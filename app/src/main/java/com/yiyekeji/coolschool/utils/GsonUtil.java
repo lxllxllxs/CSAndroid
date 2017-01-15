@@ -78,6 +78,15 @@ public class GsonUtil {
         return null;
     }
 
+    public static String getValueByTag(String jsonString,String tag){
+        try {
+            JSONObject object=new JSONObject(jsonString);
+            return object.getString(tag);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 
     /**

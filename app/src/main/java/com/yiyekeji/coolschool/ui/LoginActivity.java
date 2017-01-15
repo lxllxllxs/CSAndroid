@@ -67,8 +67,8 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cb_login:
-                login("1111111111", "qqqqqq");
-//                login(ledtLoginName.getEditText(), ledtPwd.getEditText());
+//                login("1111111111", "qqqqqq");
+                login(ledtLoginName.getEditText(), ledtPwd.getEditText());
                 break;
             case R.id.tv_register:
                 Intent intent = new Intent(this, RegisterActivity.class);

@@ -14,10 +14,10 @@ import android.view.View;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.ui.adapter.CourseInfoAdapter;
 import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.RollCallService;
+import com.yiyekeji.coolschool.ui.adapter.CourseInfoAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
@@ -129,7 +129,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
         });
 
     }
-
 
     private void initView() {
         titleBar.initView(this);

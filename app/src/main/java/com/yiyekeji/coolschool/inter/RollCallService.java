@@ -30,4 +30,10 @@ public interface RollCallService {
 
     @POST("callname/studentSignIn")
     Call<ResponseBody> studentSignIn(@Body StudentSign studentSign);
+
+    @POST("callname/getNewSignsNum")
+    Call<ResponseBody> getNewSignsNum(@Body Map<String, Object> params);
+
+    @POST("callname/getSignsInfo  ")
+    Call<ResponseBody> getSignsInfo  (@Body Map<String, Object> params);
 }

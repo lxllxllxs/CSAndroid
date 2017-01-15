@@ -98,6 +98,9 @@ public class StudentSignInActivity extends BaseActivity {
         signIn.setTokenId(App.userInfo.getTokenId());
         signIn.setUserNum(App.userInfo.getUserNum());
 
+        //放亿业科技坐标测试
+        signIn.setX(113.02954);
+        signIn.setY(22.622995);
         service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call= service.studentSignIn(signIn);
         showLoadDialog("");

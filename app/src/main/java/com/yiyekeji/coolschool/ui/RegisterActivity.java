@@ -75,7 +75,13 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.cb_confirm:
-                checkAndRegister();
+                for (int i=100;i<250;i++) {
+                    ledtLoginName.setEditText("3112000"+i);
+                    ledtConfrimPwd.setEditText("qqqqqq");
+                    ledtPwd.setEditText("qqqqqq");
+                    ledtRealName.setEditText("学林");
+                    checkAndRegister();
+                }
                 break;
             case R.id.iv_student:
                  roleTye=0;
@@ -142,18 +148,19 @@ public class RegisterActivity extends BaseActivity {
         userInfo.setName(realName);
         userInfo.setPassword(pwd);
         userInfo.setRoleType(roleTye);
-
+        showLoadDialog("");
         UserService service = RetrofitUtil.create(UserService.class);
         Call<ResponseBean> call = service.register(userInfo);
         call.enqueue(new Callback<ResponseBean>() {
             @Override
             public void onResponse(Call<ResponseBean> call, Response<ResponseBean> response) {
                 ResponseBean rb = response.body();
+                getLoadDialog().dismiss();
                 LogUtil.d(rb.toString());
                 if (rb.getResult().equals("1")) {
                     showShortToast("注册成功！");
                     upLoadPhoneModel();//只上传一次设备数据
-                    startActivity(LoginActivity.class);
+//                    startActivity(LoginActivity.class);
                 } else {
                     showShortToast("操作失败！" + rb.getMessage());
                 }
@@ -161,6 +168,7 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBean> call, Throwable t) {
+                getLoadDialog().dismiss();
                 showShortToast(t.toString());
             }
         });
