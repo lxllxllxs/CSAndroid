@@ -1,8 +1,10 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
@@ -67,6 +69,7 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
 
+
     private int countDown=0;
     private Timer timer = new Timer();
     private TimerTask mTask=new TimerTask() {
@@ -97,13 +100,42 @@ public class DynamicSignInActivity extends BaseActivity {
                 case 1:
                     getNewSignIn();
                     break;
+                case 3:
+                    cancelRollCall();
+                    break;
             }
         }
     };
 
+    private void cancelRollCall() {
+        Call<ResponseBody> call = service.cancelRollCall(params);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code()!=200){
+                    showShortToast("网络错误"+response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    showShortToast("已取消点名！");
+                    finish();
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+            }
+        });
+    }
+
 
     private void getSignsInfo() {
-
         Call<ResponseBody> call= service.getSignsInfo(params);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
@@ -121,8 +153,6 @@ public class DynamicSignInActivity extends BaseActivity {
                 } else {
                     showShortToast(rb.getMessage());
                 }
-
-
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -130,6 +160,15 @@ public class DynamicSignInActivity extends BaseActivity {
                 showShortToast(t.toString());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!rippleView.isStarting()){
+            rippleView.start();
+        }
+        mTask.run();
     }
 
     @Override
@@ -143,9 +182,7 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
 
-
     private void  getNewSignIn(){
-
         Call<ResponseBody> call= service.getNewSignsNum(params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -162,8 +199,6 @@ public class DynamicSignInActivity extends BaseActivity {
                 } else {
                     showShortToast(rb.getMessage());
                 }
-
-
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -177,4 +212,19 @@ public class DynamicSignInActivity extends BaseActivity {
         showShortToast(""+number);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确定停止点名吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handler.sendEmptyMessage(3);
+                    }
+                })
+                .setNegativeButton("取消", null);
+        builder.show();
+
+    }
 }

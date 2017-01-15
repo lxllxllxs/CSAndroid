@@ -13,8 +13,8 @@ public class CommonUtils {
 
     public static String getIMEI(){
         TelephonyManager TelephonyMgr = (TelephonyManager) App.getContext().getSystemService(App.getContext().TELEPHONY_SERVICE);
-        return TelephonyMgr.getDeviceId();
-    }
+                return TelephonyMgr.getDeviceId();
+            }
 
 
 }

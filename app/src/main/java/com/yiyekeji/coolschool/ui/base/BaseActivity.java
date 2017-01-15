@@ -60,6 +60,8 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
         BaseActivity.mdDialog.show();
     }
 
+
+
     /**
      * 载入loadDialog控件
      *

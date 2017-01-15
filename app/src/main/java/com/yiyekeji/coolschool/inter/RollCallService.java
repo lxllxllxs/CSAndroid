@@ -34,6 +34,14 @@ public interface RollCallService {
     @POST("callname/getNewSignsNum")
     Call<ResponseBody> getNewSignsNum(@Body Map<String, Object> params);
 
-    @POST("callname/getSignsInfo  ")
+    @POST("callname/getSignsInfo")
     Call<ResponseBody> getSignsInfo  (@Body Map<String, Object> params);
+
+
+    @POST("callname/getCutClassCount")
+    Call<ResponseBody> getCutClassCount  (@Body Map<String, Object> params);
+
+    @POST("callname/cancelRollCall")
+    Call<ResponseBody> cancelRollCall  (@Body Map<String, Object> params);
+
 }

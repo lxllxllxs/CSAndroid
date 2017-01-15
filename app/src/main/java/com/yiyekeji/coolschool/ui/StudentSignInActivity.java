@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,6 +17,7 @@ import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.NetUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.widget.LoadDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,13 +81,6 @@ public class StudentSignInActivity extends BaseActivity {
     }
 
     private void  startSignIn(){
-/*        Map<String, Object> params = new HashMap<>();
-        params.put("tokenId", App.userInfo.getTokenId());
-        params.put("userNum", App.userInfo.getUserNum());
-
-        params.put("ip", App.userInfo.getUserNum());
-        params.put("IMEI", App.userInfo.getUserNum());
-        params.put("courseNo", App.userInfo.getUserNum());*/
         List<String> courseNos = new ArrayList<>();
         for (CourseInfo info:infos){
             courseNos.add(info.getCourseNo());
@@ -118,7 +113,7 @@ public class StudentSignInActivity extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    showShortToast("签到成功！");
+                    showResultDialog();
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -129,6 +124,13 @@ public class StudentSignInActivity extends BaseActivity {
                 showShortToast(t.toString());
             }
         });
+    }
 
+
+    private void showResultDialog(){
+        LoadDialog mdDialog = new LoadDialog(this, R.layout.layout_image,
+                R.style.DialogNoBg);
+        mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
+        mdDialog.show();
     }
 }
