@@ -21,8 +21,8 @@ public class TitleBar extends AutoRelativeLayout {
 
     private Context context;
     private RelativeLayout containerLayout;
-    private TextView bigTitleTv;
-    private ImageView iv_back,iv_right;
+    private TextView bigTitleTv,tvRight;
+    private ImageView iv_back;
     private Activity activity;
 
     public TitleBar(Context context) {
@@ -43,7 +43,7 @@ public class TitleBar extends AutoRelativeLayout {
         containerLayout = (RelativeLayout) findViewById(R.id.rl_title_bar_container);
         bigTitleTv = (TextView) findViewById(R.id.tv_title_bar_big_title);
         iv_back=(ImageView)findViewById(R.id.iv_back);
-        iv_right=(ImageView)findViewById(R.id.iv_right_menu);
+        tvRight=(TextView) findViewById(R.id.tv_right);
         iv_back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +55,17 @@ public class TitleBar extends AutoRelativeLayout {
         });
         setTitleText(activity.getTitle());
     }
+
+    public void  setTvRight(String text,OnClickListener clickListener){
+        tvRight.setVisibility(VISIBLE);
+        tvRight.setText(text);
+        tvRight.setOnClickListener(clickListener);
+    }
+
+    public void  setTvRightText(String text){
+        tvRight.setText(text);
+    }
+
 
     public void setBackOnClickListener(OnClickListener ck){
         iv_back.setOnClickListener(ck);
@@ -105,11 +116,4 @@ public class TitleBar extends AutoRelativeLayout {
         iv_back.setImageResource(resid);
     }
 
-    public void setRightImageView(int resid){
-        iv_right.setImageResource(resid);
-    }
-
-    public void setRightMenuListener(OnClickListener ck){
-        iv_right.setOnClickListener(ck);
-    }
 }

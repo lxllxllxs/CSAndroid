@@ -90,12 +90,17 @@
             />
         <activity
             android:name=".ui.AbsenceListActivtiy"
-            android:label="缺席记录"
+            android:label="缺勤记录"
             android:screenOrientation="portrait"
             />
         <activity
             android:name=".ui.AbsenceRecordAty"
-            android:label="缺席名单"
+            android:label="缺勤名单"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.AbsenceStatisticAyt"
+            android:label="缺勤统计"
             android:screenOrientation="portrait"
             />
         <activity

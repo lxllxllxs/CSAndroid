@@ -11,6 +11,16 @@ public class ClassAbsenceInfo implements Parcelable {
     private String userNum;
     private String realName;
 
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
+    private boolean isSelect;
+
     public int getCutClassId() {
         return cutClassId;
     }
@@ -48,12 +58,14 @@ public class ClassAbsenceInfo implements Parcelable {
         dest.writeInt(this.cutClassId);
         dest.writeString(this.userNum);
         dest.writeString(this.realName);
+        dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
     }
 
     protected ClassAbsenceInfo(Parcel in) {
         this.cutClassId = in.readInt();
         this.userNum = in.readString();
         this.realName = in.readString();
+        this.isSelect = in.readByte() != 0;
     }
 
     public static final Creator<ClassAbsenceInfo> CREATOR = new Creator<ClassAbsenceInfo>() {
@@ -67,4 +79,5 @@ public class ClassAbsenceInfo implements Parcelable {
             return new ClassAbsenceInfo[size];
         }
     };
+
 }

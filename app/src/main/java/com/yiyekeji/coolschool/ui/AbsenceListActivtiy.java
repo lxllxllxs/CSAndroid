@@ -82,8 +82,18 @@ public class AbsenceListActivtiy extends BaseActivity {
     }
 
     private void initView() {
-        mAdapter=new AbsenceListAdapter(this,infoList);
         titleBar.initView(this);
+        titleBar.setTvRight("次数统计", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AbsenceListActivtiy.this, AbsenceStatisticAyt.class);
+                startActivity(intent);
+            }
+        });
+
+
+        mAdapter=new AbsenceListAdapter(this,infoList);
+
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST));

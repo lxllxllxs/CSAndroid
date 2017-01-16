@@ -1,6 +1,5 @@
 package com.yiyekeji.coolschool.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,8 +52,23 @@ public class AbsenceRecordAty extends BaseActivity {
 
     }
     private void initView() {
-        mAdapter=new AbsenceRecordAdapter(this,infoList);
         titleBar.initView(this);
+        titleBar.setTvRight("编辑", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAdapter.getDeleteMode()) {
+                    titleBar.setTvRightText("编辑");
+                    mAdapter.setDeleteMode(false);
+                } else {
+                    titleBar.setTvRightText("完成");
+                    mAdapter.setDeleteMode(true);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mAdapter=new AbsenceRecordAdapter(this,infoList);
+
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST));
@@ -62,13 +76,47 @@ public class AbsenceRecordAty extends BaseActivity {
         mAdapter.setOnItemClickLitener(new AbsenceRecordAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(AbsenceRecordAty.this, AbsenceRecordAty.class);
-               /* intent.putExtra("courseTime", infoList.get(position).getCourseTime());
-                startActivity(intent);*/
+                delItem=infoList.get(position);
+                deleteRecord();
             }
         });
     }
 
+    private ClassAbsenceInfo delItem;
+    private void deleteRecord() {
+        if (delItem == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tokenId", App.userInfo.getTokenId());
+        params.put("cutClassId", delItem.getCutClassId());
+        showLoadDialog("");
+        Call<ResponseBody> call = service.deleteCutClass(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")){
+                    showShortToast("删除成功！");
+                    infoList.remove(delItem);
+                    mAdapter.notifyDataSetChanged();
+                }else {
+                    showShortToast("操作失败！"+rb.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+            }
+        });
+
+
+    }
+
+    RollCallService service;
     private void initData() {
         String courseTime = getIntent().getStringExtra("courseTime");
         String courseNo=getIntent().getStringExtra("courseNo");
@@ -77,7 +125,7 @@ public class AbsenceRecordAty extends BaseActivity {
         params.put("courseTime", courseTime);
         params.put("courseNo", courseNo);
 
-        RollCallService service = RetrofitUtil.create(RollCallService.class);
+        service = RetrofitUtil.create(RollCallService.class);
         showLoadDialog("");
         Call<ResponseBody> call = service.getCutClassStudentList(params);
         call.enqueue(new Callback<ResponseBody>() {

@@ -49,4 +49,7 @@ public interface RollCallService {
     @POST("callname/getCutClassStudentList")
     Call<ResponseBody> getCutClassStudentList  (@Body Map<String, Object> params);
 
+    @POST("callname/deleteCutClass")
+    Call<ResponseBody> deleteCutClass  (@Body Map<String, Object> params);
+
 }

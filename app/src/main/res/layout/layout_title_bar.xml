@@ -20,22 +20,22 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@color/white"
+        android:text="title"
         android:textSize="30px"
         android:singleLine="true"
         android:ellipsize="end"
         android:maxWidth="200dp"/>
 
-    <ImageView
-        android:id="@+id/iv_right_menu"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="100px"
+    <TextView
+        android:visibility="invisible"
+        android:gravity="center"
+        android:id="@+id/tv_right"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-
-    <View
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray_text"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:text="right"
+        android:textSize="30px"
+        android:layout_marginRight="50px"
         />
 </RelativeLayout>

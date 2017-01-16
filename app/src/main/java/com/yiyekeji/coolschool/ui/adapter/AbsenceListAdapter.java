@@ -71,7 +71,7 @@ public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.
         CourseAbsenceInfo courseInfo = courseInfoList.get(i);
 
         viewHolder.tvMain.setText(courseInfo.getCourseTime());
-        viewHolder.tvSecondary.setText(courseInfo.getUserCount());
+        viewHolder.tvSecondary.setText("缺勤人数："+courseInfo.getUserCount());
 
         if (mOnItemClickLitener != null) {
             viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
