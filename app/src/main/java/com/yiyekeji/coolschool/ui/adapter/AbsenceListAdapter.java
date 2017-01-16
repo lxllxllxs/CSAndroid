@@ -1,7 +1,6 @@
 package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.CourseInfo;
-import com.yiyekeji.coolschool.ui.AbsenceListActivtiy;
+import com.yiyekeji.coolschool.bean.CourseAbsenceInfo;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -19,18 +17,18 @@ import java.util.List;
 /**
  * Created by lxl on 2016/10/25.
  */
-public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.ViewHolder> {
+public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<CourseInfo> courseInfoList;
+    private List<CourseAbsenceInfo> courseInfoList;
     private  Context context;
-    public CourseInfoAdapter(Context context, List<CourseInfo> courseInfoList) {
+    public AbsenceListAdapter(Context context, List<CourseAbsenceInfo> courseInfoList) {
         this.courseInfoList = courseInfoList;
         mInflater = LayoutInflater.from(context);
         this.context=context;
     }
 
-    public void notifyDataSetChanged(List<CourseInfo> courseInfos) {
+    public void notifyDataSetChanged(List<CourseAbsenceInfo> courseInfos) {
         this.courseInfoList=courseInfos;
         notifyDataSetChanged();
     }
@@ -41,10 +39,8 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
             AutoUtils.autoSize(arg0);
         }
 
-        TextView tvCourseName;
-        TextView tvCout;
-        TextView  tvClass;
-        TextView  tvCheck;
+        TextView tvMain;
+        TextView tvSecondary;
         LinearLayout llContainer;
     }
 
@@ -58,13 +54,11 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_course_info_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_absence_list_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
-        viewHolder.tvCourseName=(TextView)view.findViewById(R.id.tv_courseName);
-        viewHolder.tvCout=(TextView)view.findViewById(R.id.tv_count);
-        viewHolder.tvClass=(TextView)view.findViewById(R.id.tv_class);
-        viewHolder.tvCheck=(TextView)view.findViewById(R.id.tv_checkList);
+        viewHolder.tvMain=(TextView)view.findViewById(R.id.tv_main);
+        viewHolder.tvSecondary=(TextView)view.findViewById(R.id.tv_secondary);
         return viewHolder;
     }
 
@@ -74,21 +68,11 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        final CourseInfo courseInfo = courseInfoList.get(i);
+        CourseAbsenceInfo courseInfo = courseInfoList.get(i);
 
-        String s=courseInfo.getCourseName()+"("+courseInfo.getRoomNum()+")";
-        viewHolder.tvCourseName.setText(s);
-        viewHolder.tvCout.setText(courseInfo.getCount());
-        viewHolder.tvClass.setText(courseInfo.getCourseClass());
+        viewHolder.tvMain.setText(courseInfo.getCourseTime());
+        viewHolder.tvSecondary.setText(courseInfo.getUserCount());
 
-        viewHolder.tvCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AbsenceListActivtiy.class);
-                intent.putExtra("courseNo", courseInfo.getCourseNo());
-                context.startActivity(intent);
-            }
-        });
         if (mOnItemClickLitener != null) {
             viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
                 @Override

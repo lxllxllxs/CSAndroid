@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.widget.TextView;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
@@ -16,7 +17,6 @@ import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.RippleView;
-import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,15 +36,15 @@ import retrofit2.Response;
  * Created by lxl on 2017/1/11.
  */
 public class DynamicSignInActivity extends BaseActivity {
-    @InjectView(R.id.title_bar)
-    TitleBar titleBar;
 
     List<HaveName> haveNameList = new ArrayList<>();
     HaveNameAdapter mAdapter;
     @InjectView(R.id.rippleView)
     RippleView rippleView;
+    @InjectView(R.id.tv_count)
+    TextView tvCount;
 
-    private int number;
+    private String number;
     private RollCallService service;
     Map<String, Object> params = new HashMap<>();
 
@@ -58,24 +58,22 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
     private void initView() {
-        titleBar.initView(this);
         rippleView.start();
 
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("tnum", App.userInfo.getUserNum());
         service = RetrofitUtil.create(RollCallService.class);
         //两秒更一次 共三分钟 一共90
-        timer.schedule(mTask,0,2000);
+        timer.schedule(mTask, 0, 2000);
     }
 
 
-
-    private int countDown=0;
+    private int countDown = 0;
     private Timer timer = new Timer();
-    private TimerTask mTask=new TimerTask() {
+    private TimerTask mTask = new TimerTask() {
         @Override
         public void run() {
-            if (countDown==90){
+            if (countDown == 90) {
                 timer.cancel();
                 handler.sendEmptyMessage(0);
                 return;
@@ -86,13 +84,12 @@ public class DynamicSignInActivity extends BaseActivity {
     };
 
 
-
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     rippleView.stop();
                     getSignsInfo();
@@ -114,8 +111,9 @@ public class DynamicSignInActivity extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
-                if (response.code()!=200){
-                    showShortToast("网络错误"+response.code());
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    finish();
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
@@ -127,23 +125,26 @@ public class DynamicSignInActivity extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
+                showShortToast("网络错误！");
+                finish();
             }
         });
     }
 
 
     private void getSignsInfo() {
-        Call<ResponseBody> call= service.getSignsInfo(params);
+        Call<ResponseBody> call = service.getSignsInfo(params);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
-                if (response.code()!=200){
-                    showShortToast("网络错误"+response.code());
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
@@ -154,6 +155,7 @@ public class DynamicSignInActivity extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -165,7 +167,7 @@ public class DynamicSignInActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!rippleView.isStarting()){
+        if (!rippleView.isStarting()&&countDown!=90) {
             rippleView.start();
         }
         mTask.run();
@@ -177,29 +179,28 @@ public class DynamicSignInActivity extends BaseActivity {
         rippleView.stop();
         mTask.cancel();
     }
-
     private void initData() {
     }
 
-
-    private void  getNewSignIn(){
-        Call<ResponseBody> call= service.getNewSignsNum(params);
+    private void getNewSignIn() {
+        Call<ResponseBody> call = service.getNewSignsNum(params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code()!=200){
-                    showShortToast("网络错误"+response.code());
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    number = Integer.valueOf(GsonUtil.getValueByTag(jsonString, "signNum"));
+                    number = GsonUtil.getValueByTag(jsonString, "signNum");
                     updateNumber();
                 } else {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -209,12 +210,16 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
     private void updateNumber() {
-        showShortToast(""+number);
+        tvCount.setText(number);
     }
 
 
     @Override
     public void onBackPressed() {
+        if (countDown == 90) {
+            finish();
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("确定停止点名吗？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {

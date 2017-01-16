@@ -28,6 +28,8 @@ public interface RollCallService {
 
 
 
+
+
     @POST("callname/studentSignIn")
     Call<ResponseBody> studentSignIn(@Body StudentSign studentSign);
 
@@ -43,5 +45,8 @@ public interface RollCallService {
 
     @POST("callname/cancelRollCall")
     Call<ResponseBody> cancelRollCall  (@Body Map<String, Object> params);
+
+    @POST("callname/getCutClassStudentList")
+    Call<ResponseBody> getCutClassStudentList  (@Body Map<String, Object> params);
 
 }

@@ -75,11 +75,11 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.cb_confirm:
-                for (int i=100;i<250;i++) {
+                for (int i=250;i<400;i++) {
                     ledtLoginName.setEditText("3112000"+i);
                     ledtConfrimPwd.setEditText("qqqqqq");
                     ledtPwd.setEditText("qqqqqq");
-                    ledtRealName.setEditText("学林");
+                    ledtRealName.setEditText("宝元");
                     checkAndRegister();
                 }
                 break;

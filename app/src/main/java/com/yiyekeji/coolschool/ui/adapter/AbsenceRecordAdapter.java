@@ -1,7 +1,6 @@
 package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.CourseInfo;
-import com.yiyekeji.coolschool.ui.AbsenceListActivtiy;
+import com.yiyekeji.coolschool.bean.ClassAbsenceInfo;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -19,18 +17,18 @@ import java.util.List;
 /**
  * Created by lxl on 2016/10/25.
  */
-public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.ViewHolder> {
+public class AbsenceRecordAdapter extends RecyclerView.Adapter<AbsenceRecordAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<CourseInfo> courseInfoList;
+    private List<ClassAbsenceInfo> courseInfoList;
     private  Context context;
-    public CourseInfoAdapter(Context context, List<CourseInfo> courseInfoList) {
+    public AbsenceRecordAdapter(Context context, List<ClassAbsenceInfo> courseInfoList) {
         this.courseInfoList = courseInfoList;
         mInflater = LayoutInflater.from(context);
         this.context=context;
     }
 
-    public void notifyDataSetChanged(List<CourseInfo> courseInfos) {
+    public void notifyDataSetChanged(List<ClassAbsenceInfo> courseInfos) {
         this.courseInfoList=courseInfos;
         notifyDataSetChanged();
     }
@@ -41,10 +39,10 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
             AutoUtils.autoSize(arg0);
         }
 
-        TextView tvCourseName;
-        TextView tvCout;
-        TextView  tvClass;
-        TextView  tvCheck;
+        TextView tvLeft;
+        TextView tvCenter;
+
+        TextView tvRight;
         LinearLayout llContainer;
     }
 
@@ -58,13 +56,12 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_course_info_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_abstract_left_center_right_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
-        viewHolder.tvCourseName=(TextView)view.findViewById(R.id.tv_courseName);
-        viewHolder.tvCout=(TextView)view.findViewById(R.id.tv_count);
-        viewHolder.tvClass=(TextView)view.findViewById(R.id.tv_class);
-        viewHolder.tvCheck=(TextView)view.findViewById(R.id.tv_checkList);
+        viewHolder.tvLeft=(TextView)view.findViewById(R.id.tv_left);
+        viewHolder.tvCenter=(TextView)view.findViewById(R.id.tv_center);
+        viewHolder.tvRight=(TextView)view.findViewById(R.id.tv_right);
         return viewHolder;
     }
 
@@ -74,21 +71,12 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        final CourseInfo courseInfo = courseInfoList.get(i);
+        ClassAbsenceInfo courseInfo = courseInfoList.get(i);
 
-        String s=courseInfo.getCourseName()+"("+courseInfo.getRoomNum()+")";
-        viewHolder.tvCourseName.setText(s);
-        viewHolder.tvCout.setText(courseInfo.getCount());
-        viewHolder.tvClass.setText(courseInfo.getCourseClass());
+        viewHolder.tvLeft.setText(courseInfo.getRealName());
+        viewHolder.tvCenter.setText(courseInfo.getUserNum());
+        viewHolder.tvRight.setText(courseInfo.getCutClassId()+"班");
 
-        viewHolder.tvCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AbsenceListActivtiy.class);
-                intent.putExtra("courseNo", courseInfo.getCourseNo());
-                context.startActivity(intent);
-            }
-        });
         if (mOnItemClickLitener != null) {
             viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
                 @Override

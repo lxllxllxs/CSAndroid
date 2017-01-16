@@ -89,6 +89,8 @@ public class GsonUtil {
     }
 
 
+
+
     /**
      * 将ResponseBody的内容提出来 否则刷一次就空了
      * @param response
@@ -100,7 +102,9 @@ public class GsonUtil {
             return "";
         }
         try {
-            return response.body().string();
+            String jsonString =response.body().string();
+            LogUtil.d("接收的jsonString:"+jsonString);
+            return jsonString;
         } catch (IOException e) {
             e.printStackTrace();
         }

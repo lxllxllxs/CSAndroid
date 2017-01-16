@@ -58,6 +58,29 @@ public class RippleView extends View {
 	@Override
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		if (isStarting) {
+			dynamic(canvas);
+		} else {
+			drawCircle(canvas);
+		}
+
+	}
+
+	private void drawCircle(Canvas canvas){
+		setBackgroundColor(Color.TRANSPARENT);// 颜色：完全透明
+		// 圆半径
+		int startWidth =50;
+		paint.setAlpha(255);
+		// 这个半径决定你想要多大的扩散面积
+		canvas.drawCircle(getWidth() / 2, getHeight() / 2, startWidth + 50,
+				paint);
+	}
+
+	/**
+	 * 波纹动画
+	 * @param canvas
+     */
+	private void dynamic(Canvas canvas) {
 		setBackgroundColor(Color.TRANSPARENT);// 颜色：完全透明
 		// 依次绘制 同心圆
 		for (int i = 0; i < alphaList.size(); i++) {
@@ -76,7 +99,7 @@ public class RippleView extends View {
 		}
 		if (isStarting
 				&& Integer
-						.parseInt(startWidthList.get(startWidthList.size() - 1)) == maxWidth / 5) {
+				.parseInt(startWidthList.get(startWidthList.size() - 1)) == maxWidth / 5) {
 			alphaList.add("255");
 			startWidthList.add("0");
 		}
@@ -92,11 +115,13 @@ public class RippleView extends View {
 	// 执行动画
 	public void start() {
 		isStarting = true;
+		invalidate();
 	}
 
 	// 停止动画
 	public void stop() {
 		isStarting = false;
+		invalidate();
 	}
 
 	// 判断是都在不在执行
