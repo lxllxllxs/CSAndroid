@@ -35,7 +35,7 @@
         android:textColor="@color/white"
         android:layout_alignParentRight="true"
         android:text="right"
-        android:textSize="30px"
+        android:textSize="28px"
         android:layout_marginRight="50px"
         />
 </RelativeLayout>

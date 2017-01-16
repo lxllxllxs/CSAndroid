@@ -9,8 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.CourseAbsenceInfo;
-import com.yiyekeji.coolschool.utils.DateUtils;
+import com.yiyekeji.coolschool.bean.CutClassNumInfo;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -18,19 +17,19 @@ import java.util.List;
 /**
  * Created by lxl on 2016/10/25.
  */
-public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.ViewHolder> {
+public class AbsenceStaticAdapter extends RecyclerView.Adapter<AbsenceStaticAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<CourseAbsenceInfo> courseInfoList;
+    private List<CutClassNumInfo> numInfoList;
     private  Context context;
-    public AbsenceListAdapter(Context context, List<CourseAbsenceInfo> courseInfoList) {
-        this.courseInfoList = courseInfoList;
+    public AbsenceStaticAdapter(Context context, List<CutClassNumInfo> numInfoList) {
+        this.numInfoList = numInfoList;
         mInflater = LayoutInflater.from(context);
         this.context=context;
     }
 
-    public void notifyDataSetChanged(List<CourseAbsenceInfo> courseInfos) {
-        this.courseInfoList=courseInfos;
+    public void notifyDataSetChanged(List<CutClassNumInfo> numInfoList) {
+        this.numInfoList=numInfoList;
         notifyDataSetChanged();
     }
 
@@ -39,15 +38,15 @@ public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.
             super(arg0);
             AutoUtils.autoSize(arg0);
         }
-
-        TextView tvMain;
-        TextView tvSecondary;
+        TextView tvLeft;
+        TextView tvCenter;
+        TextView tvRight;
         LinearLayout llContainer;
     }
 
     @Override
     public int getItemCount() {
-        return courseInfoList.size();
+        return numInfoList.size();
     }
 
     /**
@@ -55,11 +54,12 @@ public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_absence_list_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_abstract_left_center_right_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
-        viewHolder.tvMain=(TextView)view.findViewById(R.id.tv_main);
-        viewHolder.tvSecondary=(TextView)view.findViewById(R.id.tv_secondary);
+        viewHolder.tvLeft=(TextView)view.findViewById(R.id.tv_left);
+        viewHolder.tvCenter=(TextView)view.findViewById(R.id.tv_center);
+        viewHolder.tvRight=(TextView)view.findViewById(R.id.tv_right);
         return viewHolder;
     }
 
@@ -69,11 +69,11 @@ public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        CourseAbsenceInfo courseInfo = courseInfoList.get(i);
+        CutClassNumInfo numInfo = numInfoList.get(i);
 
-        viewHolder.tvMain.setText(DateUtils.subTimeFromMin(courseInfo.getCourseTime()));
-        viewHolder.tvSecondary.setText("缺勤人数："+courseInfo.getUserCount());
-
+        viewHolder.tvLeft.setText(numInfo.getRealName());
+        viewHolder.tvCenter.setText(numInfo.getUserNum());
+        viewHolder.tvRight.setText(numInfo.getCount()+"次");
         if (mOnItemClickLitener != null) {
             viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +94,5 @@ public class AbsenceListAdapter extends RecyclerView.Adapter<AbsenceListAdapter.
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-
 
 }

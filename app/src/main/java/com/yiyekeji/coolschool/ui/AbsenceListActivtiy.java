@@ -32,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 缺勤记录
+ * 缺勤记录 （缺勤列表）
  * Created by lxl on 2017/1/14.
  */
 public class AbsenceListActivtiy extends BaseActivity {
@@ -87,6 +87,7 @@ public class AbsenceListActivtiy extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AbsenceListActivtiy.this, AbsenceStatisticAyt.class);
+                intent.putExtra("courseNo", courseNo);
                 startActivity(intent);
             }
         });

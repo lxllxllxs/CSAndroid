@@ -90,7 +90,7 @@
             />
         <activity
             android:name=".ui.AbsenceListActivtiy"
-            android:label="缺勤记录"
+            android:label="缺勤列表"
             android:screenOrientation="portrait"
             />
         <activity
