@@ -25,7 +25,7 @@ public class RippleView extends View {
 	private int maxWidth = 255;
 	// 是否运行
 	private boolean isStarting = false;
-	private List<String> alphaList = new ArrayList<String>();
+	private ArrayList<String> alphaList = new ArrayList<String>();
 	private List<String> startWidthList = new ArrayList<String>();
 	private Context context;
 	public RippleView(Context context, AttributeSet attrs, int defStyleAttr) {
