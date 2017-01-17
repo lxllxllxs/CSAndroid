@@ -3,6 +3,7 @@ package com.yiyekeji.coolschool.ui;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
@@ -73,7 +74,7 @@ public class DynamicSignInActivity extends BaseActivity {
     private TimerTask mTask = new TimerTask() {
         @Override
         public void run() {
-            if (countDown == 90) {
+            if (countDown == 10) {
                 timer.cancel();
                 handler.sendEmptyMessage(0);
                 return;
@@ -84,8 +85,7 @@ public class DynamicSignInActivity extends BaseActivity {
     };
 
 
-    private Handler handler = new Handler() {
-
+    private Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -103,6 +103,9 @@ public class DynamicSignInActivity extends BaseActivity {
             }
         }
     };
+
+
+
 
     private void cancelRollCall() {
         Call<ResponseBody> call = service.cancelRollCall(params);
@@ -150,8 +153,12 @@ public class DynamicSignInActivity extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    showShortToast("返回旷课名单成功！");
-                } else {
+                    showShortToast("点名结束！");
+                    tvCount.setText("签到"+number+"人\n"+"查看名单");
+                } else  if (rb.getResult().equals("2")){
+                    showShortToast(rb.getMessage());
+                }
+                else {
                     showShortToast(rb.getMessage());
                 }
             }
