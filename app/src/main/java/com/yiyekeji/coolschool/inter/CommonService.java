@@ -29,6 +29,12 @@ public interface CommonService {
 
     Call<ResponseBody> upLoad(@Body RequestBody body);
 
+    /**
+     * 这种写法缺点是太死板 但组装参数方便
+     * @param description
+     * @param imgs
+     * @return
+     */
     @Multipart
     @POST("common/upLoad")
     Call<ResponseBody> upload(@Part("filename") String description,
