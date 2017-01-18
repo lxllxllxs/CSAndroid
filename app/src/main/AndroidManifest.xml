@@ -44,6 +44,12 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.UpLoadActivity"
+            android:label="上传文件测试"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.MainViewpagerActivity"
             android:label="主页"
             android:screenOrientation="portrait"

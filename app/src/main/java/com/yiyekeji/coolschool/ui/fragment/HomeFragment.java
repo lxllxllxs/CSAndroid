@@ -13,6 +13,7 @@ import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.MainMenu;
 import com.yiyekeji.coolschool.ui.StudentSignInActivity;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
+import com.yiyekeji.coolschool.ui.UpLoadActivity;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
@@ -61,7 +62,7 @@ public class HomeFragment extends BaseFragment {
         /**
          * 订水送水的交换图标
          */
-        MainMenu m2 = new MainMenu("上门收件", R.mipmap.ic_take_express, null);
+        MainMenu m2 = new MainMenu("上门收件", R.mipmap.ic_take_express, UpLoadActivity.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, null);
         MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
         MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);

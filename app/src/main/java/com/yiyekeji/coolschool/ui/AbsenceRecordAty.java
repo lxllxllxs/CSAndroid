@@ -118,6 +118,11 @@ public class AbsenceRecordAty extends BaseActivity {
 
     RollCallService service;
     private void initData() {
+        if (getIntent().getParcelableArrayListExtra("infos") != null) {
+            infoList=getIntent().getParcelableArrayListExtra("infos");
+            mAdapter.notifyDataSetChanged(infoList);
+            return;
+        }
         String courseTime = getIntent().getStringExtra("courseTime");
         String courseNo=getIntent().getStringExtra("courseNo");
         Map<String, Object> params = new HashMap<>();
@@ -143,7 +148,6 @@ public class AbsenceRecordAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();

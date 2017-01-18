@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,8 +9,10 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ClassAbsenceInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.HaveName;
 import com.yiyekeji.coolschool.inter.RollCallService;
@@ -45,6 +48,7 @@ public class DynamicSignInActivity extends BaseActivity {
     @InjectView(R.id.tv_count)
     TextView tvCount;
 
+    private final  int MAX_COUNT=10;
     private String number;
     private RollCallService service;
     Map<String, Object> params = new HashMap<>();
@@ -74,7 +78,7 @@ public class DynamicSignInActivity extends BaseActivity {
     private TimerTask mTask = new TimerTask() {
         @Override
         public void run() {
-            if (countDown == 10) {
+            if (countDown == MAX_COUNT) {
                 timer.cancel();
                 handler.sendEmptyMessage(0);
                 return;
@@ -138,7 +142,6 @@ public class DynamicSignInActivity extends BaseActivity {
         });
     }
 
-
     private void getSignsInfo() {
         Call<ResponseBody> call = service.getSignsInfo(params);
         showLoadDialog("");
@@ -153,9 +156,14 @@ public class DynamicSignInActivity extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    showShortToast("点名结束！");
-                    tvCount.setText("签到"+number+"人\n"+"查看名单");
-                } else  if (rb.getResult().equals("2")){
+                    ArrayList<ClassAbsenceInfo> infos=GsonUtil.listFromJSon(jsonString,
+                            new TypeToken<List<ClassAbsenceInfo>>() {
+                    }.getType(), "signsInfo");
+                    Intent intent = new Intent(DynamicSignInActivity.this, AbsenceRecordAty.class);
+                    intent.putParcelableArrayListExtra("infos", infos);
+                    startActivity(intent);
+                    finish();
+                } else if (rb.getResult().equals("2")){
                     showShortToast(rb.getMessage());
                 }
                 else {
@@ -174,10 +182,10 @@ public class DynamicSignInActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!rippleView.isStarting()&&countDown!=90) {
+        if (!rippleView.isStarting()&&countDown!=MAX_COUNT) {
             rippleView.start();
+            mTask.run();
         }
-        mTask.run();
     }
 
     @Override
@@ -223,7 +231,7 @@ public class DynamicSignInActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (countDown == 90) {
+        if (countDown == MAX_COUNT) {
             finish();
             return;
         }

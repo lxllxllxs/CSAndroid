@@ -34,8 +34,10 @@
         android:layout_height="match_parent"
         android:textColor="@color/white"
         android:layout_alignParentRight="true"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
         android:text="right"
         android:textSize="28px"
-        android:layout_marginRight="50px"
+        android:layout_marginRight="30px"
         />
 </RelativeLayout>
