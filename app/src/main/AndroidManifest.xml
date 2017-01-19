@@ -60,6 +60,11 @@
             android:screenOrientation="portrait"
         />
         <activity
+            android:name=".ui.ReleaseProductAyt"
+            android:label="发布产品"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.DynamicSignInActivity"
             android:label="正在点名"
             android:screenOrientation="portrait"

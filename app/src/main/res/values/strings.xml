@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CSAndroid</string>
+
+    <string name="response_err">网络错误</string>
 </resources>

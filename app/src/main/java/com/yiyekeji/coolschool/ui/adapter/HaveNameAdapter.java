@@ -41,6 +41,11 @@ public class HaveNameAdapter extends RecyclerView.Adapter<HaveNameAdapter.ViewHo
         this.type = type;
     }
 
+    public void notifyDataSetChanged(List<HaveName> infoList) {
+        this.keyWordNewsList=infoList;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View arg0) {
             super(arg0);
