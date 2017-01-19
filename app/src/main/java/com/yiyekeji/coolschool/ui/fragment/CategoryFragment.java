@@ -75,7 +75,7 @@ public class CategoryFragment extends BaseFragment {
 
     private void getCategoryList() {
         showLoadDialog("");
-        Call<ResponseBody> call = service.getShopCategory();
+        Call<ResponseBody> call = service.getShopCategoryList();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
