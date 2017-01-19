@@ -46,7 +46,7 @@ public class UpLoadActivity extends BaseActivity {
     }
 
     private void upLoad2(){
-        File file = new File("/sdcard/2.docx");//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
+        File file = new File("/sdcard/1.jpg");//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //        3、创建`MultipartBody.Part`，其中需要注意第一个参数`fileUpload`需要与服务器对应,也就是`键`
         //第二个参数对应服务器的 getOriginalFilename
