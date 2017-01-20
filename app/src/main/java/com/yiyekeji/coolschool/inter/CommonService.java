@@ -27,8 +27,6 @@ public interface CommonService {
     @POST("common/appUploadPhoneModel")
     Call<ResponseBody> appUploadPhoneModel(@Body Map<String, Object> params);
 
-    Call<ResponseBody> upLoad(@Body RequestBody body);
-
     /**
      * 这种写法缺点是太死板 但组装参数方便
      * @param description
@@ -41,5 +39,5 @@ public interface CommonService {
                               @Part("pic\"; filename=\"image.jpg") RequestBody imgs);
     @Multipart
     @POST("common/upLoad")
-    Call<ResponseBody> upload( @Part MultipartBody.Part  file);
+    Call<ResponseBody> upload( @Part MultipartBody.Part... file);
 }

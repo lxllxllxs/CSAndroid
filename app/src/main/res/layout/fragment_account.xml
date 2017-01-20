@@ -11,8 +11,9 @@
         android:textColor="@color/white"
         android:gravity="center"
         android:layout_height="88px"/>
+
     <LinearLayout
-        android:background="@color/white"
+        android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="30px"
         android:paddingRight="30px"
         android:orientation="horizontal"
@@ -35,12 +36,43 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:background="@drawable/bg_selector_gray_white"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:orientation="horizontal"
+        android:id="@+id/ll_releasPro"
+        android:layout_width="match_parent"
+        android:layout_height="87px">
+        <ImageView
+            android:src="@mipmap/ic_setting"
+            android:layout_width="44px"
+            android:layout_height="match_parent"/>
+        <Space
+            android:layout_width="30px"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:text="发布产品"
+            android:textSize="30px"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="20px"/>
 
     <LinearLayout
-        android:background="@color/white"
+        android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="30px"
         android:paddingRight="30px"
         android:orientation="horizontal"

@@ -21,10 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="50px"/>
 
-    <LinearLayout
+    <View
         android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:background="@color/white"
         android:id="@+id/ll_parent"
-        android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="150px">
@@ -32,47 +35,55 @@
         <ImageView
             android:id="@+id/iv_add"
             android:scaleType="centerCrop"
-            android:src="@mipmap/success"
+            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
             android:layout_width="1px"
             android:layout_height="match_parent"/>
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_2"
             android:scaleType="centerCrop"
-            android:src="@mipmap/success"
+            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
             android:layout_width="1px"
             android:layout_height="match_parent"/>
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_3"
             android:scaleType="centerCrop"
-            android:src="@mipmap/success"
+            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
             android:layout_width="1px"
             android:layout_height="match_parent"/>
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_4"
             android:scaleType="centerCrop"
-            android:src="@mipmap/success"
+            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
             android:layout_width="1px"
             android:layout_height="match_parent"/>
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_5"
             android:scaleType="centerCrop"
-            android:src="@mipmap/success"
+            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
     </LinearLayout>
 
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
 
     <com.yiyekeji.coolschool.widget.LableEditView
         android:paddingLeft="5px"
@@ -88,7 +99,7 @@
         android:layout_height="1px"/>
     <LinearLayout
         android:id="@+id/ll_category"
-        android:background="@color/white"
+        android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="20px"
         android:paddingRight="20px"
         android:orientation="horizontal"
@@ -113,7 +124,7 @@
         android:layout_height="1px"/>
     <LinearLayout
         android:id="@+id/ll_price"
-        android:background="@color/white"
+        android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="20px"
         android:paddingRight="20px"
         android:orientation="horizontal"
@@ -149,13 +160,13 @@
         android:layout_width="match_parent"
         android:layout_height="1px"/>
     <LinearLayout
-        android:background="@color/white"
         android:paddingLeft="20px"
         android:paddingRight="20px"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="240px">
         <TextView
+            android:paddingTop="10px"
             android:gravity="center_horizontal"
             android:text="详情"
             android:textSize="30px"
@@ -163,11 +174,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
         <EditText
+            android:gravity="top"
             android:layout_marginTop="10px"
             android:layout_marginBottom="10px"
             android:layout_marginLeft="20px"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:textSize="30px"
+            android:maxLength="300"
+            android:hint="填写其他信息"
+            android:lines="3"
             android:background="@drawable/bg_0radiu_whitesolid_graytroke"
             android:layout_height="match_parent"/>
     </LinearLayout>

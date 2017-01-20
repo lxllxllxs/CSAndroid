@@ -8,7 +8,7 @@ import retrofit2.http.POST;
  * Created by lxl on 2017/1/19.
  */
 public interface ShopService {
-    @POST("shop/getShopCategoryList  ")
+    @POST("shop/getShopCategoryList")
     Call<ResponseBody> getShopCategoryList();
 
 

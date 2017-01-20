@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.ui.ReleaseProductAyt;
 import com.yiyekeji.coolschool.ui.SettingActivity;
 import com.yiyekeji.coolschool.ui.UserInfomationActivity;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
@@ -26,6 +27,8 @@ public class AccountFragment extends BaseFragment {
     LinearLayout llUserInfo;
     @InjectView(R.id.ll_setting)
     LinearLayout llSetting;
+    @InjectView(R.id.ll_releasPro)
+    LinearLayout llReleasPro;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,15 +51,18 @@ public class AccountFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.ll_userInfo, R.id.ll_setting})
+    @OnClick({R.id.ll_userInfo, R.id.ll_setting,R.id.ll_releasPro})
     public void onClick(View view) {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.ll_userInfo:
                 intent.setClass(getActivity(), UserInfomationActivity.class);
                 break;
             case R.id.ll_setting:
                 intent.setClass(getActivity(), SettingActivity.class);
+                break;
+            case R.id.ll_releasPro:
+                intent.setClass(getActivity(), ReleaseProductAyt.class);
                 break;
         }
         startActivity(intent);

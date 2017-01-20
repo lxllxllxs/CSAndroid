@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ledt="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:paddingLeft="5px"
+        android:paddingRight="5px"
+        android:id="@+id/ledt_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="不输入为默认"
+        ledt:text="型号"/>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:paddingLeft="5px"
+        android:paddingRight="5px"
+        android:id="@+id/ledt_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="输入价格"
+        ledt:text="价格"/>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:paddingLeft="5px"
+        android:paddingRight="5px"
+        android:id="@+id/ledt_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="输入改规格下的库存"
+        ledt:text="库存"/>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+</LinearLayout>
