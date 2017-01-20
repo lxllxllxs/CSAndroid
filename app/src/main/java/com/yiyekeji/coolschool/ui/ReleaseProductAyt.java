@@ -82,6 +82,7 @@ public class ReleaseProductAyt extends BaseActivity {
             case R.id.ll_category:
                 break;
             case R.id.ll_price:
+                startActivity(ModifySpecificationAty.class);
                 break;
             case R.id.tv_cancel:
                 finish();
