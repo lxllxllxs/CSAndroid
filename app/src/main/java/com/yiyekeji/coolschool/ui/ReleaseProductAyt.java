@@ -11,18 +11,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
+import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.LogUtil;
+import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lxl on 2017/1/19.
@@ -54,16 +69,25 @@ public class ReleaseProductAyt extends BaseActivity {
     TextView tvCancel;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+    CommonService service;
+    List<ImageView> imageViews = new ArrayList<>();
+    List<Integer> imgsId = new ArrayList<>();
 
+    String pic_path;
+    List<String> imgPathList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_product);
         ButterKnife.inject(this);
         initView();
+        initData();
     }
 
-    List<ImageView> imageViews = new ArrayList<>();
+    private void initData() {
+        service = RetrofitUtil.create(CommonService.class);
+    }
+
     private void initView() {
         titleBar.initView(this);
         imageViews.add(iv2);
@@ -71,6 +95,51 @@ public class ReleaseProductAyt extends BaseActivity {
         imageViews.add(iv4);
         imageViews.add(iv5);
         imageViews.add(ivAdd);
+    }
+
+    private void upLoadImage(final String filePath){
+        File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(), requestFile);
+        MultipartBody.Part part2 = MultipartBody.Part.createFormData("userNum", App.userInfo.getUserNum());
+        MultipartBody.Part part3 = MultipartBody.Part.createFormData("type", "0");
+        showLoadDialog("");
+        Call<ResponseBody> call = service.upload(part,part2,part3);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code()!=200){
+                    showShortToast("网络错误"+response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    List<Integer> ids=GsonUtil.listFromJSon(jsonString,
+                            new TypeToken<List<Integer>>() {
+                            }.getType(), "idS");
+                    imgPathList.remove(filePath);//无论如何都不再重试
+                    if (ids != null) {
+                        imgsId.addAll(ids);
+                        LogUtil.d("上传成功！");
+                    }else {
+                        LogUtil.d("上传失败！");
+                    }
+                    if (imgPathList.size()>0){
+                        upLoadImage(imgPathList.get(0));
+                        return;
+                    }
+                    LogUtil.d("总共上传文件大小："+imgsId.size()+"");
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @OnClick({R.id.iv_add, R.id.ll_category, R.id.ll_price, R.id.tv_cancel, R.id.tv_confirm})
@@ -88,6 +157,11 @@ public class ReleaseProductAyt extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_confirm:
+                if (imgPathList.isEmpty()){
+                    showShortToast("");
+                    return;
+                }
+                upLoadImage(imgPathList.get(0));
                 break;
         }
     }
@@ -134,8 +208,6 @@ public class ReleaseProductAyt extends BaseActivity {
         }
     }
 
-    String pic_path;
-    List<String> imgPathList = new ArrayList<>();
     private void showImg(Intent data) {
         Uri selectedImage = data.getData();
         pic_path = GetPathFromUri4kitkat.getPath(this, selectedImage);

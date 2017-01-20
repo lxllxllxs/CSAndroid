@@ -35,7 +35,7 @@
         <ImageView
             android:id="@+id/iv_add"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_pic"
+            android:src="@mipmap/ic_setting"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
@@ -45,7 +45,6 @@
             android:visibility="gone"
             android:id="@+id/iv_2"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
@@ -55,7 +54,6 @@
             android:visibility="gone"
             android:id="@+id/iv_3"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
@@ -65,7 +63,6 @@
             android:visibility="gone"
             android:id="@+id/iv_4"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
@@ -75,7 +72,6 @@
             android:visibility="gone"
             android:id="@+id/iv_5"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
     </LinearLayout>
@@ -132,7 +128,7 @@
         android:layout_height="87px">
         <TextView
             android:gravity="center_vertical"
-            android:text="价格"
+            android:text="规格"
             android:textSize="30px"
             android:textColor="@color/black"
             android:layout_weight="1"
@@ -175,6 +171,8 @@
             android:layout_height="match_parent"/>
         <EditText
             android:gravity="top"
+            android:paddingLeft="10px"
+            android:paddingRight="10px"
             android:layout_marginTop="10px"
             android:layout_marginBottom="10px"
             android:layout_marginLeft="20px"

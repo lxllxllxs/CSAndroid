@@ -43,11 +43,16 @@ public class ModifySpecificationAty extends BaseActivity {
         modelAdapter=new ProductModelAdapter(this,modelList);
         titleBar.initView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter();
+        recyclerView.setAdapter(modelAdapter);
     }
 
     @OnClick(R.id.cb_addProduct)
     public void onClick() {
+        addModel();
+    }
 
+    private void addModel() {
+        modelList.add(new ProductModel());
+        modelAdapter.notifyDataSetChanged();
     }
 }
