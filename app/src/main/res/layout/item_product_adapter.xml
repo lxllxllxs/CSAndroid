@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:gravity="center_horizontal"
+              android:layout_width="280px"
+              android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_product"
+        android:src="@mipmap/ic_add_pic"
+        android:scaleType="centerCrop"
+        android:layout_width="280px"
+        android:layout_height="280px"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:textSize="30px"
+        android:text="asdasd"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="40px"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40px">
+        <TextView
+            android:id="@+id/tv_price"
+            android:textSize="30px"
+            android:text="￥454"
+            android:gravity="center_vertical"
+            android:textColor="@color/theme_red"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+</LinearLayout>

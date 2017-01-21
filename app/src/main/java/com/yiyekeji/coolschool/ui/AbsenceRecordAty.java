@@ -110,6 +110,7 @@ public class AbsenceRecordAty extends BaseActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
+                showShortToast(getString(R.string.response_err));
             }
         });
 

@@ -31,12 +31,13 @@ public class ModifyProductModelAty extends BaseActivity {
     RecyclerView recyclerView;
 
     ProductModelAdapter modelAdapter;
-    ArrayList<ProductModel> modelList = new ArrayList<>();
+    ArrayList<ProductModel> modelList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_model);
         ButterKnife.inject(this);
+        modelList=getIntent().getParcelableArrayListExtra("modelList");
         initView();
     }
 
@@ -68,10 +69,6 @@ public class ModifyProductModelAty extends BaseActivity {
                 showShortToast("库存不能小于等于0！");
                 return false;
             }
-            if (TextUtils.isEmpty(model.getPmTitle())){
-                showShortToast("标题不能为空！");
-                return false;
-            }
         }
         return  true;
     }
@@ -82,11 +79,20 @@ public class ModifyProductModelAty extends BaseActivity {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         finish();
     }
     @Override
     public void finish() {
+        for (ProductModel model : modelList) {
+            if (
+                    TextUtils.isEmpty(model.getPmTitle())||
+                    TextUtils.isEmpty(model.getPmPrice())||
+                    model.getPmBalance()<=0||
+                    Double.valueOf(model.getPmPrice())<=0){
+                modelList.remove(model);
+                break;
+            }
+        }
         Intent intent=new Intent();
         intent.putParcelableArrayListExtra("modelList", modelList);
         setResult(RESULT_OK,intent);

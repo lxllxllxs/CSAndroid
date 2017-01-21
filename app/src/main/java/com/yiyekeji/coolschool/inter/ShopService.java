@@ -23,6 +23,6 @@ public interface ShopService {
     @POST("shop/publicProduct")
     Call<ResponseBody> publicProduct(@Body ReleaseProduct releaseProduct);
 
-    @POST("shop/getProductLIst")
-    Call<ResponseBody> getProductLIst(@Body Map<String, Object> params);
+    @POST("shop/getProductList")
+    Call<ResponseBody> getProductList(@Body Map<String, Object> params);
 }

@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
+import com.yiyekeji.coolschool.bean.ProductModel;
 import com.yiyekeji.coolschool.bean.ReleaseProduct;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.CommonService;
@@ -100,6 +101,8 @@ public class ReleaseProductAyt extends BaseActivity {
 
     private void initData() {
         service = RetrofitUtil.create(CommonService.class);
+
+        releaseProduct.setModelList(new ArrayList<ProductModel>());
     }
 
     private void initView() {
@@ -110,6 +113,16 @@ public class ReleaseProductAyt extends BaseActivity {
         imageViews.add(iv5);
         imageViews.add(ivAdd);
     }
+
+    private View.OnLongClickListener longClickListener=new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+
+
+            return true;
+        }
+    };
+
 
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
@@ -177,6 +190,7 @@ public class ReleaseProductAyt extends BaseActivity {
             break;
             case R.id.ll_model: {
                 Intent intent = new Intent(this, ModifyProductModelAty.class);
+                intent.putExtra("modelList", releaseProduct.getModelList());
                 startActivityForResult(intent,ADD_MODEL);
             }
                 break;
@@ -253,7 +267,7 @@ public class ReleaseProductAyt extends BaseActivity {
                 tvCategory.setText(info.getCategoryName());
                 break;
             case ADD_MODEL:
-                ArrayList modelList = data.getParcelableArrayListExtra("modelList");
+                ArrayList<ProductModel> modelList = data.getParcelableArrayListExtra("modelList");
                 if (modelList == null) {
                     return;
                 }
