@@ -74,6 +74,7 @@ public class HaveNameAdapter extends RecyclerView.Adapter<HaveNameAdapter.ViewHo
                 view = mInflater.inflate(R.layout.item_havename_center_adapter, viewGroup, false);
                 break;
             case 1:
+                view = mInflater.inflate(R.layout.item_havename_left_adapter, viewGroup, false);
                 break;
             case 2:
 

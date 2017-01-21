@@ -3,42 +3,107 @@
     xmlns:ledt="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:paddingLeft="5px"
-        android:paddingRight="5px"
-        android:id="@+id/ledt_model"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText="不输入为默认"
-        ledt:text="型号"/>
+        android:layout_height="87px">
+        <TextView
+            android:gravity="center"
+            android:text="型号："
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/edt_model"
+            android:hint=""
+            android:text="默认"
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
+            />
+    </LinearLayout>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="1px"/>
 
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:paddingLeft="5px"
-        android:paddingRight="5px"
-        android:id="@+id/ledt_price"
+
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText="输入价格"
-        ledt:text="价格"/>
+        android:layout_height="87px">
+        <TextView
+            android:gravity="center"
+            android:text="价格："
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:id="@+id/tv_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:digits="0123456789."
+            android:id="@+id/edt_price"
+            android:hint="输入价格"
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
+            />
+    </LinearLayout>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="1px"/>
 
-
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:paddingLeft="5px"
-        android:paddingRight="5px"
-        android:id="@+id/ledt_stock"
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText="输入改规格下的库存"
-        ledt:text="库存"/>
+        android:layout_height="87px">
+        <TextView
+            android:gravity="center"
+            android:text="库存："
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:inputType="number"
+            android:id="@+id/edt_balance"
+            android:hint="输入改规格下的库存"
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
+            />
+    </LinearLayout>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"

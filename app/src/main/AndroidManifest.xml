@@ -52,7 +52,7 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".ui.ModifySpecificationAty"
+            android:name=".ui.ModifyProductModelAty"
             android:label="规格编辑"
             android:screenOrientation="portrait"
             />
@@ -69,6 +69,11 @@
         <activity
             android:name=".ui.ReleaseProductAyt"
             android:label="发布产品"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.SelectCategoryAty"
+            android:label="选择分类"
             android:screenOrientation="portrait"
             />
         <activity

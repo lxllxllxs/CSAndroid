@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -79,6 +80,11 @@ public class LableEditView extends AutoRelativeLayout {
         editText.setLines(line);
 
     }
+
+    public void addTextChangedListener(TextWatcher textWatcher){
+        editText.addTextChangedListener(textWatcher);
+    }
+
 
     public void setEditText(String text){
         editText.setText(text);

@@ -21,6 +21,7 @@ import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -102,6 +103,40 @@ public class CategoryFragment extends BaseFragment {
             }
         });
     }
+
+    private void getProductLIst() {
+        showLoadDialog("");
+        HashMap
+        Call<ResponseBody> call = service.getProductLIst();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code() != 200) {
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                infoList = GsonUtil.listFromJSon(jsonString,
+                        new TypeToken<List<CategoryInfo>>() {
+                        }.getType(), "categoryInfo");
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (infoList != null) {
+                    mCategoryAdapter.notifyDataSetChanged(infoList);
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
+    }
+
+
+
 
     @Override
     public void onDestroyView() {

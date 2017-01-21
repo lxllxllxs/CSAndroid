@@ -35,7 +35,7 @@
         <ImageView
             android:id="@+id/iv_add"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_setting"
+            android:src="@mipmap/ic_add_pic"
             android:layout_width="140px"
             android:layout_height="140px"/>
         <Space
@@ -109,6 +109,14 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:gravity="center_vertical"
+            android:textSize="30px"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
         <ImageView
             android:src="@mipmap/arrow_right_gray"
             android:layout_width="44px"
@@ -119,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"/>
     <LinearLayout
-        android:id="@+id/ll_price"
+        android:id="@+id/ll_model"
         android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="20px"
         android:paddingRight="20px"
@@ -170,6 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
         <EditText
+            android:id="@+id/edt_descrition"
             android:gravity="top"
             android:paddingLeft="10px"
             android:paddingRight="10px"

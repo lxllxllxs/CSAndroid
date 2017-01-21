@@ -49,18 +49,18 @@ public class UpLoadActivity extends BaseActivity {
     }*/
 
     private void upLoad2(){
-        File file = new File("/sdcard/1.jpg");//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
+        File file = new File("/sdcard/4.jpg");//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //        3、创建`MultipartBody.Part`，其中需要注意第一个参数`fileUpload`需要与服务器对应,也就是`键`
         //第二个参数对应服务器的 getOriginalFilename
         MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(), requestFile);
-
+        MultipartBody.Part part4 = MultipartBody.Part.createFormData("fileUpload2", file.getName()+"copy", requestFile);
 //        3、创建`MultipartBody.Part`，其中需要注意第一个参数`fileUpload`需要与服务器对应,也就是`键`
         //第二个参数对应服务器的 getOriginalFilename
         MultipartBody.Part part2 = MultipartBody.Part.createFormData("userNum", App.userInfo.getUserNum());
         MultipartBody.Part part3 = MultipartBody.Part.createFormData("type", "0");
 
-        Call<ResponseBody> call = service.upload(part,part2,part3);
+        Call<ResponseBody> call = service.upload(part,part2,part3,part4);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

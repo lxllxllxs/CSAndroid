@@ -2,13 +2,16 @@ package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductModel;
-import com.yiyekeji.coolschool.widget.LableEditView;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -19,17 +22,17 @@ import java.util.List;
 public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<ProductModel> courseInfoList;
+    private List<ProductModel> modelList;
     private Context context;
 
-    public ProductModelAdapter(Context context, List<ProductModel> courseInfoList) {
-        this.courseInfoList = courseInfoList;
+    public ProductModelAdapter(Context context, List<ProductModel> modelList) {
+        this.modelList = modelList;
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    public void notifyDataSetChanged(List<ProductModel> courseInfos) {
-        this.courseInfoList = courseInfos;
+    public void notifyDataSetChanged(List<ProductModel> modelList) {
+        this.modelList = modelList;
         notifyDataSetChanged();
     }
 
@@ -38,14 +41,15 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
             super(arg0);
             AutoUtils.autoSize(arg0);
         }
-        LableEditView ledtModel;
-        LableEditView ledtPrice;
-        LableEditView ledtStock;
+
+        EditText edtModel;
+        EditText edtPrice;
+        EditText edtBalance;
     }
 
     @Override
     public int getItemCount() {
-        return courseInfoList.size();
+        return modelList.size();
     }
 
     /**
@@ -55,9 +59,9 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = mInflater.inflate(R.layout.item_modify_model, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.ledtModel = (LableEditView) view.findViewById(R.id.ledt_model);
-        viewHolder.ledtPrice = (LableEditView) view.findViewById(R.id.ledt_price);
-        viewHolder.ledtStock = (LableEditView) view.findViewById(R.id.ledt_stock);
+        viewHolder.edtModel = (EditText) view.findViewById(R.id.edt_model);
+        viewHolder.edtPrice = (EditText) view.findViewById(R.id.edt_price);
+        viewHolder.edtBalance = (EditText) view.findViewById(R.id.edt_balance);
         return viewHolder;
     }
 
@@ -67,10 +71,59 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductModel productModel = courseInfoList.get(i);
-        viewHolder.ledtModel.setEditText(productModel.getPmTitle());
-        viewHolder.ledtPrice.setEditText(productModel.getPmPrice()+"");
-        viewHolder.ledtStock.setEditText(productModel.getPmBalance()+"");
+        ProductModel productModel = modelList.get(i);
+        viewHolder.edtModel.setText(productModel.getPmTitle());
+        viewHolder.edtPrice.setText(productModel.getPmPrice());
+        viewHolder.edtBalance.setText(productModel.getPmBalance() + "");
+
+        viewHolder.edtModel.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                modelList.get(i).setPmTitle(s.toString());
+            }
+        });
+
+        viewHolder.edtPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                modelList.get(i).setPmPrice(s.toString());
+            }
+        });
+
+        viewHolder.edtBalance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString())){
+                    return;
+                }
+                modelList.get(i).setPmBalance(Integer.valueOf(s.toString()));
+            }
+        });
+
     }
 
 
