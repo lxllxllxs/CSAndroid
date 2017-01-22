@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.ProductInfo;
 import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -18,20 +16,20 @@ import java.util.List;
 /**
  * Created by lxl on 2016/10/25.
  */
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<ProductInfo> productInfoList;
+    private List<String> imgPathList;
     private Context context;
 
-    public ProductAdapter(Context context, List<ProductInfo> productInfoList) {
-        this.productInfoList = productInfoList;
+    public ImageAdapter(Context context, List<String> imgPathList) {
+        this.imgPathList = imgPathList;
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    public void notifyDataSetChanged(List<ProductInfo> productInfoList) {
-        this.productInfoList = productInfoList;
+    public void notifyDataSetChanged(List<String> imgPathList) {
+        this.imgPathList = imgPathList;
         notifyDataSetChanged();
     }
 
@@ -40,14 +38,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(arg0);
             AutoUtils.auto(arg0);
         }
-        ImageView ivProduct;
-        TextView tvName;
-        TextView tvPrice;
+        ImageView imageView;
     }
 
     @Override
     public int getItemCount() {
-        return productInfoList.size();
+        return imgPathList.size();
     }
 
     /**
@@ -55,11 +51,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_product_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_only_square_image, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.ivProduct = (ImageView) view.findViewById(R.id.iv_product);
-        viewHolder.tvName = (TextView) view.findViewById(R.id.tv_name);
-        viewHolder.tvPrice = (TextView) view.findViewById(R.id.tv_price);
+        viewHolder.imageView = (ImageView) view.findViewById(R.id.imageView);
         return viewHolder;
     }
 
@@ -69,19 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductInfo productInfo = productInfoList.get(i);
-        GlideUtil.setImageToView(productInfo.getpImage(),viewHolder.ivProduct);
-        viewHolder.tvName.setText(productInfo.getpTitle());
-        viewHolder.tvPrice.setText(String.valueOf(productInfo.getpPrice()));
-
-        if (mOnItemClickLitener != null) {
-            viewHolder.ivProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(viewHolder.ivProduct, i);
-                }
-            });
-        }
+        GlideUtil.setImageToView(imgPathList.get(i),viewHolder.imageView);
     }
 
 

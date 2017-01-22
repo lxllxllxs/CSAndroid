@@ -25,4 +25,8 @@ public interface ShopService {
 
     @POST("shop/getProductList")
     Call<ResponseBody> getProductList(@Body Map<String, Object> params);
+
+    @POST("shop/getProductInfo")
+    Call<ResponseBody> getProductInfo(@Body Map<String, Object> params);
+
 }

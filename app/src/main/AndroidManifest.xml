@@ -77,13 +77,18 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.TeacherRollCallActivitiy"
+            android:label="点名"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.DynamicSignInActivity"
             android:label="正在点名"
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".ui.TeacherRollCallActivitiy"
-            android:label="点名"
+            android:name=".ui.ProductDetailAty"
+            android:label="产品详情"
             android:screenOrientation="portrait"
             />
         <activity

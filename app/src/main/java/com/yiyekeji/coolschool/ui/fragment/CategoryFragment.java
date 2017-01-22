@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,10 +14,11 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
-import com.yiyekeji.coolschool.bean.Product;
+import com.yiyekeji.coolschool.bean.ProductInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.HaveName;
 import com.yiyekeji.coolschool.inter.ShopService;
+import com.yiyekeji.coolschool.ui.ProductDetailAty;
 import com.yiyekeji.coolschool.ui.adapter.HaveNameAdapter;
 import com.yiyekeji.coolschool.ui.adapter.ProductAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
@@ -50,7 +52,7 @@ public class CategoryFragment extends BaseFragment {
     HaveNameAdapter mCategoryAdapter;
     List<HaveName> infoList = new ArrayList<>();
     ProductAdapter productAdapter;
-    List<Product> productList = new ArrayList<>();
+    List<ProductInfo> productInfoList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -79,14 +81,16 @@ public class CategoryFragment extends BaseFragment {
             }
         });
         //右侧产品
-        productAdapter=new ProductAdapter(getActivity(),productList);
+        productAdapter=new ProductAdapter(getActivity(), productInfoList);
         rvProducttype.setLayoutManager(new GridLayoutManager(getActivity(),2));
         rvProducttype.setAdapter(productAdapter);
         rvProducttype.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         productAdapter.setOnItemClickLitener(new ProductAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(getActivity(), ProductDetailAty.class);
+                intent.putExtra("pid", productInfoList.get(position).getPid());
+                startActivity(intent);
             }
         });
     }
@@ -143,11 +147,11 @@ public class CategoryFragment extends BaseFragment {
                     showShortToast(rb.getMessage());
                     return;
                 }
-                productList = GsonUtil.listFromJSon(jsonString,
-                        new TypeToken<List<Product>>() {
+                productInfoList = GsonUtil.listFromJSon(jsonString,
+                        new TypeToken<List<ProductInfo>>() {
                         }.getType(), "productList");
-                if (productList != null) {
-                    productAdapter.notifyDataSetChanged(productList);
+                if (productInfoList != null) {
+                    productAdapter.notifyDataSetChanged(productInfoList);
                 }
             }
 

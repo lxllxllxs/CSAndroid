@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/item_only_square_image"/>
+            <TextView
+                android:id="@+id/tv_productName"
+                android:textSize="30px"
+                android:textColor="@color/black"
+                android:text="biaoti"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="80px" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_imgs"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+        </LinearLayout>
+    </ScrollView>
+    <!--头部-->
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/rl_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:background="@color/transparent"
+        >
+        <ImageView
+            android:layout_marginLeft="50px"
+            android:id="@+id/iv_back"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_product_back"
+            />
+        <TextView
+            android:id="@+id/tv_title"
+            android:textColor="@color/black"
+            android:textSize="30px"
+            android:text="产品详情"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/iv_product_buycar"
+            android:src="@mipmap/ic_shop_car"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:id="@+id/ll_bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        >
+        <TextView
+            android:id="@+id/tv_buy"
+            android:textSize="30px"
+            android:text="立即购买"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@color/orange"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_shoppingcar"
+            android:textSize="30px"
+            android:text="加入购物车"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@color/theme_blue"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</RelativeLayout>

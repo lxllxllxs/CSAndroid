@@ -22,7 +22,7 @@ public class GlideUtil {
         }
         Glide.with(App.getContext())
                 .load(Uri.parse(url))
-                .placeholder(R.drawable.loading) //占位符 也就是加载中的图片，可放个gif
+                .placeholder(R.mipmap.loading_pic) //占位符 也就是加载中的图片，可放个gif
                 .error(R.mipmap.load_fail)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);

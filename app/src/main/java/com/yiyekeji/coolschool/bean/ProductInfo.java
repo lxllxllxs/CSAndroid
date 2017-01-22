@@ -3,13 +3,29 @@ package com.yiyekeji.coolschool.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by lxl on 2017/1/21.
  */
-public class Product implements Parcelable {
+public class ProductInfo implements Parcelable {
     private  String pImage;
     private  String pTitle;
     private  String pUnit;
+
+    @Override
+    public String toString() {
+        return "ProductInfo{" +
+                "pImage='" + pImage + '\'' +
+                ", pTitle='" + pTitle + '\'' +
+                ", pUnit='" + pUnit + '\'' +
+                ", pid=" + pid +
+                ", pPrice=" + pPrice +
+                ", pSalenum=" + pSalenum +
+                ", modelList=" + modelList +
+                ", pictureList=" + pictureList +
+                '}';
+    }
 
     public String getpImage() {
         return pImage;
@@ -62,8 +78,31 @@ public class Product implements Parcelable {
     private int pid;
     private double pPrice;
     private int pSalenum;
+    private ArrayList<ProductModel> modelList;
 
-    public Product() {
+    public void setpPrice(double pPrice) {
+        this.pPrice = pPrice;
+    }
+
+    public ArrayList<ProductModel> getModelList() {
+        return modelList;
+    }
+
+    public void setModelList(ArrayList<ProductModel> modelList) {
+        this.modelList = modelList;
+    }
+
+    public ArrayList<String> getPictureList() {
+        return pictureList;
+    }
+
+    public void setPictureList(ArrayList<String> pictureList) {
+        this.pictureList = pictureList;
+    }
+
+    private ArrayList<String> pictureList;
+
+    public ProductInfo() {
     }
 
     @Override
@@ -79,26 +118,30 @@ public class Product implements Parcelable {
         dest.writeInt(this.pid);
         dest.writeDouble(this.pPrice);
         dest.writeInt(this.pSalenum);
+        dest.writeTypedList(this.modelList);
+        dest.writeStringList(this.pictureList);
     }
 
-    protected Product(Parcel in) {
+    protected ProductInfo(Parcel in) {
         this.pImage = in.readString();
         this.pTitle = in.readString();
         this.pUnit = in.readString();
         this.pid = in.readInt();
         this.pPrice = in.readDouble();
         this.pSalenum = in.readInt();
+        this.modelList = in.createTypedArrayList(ProductModel.CREATOR);
+        this.pictureList = in.createStringArrayList();
     }
 
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
+    public static final Creator<ProductInfo> CREATOR = new Creator<ProductInfo>() {
         @Override
-        public Product createFromParcel(Parcel source) {
-            return new Product(source);
+        public ProductInfo createFromParcel(Parcel source) {
+            return new ProductInfo(source);
         }
 
         @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
+        public ProductInfo[] newArray(int size) {
+            return new ProductInfo[size];
         }
     };
 }

@@ -1,8 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -83,11 +81,21 @@ public class ReleaseProductAyt extends BaseActivity {
     ReleaseProduct releaseProduct = new ReleaseProduct();
     final int CHOOSE_IMAGE = 0x123;
     final int SELECT_CATEGORY = 0x122;
-    final int ADD_MODEL= 0x121;
+    final int ADD_MODEL = 0x121;
     @InjectView(R.id.edt_descrition)
     EditText edtDescrition;
     @InjectView(R.id.tv_category)
     TextView tvCategory;
+    @InjectView(R.id.iv_d1)
+    ImageView ivD1;
+    @InjectView(R.id.iv_d2)
+    ImageView ivD2;
+    @InjectView(R.id.iv_d3)
+    ImageView ivD3;
+    @InjectView(R.id.iv_d4)
+    ImageView ivD4;
+    @InjectView(R.id.iv_d5)
+    ImageView ivD5;
 
 
     @Override
@@ -112,18 +120,42 @@ public class ReleaseProductAyt extends BaseActivity {
         imageViews.add(iv4);
         imageViews.add(iv5);
         imageViews.add(ivAdd);
+
+        ivD1.setOnClickListener(delCk);
+        ivD2.setOnClickListener(delCk);
+        ivD3.setOnClickListener(delCk);
+        ivD4.setOnClickListener(delCk);
+        ivD5.setOnClickListener(delCk);
     }
 
-    private View.OnLongClickListener longClickListener=new View.OnLongClickListener() {
+    private View.OnClickListener delCk =new View.OnClickListener() {
         @Override
-        public boolean onLongClick(View v) {
-
-
-            return true;
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.iv_d1:
+                    imgPathList.remove(imgPathList.size()-1);
+                    break;
+                case R.id.iv_d2:
+                    imgPathList.remove(0);
+                    break;
+                case R.id.iv_d3:
+                    imgPathList.remove(1);
+                    break;
+                case R.id.iv_d4:
+                    imgPathList.remove(2);
+                    break;
+                case R.id.iv_d5:
+                    imgPathList.remove(3);
+                    break;
+            }
+            if (v.getId() == R.id.iv_d1) {
+                ivAdd.setImageResource(R.mipmap.ic_add_pic);
+                v.setVisibility(View.GONE);
+                return;
+            }
+            ((View)v.getParent()).setVisibility(View.GONE);
         }
     };
-
-
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -191,9 +223,9 @@ public class ReleaseProductAyt extends BaseActivity {
             case R.id.ll_model: {
                 Intent intent = new Intent(this, ModifyProductModelAty.class);
                 intent.putExtra("modelList", releaseProduct.getModelList());
-                startActivityForResult(intent,ADD_MODEL);
+                startActivityForResult(intent, ADD_MODEL);
             }
-                break;
+            break;
             case R.id.tv_cancel:
                 finish();
                 break;
@@ -297,7 +329,7 @@ public class ReleaseProductAyt extends BaseActivity {
         }
     }
 
-    private void releaseProduct(){
+    private void releaseProduct() {
         ShopService service = RetrofitUtil.create(ShopService.class);
         Call<ResponseBody> call = service.publicProduct(releaseProduct);
         showLoadDialog("");
@@ -305,8 +337,8 @@ public class ReleaseProductAyt extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
-                if (response.code()!=200){
-                    showShortToast("网络错误"+response.code());
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
@@ -335,21 +367,13 @@ public class ReleaseProductAyt extends BaseActivity {
         if (imgPathList.contains(pic_path)) {
             return;
         }
+        //判断是否超过5张 为真移出最初一张
+        if (imgPathList.size()>=5) {
+            imgPathList.remove(0);
+        }
         imgPathList.add(pic_path);
-        // 缩放图片, width, height 按相同比例缩放图片
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        // options 设为true时，构造出的bitmap没有图片，只有一些长宽等配置信息，但比较快，设为false时，才有图片
-        options.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(pic_path, options);
-        int scale = (int) (options.outWidth / (float) 300);
-        if (scale <= 0)
-            scale = 1;
-        options.inSampleSize = scale;
-        options.inJustDecodeBounds = false;
-        bitmap = BitmapFactory.decodeFile(pic_path, options);
-        imageViews.get(imgPathList.size() - 1).setImageBitmap(bitmap);
-        imageViews.get(imgPathList.size() - 1).setMaxHeight(140);
-        imageViews.get(imgPathList.size() - 1).setVisibility(ImageView.VISIBLE);
+
+
     }
 
 }
