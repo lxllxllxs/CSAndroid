@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -70,8 +71,33 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 
-        viewHolder.ivAdd.setImageBitmap(zoomImage(i));
+        String path=imgPathList.get(i);
+        //如果是数字 即为resId
+        if (RegexUtils.checkDigit(path)){
+            viewHolder.ivAdd.setImageResource(Integer.valueOf(path));
+            viewHolder.ivDel.setVisibility(View.GONE);
+        }else {
+            viewHolder.ivDel.setVisibility(View.VISIBLE);
+            viewHolder.ivAdd.setImageBitmap(zoomImage(i));
+        }
         viewHolder.ivAdd.setMaxHeight(140);
+
+        if (mOnItemClickLitener != null) {
+            viewHolder.ivAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickLitener.onItemClick(v,i);
+                }
+            });
+        }
+        if (onItemClickLitener2 != null) {
+            viewHolder.ivDel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickLitener2.onItemClick(v,i);
+                }
+            });
+        }
     }
 
 
@@ -98,11 +124,14 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         return  BitmapFactory.decodeFile(imgPathList.get(i), options);
     }
 
-    public OnItemClickLitener mOnItemClickLitener;
+    public OnItemClickLitener mOnItemClickLitener,onItemClickLitener2;
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
+    public void setDelOnClickListener(OnItemClickLitener mOnItemClickLitener) {
+        this.onItemClickLitener2 = mOnItemClickLitener;
+    }
 
 }

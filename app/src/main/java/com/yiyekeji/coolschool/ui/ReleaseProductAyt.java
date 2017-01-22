@@ -3,10 +3,11 @@ package com.yiyekeji.coolschool.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,10 +20,12 @@ import com.yiyekeji.coolschool.bean.ReleaseProduct;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.ShopService;
+import com.yiyekeji.coolschool.ui.adapter.AddImageAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
+import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
@@ -48,18 +51,6 @@ import retrofit2.Response;
 public class ReleaseProductAyt extends BaseActivity {
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
-    @InjectView(R.id.iv_add)
-    ImageView ivAdd;
-    @InjectView(R.id.iv_2)
-    ImageView iv2;
-    @InjectView(R.id.iv_3)
-    ImageView iv3;
-    @InjectView(R.id.iv_4)
-    ImageView iv4;
-    @InjectView(R.id.iv_5)
-    ImageView iv5;
-    @InjectView(R.id.ll_parent)
-    LinearLayout llParent;
     @InjectView(R.id.ledt_title)
     LableEditView ledtTitle;
     @InjectView(R.id.ll_category)
@@ -72,8 +63,9 @@ public class ReleaseProductAyt extends BaseActivity {
     TextView tvCancel;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+
+
     CommonService service;
-    List<ImageView> imageViews = new ArrayList<>();
     ArrayList<Integer> imgsId = new ArrayList<>();
 
     String pic_path;
@@ -86,16 +78,8 @@ public class ReleaseProductAyt extends BaseActivity {
     EditText edtDescrition;
     @InjectView(R.id.tv_category)
     TextView tvCategory;
-    @InjectView(R.id.iv_d1)
-    ImageView ivD1;
-    @InjectView(R.id.iv_d2)
-    ImageView ivD2;
-    @InjectView(R.id.iv_d3)
-    ImageView ivD3;
-    @InjectView(R.id.iv_d4)
-    ImageView ivD4;
-    @InjectView(R.id.iv_d5)
-    ImageView ivD5;
+    @InjectView(R.id.rv_imgs)
+    RecyclerView rvImgs;
 
 
     @Override
@@ -110,52 +94,38 @@ public class ReleaseProductAyt extends BaseActivity {
     private void initData() {
         service = RetrofitUtil.create(CommonService.class);
 
+        imgPathList.add(R.mipmap.ic_add_pic+"");
         releaseProduct.setModelList(new ArrayList<ProductModel>());
     }
 
+    AddImageAdapter imageAdapter;
     private void initView() {
         titleBar.initView(this);
-        imageViews.add(iv2);
-        imageViews.add(iv3);
-        imageViews.add(iv4);
-        imageViews.add(iv5);
-        imageViews.add(ivAdd);
+        imageAdapter = new AddImageAdapter(this, imgPathList);
+        rvImgs.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        rvImgs.setAdapter(imageAdapter);
+        imageAdapter.setOnItemClickLitener(new AddImageAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                selectImg();
+            }
+        });
 
-        ivD1.setOnClickListener(delCk);
-        ivD2.setOnClickListener(delCk);
-        ivD3.setOnClickListener(delCk);
-        ivD4.setOnClickListener(delCk);
-        ivD5.setOnClickListener(delCk);
+        imageAdapter.setDelOnClickListener(new AddImageAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (RegexUtils.checkDigit(imgPathList.get(position))||imgPathList.size()==1) {
+                    imgPathList.set(position,R.mipmap.ic_add_pic+"");
+                    imageAdapter.notifyDataSetChanged();
+                    return;
+                }
+                imgPathList.remove(position);
+                imageAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    private View.OnClickListener delCk =new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.iv_d1:
-                    imgPathList.remove(imgPathList.size()-1);
-                    break;
-                case R.id.iv_d2:
-                    imgPathList.remove(0);
-                    break;
-                case R.id.iv_d3:
-                    imgPathList.remove(1);
-                    break;
-                case R.id.iv_d4:
-                    imgPathList.remove(2);
-                    break;
-                case R.id.iv_d5:
-                    imgPathList.remove(3);
-                    break;
-            }
-            if (v.getId() == R.id.iv_d1) {
-                ivAdd.setImageResource(R.mipmap.ic_add_pic);
-                v.setVisibility(View.GONE);
-                return;
-            }
-            ((View)v.getParent()).setVisibility(View.GONE);
-        }
-    };
+
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -209,12 +179,9 @@ public class ReleaseProductAyt extends BaseActivity {
         releaseProduct.setPictureIdList(imgsId);
     }
 
-    @OnClick({R.id.iv_add, R.id.ll_category, R.id.ll_model, R.id.tv_cancel, R.id.tv_confirm})
+    @OnClick({ R.id.ll_category, R.id.ll_model, R.id.tv_cancel, R.id.tv_confirm})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_add:
-                selectImg();
-                break;
             case R.id.ll_category: {
                 Intent intent = new Intent(this, SelectCategoryAty.class);
                 startActivityForResult(intent, SELECT_CATEGORY);
@@ -230,8 +197,11 @@ public class ReleaseProductAyt extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_confirm:
-                //先检查 有无空参数
+                //先检查 有无空参数(除了默认的添加图片)
                 if (check()) {
+                    if (imgPathList.contains(R.mipmap.ic_add_pic+"")) {
+                        imgPathList.remove(R.mipmap.ic_add_pic + "");
+                    }
                     upLoadImage(imgPathList.get(0));
                 }
                 break;
@@ -239,7 +209,7 @@ public class ReleaseProductAyt extends BaseActivity {
     }
 
     private boolean check() {
-        if (imgPathList.isEmpty()) {
+        if (imgPathList.size()==1&&RegexUtils.checkDigit(imgPathList.get(0))){
             showShortToast("图片不能为空！");
             return false;
         }
@@ -367,12 +337,12 @@ public class ReleaseProductAyt extends BaseActivity {
         if (imgPathList.contains(pic_path)) {
             return;
         }
-        //判断是否超过5张 为真移出最初一张
-        if (imgPathList.size()>=5) {
+        //
+        if (imgPathList.size() >= 5) {
             imgPathList.remove(0);
         }
         imgPathList.add(pic_path);
-
+        imageAdapter.notifyDataSetChanged();
 
     }
 
