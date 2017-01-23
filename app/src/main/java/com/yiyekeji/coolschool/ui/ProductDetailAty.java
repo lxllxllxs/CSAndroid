@@ -21,6 +21,7 @@ import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductInfo;
 import com.yiyekeji.coolschool.bean.ProductModel;
 import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.bean.SupplierInfo;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.adapter.ImageAdapter;
 import com.yiyekeji.coolschool.ui.adapter.SelectModelAdapter;
@@ -73,6 +74,11 @@ public class ProductDetailAty extends BaseActivity {
     LinearLayout llBottom;
 
     boolean isShoppingCar = false;
+    @InjectView(R.id.tv_desc)
+    TextView tvDesc;
+    @InjectView(R.id.tv_contac)
+    TextView tvContac;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +89,52 @@ public class ProductDetailAty extends BaseActivity {
     }
 
     private void initViewAfter() {
+        if (productInfo == null) {
+            return;
+        }
         tvProductName.setText(productInfo.getpTitle());
+        tvDesc.setText(productInfo.getpDescrition());
+
         GlideUtil.setImageToView(productInfo.getpImage(), imageView);
         imageAdapter = new ImageAdapter(this, productInfo.getPictureList());
         rvImgs.setAdapter(imageAdapter);
         rvImgs.setLayoutManager(new LinearLayoutManager(this));
+
+        getSellerInfo();
+    }
+
+    private void getSellerInfo() {
+        HashMap<String, Object> parms = new HashMap<>();
+        parms.put("pId", productInfo.getPid());
+        ShopService service = RetrofitUtil.create(ShopService.class);
+        Call<ResponseBody> call = service.getSupplierInfo(parms);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    SupplierInfo info=GsonUtil.fromJSon(jsonString,SupplierInfo.class,"supplierInfo");
+                    if (info == null) {
+                        return;
+                    }
+                    tvContac.setText(info.getsName().concat(info.getsPhone()));
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
     }
 
     private void initData() {
@@ -123,6 +170,7 @@ public class ProductDetailAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -154,10 +202,10 @@ public class ProductDetailAty extends BaseActivity {
     }
 
 
-
     PopupWindow popWindow;
     SelectModelAdapter modelAdapter;
     RecyclerView rvModel;
+
     private void popConfirmWindow(View view) {
         if (productInfo == null) {
             return;
@@ -167,27 +215,31 @@ public class ProductDetailAty extends BaseActivity {
             final TextView tv_price = (TextView) contentView.findViewById(R.id.tv_price_interval);
             final TextView tv_total = (TextView) contentView.findViewById(R.id.tv_total_goods);
             ImageView iv_product = (ImageView) contentView.findViewById(R.id.iv_main_product);
-            final CountView countView=(CountView)contentView.findViewById(R.id.countView);
+            final CountView countView = (CountView) contentView.findViewById(R.id.countView);
             final TextView tvConfirm = (TextView) contentView.findViewById(R.id.tv_confirm);
-            rvModel=(RecyclerView)contentView.findViewById(R.id.rv_model);
+            rvModel = (RecyclerView) contentView.findViewById(R.id.rv_model);
             //设置主图
-            GlideUtil.setImageToView(productInfo.getpImage(),iv_product);
+            GlideUtil.setImageToView(productInfo.getpImage(), iv_product);
             //设置价格区间
             tvConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (isShoppingCar) {
+                        addToShoppingCar();
+                    } else {
+                        createOrder();
+                    }
                 }
             });
 
             //设置型号
-            modelAdapter=new SelectModelAdapter(ProductDetailAty.this,productInfo.getModelList());
+            modelAdapter = new SelectModelAdapter(ProductDetailAty.this, productInfo.getModelList());
             rvModel.setAdapter(modelAdapter);
-            rvModel.setLayoutManager(new GridLayoutManager(this,4));
+            rvModel.setLayoutManager(new GridLayoutManager(this, 4));
             modelAdapter.setOnItemClickLitener(new SelectModelAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ProductModel model=productInfo.getModelList().get(position);
+                    ProductModel model = productInfo.getModelList().get(position);
                     countView.setTotalGoods(model.getPmBalance());
                     tv_price.setText("￥".concat(model.getPmPrice()));
                     tv_total.setText(String.valueOf(model.getPmBalance()));
@@ -195,10 +247,12 @@ public class ProductDetailAty extends BaseActivity {
             });
             //设置初始数据
             productInfo.getModelList().get(0).setSelect(true);
-            ProductModel model=productInfo.getModelList().get(0);
+            ProductModel model = productInfo.getModelList().get(0);
             countView.setTotalGoods(model.getPmBalance());
             tv_price.setText("￥".concat(model.getPmPrice()));
-            tv_total.setText("库存量：".concat(String.valueOf(model.getPmBalance())));
+            tv_total.setText("库存量："
+                    .concat(String.valueOf(model.getPmBalance()))
+                    .concat(productInfo.getpUnit()));
 
             //第二层（在PopupWindow是第一层）为相对布局时WrapContent失效
             popWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -208,17 +262,27 @@ public class ProductDetailAty extends BaseActivity {
         popWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
+    /**
+     * 创建订单
+     */
+    private void createOrder() {
+
+    }
+
+    //放入我的购物车
+    private void addToShoppingCar() {
+    }
+
     private String getPriceInterval() {
-        List<Double> list=new ArrayList<>();
+        List<Double> list = new ArrayList<>();
         if (productInfo.getModelList().isEmpty() || productInfo.getModelList() == null) {
             return "";
         }
         for (ProductModel model : productInfo.getModelList()) {
-                list.add(Double.valueOf(model.getPmPrice()));
+            list.add(Double.valueOf(model.getPmPrice()));
         }
         Collections.sort(list);
-
-        return "￥"+list.get(0)+"-"+list.get(list.size()-1);
+        return "￥" + list.get(0) + "-" + list.get(list.size() - 1);
     }
 
     /**
@@ -249,6 +313,7 @@ public class ProductDetailAty extends BaseActivity {
         });
 
     }
+
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0

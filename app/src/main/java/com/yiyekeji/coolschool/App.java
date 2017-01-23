@@ -5,8 +5,10 @@ import android.app.Application;
 import android.content.Context;
 
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,4 +49,75 @@ public class App extends Application{
         }
         System.exit(0);
     }
+
+    public static String geTokenId() {
+        if (tokenOutOfDate()){
+
+        }
+
+        return userInfo.getTokenId();
+    }
+
+
+/*
+
+    private void login(){
+        final UserInfo user = new UserInfo();
+        if (SPUtils.contains(this,LOGIN_NAME)){
+            user.setUserNum(SPUtils.getString(this,LOGIN_NAME));
+        }
+        if (SPUtils.contains(this,PWD)){
+            user.setPassword(SPUtils.getString(this,PWD);
+        }
+        user.setImei(CommonUtils.getIMEI());
+        UserService userService = RetrofitUtil.create(UserService.class);
+        Call<ResponseBody> call= userService.login(user);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code()!=200){
+                    showShortToast("网络错误"+response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                UserInfo  userInfo= GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (userInfo!=null) {
+                    showShortToast("成功登录！");
+                    userInfo.setPassword("");//清除密码
+                    App.userInfo=userInfo;
+                    Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(t.toString());
+            }
+        });
+    }
+*/
+
+    /**
+     * 判断token是否过期
+     * @return
+     */
+    private static boolean tokenOutOfDate() {
+        String oldTimeString = userInfo.getLastTime();
+        Date oldDate = DateUtils.toDate(oldTimeString,
+                "yyyy-MM-dd HH:mm:ss");
+        Date nowDate = DateUtils.toDate(DateUtils.getTimeString(),
+                "yyyy-MM-dd HH:mm:ss");
+        int between = DateUtils.cal_secBetween(oldDate, nowDate);//罪魁祸首 前后都要用24小时制
+        if (between > 30 * 60) {//先定30分钟
+            return true;
+        }
+        return false;
+    }
+
 }

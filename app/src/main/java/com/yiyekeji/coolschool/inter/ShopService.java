@@ -29,4 +29,13 @@ public interface ShopService {
     @POST("shop/getProductInfo")
     Call<ResponseBody> getProductInfo(@Body Map<String, Object> params);
 
+    @POST("shop/getSupplierInfo")
+    Call<ResponseBody> getSupplierInfo(@Body Map<String, Object> params);
+
+    @POST("shop/getSupplierProductList")
+    Call<ResponseBody> getSupplierProductList(@Body Map<String, Object> params);
+
+    @POST("shop/putUpOrOffProduct")
+    Call<ResponseBody> putUpOrOffProduct(@Body Map<String, Object> params);
+
 }

@@ -26,11 +26,37 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="80px" />
+
+            <View
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="20px"/>
+            <TextView
+                android:id="@+id/tv_desc"
+                android:textSize="25px"
+                android:textColor="@color/black"
+                android:text=""
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_imgs"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
+
+            <TextView
+                android:id="@+id/tv_contac"
+                android:textSize="25px"
+                android:textColor="@color/black"
+                android:text="阿瑟大时代"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="60px" />
         </LinearLayout>
     </ScrollView>
     <!--头部-->
@@ -54,7 +80,7 @@
             android:id="@+id/tv_title"
             android:textColor="@color/black"
             android:textSize="30px"
-            android:text="产品详情"
+            android:text=""
             android:gravity="center"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"

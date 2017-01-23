@@ -13,19 +13,40 @@ public class ProductInfo implements Parcelable {
     private  String pTitle;
     private  String pUnit;
 
+    public int getpState() {
+        return pState;
+    }
+
     @Override
     public String toString() {
         return "ProductInfo{" +
                 "pImage='" + pImage + '\'' +
                 ", pTitle='" + pTitle + '\'' +
                 ", pUnit='" + pUnit + '\'' +
-                ", pid=" + pid +
+                ", pState=" + pState +
+                ", pDescrition='" + pDescrition + '\'' +
+                ", pId=" + pId +
                 ", pPrice=" + pPrice +
                 ", pSalenum=" + pSalenum +
                 ", modelList=" + modelList +
                 ", pictureList=" + pictureList +
                 '}';
     }
+
+    public void setpState(int pState) {
+        this.pState = pState;
+    }
+
+    private int pState;
+    public String getpDescrition() {
+        return pDescrition;
+    }
+
+    public void setpDescrition(String pDescrition) {
+        this.pDescrition = pDescrition;
+    }
+
+    private String pDescrition;
 
     public String getpImage() {
         return pImage;
@@ -52,11 +73,11 @@ public class ProductInfo implements Parcelable {
     }
 
     public int getPid() {
-        return pid;
+        return pId;
     }
 
-    public void setPid(int pid) {
-        this.pid = pid;
+    public void setPid(int pId) {
+        this.pId=pId;
     }
 
     public double getpPrice() {
@@ -75,7 +96,7 @@ public class ProductInfo implements Parcelable {
         this.pSalenum = pSalenum;
     }
 
-    private int pid;
+    private int pId;
     private double pPrice;
     private int pSalenum;
     private ArrayList<ProductModel> modelList;
@@ -115,7 +136,9 @@ public class ProductInfo implements Parcelable {
         dest.writeString(this.pImage);
         dest.writeString(this.pTitle);
         dest.writeString(this.pUnit);
-        dest.writeInt(this.pid);
+        dest.writeInt(this.pState);
+        dest.writeString(this.pDescrition);
+        dest.writeInt(this.pId);
         dest.writeDouble(this.pPrice);
         dest.writeInt(this.pSalenum);
         dest.writeTypedList(this.modelList);
@@ -126,7 +149,9 @@ public class ProductInfo implements Parcelable {
         this.pImage = in.readString();
         this.pTitle = in.readString();
         this.pUnit = in.readString();
-        this.pid = in.readInt();
+        this.pState = in.readInt();
+        this.pDescrition = in.readString();
+        this.pId = in.readInt();
         this.pPrice = in.readDouble();
         this.pSalenum = in.readInt();
         this.modelList = in.createTypedArrayList(ProductModel.CREATOR);
