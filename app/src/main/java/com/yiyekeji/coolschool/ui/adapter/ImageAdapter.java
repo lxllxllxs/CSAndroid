@@ -54,6 +54,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         View view = mInflater.inflate(R.layout.item_only_square_image, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.imageView = (ImageView) view.findViewById(R.id.imageView);
+        viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER);
         return viewHolder;
     }
 

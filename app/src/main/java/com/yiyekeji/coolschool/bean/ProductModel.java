@@ -3,13 +3,17 @@ package com.yiyekeji.coolschool.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yiyekeji.coolschool.inter.HaveName;
+
 /**
  * Created by lxl on 2017/1/20.
  */
-public class ProductModel implements Parcelable {
+public class ProductModel implements Parcelable,HaveName {
     private String pmTitle="默认";
     private int pmBalance=0;
     private String pmPrice="0";
+
+    private boolean isSelect;
 
     public String getPmTitle() {
         return pmTitle;
@@ -67,4 +71,20 @@ public class ProductModel implements Parcelable {
             return new ProductModel[size];
         }
     };
+
+    @Override
+    public String getName() {
+        return pmTitle;
+    }
+
+
+    @Override
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    @Override
+    public void setSelect(boolean b) {
+        this.isSelect = b;
+    }
 }

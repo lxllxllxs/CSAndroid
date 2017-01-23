@@ -5,6 +5,7 @@
 
 
     <ScrollView
+        android:layout_above="@+id/ll_bottom"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:descendantFocusability="blocksDescendants"
@@ -20,6 +21,8 @@
                 android:textSize="30px"
                 android:textColor="@color/black"
                 android:text="biaoti"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="80px" />
@@ -47,6 +50,7 @@
             android:src="@mipmap/ic_product_back"
             />
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_title"
             android:textColor="@color/black"
             android:textSize="30px"
@@ -73,17 +77,6 @@
         android:layout_height="88px"
         >
         <TextView
-            android:id="@+id/tv_buy"
-            android:textSize="30px"
-            android:text="立即购买"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:background="@color/orange"
-            android:layout_height="match_parent"/>
-
-        <TextView
             android:id="@+id/tv_shoppingcar"
             android:textSize="30px"
             android:text="加入购物车"
@@ -91,7 +84,17 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:background="@color/theme_blue"
+            android:background="@color/theme_green"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_buy"
+            android:textSize="30px"
+            android:text="立即购买"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@color/theme_red"
             android:layout_height="match_parent"/>
     </LinearLayout>
 </RelativeLayout>

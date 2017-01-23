@@ -92,6 +92,11 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.MyShoppingCarAty"
+            android:label="购物车"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.StudentSignInActivity"
             android:label="签到"
             android:screenOrientation="portrait"

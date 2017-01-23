@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="600px">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="196px">
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="200px"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="100px">
+                <TextView
+                    android:id="@+id/tv_price_interval"
+                    android:paddingBottom="20px"
+                    android:text="2-10"
+                    android:textColor="@color/theme_red"
+                    android:textSize="30px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_total_goods"
+                    android:text="库存量：1919"
+                    android:textColor="@color/gray_text"
+                    android:textSize="24px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:id="@+id/iv_main_product"
+                android:layout_width="144px"
+                android:layout_height="144px"
+                android:layout_marginLeft="10px"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/test"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <View
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+            <TextView
+                android:text="型号名"
+                android:gravity="center_vertical"
+                android:textSize="25px"
+                android:textColor="@color/gray_text"
+                android:layout_width="match_parent"
+                android:layout_height="50px" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_model"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+            <View
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="70px">
+                <TextView
+                    android:text="数量"
+                    android:textColor="@color/gray_text"
+                    android:gravity="center"
+                    android:textSize="25px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <Space
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+                <com.yiyekeji.coolschool.widget.CountView
+                    android:id="@+id/countView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:text="确定"
+            android:gravity="center"
+            android:textSize="30px"
+            android:background="@color/theme_red"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="88px" />
+    </LinearLayout>
+</LinearLayout>
