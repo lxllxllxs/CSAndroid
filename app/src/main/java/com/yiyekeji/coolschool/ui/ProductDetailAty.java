@@ -242,7 +242,9 @@ public class ProductDetailAty extends BaseActivity {
                     ProductModel model = productInfo.getModelList().get(position);
                     countView.setTotalGoods(model.getPmBalance());
                     tv_price.setText("￥".concat(model.getPmPrice()));
-                    tv_total.setText(String.valueOf(model.getPmBalance()));
+                    tv_total.setText("库存量："
+                            .concat(String.valueOf(model.getPmBalance()))
+                            .concat(productInfo.getpUnit()));
                 }
             });
             //设置初始数据

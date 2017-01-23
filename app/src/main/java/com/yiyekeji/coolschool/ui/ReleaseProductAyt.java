@@ -301,6 +301,8 @@ public class ReleaseProductAyt extends BaseActivity {
 
     private void releaseProduct() {
         ShopService service = RetrofitUtil.create(ShopService.class);
+
+        releaseProduct.setTokenId(App.geTokenId());
         Call<ResponseBody> call = service.publicProduct(releaseProduct);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {

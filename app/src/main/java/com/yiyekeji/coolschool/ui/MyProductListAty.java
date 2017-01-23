@@ -119,6 +119,7 @@ public class MyProductListAty extends BaseActivity {
     List<ProductInfo> productInfoList=new ArrayList<>();
     private void getMyProductList() {
         HashMap<String, Object> parms = new HashMap<>();
+        parms.put("tokenId", App.geTokenId());
         parms.put("userNum", App.userInfo.getUserNum());
         ShopService service = RetrofitUtil.create(ShopService.class);
         Call<ResponseBody> call = service.getSupplierProductList(parms);

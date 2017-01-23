@@ -73,7 +73,7 @@
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_product_back"
+            android:src="@mipmap/left_wihte_arrow"
             />
         <TextView
             android:visibility="gone"
@@ -87,7 +87,7 @@
             android:layout_height="match_parent" />
         <ImageView
             android:id="@+id/iv_product_buycar"
-            android:src="@mipmap/ic_shop_car"
+            android:src="@mipmap/ic_setting"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50px"
             android:layout_width="wrap_content"
