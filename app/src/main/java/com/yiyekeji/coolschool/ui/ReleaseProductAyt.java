@@ -202,6 +202,9 @@ public class ReleaseProductAyt extends BaseActivity {
                     if (imgPathList.contains(R.mipmap.ic_add_pic+"")) {
                         imgPathList.remove(R.mipmap.ic_add_pic + "");
                     }
+                    if (imgPathList.isEmpty()){
+                        return;
+                    }
                     upLoadImage(imgPathList.get(0));
                 }
                 break;

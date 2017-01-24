@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +30,7 @@ import com.yiyekeji.coolschool.ui.adapter.ProductAdapter;
 import com.yiyekeji.coolschool.ui.adapter.RollPagerViewAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
 
@@ -61,6 +64,7 @@ public class CategoryFragment extends BaseFragment {
     List<ProductInfo> productInfoList = new ArrayList<>();
     @InjectView(R.id.roll_view_pager)
     RollPagerView rollViewPager;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,12 +87,27 @@ public class CategoryFragment extends BaseFragment {
 
         mCategoryAdapter = new HaveNameAdapter(getActivity(), infoList);
         rvCategory.setAdapter(mCategoryAdapter);
-        rvCategory.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvCategory.setLayoutManager(linearLayoutManager);
+        mCategoryAdapter.setSelectColor(Color.WHITE, ContextCompat.getColor(getActivity(),R.color.theme_red));
         mCategoryAdapter.setOnItemClickLitener(new HaveNameAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
                 CategoryInfo info = (CategoryInfo) infoList.get(position);
                 getProductLIst(info.getCategoryId());
+                //初始化
+                if (itemHeight == 0) {
+                    int middlePostion = 0;
+                    itemHeight = view.getHeight();
+                    middlePostion = rvHeight / (itemHeight * 2);
+                    offset = middlePostion * itemHeight;
+                }
+                //直接算 Y轴偏移量
+                linearLayoutManager.scrollToPositionWithOffset(position, offset);
+                //右侧栏滚动到顶部
+                rvProducttype.scrollToPosition(0);
+
             }
         });
         //右侧产品
@@ -113,6 +132,8 @@ public class CategoryFragment extends BaseFragment {
         getAdList();
     }
 
+    int rvHeight;
+    int itemHeight = 0, offset;
     private void getCategoryList() {
         showLoadDialog("");
         Call<ResponseBody> call = service.getShopCategoryList();
@@ -129,10 +150,21 @@ public class CategoryFragment extends BaseFragment {
                         }.getType(), "categoryInfo");
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (infoList != null) {
+                    infoList.get(0).setSelect(true);
+                    getProductLIst(((CategoryInfo)infoList.get(0)).getCategoryId());
                     mCategoryAdapter.notifyDataSetChanged(infoList);
-                } else {
-                    showShortToast(rb.getMessage());
+                    final ViewTreeObserver vto = rvCategory.getViewTreeObserver();
+                    vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            rvCategory.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            rvHeight = rvCategory.getMeasuredHeight();
+                            LogUtil.d("onGlobalLayout", rvHeight + "===" + rvCategory.getHeight());
+                        }
+                    });
+                    return;
                 }
+                showShortToast(rb.getMessage());
             }
 
             @Override
@@ -158,6 +190,7 @@ public class CategoryFragment extends BaseFragment {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
+
                     showShortToast(rb.getMessage());
                     return;
                 }

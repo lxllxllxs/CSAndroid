@@ -18,13 +18,13 @@ import java.util.List;
 /**
  * Created by lxl on 2016/10/25.
  */
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+public class OrderProductItemAdapter extends RecyclerView.Adapter<OrderProductItemAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
     private List<ProductInfo> productInfoList;
     private Context context;
 
-    public ProductAdapter(Context context, List<ProductInfo> productInfoList) {
+    public OrderProductItemAdapter(Context context, List<ProductInfo> productInfoList) {
         this.productInfoList = productInfoList;
         mInflater = LayoutInflater.from(context);
         this.context = context;

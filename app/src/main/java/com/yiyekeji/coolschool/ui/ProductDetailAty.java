@@ -50,7 +50,7 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/1/22.
  */
-public class ProductDetailAty extends BaseActivity implements DockAtTopScrollView.OnScrollListener{
+public class ProductDetailAty extends BaseActivity implements DockAtTopScrollView.OnScrollListener {
     @InjectView(R.id.imageView)
     ImageView imageView;
     @InjectView(R.id.tv_productName)
@@ -83,6 +83,8 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
     TextView tvContac;
     @InjectView(R.id.sv_main)
     DockAtTopScrollView svMain;
+    @InjectView(R.id.tv_price)
+    TextView tvPrice;
     private int gradualHeight;
 
     @Override
@@ -99,13 +101,12 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         tvTitle.setAlpha(0);
         initScrollListener();
 
-
         if (productInfo == null) {
             return;
         }
         tvProductName.setText(productInfo.getpTitle());
         tvDesc.setText(productInfo.getpDescrition());
-
+        tvPrice.setText(getLowestPrice());
         GlideUtil.setImageToView(productInfo.getpImage(), imageView);
         imageAdapter = new ImageAdapter(this, productInfo.getPictureList());
         rvImgs.setAdapter(imageAdapter);
@@ -150,7 +151,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                     if (info == null) {
                         return;
                     }
-                    tvContac.setText(info.getsName().concat(info.getsPhone()==null?"":info.getsPhone()));
+                    tvContac.setText(info.getsName().concat(info.getsPhone() == null ? "" : info.getsPhone()));
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -268,7 +269,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                 public void onItemClick(View view, int position) {
                     ProductModel model = productInfo.getModelList().get(position);
                     countView.setTotalGoods(model.getPmBalance());
-                    tv_price.setText("￥".concat(model.getPmPrice()));
+                    tv_price.setText(getString(R.string.yuan).concat(model.getPmPrice()));
                     tv_total.setText("库存量："
                             .concat(String.valueOf(model.getPmBalance()))
                             .concat(productInfo.getpUnit()));
@@ -278,7 +279,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
             productInfo.getModelList().get(0).setSelect(true);
             ProductModel model = productInfo.getModelList().get(0);
             countView.setTotalGoods(model.getPmBalance());
-            tv_price.setText("￥".concat(model.getPmPrice()));
+            tv_price.setText(getString(R.string.yuan).concat(model.getPmPrice()));
             tv_total.setText("库存量："
                     .concat(String.valueOf(model.getPmBalance()))
                     .concat(productInfo.getpUnit()));
@@ -302,7 +303,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
     private void addToShoppingCar() {
     }
 
-    private String getPriceInterval() {
+    private String getLowestPrice() {
         List<Double> list = new ArrayList<>();
         if (productInfo.getModelList().isEmpty() || productInfo.getModelList() == null) {
             return "";
@@ -311,7 +312,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
             list.add(Double.valueOf(model.getPmPrice()));
         }
         Collections.sort(list);
-        return "￥" + list.get(0) + "-" + list.get(list.size() - 1);
+        return "" + list.get(0);
     }
 
     /**

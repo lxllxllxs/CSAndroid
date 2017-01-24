@@ -16,16 +16,20 @@
         android:id="@+id/tv_name"
         android:textSize="30px"
         android:text="asdasd"
+        android:paddingLeft="15px"
+        android:paddingRight="15px"
         android:gravity="center_vertical"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40px"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="40px">
         <TextView
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
             android:id="@+id/tv_price"
             android:textSize="30px"
             android:text="￥454"

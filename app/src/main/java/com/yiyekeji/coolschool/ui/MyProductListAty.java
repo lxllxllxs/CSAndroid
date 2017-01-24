@@ -71,18 +71,24 @@ public class MyProductListAty extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 ProductInfo info = productInfoList.get(position);
-
+                putUpOrOffProduct(info);
             }
         });
 
     }
 
-    private void putUpOrOffProduct() {
+    private void refresh(){
+        productInfoList.clear();
+        getMyProductList();
+    }
+
+    private void putUpOrOffProduct(ProductInfo info) {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("userNum", App.userInfo.getUserNum());
+        params.put("pId", info.getPid());
+        params.put("pState",info.getpState()==1?0:1);
         params.put("tokenId", App.geTokenId());
         ShopService service = RetrofitUtil.create(ShopService.class);
-        Call<ResponseBody> call = service.getSupplierProductList(params);
+        Call<ResponseBody> call = service.putUpOrOffProduct(params);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -95,13 +101,8 @@ public class MyProductListAty extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    productInfoList = GsonUtil.listFromJSon(jsonString,
-                            new TypeToken<List<ProductInfo>>() {
-                            }.getType(), "productList");
-                    if (productInfoList == null) {
-                        return;
-                    }
-                    mAdapter.notifyDataSetChanged(productInfoList);
+                    showShortToast("操作成功！");
+                    refresh();
                 } else {
                     showShortToast(rb.getMessage());
                 }

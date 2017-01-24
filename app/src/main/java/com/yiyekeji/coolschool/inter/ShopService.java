@@ -38,4 +38,6 @@ public interface ShopService {
     @POST("shop/putUpOrOffProduct")
     Call<ResponseBody> putUpOrOffProduct(@Body Map<String, Object> params);
 
+    @POST("shop/buyProducts")
+    Call<ResponseBody> buyProducts(@Body Map<String, Object> params);
 }
