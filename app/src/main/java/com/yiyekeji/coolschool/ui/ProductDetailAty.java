@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.CountView;
+import com.yiyekeji.coolschool.widget.DockAtTopScrollView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +50,7 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/1/22.
  */
-public class ProductDetailAty extends BaseActivity {
+public class ProductDetailAty extends BaseActivity implements DockAtTopScrollView.OnScrollListener{
     @InjectView(R.id.imageView)
     ImageView imageView;
     @InjectView(R.id.tv_productName)
@@ -78,6 +81,9 @@ public class ProductDetailAty extends BaseActivity {
     TextView tvDesc;
     @InjectView(R.id.tv_contac)
     TextView tvContac;
+    @InjectView(R.id.sv_main)
+    DockAtTopScrollView svMain;
+    private int gradualHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +95,11 @@ public class ProductDetailAty extends BaseActivity {
     }
 
     private void initViewAfter() {
+        ivBack.setImageResource(R.mipmap.ic_product_back);
+        tvTitle.setAlpha(0);
+        initScrollListener();
+
+
         if (productInfo == null) {
             return;
         }
@@ -103,9 +114,24 @@ public class ProductDetailAty extends BaseActivity {
         getSellerInfo();
     }
 
+    private void initScrollListener() {
+        // 获取顶部图片高度后，设置滚动监听
+        ViewTreeObserver vto = imageView.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(
+                        this);
+                gradualHeight = imageView.getHeight() - rlTitleContainer.getHeight();
+                svMain.setOnScrollListener(ProductDetailAty.this);
+            }
+        });
+    }
+
+
     private void getSellerInfo() {
         HashMap<String, Object> parms = new HashMap<>();
-        parms.put("pId", productInfo.getPid());
+        parms.put("pId", getIntent().getIntExtra("pId", 0));
         ShopService service = RetrofitUtil.create(ShopService.class);
         Call<ResponseBody> call = service.getSupplierInfo(parms);
         showLoadDialog("");
@@ -120,15 +146,16 @@ public class ProductDetailAty extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    SupplierInfo info=GsonUtil.fromJSon(jsonString,SupplierInfo.class,"supplierInfo");
+                    SupplierInfo info = GsonUtil.fromJSon(jsonString, SupplierInfo.class, "supplierInfo");
                     if (info == null) {
                         return;
                     }
-                    tvContac.setText(info.getsName().concat(info.getsPhone()));
+                    tvContac.setText(info.getsName().concat(info.getsPhone()==null?"":info.getsPhone()));
                 } else {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -138,7 +165,7 @@ public class ProductDetailAty extends BaseActivity {
     }
 
     private void initData() {
-        int id = getIntent().getIntExtra("pid", 0);
+        int id = getIntent().getIntExtra("pId", 0);
         getProductInfo(id);
     }
 
@@ -321,4 +348,70 @@ public class ProductDetailAty extends BaseActivity {
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
     }
+
+    /**
+     * 应该是标题栏的底部与图片底部重合时 标题栏就完全不透明
+     * 需要减去标题栏高度得出渐变高度gradualHeight
+     *
+     * @param scrollY alpha=255完全不透明
+     *                两组图片 透明度变化是背景的两倍
+     *                过中线切换
+     *                前淡出 alpha值减 后淡入 alpha值升
+     *                <p/>
+     *                背景alpha值单独一个 持续增加
+     */
+    @Override
+    public void onScroll(int scrollY) {
+        float scale = (float) scrollY / gradualHeight;
+        float alpha = (255 * scale);
+        float tvAlpha = 1.0f * scale;
+        float imgScale = (2 * (float) scrollY - gradualHeight) / gradualHeight;
+        float imgAlpha = (255 * imgScale);
+        if (scrollY <= 0) {
+            ivBack.setImageAlpha(255);
+            ivBack.setTag(R.mipmap.ic_product_back);
+            ivProductBuycar.setImageAlpha(255);
+            ivProductBuycar.setTag(R.mipmap.ic_product_buycar);
+            tvTitle.setAlpha(tvAlpha);
+            rlTitleContainer.setBackgroundColor(Color.argb((int) 0, 235, 235, 235));//AGB由相关工具获得，或者美工提供
+        } else if (scrollY > 0 && scrollY < gradualHeight / 2) {
+            if (!ivBack.getTag().equals(R.mipmap.ic_product_back)) {
+                ivBack.setVisibility(View.INVISIBLE);
+                ivBack.setImageResource(R.mipmap.ic_product_back);
+                ivBack.setTag(R.mipmap.ic_product_back);
+                ivBack.setVisibility(View.VISIBLE);
+
+                ivProductBuycar.setVisibility(View.INVISIBLE);
+                ivProductBuycar.setImageResource(R.mipmap.ic_product_buycar);
+                ivProductBuycar.setVisibility(View.VISIBLE);
+            }
+
+            tvTitle.setAlpha(tvAlpha);//保持增加alpha值
+            ivBack.setImageAlpha(255 - (int) imgAlpha);
+            ivProductBuycar.setImageAlpha(255 - (int) imgAlpha);
+            rlTitleContainer.setBackgroundColor(Color.argb((int) alpha, 235, 235, 235));
+        } else if ((scrollY < gradualHeight && scrollY >= gradualHeight / 2)) {
+            if (!ivBack.getTag().equals(R.mipmap.ic_product_back2)) {
+                ivBack.setVisibility(View.INVISIBLE);
+                ivBack.setImageResource(R.mipmap.ic_product_back2);
+                ivBack.setTag(R.mipmap.ic_product_back2);
+                ivBack.setVisibility(View.VISIBLE);
+
+                ivProductBuycar.setVisibility(View.INVISIBLE);
+                ivProductBuycar.setImageResource(R.mipmap.ic_product_buycar2);
+                ivProductBuycar.setVisibility(View.VISIBLE);
+            }
+
+            tvTitle.setAlpha(tvAlpha);//保持增加alpha值
+            ivBack.setImageAlpha((int) imgAlpha);
+            ivProductBuycar.setImageAlpha((int) imgAlpha);
+            rlTitleContainer.setBackgroundColor(Color.argb((int) alpha, 235, 235, 235));
+        } else {
+            tvTitle.setAlpha(1.0f);//保持增加alpha值
+            ivBack.setImageAlpha(255);
+            ivProductBuycar.setImageAlpha(255);
+            rlTitleContainer.setBackgroundColor(ContextCompat.getColor(this, R.color.gray));
+        }
+    }
+
 }

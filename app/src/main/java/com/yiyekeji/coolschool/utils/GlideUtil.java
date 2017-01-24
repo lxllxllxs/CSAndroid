@@ -28,5 +28,23 @@ public class GlideUtil {
                 .into(imageView);
     }
 
+
+
+    //裁剪
+    public static void resizeToView(String url, ImageView imageView,int width,int height) {
+        if (TextUtils.isEmpty(url)) {
+            imageView.setImageResource(R.mipmap.load_fail);
+        } else {
+            //听说用uri比较快
+            Glide.with(App.getContext())
+                    .load(Uri.parse(url))
+                    .override(width, height) // resizes the image to these dimensions (in pixel)
+                    .fitCenter() // this croppin
+                    .placeholder(R.mipmap.loading_pic)
+                    .error(R.mipmap.load_fail)
+                    .into(imageView);
+        }
+    }
+
 }
 

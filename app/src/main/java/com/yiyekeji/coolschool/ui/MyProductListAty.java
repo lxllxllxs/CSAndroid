@@ -62,7 +62,7 @@ public class MyProductListAty extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(MyProductListAty.this, ProductDetailAty.class);
-                intent.putExtra("pid", productInfoList.get(position).getPid());
+                intent.putExtra("pId", productInfoList.get(position).getPid());
                 startActivity(intent);
             }
         });

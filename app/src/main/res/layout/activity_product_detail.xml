@@ -4,7 +4,8 @@
     android:layout_height="match_parent">
 
 
-    <ScrollView
+    <com.yiyekeji.coolschool.widget.DockAtTopScrollView
+        android:id="@+id/sv_main"
         android:layout_above="@+id/ll_bottom"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -20,7 +21,7 @@
                 android:id="@+id/tv_productName"
                 android:textSize="30px"
                 android:textColor="@color/black"
-                android:text="biaoti"
+                android:text="产品名"
                 android:paddingLeft="20px"
                 android:paddingRight="20px"
                 android:gravity="center_vertical"
@@ -36,8 +37,7 @@
                 android:textSize="25px"
                 android:textColor="@color/black"
                 android:text=""
-                android:paddingLeft="20px"
-                android:paddingRight="20px"
+                android:padding="20px"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -51,20 +51,21 @@
                 android:id="@+id/tv_contac"
                 android:textSize="25px"
                 android:textColor="@color/black"
-                android:text="阿瑟大时代"
+                android:text="联系人"
                 android:paddingLeft="20px"
                 android:paddingRight="20px"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="60px" />
         </LinearLayout>
-    </ScrollView>
+    </com.yiyekeji.coolschool.widget.DockAtTopScrollView>
     <!--头部-->
     <RelativeLayout
         android:layout_alignParentTop="true"
         android:id="@+id/rl_title_container"
         android:layout_width="match_parent"
         android:layout_height="88px"
+
         android:background="@color/transparent"
         >
         <ImageView
@@ -87,7 +88,7 @@
             android:layout_height="match_parent" />
         <ImageView
             android:id="@+id/iv_product_buycar"
-            android:src="@mipmap/ic_setting"
+            android:src="@mipmap/ic_product_buycar"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50px"
             android:layout_width="wrap_content"
