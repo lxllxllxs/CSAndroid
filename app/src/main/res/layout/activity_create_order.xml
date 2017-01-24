@@ -6,7 +6,108 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60px">
+        <TextView
+            android:gravity="center"
+            android:text="收货人    ："
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="25px"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/edt_recipient"
+            android:hint="收件人"
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:textSize="25px"
+            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
+            />
+    </LinearLayout>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70px">
+        <TextView
+            android:gravity="center"
+            android:text="手机号码："
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="25px"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/edt_phone"
+            android:hint="手机号"
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:textSize="25px"
+            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
+            />
+    </LinearLayout>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70px">
+        <TextView
+            android:gravity="center"
+            android:text="收货地址："
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="25px"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/edt_address"
+            android:hint=""
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:textSize="25px"
+            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
+            />
+    </LinearLayout>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <com.yiyekeji.coolschool.widget.BlueRedWhiteView
+        android:layout_width="match_parent"
+        android:layout_height="20px"/>
     <include layout="@layout/item_product_order_item_adapter"/>
     <View
         android:background="@color/gray"
@@ -73,9 +174,9 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:textSize="25px"
-            android:maxLength="300"
+            android:maxLength="200"
             android:hint=""
-            android:lines="2"
+            android:maxLines="2"
             android:background="@drawable/bg_0radiu_whitesolid_graytroke"
             android:layout_height="match_parent"/>
     </LinearLayout>
@@ -91,6 +192,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="90px">
         <TextView
             android:id="@+id/tv_totalPrice"

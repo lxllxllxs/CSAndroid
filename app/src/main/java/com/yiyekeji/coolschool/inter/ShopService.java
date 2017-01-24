@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.inter;
 
+import com.yiyekeji.coolschool.bean.ProductOrderInfo;
 import com.yiyekeji.coolschool.bean.ReleaseProduct;
 
 import java.util.Map;
@@ -38,6 +39,6 @@ public interface ShopService {
     @POST("shop/putUpOrOffProduct")
     Call<ResponseBody> putUpOrOffProduct(@Body Map<String, Object> params);
 
-    @POST("shop/buyProducts")
-    Call<ResponseBody> buyProducts(@Body Map<String, Object> params);
+    @POST("shop/createProductOrder ")
+    Call<ResponseBody> createProductOrder (@Body ProductOrderInfo productOrderInfo);
 }
