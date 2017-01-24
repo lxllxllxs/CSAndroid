@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductInfo;
 import com.yiyekeji.coolschool.bean.ProductModel;
+import com.yiyekeji.coolschool.bean.ProductOrderItem;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.SupplierInfo;
 import com.yiyekeji.coolschool.inter.ShopService;
@@ -217,8 +219,6 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                 jumpToShoppCar();
                 break;
             case R.id.tv_buy:
-                popConfirmWindow(view);
-                break;
             case R.id.tv_shoppingcar:
                 popConfirmWindow(view);
                 break;
@@ -229,11 +229,12 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         startActivity(MyShoppingCarAty.class);
     }
 
-
     PopupWindow popWindow;
     SelectModelAdapter modelAdapter;
     RecyclerView rvModel;
 
+
+    CountView countView;
     private void popConfirmWindow(View view) {
         if (productInfo == null) {
             return;
@@ -243,15 +244,21 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
             final TextView tv_price = (TextView) contentView.findViewById(R.id.tv_price_interval);
             final TextView tv_total = (TextView) contentView.findViewById(R.id.tv_total_goods);
             ImageView iv_product = (ImageView) contentView.findViewById(R.id.iv_main_product);
-            final CountView countView = (CountView) contentView.findViewById(R.id.countView);
+            countView = (CountView) contentView.findViewById(R.id.countView);
             final TextView tvConfirm = (TextView) contentView.findViewById(R.id.tv_confirm);
             rvModel = (RecyclerView) contentView.findViewById(R.id.rv_model);
             //设置主图
             GlideUtil.setImageToView(productInfo.getpImage(), iv_product);
-            //设置价格区间
             tvConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (popWindow.isShowing()) {
+                        popWindow.dismiss();
+                    }
+                    if (countView.getCount()<1){
+                        showShortToast("至少选中一件");
+                        return;
+                    }
                     if (isShoppingCar) {
                         addToShoppingCar();
                     } else {
@@ -273,16 +280,24 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                     tv_total.setText("库存量："
                             .concat(String.valueOf(model.getPmBalance()))
                             .concat(productInfo.getpUnit()));
+                    productOrderItem.setPmId(model.getPmId());
+                    productOrderItem.setPrice(model.getPmPrice());
+                    productOrderItem.setmTitle(model.getPmTitle());
                 }
             });
             //设置初始数据
-            productInfo.getModelList().get(0).setSelect(true);
+
             ProductModel model = productInfo.getModelList().get(0);
+            productInfo.getModelList().get(0).setSelect(true);
+            productOrderItem.setPmId(model.getPmId());
+            productOrderItem.setmTitle(model.getPmTitle());
             countView.setTotalGoods(model.getPmBalance());
             tv_price.setText(getString(R.string.yuan).concat(model.getPmPrice()));
             tv_total.setText("库存量："
                     .concat(String.valueOf(model.getPmBalance()))
                     .concat(productInfo.getpUnit()));
+            productOrderItem.setPrice(model.getPmPrice());
+
 
             //第二层（在PopupWindow是第一层）为相对布局时WrapContent失效
             popWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -295,7 +310,24 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
     /**
      * 创建订单
      */
+    ProductOrderItem productOrderItem=new ProductOrderItem();
     private void createOrder() {
+        ArrayList<ProductOrderItem> itemArrayList = new ArrayList<>();
+        productOrderItem.setpId(productInfo.getPid());
+        if (countView == null) {
+            return;
+        }
+        productOrderItem.setUnit(productInfo.getpUnit());
+        productOrderItem.setImgPath(productInfo.getpImage());
+        productOrderItem.setProductName(productInfo.getpTitle());
+        productOrderItem.setPmCount(countView.getCount());
+        //计算总价
+        productOrderItem.setSubTotal(countView.getCount() * Double.valueOf(productOrderItem.getPrice()));
+
+        itemArrayList.add(productOrderItem);
+        Intent intent = new Intent(ProductDetailAty.this, CreateOrderAty.class);
+        intent.putExtra("itemList", itemArrayList);
+        startActivity(intent);
 
     }
 

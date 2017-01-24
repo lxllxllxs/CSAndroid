@@ -68,7 +68,7 @@
                 android:textSize="25px"
                 android:text="12"
                 android:paddingLeft="15px"
-                android:paddingRight="15px"
+                android:paddingRight="20px"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:ellipsize="end"

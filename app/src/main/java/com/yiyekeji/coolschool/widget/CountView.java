@@ -93,6 +93,9 @@ public class CountView extends AutoRelativeLayout {
         });
 
     }
+    public int getCount(){
+        return count;
+    }
 
     private OnClickListener ck=new OnClickListener() {
         @Override

@@ -40,9 +40,12 @@ public class OrderProductItemAdapter extends RecyclerView.Adapter<OrderProductIt
             super(arg0);
             AutoUtils.auto(arg0);
         }
+
         ImageView ivProduct;
         TextView tvName;
+        TextView tvModel;
         TextView tvPrice;
+        TextView tvNum;
     }
 
     @Override
@@ -55,10 +58,12 @@ public class OrderProductItemAdapter extends RecyclerView.Adapter<OrderProductIt
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_product_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_product_order_item_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.ivProduct = (ImageView) view.findViewById(R.id.iv_product);
         viewHolder.tvName = (TextView) view.findViewById(R.id.tv_name);
+        viewHolder.tvModel = (TextView) view.findViewById(R.id.tv_model);
+        viewHolder.tvNum = (TextView) view.findViewById(R.id.tv_num);
         viewHolder.tvPrice = (TextView) view.findViewById(R.id.tv_price);
         return viewHolder;
     }
@@ -70,9 +75,9 @@ public class OrderProductItemAdapter extends RecyclerView.Adapter<OrderProductIt
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         ProductInfo productInfo = productInfoList.get(i);
-        GlideUtil.setImageToView(productInfo.getpImage(),viewHolder.ivProduct);
+        GlideUtil.setImageToView(productInfo.getpImage(), viewHolder.ivProduct);
         viewHolder.tvName.setText(productInfo.getpTitle());
-        String price=String.valueOf(productInfo.getpPrice());
+        String price = String.valueOf(productInfo.getpPrice());
         viewHolder.tvPrice.setText(context.getString(R.string.yuan).concat(price));
         if (mOnItemClickLitener != null) {
             viewHolder.ivProduct.setOnClickListener(new View.OnClickListener() {
