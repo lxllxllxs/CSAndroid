@@ -20,6 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductInfo;
 import com.yiyekeji.coolschool.bean.ProductModel;
@@ -153,6 +154,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                     if (info == null) {
                         return;
                     }
+                    productInfo.setSupplierNum(info.getUserNum());
                     tvContac.setText(info.getsName().concat(info.getsPhone() == null ? "" : info.getsPhone()));
                 } else {
                     showShortToast(rb.getMessage());
@@ -216,10 +218,15 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                 finish();
                 break;
             case R.id.iv_product_buycar:
+
                 jumpToShoppCar();
                 break;
             case R.id.tv_buy:
+                isShoppingCar = false;
+                popConfirmWindow(view);
+                break;
             case R.id.tv_shoppingcar:
+                isShoppingCar = true;
                 popConfirmWindow(view);
                 break;
         }
@@ -323,9 +330,9 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         productOrderItem.setPmCount(countView.getCount());
         //计算总价
         productOrderItem.setSubTotal(countView.getCount() * Double.valueOf(productOrderItem.getPrice()));
-
+        productOrderItem.setSupplierNum(productInfo.getSupplierNum());
         itemArrayList.add(productOrderItem);
-        Intent intent = new Intent(ProductDetailAty.this, CreateOrderAty.class);
+        Intent intent = new Intent(ProductDetailAty.this, CreateProductOrderAty.class);
         intent.putExtra("itemList", itemArrayList);
         startActivity(intent);
 
@@ -333,6 +340,41 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
 
     //放入我的购物车
     private void addToShoppingCar() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("tokenId", App.geTokenId());
+        params.put("userNum", App.userInfo.getUserNum());
+        params.put("pmCount", countView.getCount());
+        params.put("subTotal",Double.valueOf(productOrderItem.getPrice())*countView.getCount());
+        params.put("pId", productInfo.getPid());
+        params.put("pmId", productOrderItem.getPmId());
+        params.put("supplierNum", productInfo.getSupplierNum());
+
+        ShopService service = RetrofitUtil.create(ShopService.class);
+        Call<ResponseBody> call = service.addProductToCart(params);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    showShortToast(rb.getMessage());
+                    finish();
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
     }
 
     private String getLowestPrice() {

@@ -42,7 +42,7 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/1/24.
  */
-public class CreateOrderAty extends BaseActivity {
+public class CreateProductOrderAty extends BaseActivity {
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
     @InjectView(R.id.iv_product)
@@ -136,7 +136,7 @@ public class CreateOrderAty extends BaseActivity {
                 }
                 break;
             case R.id.ll_deliverTime:
-                Intent intent = new Intent(CreateOrderAty.this, SelectDeliverTimeAty.class);
+                Intent intent = new Intent(CreateProductOrderAty.this, SelectDeliverTimeAty.class);
                 intent.putExtra("choseBeanList",beanArrayList);
                 intent.putExtra("title","送货时间");
                 startActivityForResult(intent,0);
@@ -162,8 +162,12 @@ public class CreateOrderAty extends BaseActivity {
         info.setSum(itemList.get(0).getSubTotal());
         info.setReceivePhone(edtPhone.getText().toString());
         info.setTimeType(0);
+        Gson gson = new Gson();
+        LogUtil.d("toJsonTree", gson.toJsonTree(info));
+        LogUtil.d("toJsonTree", gson.toJsonTree(info,ProductOrderInfo.class));
+
         Call<ResponseBody> call = service.createProductOrder(info);
-        LogUtil.d("go", new Gson().toJson(info));
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -176,6 +180,7 @@ public class CreateOrderAty extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast(rb.getMessage());
+                    finish();
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -258,6 +263,7 @@ public class CreateOrderAty extends BaseActivity {
         }
         String key=data.getStringExtra("key");
         for (ChoseBean bean : beanArrayList) {
+            bean.setSelect(false);//这里要清 intent是复制对象
             if (bean.getKey().equals(key)) {
                 bean.setSelect(true);
                 //设置

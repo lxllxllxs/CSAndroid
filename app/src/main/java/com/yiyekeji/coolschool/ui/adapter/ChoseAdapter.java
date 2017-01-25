@@ -67,10 +67,9 @@ public class ChoseAdapter extends RecyclerView.Adapter<ChoseAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         ChoseBean choseBean = beanList.get(i);
         viewHolder.tvValue.setText(choseBean.getValue().toString());
+        viewHolder.ivSelected.setVisibility(View.INVISIBLE);
         if (choseBean.isSelect()) {
             viewHolder.ivSelected.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.ivSelected.setVisibility(View.INVISIBLE);
         }
         if (mOnItemClickLitener != null) {
             viewHolder.tvValue.setOnClickListener(new View.OnClickListener() {

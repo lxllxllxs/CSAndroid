@@ -320,6 +320,7 @@ public class ReleaseProductAyt extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("发布成功！");
+                    finish();
                 } else {
                     showShortToast(rb.getMessage());
                 }

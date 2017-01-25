@@ -51,7 +51,7 @@ public class SelectDeliverTimeAty extends BaseActivity {
             public void onItemClick(View view, int position) {
                 Intent intent=new Intent();
                 intent.putExtra("key",choseBeanList.get(position).getKey());
-                setResult(RESULT_OK);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });

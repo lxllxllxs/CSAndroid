@@ -31,4 +31,14 @@ public class SupplierInfo  {
     private String sPhone;
     private String sRegTime;
     private String sName;
+
+    public String getUserNum() {
+        return userNum;
+    }
+
+    public void setUserNum(String userNum) {
+        this.userNum = userNum;
+    }
+
+    private String userNum;
 }

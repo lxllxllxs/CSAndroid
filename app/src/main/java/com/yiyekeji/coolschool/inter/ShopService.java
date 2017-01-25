@@ -45,4 +45,6 @@ public interface ShopService {
     @POST("shop/getTimeTypeList ")
     Call<ResponseBody> getTimeTypeList ();
 
+    @POST("shop/addProductToCart ")
+    Call<ResponseBody> addProductToCart (@Body Map<String, Object> params);
 }

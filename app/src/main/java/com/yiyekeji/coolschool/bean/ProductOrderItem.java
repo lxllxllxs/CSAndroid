@@ -20,6 +20,15 @@ public class ProductOrderItem implements Parcelable {
     public String getUnit() {
         return unit;
     }
+    private String supplierNum;
+
+    public String getSupplierNum() {
+        return supplierNum;
+    }
+
+    public void setSupplierNum(String supplierNum) {
+        this.supplierNum = supplierNum;
+    }
 
     public void setUnit(String unit) {
         this.unit = unit;
@@ -132,6 +141,7 @@ public class ProductOrderItem implements Parcelable {
         dest.writeString(this.mTitle);
         dest.writeString(this.productName);
         dest.writeString(this.imgPath);
+        dest.writeString(this.supplierNum);
         dest.writeString(this.unit);
         dest.writeInt(this.pmCount);
         dest.writeDouble(this.subTotal);
@@ -145,6 +155,7 @@ public class ProductOrderItem implements Parcelable {
         this.mTitle = in.readString();
         this.productName = in.readString();
         this.imgPath = in.readString();
+        this.supplierNum = in.readString();
         this.unit = in.readString();
         this.pmCount = in.readInt();
         this.subTotal = in.readDouble();

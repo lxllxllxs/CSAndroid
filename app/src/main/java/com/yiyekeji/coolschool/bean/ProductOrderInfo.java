@@ -30,7 +30,7 @@ public class ProductOrderInfo implements Parcelable {
                 ", receivePhone='" + receivePhone + '\'' +
                 ", userNum='" + userNum + '\'' +
                 ", timeType=" + timeType +
-                ", productOrderItems=" + productOrderItems +
+                ", productOrderItems=" + orderItemList +
                 '}';
     }
 
@@ -88,16 +88,16 @@ public class ProductOrderInfo implements Parcelable {
     }
 
     public ArrayList<ProductOrderItem> getProductOrderItems() {
-        return productOrderItems;
+        return orderItemList;
     }
 
     public void setProductOrderItems(ArrayList<ProductOrderItem> productOrderItems) {
-        this.productOrderItems = productOrderItems;
+        this.orderItemList = productOrderItems;
     }
 
     private String userNum;
     private int timeType;
-    private ArrayList<ProductOrderItem> productOrderItems;
+    private ArrayList<ProductOrderItem> orderItemList;
 
     @Override
     public int describeContents() {
@@ -113,7 +113,7 @@ public class ProductOrderInfo implements Parcelable {
         dest.writeString(this.receivePhone);
         dest.writeString(this.userNum);
         dest.writeInt(this.timeType);
-        dest.writeTypedList(this.productOrderItems);
+        dest.writeTypedList(this.orderItemList);
     }
 
     public ProductOrderInfo() {
@@ -127,7 +127,7 @@ public class ProductOrderInfo implements Parcelable {
         this.receivePhone = in.readString();
         this.userNum = in.readString();
         this.timeType = in.readInt();
-        this.productOrderItems = in.createTypedArrayList(ProductOrderItem.CREATOR);
+        this.orderItemList = in.createTypedArrayList(ProductOrderItem.CREATOR);
     }
 
     public static final Parcelable.Creator<ProductOrderInfo> CREATOR = new Parcelable.Creator<ProductOrderInfo>() {

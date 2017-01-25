@@ -11,6 +11,25 @@ import java.util.ArrayList;
 public class ProductInfo implements Parcelable {
     private  String pImage;
     private  String pTitle;
+    private  String supplierNum;
+
+    public String getSupplierNum() {
+        return supplierNum;
+    }
+
+    public void setSupplierNum(String supplierNum) {
+        this.supplierNum = supplierNum;
+    }
+
+    public int getpId() {
+        return pId;
+    }
+
+    public void setpId(int pId) {
+        this.pId = pId;
+    }
+
+    //自加字段
     private  String pUnit;
 
     public int getpState() {
@@ -135,6 +154,7 @@ public class ProductInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.pImage);
         dest.writeString(this.pTitle);
+        dest.writeString(this.supplierNum);
         dest.writeString(this.pUnit);
         dest.writeInt(this.pState);
         dest.writeString(this.pDescrition);
@@ -148,6 +168,7 @@ public class ProductInfo implements Parcelable {
     protected ProductInfo(Parcel in) {
         this.pImage = in.readString();
         this.pTitle = in.readString();
+        this.supplierNum = in.readString();
         this.pUnit = in.readString();
         this.pState = in.readInt();
         this.pDescrition = in.readString();
