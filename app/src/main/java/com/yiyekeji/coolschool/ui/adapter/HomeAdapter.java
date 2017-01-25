@@ -75,6 +75,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
         viewHolder.ll_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mOnItemClickLitener != null) {
+                    mOnItemClickLitener.onItemClick(v,i);
+                }
                 if (mainMenu.getTargetActivity() != null) {
                     Intent intent=new Intent(context,mainMenu.getTargetActivity());
                     context.startActivity(intent);
