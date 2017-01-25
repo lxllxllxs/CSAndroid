@@ -57,6 +57,7 @@
         <EditText
             android:id="@+id/edt_phone"
             android:hint="手机号"
+            android:inputType="number"
             android:paddingLeft="15px"
             android:paddingRight="15px"
             android:layout_weight="1"
@@ -107,15 +108,15 @@
         android:layout_height="1px"/>
     <com.yiyekeji.coolschool.widget.BlueRedWhiteView
         android:layout_width="match_parent"
-        android:layout_height="20px"/>
+        android:layout_height="15px"/>
     <include layout="@layout/item_product_order_item_adapter"/>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="1px"/>
     <LinearLayout
-        android:id="@+id/ll_sex"
-        android:background="@color/white"
+        android:id="@+id/ll_deliverTime"
+        android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="20px"
         android:paddingRight="15px"
         android:orientation="horizontal"

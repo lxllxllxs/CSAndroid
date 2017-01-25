@@ -41,4 +41,8 @@ public interface ShopService {
 
     @POST("shop/createProductOrder ")
     Call<ResponseBody> createProductOrder (@Body ProductOrderInfo productOrderInfo);
+
+    @POST("shop/getTimeTypeList ")
+    Call<ResponseBody> getTimeTypeList ();
+
 }

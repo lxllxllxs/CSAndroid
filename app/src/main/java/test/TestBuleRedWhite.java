@@ -1,4 +1,4 @@
-package com.yiyekeji.coolschool.test;
+package test;
 
 import android.os.Bundle;
 

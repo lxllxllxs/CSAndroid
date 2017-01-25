@@ -112,6 +112,11 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.SelectDeliverTimeAty"
+            android:label="送货时间"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.CreateOrderAty"
             android:label="创建订单"
             android:screenOrientation="portrait"
