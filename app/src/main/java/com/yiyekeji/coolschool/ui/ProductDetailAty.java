@@ -111,6 +111,8 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         tvDesc.setText(productInfo.getpDescrition());
         tvPrice.setText(getLowestPrice());
         GlideUtil.setImageToView(productInfo.getpImage(), imageView);
+        //需要移除第一个
+        productInfo.getPictureList().remove(0);
         imageAdapter = new ImageAdapter(this, productInfo.getPictureList());
         rvImgs.setAdapter(imageAdapter);
         rvImgs.setLayoutManager(new LinearLayoutManager(this));

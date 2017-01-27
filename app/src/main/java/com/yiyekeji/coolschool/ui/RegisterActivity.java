@@ -116,7 +116,10 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("密码不能为空！");
             return;
         }
-
+        if (pwd.length()<6||pwd.length()>8){
+            showShortToast("密码长度为6~8！");
+            return;
+        }
         if (TextUtils.isEmpty(repeatPwd)) {
             showShortToast("确认密码不能为空！");
             return;

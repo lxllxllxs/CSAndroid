@@ -71,6 +71,7 @@ public class SettingActivity extends BaseActivity {
                                 GlideCacheUtil.getInstance().clearImageAllCache(SettingActivity.this);
                                 GlideCacheUtil.getInstance().clearImageDiskCache(SettingActivity.this);
                                 getLoadDialog().dismiss();
+                                refresh();
                             }
                         })
                         .show();
@@ -99,5 +100,9 @@ public class SettingActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+    private void refresh() {
+        tvCacheSize.setText(GlideCacheUtil.getInstance().getCacheSize(this));
     }
 }

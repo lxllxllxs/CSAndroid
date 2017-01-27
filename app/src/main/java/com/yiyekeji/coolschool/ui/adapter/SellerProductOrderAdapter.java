@@ -1,15 +1,15 @@
 package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.ProductInfo;
+import com.yiyekeji.coolschool.bean.SellerProductOrder;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -17,19 +17,19 @@ import java.util.List;
 /**
  * Created by lxl on 2017/1/23.
  */
-public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdapter.ViewHolder> {
+public class SellerProductOrderAdapter extends RecyclerView.Adapter<SellerProductOrderAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<ProductInfo> productInfos;
+    private List<SellerProductOrder> productInfos;
     private Context context;
 
-    public MyProductListAdapter(Context context, List<ProductInfo> productInfos) {
+    public SellerProductOrderAdapter(Context context, List<SellerProductOrder> productInfos) {
         this.productInfos = productInfos;
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    public void notifyDataSetChanged(List<ProductInfo> productInfos) {
+    public void notifyDataSetChanged(List<SellerProductOrder> productInfos) {
         this.productInfos = productInfos;
         notifyDataSetChanged();
     }
@@ -40,8 +40,9 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
             AutoUtils.auto(arg0);
         }
         TextView tvProductName;
-        TextView tvModify;
-        TextView tvDel;
+        TextView tvDate;
+        TextView tvState;
+        LinearLayout llParent;
     }
 
     @Override
@@ -54,11 +55,12 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_modify_product_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_sell_product_order_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.llParent = (LinearLayout) view.findViewById(R.id.ll_parent);
         viewHolder.tvProductName = (TextView) view.findViewById(R.id.tv_productName);
-        viewHolder.tvModify = (TextView) view.findViewById(R.id.tv_modify);
-        viewHolder.tvDel= (TextView) view.findViewById(R.id.tv_del);
+        viewHolder.tvDate = (TextView) view.findViewById(R.id.tv_date);
+        viewHolder.tvState = (TextView) view.findViewById(R.id.tv_state);
         return viewHolder;
     }
 
@@ -67,33 +69,19 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductInfo info = productInfos.get(i);
+        SellerProductOrder info = productInfos.get(i);
         viewHolder.tvProductName.setText(info.getpTitle());
-        if (info.getpState() == 1) {
-            viewHolder.tvDel.setText("下架");
-            viewHolder.tvDel.setBackgroundColor(ContextCompat.getColor(context, R.color.black));
-        } else {
-            viewHolder.tvDel.setText("上架");
-            viewHolder.tvDel.setBackgroundColor(ContextCompat.getColor(context, R.color.theme_green));
-        }
-        if (mDelClickLitener != null) {
-            viewHolder.tvDel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDelClickLitener.onItemClick(v, i);
-                }
-            });
-        }
+        viewHolder.tvDate.setText(info.getOrderTime());
+        viewHolder.tvState.setText(info.getPoState()==0?"待送货":"已完成");
 
         if (mOnItemClickLitener != null) {
-            viewHolder.tvProductName.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(v, i);
+                    mOnItemClickLitener.onItemClick(v,i);
                 }
             });
         }
-
     }
 
 
@@ -101,11 +89,7 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
         void onItemClick(View view, int position);
     }
 
-    public OnItemClickLitener mOnItemClickLitener,mDelClickLitener;
-
-    public void setmDelClickLitener(OnItemClickLitener mOnItemClickLitener) {
-        this.mDelClickLitener = mOnItemClickLitener;
-    }
+    public OnItemClickLitener mOnItemClickLitener;
 
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {

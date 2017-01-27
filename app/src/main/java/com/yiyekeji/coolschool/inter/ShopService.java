@@ -47,4 +47,11 @@ public interface ShopService {
 
     @POST("shop/addProductToCart ")
     Call<ResponseBody> addProductToCart (@Body Map<String, Object> params);
+
+    @POST("shop/getSupplierProductOrderList ")
+    Call<ResponseBody> getSupplierProductOrderList (@Body Map<String, Object> params);
+
+    @POST("shop/getSupplierPorderInfo ")
+    Call<ResponseBody> getSupplierPorderInfo (@Body Map<String, Object> params);
+
 }

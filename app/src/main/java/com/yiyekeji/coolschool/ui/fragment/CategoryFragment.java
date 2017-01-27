@@ -190,7 +190,6 @@ public class CategoryFragment extends BaseFragment {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
-
                     showShortToast(rb.getMessage());
                     return;
                 }

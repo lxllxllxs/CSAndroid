@@ -55,6 +55,10 @@ public class ModifyPwdActivity extends BaseActivity {
 
     @OnClick(R.id.cb_confirm)
     public void onClick() {
+        if (ledtNewPwd.getEditText().length()<6||ledtNewPwd.getEditText().length()>8){
+            showShortToast("密码长度为6~8！");
+            return;
+        }
         if (!ledtNewPwd.getEditText().equals(ledtReaptPwd.getEditText())){
             showShortToast("新密码两次输入不一致！");
             return;

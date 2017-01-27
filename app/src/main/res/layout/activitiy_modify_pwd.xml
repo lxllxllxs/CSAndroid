@@ -15,7 +15,7 @@
         android:id="@+id/ledt_oldPwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText="ss"
+        ledt:edtText="6~8位"
         ledt:isPwd="true"
         ledt:text="旧密码    "/>
     <com.yiyekeji.coolschool.widget.LableEditView
