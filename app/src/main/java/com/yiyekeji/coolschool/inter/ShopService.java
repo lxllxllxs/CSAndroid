@@ -54,4 +54,7 @@ public interface ShopService {
     @POST("shop/getSupplierPorderInfo ")
     Call<ResponseBody> getSupplierPorderInfo (@Body Map<String, Object> params);
 
+    @POST("shop/updateProductOrderState ")
+    Call<ResponseBody> updateProductOrderState (@Body Map<String, Object> params);
+
 }

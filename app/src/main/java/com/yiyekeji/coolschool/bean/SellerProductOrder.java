@@ -94,13 +94,7 @@ public class SellerProductOrder implements Parcelable {
         this.pmCount = pmCount;
     }
 
-    public int getPoStates() {
-        return poStates;
-    }
 
-    public void setPoStates(int poStates) {
-        this.poStates = poStates;
-    }
 
     public double getPmPrice() {
         return pmPrice;
@@ -112,7 +106,6 @@ public class SellerProductOrder implements Parcelable {
 
     private int pmCount;
 
-    private int poStates;
     private double pmPrice;
 
 
@@ -171,7 +164,6 @@ public class SellerProductOrder implements Parcelable {
         dest.writeString(this.receiveName);
         dest.writeString(this.receiveAddr);
         dest.writeInt(this.pmCount);
-        dest.writeInt(this.poStates);
         dest.writeDouble(this.pmPrice);
     }
 
@@ -189,7 +181,6 @@ public class SellerProductOrder implements Parcelable {
         this.receiveName = in.readString();
         this.receiveAddr = in.readString();
         this.pmCount = in.readInt();
-        this.poStates = in.readInt();
         this.pmPrice = in.readDouble();
     }
 

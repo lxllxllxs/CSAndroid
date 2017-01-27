@@ -1,12 +1,14 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
@@ -19,7 +21,6 @@ import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -82,6 +83,7 @@ public class SellProductOrderDetailAty extends BaseActivity {
         tvNum.setText(String.valueOf(sellerProductOrder.getPmCount()));
         tvDeliverTime.setText(sellerProductOrder.getTimeType());
         tvMessage.setText(sellerProductOrder.getMessage());
+        setConfiromButton(sellerProductOrder.getPoState());
     }
 
     private void initData() {
@@ -108,14 +110,11 @@ public class SellProductOrderDetailAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                     return;
                 }
-                List<SellerProductOrder> list;
-                list= GsonUtil.listFromJSon(jsonString,
-                        new TypeToken<List<SellerProductOrder>>() {}.getType(),"orderInfo") ;
-                if (list != null) {
-                    sellerProductOrder=list.get(0);
+                sellerProductOrder= GsonUtil.fromJSon(jsonString,
+                        SellerProductOrder.class,"orderInfo") ;
+                if (sellerProductOrder != null) {
                     initView();
                 }
-
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -128,7 +127,67 @@ public class SellProductOrderDetailAty extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
+                if (sellerProductOrder.getPoState()==1){
+                    return;
+                }
+                AlertDialog.Builder buidler = new AlertDialog.Builder(this);
+                buidler.setMessage("确定完成该订单吗？")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                updateProductOrderState();
+                            }
+                        })
+                        .show();
                 break;
         }
+    }
+
+
+    private void updateProductOrderState() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("tokenId", App.geTokenId());
+        params.put("poId",pOrderId);
+        ShopService service = RetrofitUtil.create(ShopService.class);
+        showLoadDialog("");
+        Call<ResponseBody> call=service.updateProductOrderState(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (!rb.getResult().equals("1")){
+                    showShortToast(rb.getMessage());
+                    return;
+                }
+                setConfiromButton(1);
+                showShortToast(rb.getMessage());
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+            }
+        });
+    }
+
+    private void setConfiromButton(int type) {
+        switch (type){
+            case 0:
+                tvConfirm.setText("待送货");
+                tvConfirm.setBackgroundColor(ContextCompat.getColor(SellProductOrderDetailAty.this,R.color.theme_red));
+                break;
+            case 1:
+                tvConfirm.setText("已完成");
+                tvConfirm.setBackgroundColor(ContextCompat.getColor(SellProductOrderDetailAty.this,R.color.gray_text));
+                break;
+        }
+
     }
 }
