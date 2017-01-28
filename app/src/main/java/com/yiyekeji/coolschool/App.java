@@ -25,6 +25,13 @@ public class App extends Application{
         isLogin=false;
     }
 
+    public static boolean isExistSDCard() {
+        if (android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else
+            return false;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
