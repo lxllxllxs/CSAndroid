@@ -88,7 +88,6 @@ public class LoginActivity extends BaseActivity {
             showShortToast("账号或密码不能为空！");
             return ;
         }
-        savaLoginInfo();
         final UserInfo user = new UserInfo();
         user.setUserNum(name);
         user.setPassword(pwd);
@@ -110,6 +109,7 @@ public class LoginActivity extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
+                    savaLoginInfo();
                     userInfo.setPassword("");//清除密码
                     App.userInfo=userInfo;
                     Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);

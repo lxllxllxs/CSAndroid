@@ -24,7 +24,6 @@ import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.adapter.AddImageAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
-import com.yiyekeji.coolschool.utils.BitmapCompressor;
 import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
@@ -33,8 +32,9 @@ import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
+import net.bither.util.NativeUtil;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,12 +133,8 @@ public class ReleaseProductAyt extends BaseActivity {
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         Bitmap bitmap= BitmapFactory.decodeFile(filePath);
-        try {
-            file = BitmapCompressor.saveFile(BitmapCompressor.comp(bitmap), file.getName());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (false) {
+         NativeUtil.compressBitmap(bitmap, "/sdcard/jin.jpg",true);
+        if (true) {
             return;
         }
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
