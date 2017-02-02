@@ -60,6 +60,7 @@ public class StartActivity extends BaseActivity {
                 getLoadDialog().dismiss();
                 if (response.code()!=200){
                     showShortToast("网络错误"+response.code());
+                    startActivity(LoginActivity.class);
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
@@ -72,12 +73,14 @@ public class StartActivity extends BaseActivity {
                     startActivity(MainViewpagerActivity.class);
                 } else {
                     showShortToast(rb.getMessage());
+                    startActivity(LoginActivity.class);
                 }
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
                 showShortToast(t.toString());
+                startActivity(LoginActivity.class);
             }
         });
     }

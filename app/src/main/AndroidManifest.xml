@@ -7,9 +7,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -27,11 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--友盟Apikey-->
+        <meta-data android:value="589348ad7666137d31001e62" android:name="UMENG_APPKEY"/>
         <meta-data android:name="design_width" android:value="720"></meta-data>
         <meta-data android:name="design_height" android:value="1280"></meta-data>
-
+        <meta-data android:value="wandoujia" android:name="UMENG_CHANNEL"/>
         <activity android:name=".ui.StartActivity"
-                  android:launchMode="singleTask"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -42,13 +40,11 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="登录"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             />
         <activity
             android:name=".ui.UpLoadActivity"
             android:label="上传文件测试"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             />
         <activity

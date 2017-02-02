@@ -133,7 +133,7 @@ public class ReleaseProductAyt extends BaseActivity {
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         Bitmap bitmap= BitmapFactory.decodeFile(filePath);
-         NativeUtil.compressBitmap(bitmap, "/sdcard/jin.jpg",true);
+         NativeUtil.compressBitmap(bitmap, "/sdcard/l.jpg",true);
         if (true) {
             return;
         }

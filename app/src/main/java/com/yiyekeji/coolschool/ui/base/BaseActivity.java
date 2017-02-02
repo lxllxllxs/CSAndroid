@@ -3,11 +3,13 @@ package com.yiyekeji.coolschool.ui.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.widget.LoadDialog;
@@ -32,6 +34,17 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
     /**
      * 获取dialog对象
      *
@@ -112,9 +125,24 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
     }
 
 
+    // 点击HOME键时程序进入后台运行
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        // 按下HOME键
+        if(keyCode == KeyEvent.KEYCODE_HOME){
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mdDialog != null&&mdDialog.isShowing()) {
+            mdDialog.dismiss();
+        }
         App.removeActivity(this);
     }
 }

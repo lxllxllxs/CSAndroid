@@ -215,6 +215,14 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
+    @Override
+    public void onStop() {
+        if (dlg != null && dlg.isShowing()) {
+            dlg.dismiss();
+        }
+        super.onStop();
+    }
+
     private Handler handler=new Handler(Looper.myLooper()){
         @Override
         public void handleMessage(Message msg) {

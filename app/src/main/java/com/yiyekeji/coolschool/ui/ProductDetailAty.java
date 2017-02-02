@@ -316,6 +316,14 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         popWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (popWindow != null) {
+            popWindow.dismiss();
+        }
+    }
+
     /**
      * 创建订单
      */
