@@ -25,10 +25,12 @@
         android:theme="@style/AppTheme">
 
         <!--友盟Apikey-->
-        <meta-data android:value="589348ad7666137d31001e62" android:name="UMENG_APPKEY"/>
+        <meta-data android:name="UMENG_APPKEY" android:value="589348ad7666137d31001e62" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="wandoujia" />
+        <meta-data android:name="UMENG_MESSAGE_SECRET" android:value="cd8852acf5a03938577d54715601f44e"/>
+
         <meta-data android:name="design_width" android:value="720"></meta-data>
         <meta-data android:name="design_height" android:value="1280"></meta-data>
-        <meta-data android:value="wandoujia" android:name="UMENG_CHANNEL"/>
         <activity android:name=".ui.StartActivity"
             >
             <intent-filter>
