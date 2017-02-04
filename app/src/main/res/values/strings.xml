@@ -4,4 +4,5 @@
     <string name="response_err">网络错误</string>
     <string name="yuan">¥</string>
     <string name="multiply">×</string>
+    <string name="check_version">已是最新版本</string>
 </resources>

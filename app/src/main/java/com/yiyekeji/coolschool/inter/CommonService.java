@@ -3,7 +3,6 @@ package com.yiyekeji.coolschool.inter;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,17 +26,11 @@ public interface CommonService {
     @POST("common/appUploadPhoneModel")
     Call<ResponseBody> appUploadPhoneModel(@Body Map<String, Object> params);
 
-    /**
-     * 这种写法缺点是太死板 但组装参数方便
-     * @param description
-     * @param imgs
-     * @return
-     */
-    @Multipart
-    @POST("common/upLoad")
-    Call<ResponseBody> upload(@Part("filename") String description,
-                              @Part("pic\"; filename=\"image.jpg") RequestBody imgs);
     @Multipart
     @POST("common/upLoad")
     Call<ResponseBody> upload( @Part MultipartBody.Part... file);
+
+    @POST("common/checkVersion")
+    Call<ResponseBody> checkVersion();
+
 }

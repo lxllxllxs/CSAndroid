@@ -27,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
         <ImageView
+            android:padding="5px"
             android:src="@mipmap/arrow_right_gray"
             android:layout_width="44px"
             android:layout_height="match_parent"/>
@@ -61,10 +62,37 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
         <ImageView
+            android:padding="5px"
             android:src="@mipmap/arrow_right_gray"
             android:layout_width="44px"
             android:layout_height="match_parent"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_checkUpdate"
+        android:background="@color/white"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="87px">
+        <TextView
+            android:gravity="center_vertical"
+            android:text="版本更新"
+            android:textSize="30px"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:src="@mipmap/arrow_right_gray"
+            android:padding="5px"
+            android:layout_width="44px"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
@@ -86,6 +114,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
         <ImageView
+            android:padding="5px"
             android:src="@mipmap/arrow_right_gray"
             android:layout_width="44px"
             android:layout_height="match_parent"/>
