@@ -71,7 +71,6 @@ public class SettingActivity extends BaseActivity {
     private void initView() {
         titleBar.initView(this);
         tvCacheSize.setText(GlideCacheUtil.getInstance().getCacheSize(this));
-
     }
 
     @OnClick({R.id.ll_modifyPwd, R.id.ll_clearCache, R.id.ll_aboutUs, R.id.cb_signOut,R.id.ll_checkUpdate})
