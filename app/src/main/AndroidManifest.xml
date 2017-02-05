@@ -66,6 +66,11 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.BuyerProductOrderListAty"
+            android:label="已买商品"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.SellProductOrderDetailAty"
             android:label="商品订单"
             android:screenOrientation="portrait"

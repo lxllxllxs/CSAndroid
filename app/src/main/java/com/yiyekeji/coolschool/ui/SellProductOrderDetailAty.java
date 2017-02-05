@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
-import com.yiyekeji.coolschool.bean.SellerProductOrder;
+import com.yiyekeji.coolschool.bean.ProductOrder;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GlideUtil;
@@ -73,17 +73,17 @@ public class SellProductOrderDetailAty extends BaseActivity {
     }
 
     private void initView() {
-        GlideUtil.setImageToView(sellerProductOrder.getpImage(), ivProduct);
-        tvRecipient.setText(sellerProductOrder.getReceiveName());
-        tvPhone.setText(sellerProductOrder.getReceivePhone());
-        tvAddress.setText(sellerProductOrder.getReceiveAddr());
-        tvName.setText(sellerProductOrder.getpTitle());
-        tvModel.setText(sellerProductOrder.getPmTitle());
-        tvPrice.setText(String.valueOf(sellerProductOrder.getPmPrice()));
-        tvNum.setText(String.valueOf(sellerProductOrder.getPmCount()));
-        tvDeliverTime.setText(sellerProductOrder.getTimeType());
-        tvMessage.setText(sellerProductOrder.getMessage());
-        setConfiromButton(sellerProductOrder.getPoState());
+        GlideUtil.setImageToView(productOrder.getpImage(), ivProduct);
+        tvRecipient.setText(productOrder.getReceiveName());
+        tvPhone.setText(productOrder.getReceivePhone());
+        tvAddress.setText(productOrder.getReceiveAddr());
+        tvName.setText(productOrder.getpTitle());
+        tvModel.setText(productOrder.getPmTitle());
+        tvPrice.setText(String.valueOf(productOrder.getPmPrice()));
+        tvNum.setText(String.valueOf(productOrder.getPmCount()));
+        tvDeliverTime.setText(productOrder.getTimeType());
+        tvMessage.setText(productOrder.getMessage());
+        setConfiromButton(productOrder.getPoState());
     }
 
     private void initData() {
@@ -92,7 +92,7 @@ public class SellProductOrderDetailAty extends BaseActivity {
     }
 
     int pOrderId;
-    SellerProductOrder sellerProductOrder;
+    ProductOrder productOrder;
     private void getSupplierPorderInfo() {
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.geTokenId());
@@ -110,9 +110,9 @@ public class SellProductOrderDetailAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                     return;
                 }
-                sellerProductOrder= GsonUtil.fromJSon(jsonString,
-                        SellerProductOrder.class,"orderInfo") ;
-                if (sellerProductOrder != null) {
+                productOrder = GsonUtil.fromJSon(jsonString,
+                        ProductOrder.class,"orderInfo") ;
+                if (productOrder != null) {
                     initView();
                 }
             }
@@ -127,7 +127,7 @@ public class SellProductOrderDetailAty extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
-                if (sellerProductOrder.getPoState()==1){
+                if (productOrder.getPoState()==1){
                     return;
                 }
                 AlertDialog.Builder buidler = new AlertDialog.Builder(this);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by lxl on 2017/1/24.
  */
-public class ProductOrderInfo implements Parcelable {
+public class CreateProductOrderInfo implements Parcelable {
 
     private String tokenId;
     private double sum;
@@ -22,7 +22,7 @@ public class ProductOrderInfo implements Parcelable {
 
     @Override
     public String toString() {
-        return "ProductOrderInfo{" +
+        return "CreateProductOrderInfo{" +
                 "tokenId='" + tokenId + '\'' +
                 ", sum=" + sum +
                 ", receiveAddr='" + receiveAddr + '\'' +
@@ -116,10 +116,10 @@ public class ProductOrderInfo implements Parcelable {
         dest.writeTypedList(this.orderItemList);
     }
 
-    public ProductOrderInfo() {
+    public CreateProductOrderInfo() {
     }
 
-    protected ProductOrderInfo(Parcel in) {
+    protected CreateProductOrderInfo(Parcel in) {
         this.tokenId = in.readString();
         this.sum = in.readDouble();
         this.receiveAddr = in.readString();
@@ -130,15 +130,15 @@ public class ProductOrderInfo implements Parcelable {
         this.orderItemList = in.createTypedArrayList(ProductOrderItem.CREATOR);
     }
 
-    public static final Parcelable.Creator<ProductOrderInfo> CREATOR = new Parcelable.Creator<ProductOrderInfo>() {
+    public static final Parcelable.Creator<CreateProductOrderInfo> CREATOR = new Parcelable.Creator<CreateProductOrderInfo>() {
         @Override
-        public ProductOrderInfo createFromParcel(Parcel source) {
-            return new ProductOrderInfo(source);
+        public CreateProductOrderInfo createFromParcel(Parcel source) {
+            return new CreateProductOrderInfo(source);
         }
 
         @Override
-        public ProductOrderInfo[] newArray(int size) {
-            return new ProductOrderInfo[size];
+        public CreateProductOrderInfo[] newArray(int size) {
+            return new CreateProductOrderInfo[size];
         }
     };
 }

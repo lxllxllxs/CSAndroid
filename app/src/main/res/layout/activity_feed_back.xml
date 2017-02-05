@@ -16,7 +16,6 @@
         android:id="@+id/edt_feedback"
         android:gravity="top"
         android:padding="10px"
-        android:layout_marginLeft="20px"
         android:textSize="25px"
         android:hint="反馈问题或是建议，帮助我们完善"
         android:textColor="@color/gray"

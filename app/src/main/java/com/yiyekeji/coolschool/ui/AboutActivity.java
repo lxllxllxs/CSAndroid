@@ -50,6 +50,8 @@ public class AboutActivity extends BaseActivity {
     TitleBar titleBar;
     @InjectView(R.id.iv_shareApp)
     ImageView ivShareApp;
+    @InjectView(R.id.ll_feedback)
+    LinearLayout llFeedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +86,10 @@ public class AboutActivity extends BaseActivity {
                 }
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    GlideUtil.setImageToView(rb.getMessage(),ivShareApp);
+                    GlideUtil.setImageToView(rb.getMessage(), ivShareApp);
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -95,11 +98,14 @@ public class AboutActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.ll_checkUpdate})
+    @OnClick({R.id.ll_checkUpdate,R.id.ll_feedback})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_checkUpdate:
                 checkUpdate();
+                break;
+            case R.id.ll_feedback:
+                startActivity(FeedBackActivity.class);
                 break;
         }
     }
@@ -107,7 +113,8 @@ public class AboutActivity extends BaseActivity {
     /**
      *
      */
-    AndroidVersion version=null;
+    AndroidVersion version = null;
+
     private void checkUpdate() {
         CommonService service = RetrofitUtil.create(CommonService.class);
         Call<ResponseBody> call = service.checkVersion();
@@ -118,12 +125,12 @@ public class AboutActivity extends BaseActivity {
                 getLoadDialog().dismiss();
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
-                if (!rb.getResult().equals("1")){
+                if (!rb.getResult().equals("1")) {
                     showShortToast(rb.getMessage());
                     return;
                 }
-                version= GsonUtil.fromJSon(jsonString,
-                        AndroidVersion.class,"checkVersion") ;
+                version = GsonUtil.fromJSon(jsonString,
+                        AndroidVersion.class, "checkVersion");
                 if (version != null) {
                     if (isNeedUpdate()) {
                         AlertDialog.Builder buidler = new AlertDialog.Builder(AboutActivity.this);
@@ -139,7 +146,7 @@ public class AboutActivity extends BaseActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 //                                        startDownLoad();
-                                    //直接借用其他浏览器打开连接
+                                        //直接借用其他浏览器打开连接
                                         Intent intent = new Intent();
                                         intent.setAction("android.intent.action.VIEW");
                                         Uri content_url = Uri.parse(version.getUrl());
@@ -154,6 +161,7 @@ public class AboutActivity extends BaseActivity {
                     showShortToast(getString(R.string.check_version));
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -163,25 +171,26 @@ public class AboutActivity extends BaseActivity {
     }
 
     long downloadId;
+
     private void startDownLoad() {
-        final DownloadManager downloadManager=(DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+        final DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(version.getUrl()));
-        request.setDestinationInExternalPublicDir(Config.TEMP_FILE,"CoolSchool.apk");
+        request.setDestinationInExternalPublicDir(Config.TEMP_FILE, "CoolSchool.apk");
         request.setTitle("正在更新");
         request.setDescription("");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
         request.setMimeType("application/cn.trinea.download.file");
-        downloadId=downloadManager.enqueue(request);
+        downloadId = downloadManager.enqueue(request);
 
         File folder = new File(Config.SD_PATH + Config.TEMP_FILE);
         if (!folder.exists() && folder.isDirectory()) {
             folder.mkdirs();
         }
-        SPUtils.put(this,"downloadcomplete",downloadId);
+        SPUtils.put(this, "downloadcomplete", downloadId);
 
-        handler.postDelayed(runnable,1000);
+        handler.postDelayed(runnable, 1000);
 // 注册广播接收器，当下载完成时自动安装
     /*    IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -198,12 +207,13 @@ public class AboutActivity extends BaseActivity {
         };
         registerReceiver(receiver, filter);*/
     }
-    private Runnable runnable=new Runnable() {
+
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            DownloadManager manager = (DownloadManager)getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             DownloadManager.Query query = new DownloadManager.Query();
-            SharedPreferences sPreferences =getSharedPreferences("downloadcomplete", 0);
+            SharedPreferences sPreferences = getSharedPreferences("downloadcomplete", 0);
             query.setFilterById(downloadId);
             Cursor cursor = manager.query(query);
             if (!cursor.moveToFirst()) {
@@ -219,18 +229,18 @@ public class AboutActivity extends BaseActivity {
                 cursor.close();
                 return;
             }
-            LogUtil.d("进度：",downloadedSoFar*100/totalSize+"%");
+            LogUtil.d("进度：", downloadedSoFar * 100 / totalSize + "%");
             cursor.close();
         }
     };
 
-    private Handler handler=new Handler(Looper.myLooper()){
+    private Handler handler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    handler.postDelayed(runnable,1000);
+                    handler.postDelayed(runnable, 1000);
                     break;
                 case 1:
 
@@ -240,7 +250,7 @@ public class AboutActivity extends BaseActivity {
     };
 
     private boolean isNeedUpdate() {
-        if (version.getVersion()>(CommonUtils.getAppVersion())){
+        if (version.getVersion() > (CommonUtils.getAppVersion())) {
             return true;
         }
         return false;

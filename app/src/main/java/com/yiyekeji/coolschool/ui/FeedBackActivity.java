@@ -29,7 +29,7 @@ public class FeedBackActivity extends BaseActivity {
         setContentView(R.layout.activity_feed_back);
         ButterKnife.inject(this);
         initView();
-    }
+}
 
     private void initView() {
         titleBar.initView(this);

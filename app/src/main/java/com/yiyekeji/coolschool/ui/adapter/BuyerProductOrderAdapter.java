@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * Created by lxl on 2017/1/23.
  */
-public class SellerProductOrderAdapter extends RecyclerView.Adapter<SellerProductOrderAdapter.ViewHolder> {
+public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductOrderAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
     private List<ProductOrder> productInfos;
     private Context context;
 
-    public SellerProductOrderAdapter(Context context, List<ProductOrder> productInfos) {
+    public BuyerProductOrderAdapter(Context context, List<ProductOrder> productInfos) {
         this.productInfos = productInfos;
         mInflater = LayoutInflater.from(context);
         this.context = context;
@@ -40,7 +40,6 @@ public class SellerProductOrderAdapter extends RecyclerView.Adapter<SellerProduc
             AutoUtils.auto(arg0);
         }
         TextView tvProductName;
-        TextView tvDate;
         TextView tvState;
         LinearLayout llParent;
     }
@@ -55,11 +54,10 @@ public class SellerProductOrderAdapter extends RecyclerView.Adapter<SellerProduc
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_sell_product_order_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_buy_product_order_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llParent = (LinearLayout) view.findViewById(R.id.ll_parent);
         viewHolder.tvProductName = (TextView) view.findViewById(R.id.tv_productName);
-        viewHolder.tvDate = (TextView) view.findViewById(R.id.tv_date);
         viewHolder.tvState = (TextView) view.findViewById(R.id.tv_state);
         return viewHolder;
     }
@@ -71,7 +69,6 @@ public class SellerProductOrderAdapter extends RecyclerView.Adapter<SellerProduc
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         ProductOrder info = productInfos.get(i);
         viewHolder.tvProductName.setText(info.getpTitle());
-        viewHolder.tvDate.setText(info.getOrderTime());
         viewHolder.tvState.setText(info.getPoState()==0?"待送货":"已完成");
 
         if (mOnItemClickLitener != null) {

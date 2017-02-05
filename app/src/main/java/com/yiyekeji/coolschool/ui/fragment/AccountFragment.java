@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.ui.BuyerProductOrderListAty;
 import com.yiyekeji.coolschool.ui.MyProductListAty;
 import com.yiyekeji.coolschool.ui.ReleaseProductAyt;
 import com.yiyekeji.coolschool.ui.SellerProductOrderListAty;
@@ -35,6 +36,8 @@ public class AccountFragment extends BaseFragment {
     LinearLayout llProduct;
     @InjectView(R.id.ll_sellProductOrder)
     LinearLayout llSellProductOrder;
+    @InjectView(R.id.ll_buyerProductOrder)
+    LinearLayout llBuyerProductOrder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +60,8 @@ public class AccountFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.ll_userInfo, R.id.ll_setting, R.id.ll_releasPro, R.id.ll_product,R.id.ll_sellProductOrder})
+    @OnClick({R.id.ll_userInfo, R.id.ll_setting, R.id.ll_releasPro,
+            R.id.ll_product,R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -75,6 +79,9 @@ public class AccountFragment extends BaseFragment {
                 break;
             case R.id.ll_sellProductOrder:
                 intent.setClass(getActivity(), SellerProductOrderListAty.class);
+                break;
+            case R.id.ll_buyerProductOrder:
+                intent.setClass(getActivity(), BuyerProductOrderListAty.class);
                 break;
         }
         startActivity(intent);

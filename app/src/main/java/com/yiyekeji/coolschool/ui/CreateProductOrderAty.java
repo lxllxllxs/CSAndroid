@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ChoseBean;
-import com.yiyekeji.coolschool.bean.ProductOrderInfo;
+import com.yiyekeji.coolschool.bean.CreateProductOrderInfo;
 import com.yiyekeji.coolschool.bean.ProductOrderItem;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.ShopService;
@@ -149,7 +149,7 @@ public class CreateProductOrderAty extends BaseActivity {
     /**
      * 创建订单 前面已校验
      */
-    ProductOrderInfo info = new ProductOrderInfo();
+    CreateProductOrderInfo info = new CreateProductOrderInfo();
     private void createOrder() {
         ShopService service = RetrofitUtil.create(ShopService.class);
 
@@ -164,7 +164,7 @@ public class CreateProductOrderAty extends BaseActivity {
         info.setTimeType(0);
         Gson gson = new Gson();
         LogUtil.d("toJsonTree", gson.toJsonTree(info));
-        LogUtil.d("toJsonTree", gson.toJsonTree(info,ProductOrderInfo.class));
+        LogUtil.d("toJsonTree", gson.toJsonTree(info,CreateProductOrderInfo.class));
 
         Call<ResponseBody> call = service.createProductOrder(info);
 

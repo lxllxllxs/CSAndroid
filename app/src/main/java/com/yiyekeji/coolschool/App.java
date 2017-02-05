@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.utils.DateUtils;
-import com.yiyekeji.coolschool.utils.LogUtil;
-import com.yiyekeji.coolschool.utils.ThreadPools;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,12 +33,16 @@ public class App extends Application{
             return false;
     }
 
-    PushAgent mPushAgent;
+//    PushAgent mPushAgent;
     @Override
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
-        mPushAgent= PushAgent.getInstance(this);
+        initPushAgent();
+    }
+
+    private void initPushAgent() {
+       /* mPushAgent= PushAgent.getInstance(this);
         //注册推送服务，每次调用register方法都会回调该接口
         ThreadPools.getInstance().addRunnable(new Runnable() {
             @Override
@@ -60,7 +60,7 @@ public class App extends Application{
                     }
                 });
             }
-        });
+        });*/
     }
 
     public static Context getContext(){

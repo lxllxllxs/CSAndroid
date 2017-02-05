@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by lxl on 2017/1/26.
  */
-public class SellerProductOrder implements Parcelable {
+public class ProductOrder implements Parcelable {
     private int poId;
     private int poState;
     private String pTitle;
@@ -141,7 +141,7 @@ public class SellerProductOrder implements Parcelable {
         this.orderTime = orderTime;
     }
 
-    public SellerProductOrder() {
+    public ProductOrder() {
     }
 
     @Override
@@ -167,7 +167,7 @@ public class SellerProductOrder implements Parcelable {
         dest.writeDouble(this.pmPrice);
     }
 
-    protected SellerProductOrder(Parcel in) {
+    protected ProductOrder(Parcel in) {
         this.poId = in.readInt();
         this.poState = in.readInt();
         this.pTitle = in.readString();
@@ -184,15 +184,15 @@ public class SellerProductOrder implements Parcelable {
         this.pmPrice = in.readDouble();
     }
 
-    public static final Creator<SellerProductOrder> CREATOR = new Creator<SellerProductOrder>() {
+    public static final Creator<ProductOrder> CREATOR = new Creator<ProductOrder>() {
         @Override
-        public SellerProductOrder createFromParcel(Parcel source) {
-            return new SellerProductOrder(source);
+        public ProductOrder createFromParcel(Parcel source) {
+            return new ProductOrder(source);
         }
 
         @Override
-        public SellerProductOrder[] newArray(int size) {
-            return new SellerProductOrder[size];
+        public ProductOrder[] newArray(int size) {
+            return new ProductOrder[size];
         }
     };
 }
