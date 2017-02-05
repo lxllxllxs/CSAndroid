@@ -53,7 +53,7 @@ public class SettingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_about:
-                startActivity(AboutActivitiy.class);
+                startActivity(AboutActivity.class);
                 break;
             case R.id.ll_modifyPwd:
                 startActivity(ModifyPwdActivity.class);

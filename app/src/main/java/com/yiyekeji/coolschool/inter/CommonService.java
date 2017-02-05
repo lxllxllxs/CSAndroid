@@ -33,4 +33,7 @@ public interface CommonService {
     @POST("common/checkVersion")
     Call<ResponseBody> checkVersion();
 
+    @POST("common/getQrCodeUrl")
+    Call<ResponseBody> getQrCodeUrl();
+
 }

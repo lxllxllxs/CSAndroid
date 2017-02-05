@@ -11,6 +11,18 @@ public class UserInfo implements Cloneable,Parcelable {
     private String password;
     private String userNum;
     private int roleType;
+
+    public String getPswAnswer() {
+        return pswAnswer;
+    }
+
+    public void setPswAnswer(String pswAnswer) {
+        this.pswAnswer = pswAnswer;
+    }
+
+    private String  pswAnswer;
+
+
     private int id;
     private String tokenId;
     private String headImg;
@@ -250,6 +262,9 @@ public class UserInfo implements Cloneable,Parcelable {
     }
 
 
+    public UserInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -261,6 +276,7 @@ public class UserInfo implements Cloneable,Parcelable {
         dest.writeString(this.password);
         dest.writeString(this.userNum);
         dest.writeInt(this.roleType);
+        dest.writeString(this.pswAnswer);
         dest.writeInt(this.id);
         dest.writeString(this.tokenId);
         dest.writeString(this.headImg);
@@ -276,14 +292,12 @@ public class UserInfo implements Cloneable,Parcelable {
         dest.writeString(this.regTime);
     }
 
-    public UserInfo() {
-    }
-
     protected UserInfo(Parcel in) {
         this.name = in.readString();
         this.password = in.readString();
         this.userNum = in.readString();
         this.roleType = in.readInt();
+        this.pswAnswer = in.readString();
         this.id = in.readInt();
         this.tokenId = in.readString();
         this.headImg = in.readString();
@@ -299,7 +313,7 @@ public class UserInfo implements Cloneable,Parcelable {
         this.regTime = in.readString();
     }
 
-    public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {
+    public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         @Override
         public UserInfo createFromParcel(Parcel source) {
             return new UserInfo(source);

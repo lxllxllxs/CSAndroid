@@ -23,6 +23,7 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.CommonUtils;
+import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
@@ -42,9 +43,7 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/2/4.
  */
-public class AboutActivitiy extends BaseActivity {
-    @InjectView(R.id.ll_aboutUs)
-    LinearLayout llAboutUs;
+public class AboutActivity extends BaseActivity {
     @InjectView(R.id.ll_checkUpdate)
     LinearLayout llCheckUpdate;
     @InjectView(R.id.title_bar)
@@ -62,18 +61,45 @@ public class AboutActivitiy extends BaseActivity {
     }
 
     private void initData() {
+        getQrCodeUrl();
     }
 
     private void initView() {
+        titleBar.initView(this);
     }
 
-    @OnClick({R.id.ll_checkUpdate, R.id.ll_aboutUs})
+
+    private void getQrCodeUrl() {
+        CommonService service = RetrofitUtil.create(CommonService.class);
+        Call<ResponseBody> call = service.getQrCodeUrl();
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                String jsonString = GsonUtil.toJsonString(response);
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    GlideUtil.setImageToView(rb.getMessage(),ivShareApp);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
+    }
+
+    @OnClick({R.id.ll_checkUpdate})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_checkUpdate:
                 checkUpdate();
-                break;
-            case R.id.ll_aboutUs:
                 break;
         }
     }
@@ -100,7 +126,7 @@ public class AboutActivitiy extends BaseActivity {
                         AndroidVersion.class,"checkVersion") ;
                 if (version != null) {
                     if (isNeedUpdate()) {
-                        AlertDialog.Builder buidler = new AlertDialog.Builder(AboutActivitiy.this);
+                        AlertDialog.Builder buidler = new AlertDialog.Builder(AboutActivity.this);
                         buidler.setMessage(version.getContent() + "\n" + version.getDate())
                                 .setTitle("准备下载更新？")
                                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

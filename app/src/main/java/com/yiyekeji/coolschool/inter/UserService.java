@@ -41,4 +41,7 @@ public interface UserService {
     @POST("user/appUpdatePsw")
     Call<ResponseBody> appUpdatePsw(@Body Map<String, Object> params);
 
+    @POST("user/appFindPsw")
+    Call<ResponseBody> appFindPsw(@Body Map<String, Object> params);
+
 }

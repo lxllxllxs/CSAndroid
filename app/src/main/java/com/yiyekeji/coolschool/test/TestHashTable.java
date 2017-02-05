@@ -1,4 +1,4 @@
-package test;
+package com.yiyekeji.coolschool.test;
 
 import com.yiyekeji.coolschool.utils.ThreadPools;
 

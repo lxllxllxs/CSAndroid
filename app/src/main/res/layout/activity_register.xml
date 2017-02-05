@@ -79,13 +79,12 @@
             ledt:edtText="学号/工号"
             ledt:text="用户账号"/>
 
-
         <com.yiyekeji.coolschool.widget.LableEditView
             android:visibility="gone"
             android:id="@+id/ledt_verifyCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText="6~12位数字或字母"
+            ledt:edtText="注册为老师需要认证码"
             ledt:text="认证码"/>
 
 
@@ -107,7 +106,12 @@
             android:layout_height="wrap_content"
             ledt:edtText="2~6个中文"
             ledt:text="真实姓名"/>
-
+        <com.yiyekeji.coolschool.widget.LableEditView
+            android:id="@+id/ledt_pswAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ledt:edtText="最亲密的人的生日4位"
+            ledt:text="密保问题"/>
         <com.yiyekeji.coolschool.widget.CButton
             android:layout_marginTop="30px"
             android:id="@+id/cb_confirm"

@@ -56,6 +56,8 @@ public class RegisterActivity extends BaseActivity {
     ImageView ivTeacher;
     @InjectView(R.id.ledt_verifyCode)
     LableEditView ledtVerifyCode;
+    @InjectView(R.id.ledt_pswAnswer)
+    LableEditView ledtPswAnswer;
 
     private int roleTye = 0;
 
@@ -71,39 +73,42 @@ public class RegisterActivity extends BaseActivity {
         titleBar.initView(this);
     }
 
-    @OnClick({R.id.cb_confirm,R.id.iv_student,R.id.iv_teacher})
+    @OnClick({R.id.cb_confirm, R.id.iv_student, R.id.iv_teacher})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.cb_confirm:
-                for (int i=250;i<400;i++) {
+              /*  for (int i=250;i<400;i++) {
                     ledtLoginName.setEditText("3112000"+i);
                     ledtConfrimPwd.setEditText("qqqqqq");
                     ledtPwd.setEditText("qqqqqq");
                     ledtRealName.setEditText("宝元");
-                    checkAndRegister();
-                }
+                }*/
+                checkAndRegister();
                 break;
             case R.id.iv_student:
-                 roleTye=0;
+                roleTye = 0;
                 ivStudent.setImageResource(R.mipmap.single_select);
                 ivTeacher.setImageResource(R.mipmap.single_no_select);
+                ledtVerifyCode.setVisibility(View.GONE);
                 break;
             case R.id.iv_teacher:
-                roleTye=1;
+                roleTye = 1;
                 ivStudent.setImageResource(R.mipmap.single_no_select);
                 ivTeacher.setImageResource(R.mipmap.single_select);
+                ledtVerifyCode.setVisibility(View.VISIBLE);
                 break;
-
         }
 
     }
 
-    private void checkAndRegister(){
+    private void checkAndRegister() {
         String loginName = ledtLoginName.getEditText();
         String realName = ledtRealName.getEditText();
         String pwd = ledtPwd.getEditText();
         String repeatPwd = ledtConfrimPwd.getEditText();
 
+        String pswAnswer = ledtPswAnswer.getEditText();
+        String verifyCode = ledtVerifyCode.getEditText();
         if (TextUtils.isEmpty(loginName)) {
             showShortToast("用户账号不能为空！");
             return;
@@ -116,7 +121,7 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("密码不能为空！");
             return;
         }
-        if (pwd.length()<6||pwd.length()>8){
+        if (pwd.length() < 6 || pwd.length() > 8) {
             showShortToast("密码长度为6~8！");
             return;
         }
@@ -145,12 +150,21 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("学工号为10位数字！");
             return;
         }
+        if (roleTye==1&&TextUtils.isEmpty(verifyCode)){
+            showShortToast("认证码不能为空！");
+            return;
+        }
+        if (pswAnswer.length()!=4){
+            showShortToast("密保答案长度不对！");
+            return;
+        }
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUserNum(loginName);
         userInfo.setName(realName);
         userInfo.setPassword(pwd);
         userInfo.setRoleType(roleTye);
+        userInfo.setPswAnswer(pswAnswer);
         showLoadDialog("");
         UserService service = RetrofitUtil.create(UserService.class);
         Call<ResponseBean> call = service.register(userInfo);
@@ -163,7 +177,8 @@ public class RegisterActivity extends BaseActivity {
                 if (rb.getResult().equals("1")) {
                     showShortToast("注册成功！");
                     upLoadPhoneModel();//只上传一次设备数据
-//                    startActivity(LoginActivity.class);
+                    startActivity(LoginActivity.class);
+                    finish();
                 } else {
                     showShortToast("操作失败！" + rb.getMessage());
                 }
@@ -176,7 +191,6 @@ public class RegisterActivity extends BaseActivity {
             }
         });
     }
-
 
 
     /**

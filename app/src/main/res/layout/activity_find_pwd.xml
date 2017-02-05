@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ledt="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.yiyekeji.coolschool.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_userNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="学工号"
+        ledt:text="账号       "/>
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_pswAnswere"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="最亲密的人的生日4位"
+        ledt:text="密保问题"/>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_newPwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="6~8位"
+        ledt:isPwd="true"
+        ledt:text="新密码    "/>
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_reaptPwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="重复密码"
+        ledt:isPwd="true"
+        ledt:text="重复密码"/>
+
+
+    <TextView
+        android:layout_marginTop="20px"
+        android:id="@+id/tv_confirm"
+        android:text="确定"
+        android:textSize="30px"
+        android:textColor="@color/white"
+        android:background="@color/theme_red"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="88px" />
+</LinearLayout>

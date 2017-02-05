@@ -75,9 +75,7 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_findPwd:
-                login("3112002665", "qqqqqq");
-                /*Intent intent1 = new Intent(this, MainActivity.class);
-                startActivity(intent1);*/
+                startActivity(FindPwdActivity.class);
                 break;
         }
     }
