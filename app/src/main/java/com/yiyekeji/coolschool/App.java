@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.utils.DateUtils;
+import com.yiyekeji.coolschool.utils.LogUtil;
+import com.yiyekeji.coolschool.utils.ThreadPools;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,10 +36,31 @@ public class App extends Application{
         } else
             return false;
     }
+
+    PushAgent mPushAgent;
     @Override
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
+        mPushAgent= PushAgent.getInstance(this);
+        //注册推送服务，每次调用register方法都会回调该接口
+        ThreadPools.getInstance().addRunnable(new Runnable() {
+            @Override
+            public void run() {
+                mPushAgent.register(new IUmengRegisterCallback() {
+                    @Override
+                    public void onSuccess(String deviceToken) {
+                        //注册成功会返回device token
+                        LogUtil.d("App:onCreate:设备注册成功！", deviceToken);
+                    }
+
+                    @Override
+                    public void onFailure(String s, String s1) {
+                        LogUtil.d("App:onCreate:设备注册失败！", s + s1);
+                    }
+                });
+            }
+        });
     }
 
     public static Context getContext(){

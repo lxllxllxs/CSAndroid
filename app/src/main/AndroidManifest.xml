@@ -170,7 +170,16 @@
             android:label="修改密码"
             android:screenOrientation="portrait"
             />
-
+        <activity
+            android:name=".ui.AboutActivitiy"
+            android:label="关于"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.FeedBackActivity"
+            android:label="意见反馈"
+            android:screenOrientation="portrait"
+            />
         <receiver android:name=".receiver.UpdataBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />

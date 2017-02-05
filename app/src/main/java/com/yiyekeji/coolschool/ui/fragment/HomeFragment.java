@@ -23,6 +23,7 @@ import com.yiyekeji.coolschool.bean.MainMenu;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.StudentSign;
 import com.yiyekeji.coolschool.inter.RollCallService;
+import com.yiyekeji.coolschool.ui.CreatePrintOrderAty;
 import com.yiyekeji.coolschool.ui.StudentSignInActivity;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
@@ -80,7 +81,7 @@ public class HomeFragment extends BaseFragment {
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, null);
         MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
         MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
-        MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, null);
+        MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, CreatePrintOrderAty.class);
         MainMenu m7 = new MainMenu("广告", R.mipmap.ic_ad, null);
         mainMenuList.add(m1);
         mainMenuList.add(m2);

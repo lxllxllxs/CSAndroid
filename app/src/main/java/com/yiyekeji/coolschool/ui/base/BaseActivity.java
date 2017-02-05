@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.widget.LoadDialog;
@@ -31,7 +32,7 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
             //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }*/
-
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @Override

@@ -111,14 +111,17 @@
         android:layout_height="15px"/>
 
     <TextView
+        android:background="@color/white"
         android:layout_marginTop="20px"
         android:id="@+id/tv_addFile"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="添加文件"
         android:textSize="25px"
-        android:background="@color/theme_green"
-        android:textColor="@color/white"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
+        android:drawableRight="@mipmap/ic_scan_qrcode"
         android:layout_height="70px"/>
 
     <View
@@ -187,7 +190,7 @@
             android:layout_width="0dp"
             android:textSize="25px"
             android:maxLength="200"
-            android:hint="默认A4纸单面打印"
+            android:hint="默认A4纸单面打印一份"
             android:maxLines="2"
             android:background="@drawable/bg_0radiu_whitesolid_graytroke"
             android:layout_height="match_parent"/>
