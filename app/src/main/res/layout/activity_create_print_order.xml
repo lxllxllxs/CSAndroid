@@ -20,13 +20,13 @@
         android:id="@+id/tv_addFile"
         android:gravity="center_vertical"
         android:text="扫码添加文件信息"
-        style="@style/NormalTextView"
+        style="@style/BigTextView"
         android:paddingLeft="20px"
         android:paddingRight="20px"
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:drawableRight="@mipmap/ic_scan_qrcode"
-        android:layout_height="70px"/>
+        android:layout_height="87px"/>
 
     <View
         android:background="@color/gray"
@@ -38,12 +38,12 @@
         android:paddingRight="20px"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="120px">
+        android:layout_height="150px">
         <TextView
             android:paddingTop="10px"
             android:gravity="center_horizontal"
             android:text="留言"
-            style="@style/NormalTextView"
+            style="@style/BigTextView"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -57,7 +57,7 @@
             android:layout_marginLeft="20px"
             android:layout_weight="1"
             android:layout_width="0dp"
-            style="@style/NormalTextView"
+            style="@style/BigTextView"
             android:maxLength="200"
             android:hint="默认A4纸单面打印一份"
             android:maxLines="2"

@@ -36,4 +36,7 @@ public interface CommonService {
     @POST("common/getQrCodeUrl")
     Call<ResponseBody> getQrCodeUrl();
 
+    @POST("common/commitFeedBack")
+    Call<ResponseBody> commitFeedBack(@Body Map<String, Object> params);
+
 }

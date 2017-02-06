@@ -18,7 +18,7 @@
         android:padding="10px"
         style="@style/NormalTextView"
         android:hint="反馈问题或是建议，帮助我们完善"
-        android:textColor="@color/gray"
+        android:textColor="@color/black"
         android:lines="5"
         android:background="@color/white"
         android:layout_width="match_parent"
