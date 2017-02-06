@@ -1,9 +1,14 @@
 package com.yiyekeji.coolschool.utils;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
 
 import com.yiyekeji.coolschool.App;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by lxl on 2017/1/11.
@@ -32,4 +37,27 @@ public class CommonUtils {
     }
 
 
+    /**
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isEmulator(Context context){
+        String result="";
+        try{
+            String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
+            ProcessBuilder cmd = new ProcessBuilder(args);
+            Process process = cmd.start();
+            StringBuffer sb = new StringBuffer();
+            String readLine="";
+            BufferedReader responseReader = new BufferedReader(new InputStreamReader(process.getInputStream(),"utf-8"));
+            while ((readLine = responseReader.readLine()) != null) {
+                sb.append(readLine);
+            }
+            responseReader.close();
+            result=sb.toString().toLowerCase();
+        } catch(IOException ex){
+        }
+        return (!result.contains("arm")) || (result.contains("intel")) || (result.contains("amd"));
+    }
 }

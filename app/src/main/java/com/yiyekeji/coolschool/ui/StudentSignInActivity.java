@@ -48,6 +48,8 @@ public class StudentSignInActivity extends BaseActivity {
         getMyCoures();
     }
 
+
+
     UserService userService;
     private void testLogin(String name,String pwd) {
         final UserInfo user = new UserInfo();
@@ -74,7 +76,6 @@ public class StudentSignInActivity extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -110,8 +111,6 @@ public class StudentSignInActivity extends BaseActivity {
             }
         });
     }
-
-
 
     RollCallService  service;
     List<CourseInfo> infos;

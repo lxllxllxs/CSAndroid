@@ -68,7 +68,7 @@
             android:layout_height="match_parent"/>
         <ImageView
             android:src="@mipmap/arrow_right_gray"
-            android:layout_width="44px"
+            android:layout_width="44px" style="@style/IconImageView"
             android:layout_height="match_parent"/>
     </LinearLayout>
     <View
@@ -93,7 +93,7 @@
             android:layout_height="match_parent"/>
         <ImageView
             android:src="@mipmap/arrow_right_gray"
-            android:layout_width="44px"
+            android:layout_width="44px" style="@style/IconImageView"
             android:layout_height="match_parent"/>
     </LinearLayout>
     <View

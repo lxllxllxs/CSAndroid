@@ -93,7 +93,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
         });
     }
 
-
     private void startRollCall(CourseInfo info){
         Map<String, Object> params = new HashMap<>();
 
@@ -103,9 +102,13 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
         params.put("courseName", info.getCourseName());
         params.put("userNum", App.userInfo.getUserNum());
         params.put("realName", App.userInfo.getName());
-        params.put("xPosition",latitude);
-        params.put("yPosition",longitude);
-
+//        params.put("xPosition",latitude);
+//        params.put("yPosition",longitude);
+        /**
+         * 百度地图：这里采用五邑大学的坐标
+         */
+        params.put("xPosition",22.595045);
+        params.put("yPosition",113.092399);
         RollCallService callService = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = callService.startCallName(params);
         showLoadDialog("");
@@ -147,20 +150,20 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
     private void setLocation(){
         showLoadDialog("正在定位...");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                getLoadDialog().dismiss();
-                showLongToast("没有GPS定位权限！");
-                return;
-            }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        } else if (locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null){
+        if (locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 getLoadDialog().dismiss();
                 showLongToast("没有NET定位权限！");
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        } else if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getLoadDialog().dismiss();
+                showLongToast("没有GPS定位权限！");
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
     }
     private double latitude,longitude;
@@ -176,6 +179,7 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
             showLongToast("没有GPS定位权限！");
             return;
         }
+        showShortToast(latitude + "==" + longitude);
         locationManager.removeUpdates(this);
         getCourseList();
     }

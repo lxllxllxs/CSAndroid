@@ -1,15 +1,21 @@
 <resources>
 
-    <!-- loganDialog的样式 -->
     <style name="BigTextView" >
         <item name="android:textSize">28px</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <style name="NormalTextView" >
         <item name="android:textSize">24px</item>
+
     </style>
     <style name="SmallTextView" >
         <item name="android:textSize">20px</item>
     </style>
+
+    <style name="IconImageView" >
+        <item name="android:padding">8px</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->

@@ -141,7 +141,7 @@
             android:layout_height="match_parent"/>
         <ImageView
             android:src="@mipmap/arrow_right_gray"
-            android:layout_width="44px"
+            android:layout_width="44px" style="@style/IconImageView"
             android:padding="5px"
             android:layout_height="match_parent"/>
     </LinearLayout>

@@ -31,7 +31,7 @@
         <ImageView
             android:padding="8px"
             android:src="@mipmap/arrow_right_gray"
-            android:layout_width="44px"
+            android:layout_width="44px" style="@style/IconImageView"
             android:layout_height="match_parent"/>
     </LinearLayout>
 </LinearLayout>

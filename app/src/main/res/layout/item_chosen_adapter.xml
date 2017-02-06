@@ -15,11 +15,11 @@
         android:gravity="center_vertical"
         android:text=""
         android:textColor="@color/black"
-        style="@style/BigTextView" />
+        style="@style/NormalTextView" />
 
     <ImageView
         android:id="@+id/iv_selected"
-        android:layout_width="44px"
+        android:layout_width="44px" style="@style/IconImageView"
         android:layout_height="match_parent"
         android:src="@mipmap/ic_select"
         android:visibility="invisible" />

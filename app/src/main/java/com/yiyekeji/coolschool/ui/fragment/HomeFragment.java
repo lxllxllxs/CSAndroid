@@ -1,10 +1,17 @@
 package com.yiyekeji.coolschool.ui.fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +31,12 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.StudentSign;
 import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.CreatePrintOrderAty;
-import com.yiyekeji.coolschool.ui.StudentSignInActivity;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.NetUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
@@ -48,10 +55,10 @@ import retrofit2.Response;
 
 /**
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements LocationListener {
     @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
-    private HomeAdapter mAdapter;
+    private LocationManager locationManager;
     private List<MainMenu> mainMenuList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +79,7 @@ public class HomeFragment extends BaseFragment {
         if (App.userInfo.getRoleType() == 1) {
             m1 = new MainMenu("点名", R.mipmap.ic_roll_call, TeacherRollCallActivitiy.class);
         } else {
-            m1 = new MainMenu("签到", R.mipmap.ic_sign_in, StudentSignInActivity.class);
+            m1 = new MainMenu("签到", R.mipmap.ic_sign_in, null);
         }
         /**
          * 订水送水的交换图标
@@ -94,18 +101,86 @@ public class HomeFragment extends BaseFragment {
 
     private void initView() {
 
-        mAdapter = new HomeAdapter(getActivity(), mainMenuList);
+        HomeAdapter mAdapter = new HomeAdapter(getActivity(), mainMenuList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                if(position==1){
+                if(App.userInfo.getRoleType()==0&&position==0){
+                  /*  if (CommonUtils.isEmulator(getActivity())) {
+                        showShortToast("签到失败，模拟器？");
+                        return;
+                    }*/
+                    //打开模拟位置的话要终止
+                    if (Settings.Secure.getInt(getActivity().getContentResolver(),Settings.Secure.ALLOW_MOCK_LOCATION,0)!= 0 ){
+                        showShortToast("签到失败,请先关闭模拟位置？");
+                        return;
+                    }
                     getMyCoures();
+                }
+                if (position==2){
+                    setLocation();
                 }
             }
         });
+    }
+
+    private void setLocation(){
+        showLoadDialog("正在定位...");
+        locationManager = (LocationManager)getActivity(). getSystemService(getActivity().LOCATION_SERVICE);
+        if (locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getLoadDialog().dismiss();
+                showLongToast("没有NET定位权限！");
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        } else if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null){
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getLoadDialog().dismiss();
+                showLongToast("没有GPS定位权限！");
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
+    }
+    private double latitude,longitude;
+    @Override
+    public void onLocationChanged(Location location) {
+        getLoadDialog().dismiss();
+        latitude=location.getLatitude();
+        longitude=location.getLongitude();
+//        showLongToast(location.toString()+"==="+latitude+longitude);
+        // 如果只是需要定位一次，这里就移除监听，停掉服务。如果要进行实时定位，可以在退出应用或者其他时刻停掉定位服务。
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            getLoadDialog().dismiss();
+            showLongToast("没有GPS定位权限！");
+            return;
+        }
+        showShortToast(latitude + "==" + longitude);
+        locationManager.removeUpdates(this);
+        LogUtil.d(""+latitude+"="+longitude);
+        locatCount++;
+        if (locatCount<20){
+            setLocation();
+        }
+    }
+    int locatCount=0;
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        getLoadDialog().dismiss();
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
     }
 
     RollCallService service;

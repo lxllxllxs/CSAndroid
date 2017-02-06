@@ -48,7 +48,7 @@ public class DynamicSignInActivity extends BaseActivity {
     @InjectView(R.id.tv_count)
     TextView tvCount;
 
-    private final  int MAX_COUNT=10;
+    private final  int MAX_COUNT=90;
     private String number;
     private RollCallService service;
     Map<String, Object> params = new HashMap<>();

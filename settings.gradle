@@ -1,1 +1,1 @@
-include ':app', ':zxing', ':PushSDK'
+include ':app', ':zxing', ':PushSDK', ':testlib'

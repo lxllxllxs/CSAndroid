@@ -34,7 +34,7 @@
                 android:visibility="invisible"
                 android:id="@+id/iv_male"
                 android:src="@mipmap/ic_select"
-                android:layout_width="44px"
+                android:layout_width="44px" style="@style/IconImageView"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -62,7 +62,7 @@
                 android:visibility="invisible"
                 android:id="@+id/iv_female"
                 android:src="@mipmap/ic_select"
-                android:layout_width="44px"
+                android:layout_width="44px" style="@style/IconImageView"
                 android:layout_height="match_parent"/>
         </LinearLayout>
         <View
@@ -88,7 +88,7 @@
                 android:visibility="invisible"
                 android:id="@+id/iv_secret"
                 android:src="@mipmap/ic_select"
-                android:layout_width="44px"
+                android:layout_width="44px" style="@style/IconImageView"
                 android:layout_height="match_parent"/>
         </LinearLayout>
     </LinearLayout>

@@ -60,6 +60,7 @@ public class LogUtil {
     }
     public static void d(String msg) {
         if(Config.DEBUG) {
+            System.out.println(msg);
             Log.d(TAG, msg);
         }
     }
