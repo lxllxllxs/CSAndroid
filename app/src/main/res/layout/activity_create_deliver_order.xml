@@ -4,12 +4,8 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/include_create_order_header" />
-
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
     <LinearLayout
+        android:layout_marginTop="10px"
         android:background="@color/white"
         android:paddingLeft="20px"
         android:paddingRight="20px"
@@ -37,7 +33,7 @@
             style="@style/NormalTextView"
             android:maxLength="200"
             android:hint="@string/home_deliver"
-            android:maxLines="2"
+            android:lines="3"
             android:background="@drawable/bg_0radiu_whitesolid_graytroke"
             android:layout_height="match_parent"/>
     </LinearLayout>

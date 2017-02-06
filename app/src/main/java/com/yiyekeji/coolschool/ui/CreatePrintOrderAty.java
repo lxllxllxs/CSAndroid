@@ -8,16 +8,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ChoseBean;
-import com.yiyekeji.coolschool.bean.CreateProductOrderInfo;
+import com.yiyekeji.coolschool.bean.CreatePrintOrder;
 import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.inter.PrintService;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
-import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
@@ -68,11 +68,8 @@ public class CreatePrintOrderAty extends BaseActivity {
         initData();
     }
 
-
-
     private void initView() {
         titleBar.initView(this);
-
         edtAddress.setText(App.userInfo.getAddr() == null ? "" : App.userInfo.getAddr());
         edtRecipient.setText(App.userInfo.getName());
         edtPhone.setText(App.userInfo.getPhone() == null ? "" : App.userInfo.getPhone());
@@ -82,7 +79,7 @@ public class CreatePrintOrderAty extends BaseActivity {
         getTimeTypeList();
     }
 
-    @OnClick({ R.id.tv_confirm, R.id.ll_deliverTime})
+    @OnClick({ R.id.tv_confirm, R.id.ll_deliverTime,R.id.tv_addFile})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
@@ -96,6 +93,11 @@ public class CreatePrintOrderAty extends BaseActivity {
                 intent.putExtra("title", "送货时间");
                 startActivityForResult(intent, 0);
                 break;
+            case R.id.tv_addFile:
+                Intent intent1=new Intent();
+                intent1.setClass(CreatePrintOrderAty.this, CaptureActivity.class);
+                startActivityForResult(intent1,1);
+                break;
         }
     }
 
@@ -104,17 +106,11 @@ public class CreatePrintOrderAty extends BaseActivity {
     /**
      * 创建订单 前面已校验
      */
-    CreateProductOrderInfo info = new CreateProductOrderInfo();
+    CreatePrintOrder order = new CreatePrintOrder();
 
     private void createOrder() {
-        ShopService service = RetrofitUtil.create(ShopService.class);
-
-        Gson gson = new Gson();
-        LogUtil.d("toJsonTree", gson.toJsonTree(info));
-        LogUtil.d("toJsonTree", gson.toJsonTree(info, CreateProductOrderInfo.class));
-
-        Call<ResponseBody> call = service.createProductOrder(info);
-
+        PrintService service = RetrofitUtil.create(PrintService.class);
+        Call<ResponseBody> call = service.createPrintOrder(order);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -158,6 +154,15 @@ public class CreatePrintOrderAty extends BaseActivity {
             showShortToast("收货地址不能为空！");
             return false;
         }
+        if (order.getFileId()==0){
+            showShortToast("文件信息错误！");
+            return false;
+        }
+        order.setTokenId(App.geTokenId());
+        order.setUserNum(App.userInfo.getUserNum());
+        order.setReceivePhone(edtPhone.getText().toString());
+        order.setReceiveName(edtRecipient.getText().toString());
+        order.setReceiveAddr(edtAddress.getText().toString());
         return true;
     }
 
@@ -209,15 +214,28 @@ public class CreatePrintOrderAty extends BaseActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        String key = data.getStringExtra("key");
-        for (ChoseBean bean : beanArrayList) {
-            bean.setSelect(false);//这里要清 intent是复制对象
-            if (bean.getKey().equals(key)) {
-                bean.setSelect(true);
-                //设置
-                info.setTimeType(Integer.valueOf(key));
-                tvDeliverTime.setText((String) bean.getValue());
-            }
+        switch (requestCode){
+            case 0:
+                String key = data.getStringExtra("key");
+                for (ChoseBean bean : beanArrayList) {
+                    bean.setSelect(false);//这里要清 intent是复制对象
+                    if (bean.getKey().equals(key)) {
+                        bean.setSelect(true);
+                        //设置
+                        order.setTimeType(Integer.valueOf(key));
+                        tvDeliverTime.setText((String) bean.getValue());
+                    }
+                }
+                break;
+            case 1:
+                String result= data.getStringExtra("result");
+                if (RegexUtils.checkDigit(result)) {
+                    order.setFileId(Integer.valueOf(result));
+                    return;
+                }
+                order.setFileId(0);
+                break;
         }
+
     }
 }
