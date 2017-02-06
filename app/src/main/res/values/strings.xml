@@ -6,4 +6,6 @@
     <string name="multiply">×</string>
     <string name="check_version">已是最新版本</string>
     <string name="about_share">扫一扫 下载学系工会客户端</string>
+    <string name="pick_up_good">请描述物品种类、大小、重量、邮寄省份、快递公司等</string>
+    <string name="home_deliver">请粘贴取件的短信内容到这里，有其他需说明的请注明</string>
 </resources>

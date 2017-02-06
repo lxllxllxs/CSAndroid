@@ -30,7 +30,9 @@ import com.yiyekeji.coolschool.bean.MainMenu;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.StudentSign;
 import com.yiyekeji.coolschool.inter.RollCallService;
+import com.yiyekeji.coolschool.ui.CreateDeliverOrderAty;
 import com.yiyekeji.coolschool.ui.CreatePrintOrderAty;
+import com.yiyekeji.coolschool.ui.CreateTakeExpressOrderAty;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
@@ -84,8 +86,8 @@ public class HomeFragment extends BaseFragment implements LocationListener {
         /**
          * 订水送水的交换图标
          */
-        MainMenu m2 = new MainMenu("上门收件", R.mipmap.ic_take_express,null);
-        MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, null);
+        MainMenu m2 = new MainMenu("上门收件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
+        MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
         MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
         MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
         MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, CreatePrintOrderAty.class);
@@ -109,18 +111,15 @@ public class HomeFragment extends BaseFragment implements LocationListener {
             @Override
             public void onItemClick(View view, int position) {
                 if(App.userInfo.getRoleType()==0&&position==0){
-                  /*  if (CommonUtils.isEmulator(getActivity())) {
+                    if (CommonUtils.isEmulator(getActivity())) {
                         showShortToast("签到失败，模拟器？");
                         return;
-                    }*/
+                    }
                     //打开模拟位置的话要终止
                     if (Settings.Secure.getInt(getActivity().getContentResolver(),Settings.Secure.ALLOW_MOCK_LOCATION,0)!= 0 ){
                         showShortToast("签到失败,请先关闭模拟位置？");
                         return;
                     }
-                    getMyCoures();
-                }
-                if (position==2){
                     setLocation();
                 }
             }
@@ -162,15 +161,10 @@ public class HomeFragment extends BaseFragment implements LocationListener {
             showLongToast("没有GPS定位权限！");
             return;
         }
-        showShortToast(latitude + "==" + longitude);
         locationManager.removeUpdates(this);
-        LogUtil.d(""+latitude+"="+longitude);
-        locatCount++;
-        if (locatCount<20){
-            setLocation();
-        }
+        LogUtil.d("onLocationChanged:"+latitude+"="+longitude);
+        getMyCoures();
     }
-    int locatCount=0;
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         getLoadDialog().dismiss();

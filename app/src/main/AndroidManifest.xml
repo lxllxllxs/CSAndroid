@@ -61,6 +61,16 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.CreateTakeExpressOrderAty"
+            android:label="我要寄件"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.CreateDeliverOrderAty"
+            android:label="代拿快递"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.SellerProductOrderListAty"
             android:label="已卖出商品订单"
             android:screenOrientation="portrait"

@@ -2,113 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.yiyekeji.coolschool.widget.TitleBar
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="60px">
-        <TextView
-            android:gravity="center"
-            android:text="收货人    ："
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            />
-        <EditText
-            android:id="@+id/edt_recipient"
-            android:hint="收件人"
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:singleLine="true"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
-            />
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70px">
-        <TextView
-            android:gravity="center"
-            android:text="手机号码："
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            />
-        <EditText
-            android:id="@+id/edt_phone"
-            android:hint="手机号"
-            android:inputType="number"
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:singleLine="true"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
-            />
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70px">
-        <TextView
-            android:gravity="center"
-            android:text="收货地址："
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            />
-        <EditText
-            android:id="@+id/edt_address"
-            android:hint=""
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:singleLine="true"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
-            />
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <com.yiyekeji.coolschool.widget.BlueRedWhiteView
-        android:layout_width="match_parent"
-        android:layout_height="15px"/>
+
+    <include layout="@layout/include_create_order_header" />
     <TextView
         android:layout_marginTop="20px"
         android:gravity="center_vertical"
@@ -133,41 +28,6 @@
         android:drawableRight="@mipmap/ic_scan_qrcode"
         android:layout_height="70px"/>
 
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:id="@+id/ll_deliverTime"
-        android:background="@drawable/bg_selector_gray_white"
-        android:paddingLeft="20px"
-        android:paddingRight="15px"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70px">
-        <TextView
-            android:gravity="center_vertical"
-            android:text="送货时间"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:layout_marginRight="30px"
-            android:gravity="center_vertical"
-            android:text="上午"
-            style="@style/NormalTextView"
-            android:textColor="@color/gray_text"
-            android:id="@+id/tv_deliverTime"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:src="@mipmap/arrow_right_gray"
-            android:layout_width="44px" style="@style/IconImageView"
-            android:padding="5px"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
