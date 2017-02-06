@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tv_left"
-        android:textSize="25px"
+        style="@style/NormalTextView"
         android:text="0"
         android:gravity="center"
         android:textColor="@color/black"
@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/tv_center"
-        android:textSize="25px"
+        style="@style/NormalTextView"
         android:text="0"
         android:gravity="center"
         android:textColor="@color/gray_text"
@@ -35,7 +35,7 @@
         android:layout_height="match_parent" />
     <TextView
         android:id="@+id/tv_right"
-        android:textSize="25px"
+        style="@style/NormalTextView"
         android:text="0"
         android:gravity="center"
         android:textColor="@color/gray_text"

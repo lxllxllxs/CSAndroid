@@ -19,7 +19,7 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_name"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:text="asdasd"
             android:paddingLeft="15px"
             android:paddingRight="15px"
@@ -51,7 +51,7 @@
             android:layout_height="0dp">
             <TextView
                 android:id="@+id/tv_price"
-                android:textSize="25px"
+                style="@style/NormalTextView"
                 android:text="asdasd"
                 android:paddingLeft="15px"
                 android:paddingRight="15px"
@@ -65,7 +65,7 @@
                 />
             <TextView
                 android:id="@+id/tv_num"
-                android:textSize="25px"
+                style="@style/NormalTextView"
                 android:text="12"
                 android:paddingLeft="15px"
                 android:paddingRight="20px"

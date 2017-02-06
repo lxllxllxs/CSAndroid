@@ -9,7 +9,7 @@
         android:layout_height="match_parent" />
     <TextView
         android:id="@+id/tv_count"
-        android:textSize="30px"
+        style="@style/BigTextView"
         android:text="0"
         android:gravity="center"
         android:background="@color/transparent"

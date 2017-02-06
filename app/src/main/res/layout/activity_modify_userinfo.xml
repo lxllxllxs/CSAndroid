@@ -24,7 +24,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:text="男"
-                android:textSize="30px"
+                style="@style/BigTextView"
                 android:textColor="@color/text_black"
                 android:id="@+id/tv_male"
                 android:layout_weight="1"
@@ -52,7 +52,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:text="女"
-                android:textSize="30px"
+                style="@style/BigTextView"
                 android:textColor="@color/text_black"
                 android:id="@+id/tv_female"
                 android:layout_weight="1"
@@ -78,7 +78,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:text="保密"
-                android:textSize="30px"
+                style="@style/BigTextView"
                 android:textColor="@color/text_black"
                 android:id="@+id/tv_secret"
                 android:layout_weight="1"

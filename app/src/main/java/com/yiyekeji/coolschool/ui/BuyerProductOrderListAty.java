@@ -60,7 +60,7 @@ public class BuyerProductOrderListAty extends BaseActivity {
         mAdapter.setOnItemClickLitener(new BuyerProductOrderAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(BuyerProductOrderListAty.this, BuyerProductOrderAdapter.class);
+                Intent intent = new Intent(BuyerProductOrderListAty.this, SellProductOrderDetailAty.class);
                 intent.putExtra("pOrderId",orderList.get(position).getPoId());
                 startActivity(intent);
             }

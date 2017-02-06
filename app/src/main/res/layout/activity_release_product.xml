@@ -53,7 +53,7 @@
         <TextView
             android:gravity="center_vertical"
             android:text="分类"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -62,7 +62,7 @@
         <TextView
             android:id="@+id/tv_category"
             android:gravity="center_vertical"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:textColor="@color/gray_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -86,7 +86,7 @@
         <TextView
             android:gravity="center_vertical"
             android:text="规格"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -122,7 +122,7 @@
             android:paddingTop="10px"
             android:gravity="center_horizontal"
             android:text="详情"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -136,7 +136,7 @@
             android:layout_marginLeft="20px"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:maxLength="300"
             android:hint="填写其他信息"
             android:lines="3"
@@ -162,7 +162,7 @@
             android:text="取消"
             android:gravity="center"
             android:id="@+id/tv_cancel"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:textColor="@color/white"
             android:background="@color/background_gray"
             android:layout_width="0dp"
@@ -175,7 +175,7 @@
             android:text="确定"
             android:gravity="center"
             android:id="@+id/tv_confirm"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:textColor="@color/white"
             android:background="@color/theme_red"
             android:layout_width="0dp"

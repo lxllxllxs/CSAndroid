@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,11 @@ public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductO
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         ProductOrder info = productInfos.get(i);
         viewHolder.tvProductName.setText(info.getpTitle());
+        if (info.getPoState() == 1) {
+            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
+        } else {
+            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
+        }
         viewHolder.tvState.setText(info.getPoState()==0?"待送货":"已完成");
 
         if (mOnItemClickLitener != null) {

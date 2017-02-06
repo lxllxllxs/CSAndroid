@@ -14,7 +14,7 @@
             android:text="main"
             android:id="@+id/tv_main"
             android:gravity="center_vertical"
-            android:textSize="25px"
+            style="@style/NormalTextView"
             android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -24,7 +24,7 @@
             android:text="ci"
             android:id="@+id/tv_secondary"
             android:gravity="center_vertical"
-            android:textSize="25px"
+            style="@style/NormalTextView"
             android:textColor="@color/gray_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>

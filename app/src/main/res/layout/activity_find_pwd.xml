@@ -49,7 +49,7 @@
         android:layout_marginTop="20px"
         android:id="@+id/tv_confirm"
         android:text="确定"
-        android:textSize="30px"
+        style="@style/BigTextView"
         android:textColor="@color/white"
         android:background="@color/theme_red"
         android:gravity="center"

@@ -43,7 +43,7 @@
         <TextView
             android:visibility="gone"
             android:id="@+id/tv_refresh"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:text="点击刷新"
             android:textColor="@color/theme_blue"
             android:gravity="center"

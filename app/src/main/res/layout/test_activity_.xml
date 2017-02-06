@@ -11,7 +11,7 @@
         android:paddingRight="15px"
         android:layout_width="match_parent"
         android:layout_height="88px"
-        android:textSize="25px"
+        style="@style/NormalTextView"
         android:textColor="@color/black"
         />
 </LinearLayout>

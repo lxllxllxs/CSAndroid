@@ -1,5 +1,7 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -83,7 +85,24 @@ public class RegisterActivity extends BaseActivity {
                     ledtPwd.setEditText("qqqqqq");
                     ledtRealName.setEditText("宝元");
                 }*/
-                checkAndRegister();
+                if (!checkAndRegister()){
+                    return;
+                }
+                AlertDialog.Builder buidler = new AlertDialog.Builder(this);
+                buidler.setMessage("请记住密保："+ledtVerifyCode.getEditText()+"\n"+"在找回密码时将会用到")
+                        .setNegativeButton("返回修改", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                register();
+                            }
+                        })
+                        .show();
                 break;
             case R.id.iv_student:
                 roleTye = 0;
@@ -101,64 +120,68 @@ public class RegisterActivity extends BaseActivity {
 
     }
 
-    private void checkAndRegister() {
-        String loginName = ledtLoginName.getEditText();
-        String realName = ledtRealName.getEditText();
-        String pwd = ledtPwd.getEditText();
-        String repeatPwd = ledtConfrimPwd.getEditText();
+    String loginName,realName,pwd,repeatPwd,pswAnswer,verifyCode;
+    private boolean checkAndRegister() {
+        loginName = ledtLoginName.getEditText();
+        realName= ledtRealName.getEditText();
+        pwd = ledtPwd.getEditText();
+        repeatPwd = ledtConfrimPwd.getEditText();
 
-        String pswAnswer = ledtPswAnswer.getEditText();
-        String verifyCode = ledtVerifyCode.getEditText();
+        pswAnswer = ledtPswAnswer.getEditText();
+        verifyCode = ledtVerifyCode.getEditText();
         if (TextUtils.isEmpty(loginName)) {
             showShortToast("用户账号不能为空！");
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(realName)) {
             showShortToast("真实姓名不能为空！");
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(pwd)) {
             showShortToast("密码不能为空！");
-            return;
+            return false;
         }
         if (pwd.length() < 6 || pwd.length() > 8) {
             showShortToast("密码长度为6~8！");
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(repeatPwd)) {
             showShortToast("确认密码不能为空！");
-            return;
+            return false;
         }
         if (!pwd.equals(repeatPwd)) {
             showShortToast("两次密码不一致！！");
-            return;
+            return false;
         }
 
         if (!RegexUtils.checkChinese(realName)) {
             showShortToast("姓名请输入中文！");
-            return;
+            return false;
         }
         if (realName.length() < 2 || realName.length() > 6) {
             showShortToast("姓名长度为2~6位！");
-            return;
+            return false;
         }
         if (!RegexUtils.checkDigit(loginName)) {
             showShortToast("学工号为10位数字！");
-            return;
+            return false;
         }
         if (loginName.length() != 10) {
             showShortToast("学工号为10位数字！");
-            return;
+            return false;
         }
         if (roleTye==1&&TextUtils.isEmpty(verifyCode)){
             showShortToast("认证码不能为空！");
-            return;
+            return false;
         }
         if (pswAnswer.length()!=4){
             showShortToast("密保答案长度不对！");
-            return;
+            return false;
         }
+        return true;
+    }
 
+    private void register(){
         UserInfo userInfo = new UserInfo();
         userInfo.setUserNum(loginName);
         userInfo.setName(realName);
@@ -191,7 +214,6 @@ public class RegisterActivity extends BaseActivity {
             }
         });
     }
-
 
     /**
      * pType	String	手机型号

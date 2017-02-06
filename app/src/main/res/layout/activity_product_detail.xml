@@ -19,7 +19,7 @@
             <include layout="@layout/item_only_square_image"/>
             <TextView
                 android:id="@+id/tv_productName"
-                android:textSize="25px"
+                style="@style/NormalTextView"
                 android:textColor="@color/black"
                 android:text="产品名"
                 android:paddingLeft="20px"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:textSize="25px"
+                    style="@style/NormalTextView"
                     android:textColor="@color/theme_red"
                     android:text="@string/yuan"
                     android:paddingLeft="20px"
@@ -43,7 +43,7 @@
                     android:layout_height="50px" />
                 <TextView
                     android:id="@+id/tv_price"
-                    android:textSize="30px"
+                    style="@style/BigTextView"
                     android:textColor="@color/theme_red"
                     android:text="价格"
                     android:textStyle="bold"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2px"/>
             <TextView
-                android:textSize="25px"
+                style="@style/NormalTextView"
                 android:textColor="@color/text_black"
                 android:text="商品详情"
                 android:paddingLeft="20px"
@@ -67,7 +67,7 @@
                 android:layout_height="50px" />
             <TextView
                 android:id="@+id/tv_desc"
-                android:textSize="25px"
+                style="@style/NormalTextView"
                 android:textColor="@color/black"
                 android:text="产品描述"
                 android:paddingTop="10px"
@@ -91,7 +91,7 @@
 
             <TextView
                 android:id="@+id/tv_contac"
-                android:textSize="25px"
+                style="@style/NormalTextView"
                 android:textColor="@color/text_black"
                 android:text="联系人"
                 android:paddingLeft="20px"
@@ -121,7 +121,7 @@
             android:visibility="gone"
             android:id="@+id/tv_title"
             android:textColor="@color/black"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:text=""
             android:gravity="center"
             android:layout_centerHorizontal="true"
@@ -146,7 +146,7 @@
         >
         <TextView
             android:id="@+id/tv_shoppingcar"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:text="加入购物车"
             android:textColor="@color/white"
             android:gravity="center"
@@ -156,7 +156,7 @@
             android:layout_height="match_parent"/>
         <TextView
             android:id="@+id/tv_buy"
-            android:textSize="30px"
+            style="@style/BigTextView"
             android:text="立即购买"
             android:textColor="@color/white"
             android:gravity="center"

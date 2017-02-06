@@ -20,7 +20,7 @@
         android:id="@+id/tv_name"
         android:text="点名"
         android:textColor="@color/text_black"
-        android:textSize="30px"
+        style="@style/BigTextView"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="80px" />

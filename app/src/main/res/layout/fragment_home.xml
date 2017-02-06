@@ -8,7 +8,7 @@
 
        <TextView
            android:textColor="@color/white"
-           android:textSize="30px"
+           style="@style/BigTextView"
            android:text="首页"
            android:gravity="center"
            android:background="@color/theme_red"
