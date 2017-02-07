@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 public class App extends Application{
     public static  boolean isLogin;
     public static UserInfo userInfo = new UserInfo();
-    public static List<Activity> activityList = new ArrayList<>();
+    public static List<BaseActivity> activityList = new ArrayList<>();
     public static Context context;
     public static UserInfo otherSide;//可用来判断当前时与哪个用户聊天
     public static void clearAllCache(){
@@ -67,7 +68,7 @@ public class App extends Application{
         return context;
     }
 
-    public static void addActivity(Activity activity){
+    public static void addActivity(BaseActivity activity){
         activityList.add(activity);
     }
 
@@ -83,12 +84,12 @@ public class App extends Application{
     }
 
     public static String geTokenId() {
-        if (tokenOutOfDate()){
+        if (tokenOutOfDate()) {
 
         }
-
         return userInfo.getTokenId();
     }
+
 
 
 /*
@@ -149,7 +150,7 @@ public class App extends Application{
         if (between > 30 * 60) {//先定30分钟
             return true;
         }
-        return false;
+        return true;//总是返回true测试
     }
 
 }

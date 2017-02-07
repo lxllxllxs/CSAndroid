@@ -10,8 +10,9 @@ import android.widget.LinearLayout;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.ui.BuyerProductOrderListAty;
 import com.yiyekeji.coolschool.ui.MyProductListAty;
+import com.yiyekeji.coolschool.ui.MyShoppingCarAty;
+import com.yiyekeji.coolschool.ui.OtherOrderListAty;
 import com.yiyekeji.coolschool.ui.ReleaseProductAyt;
 import com.yiyekeji.coolschool.ui.SellerProductOrderListAty;
 import com.yiyekeji.coolschool.ui.SettingActivity;
@@ -41,6 +42,10 @@ public class AccountFragment extends BaseFragment {
     LinearLayout llBuyerProductOrder;
     @InjectView(R.id.ll_only_seller)
     LinearLayout llOnlySeller;
+    @InjectView(R.id.ll_myShoppingCar)
+    LinearLayout llMyShoppingCar;
+    @InjectView(R.id.ll_otherOrder)
+    LinearLayout llOtherOrder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +76,8 @@ public class AccountFragment extends BaseFragment {
     }
 
     @OnClick({R.id.ll_userInfo, R.id.ll_setting, R.id.ll_releasPro,
-            R.id.ll_product, R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder})
+            R.id.ll_product, R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder,R.id.ll_myShoppingCar
+    ,R.id.ll_otherOrder})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -90,9 +96,13 @@ public class AccountFragment extends BaseFragment {
             case R.id.ll_sellProductOrder:
                 intent.setClass(getActivity(), SellerProductOrderListAty.class);
                 break;
-            case R.id.ll_buyerProductOrder:
-                intent.setClass(getActivity(), BuyerProductOrderListAty.class);
+            case R.id.ll_myShoppingCar:
+                intent.setClass(getActivity(), MyShoppingCarAty.class);
                 break;
+            case R.id.ll_otherOrder:
+                intent.setClass(getActivity(), OtherOrderListAty.class);
+                break;
+
         }
         startActivity(intent);
     }

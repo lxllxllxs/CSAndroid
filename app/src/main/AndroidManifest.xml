@@ -46,6 +46,11 @@
             android:screenOrientation="portrait"
             />
         <activity
+            android:name=".ui.TransparentLoginAty"
+            android:label="透明登录"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.UpLoadActivity"
             android:label="上传文件测试"
             android:screenOrientation="portrait"
@@ -85,6 +90,12 @@
             android:label="商品订单"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".ui.OtherOrderListAty"
+            android:label="其他订单"
+            android:screenOrientation="portrait"
+            />
+
         <activity
             android:name=".ui.RegisterActivity"
             android:label="注册"

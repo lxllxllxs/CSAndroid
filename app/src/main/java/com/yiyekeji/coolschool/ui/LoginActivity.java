@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
                 if (userInfo!=null) {
                     showShortToast("成功登录！");
                     savaLoginInfo();
-                    userInfo.setPassword("");//清除密码
+//                    userInfo.setPassword("");//清除密码 不清了
                     App.userInfo=userInfo;
                     Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
                     startActivity(intent);

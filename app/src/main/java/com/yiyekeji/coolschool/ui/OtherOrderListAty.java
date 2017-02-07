@@ -34,7 +34,7 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/1/26.
  */
-public class BuyerProductOrderListAty extends BaseActivity {
+public class OtherOrderListAty extends BaseActivity {
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
     @InjectView(R.id.recyclerView)
@@ -60,7 +60,7 @@ public class BuyerProductOrderListAty extends BaseActivity {
         mAdapter.setOnItemClickLitener(new BuyerProductOrderAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(BuyerProductOrderListAty.this, SellProductOrderDetailAty.class);
+                Intent intent = new Intent(OtherOrderListAty.this, SellProductOrderDetailAty.class);
                 intent.putExtra("pOrderId",orderList.get(position).getPoId());
                 startActivity(intent);
             }
