@@ -1,10 +1,18 @@
 package com.yiyekeji.coolschool.utils;
 
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.Config;
+import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.inter.UserService;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,7 +26,9 @@ public class RetrofitUtil {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Config.BASE_URL)
-                    .client( new OkHttpClient.Builder()
+                    .client(new OkHttpClient.Builder()
+                            .addInterceptor(new LoggingInterceptor())
+                            .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
                             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -27,5 +37,25 @@ public class RetrofitUtil {
                     .build();
         }
         return retrofit.create(service);
+    }
+
+    static class LoggingInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            if (Config.DEBUG) {
+                System.out.println(String.format("发送请求 %s on %s%n%s",
+                        request.url(), chain.connection(), request.headers()));
+            }
+            if (App.geTokenId().equals("false")){
+                UserService service=create(UserService.class);
+                UserInfo userInfo=new UserInfo();
+                userInfo.setPassword(App.userInfo.getPassword());
+                userInfo.setUserNum(App.userInfo.getUserNum());
+                Call call = service.login(userInfo);
+                chain.proceed(call.request());
+            }
+            return chain.proceed(request);
+        }
     }
 }

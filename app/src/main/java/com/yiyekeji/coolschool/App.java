@@ -85,7 +85,7 @@ public class App extends Application{
 
     public static String geTokenId() {
         if (tokenOutOfDate()) {
-
+            return "false";
         }
         return userInfo.getTokenId();
     }
