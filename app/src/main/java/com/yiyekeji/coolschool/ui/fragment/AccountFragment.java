@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.BuyerProductOrderListAty;
 import com.yiyekeji.coolschool.ui.MyProductListAty;
@@ -38,12 +39,12 @@ public class AccountFragment extends BaseFragment {
     LinearLayout llSellProductOrder;
     @InjectView(R.id.ll_buyerProductOrder)
     LinearLayout llBuyerProductOrder;
+    @InjectView(R.id.ll_only_seller)
+    LinearLayout llOnlySeller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_account, container, false);
-
         ButterKnife.inject(this, view);
         return view;
     }
@@ -52,6 +53,15 @@ public class AccountFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initView();
+    }
+
+    private void initView() {
+        //根据有无商家身份显示
+        if (App.userInfo.getIsSupplier() == 1) {
+            llOnlySeller.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -61,7 +71,7 @@ public class AccountFragment extends BaseFragment {
     }
 
     @OnClick({R.id.ll_userInfo, R.id.ll_setting, R.id.ll_releasPro,
-            R.id.ll_product,R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder})
+            R.id.ll_product, R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {

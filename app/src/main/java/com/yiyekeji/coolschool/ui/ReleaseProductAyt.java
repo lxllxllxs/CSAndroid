@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
+import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
 import com.yiyekeji.coolschool.bean.ProductModel;
@@ -133,7 +134,10 @@ public class ReleaseProductAyt extends BaseActivity {
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         Bitmap bitmap= BitmapFactory.decodeFile(filePath);
-         NativeUtil.compressBitmap(bitmap, "/sdcard/l.jpg",true);
+        if (!new File(Config.IMG_TEMP_PATH).exists()) {
+            new File(Config.IMG_TEMP_PATH).mkdirs();
+        }
+         NativeUtil.compressBitmap(bitmap,Config.IMG_TEMP_PATH+System.currentTimeMillis()+".jpg",true);
         if (true) {
             return;
         }

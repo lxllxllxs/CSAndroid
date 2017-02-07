@@ -8,16 +8,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ChoseBean;
-import com.yiyekeji.coolschool.bean.CreateProductOrderInfo;
+import com.yiyekeji.coolschool.bean.CreateTakeExpressOrder;
 import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.inter.ExpressService;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
-import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
@@ -37,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * 我要寄件
  * Created by lxl on 2017/1/25.
  */
 public class CreateTakeExpressOrderAty extends BaseActivity {
@@ -102,16 +102,11 @@ public class CreateTakeExpressOrderAty extends BaseActivity {
     /**
      * 创建订单 前面已校验
      */
-    CreateProductOrderInfo info = new CreateProductOrderInfo();
-
+    CreateTakeExpressOrder order = new CreateTakeExpressOrder();
     private void createOrder() {
-        ShopService service = RetrofitUtil.create(ShopService.class);
+        ExpressService service = RetrofitUtil.create(ExpressService.class);
 
-        Gson gson = new Gson();
-        LogUtil.d("toJsonTree", gson.toJsonTree(info));
-        LogUtil.d("toJsonTree", gson.toJsonTree(info, CreateProductOrderInfo.class));
-
-        Call<ResponseBody> call = service.createProductOrder(info);
+        Call<ResponseBody> call = service.createDoorExpressOrder(order);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -130,7 +125,6 @@ public class CreateTakeExpressOrderAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -141,7 +135,7 @@ public class CreateTakeExpressOrderAty extends BaseActivity {
 
     private boolean check() {
         if (TextUtils.isEmpty(edtRecipient.getText())) {
-            showShortToast("收货人不能为空！");
+            showShortToast("联系人不能为空！");
             return false;
         }
         if (TextUtils.isEmpty(edtPhone.getText())) {
@@ -153,9 +147,15 @@ public class CreateTakeExpressOrderAty extends BaseActivity {
             return false;
         }
         if (TextUtils.isEmpty(edtAddress.getText())) {
-            showShortToast("收货地址不能为空！");
+            showShortToast("联系地址不能为空！");
             return false;
         }
+        order.setContactAddr(edtAddress.getText().toString());
+        order.setContactName(edtRecipient.getText().toString());
+        order.setContactPhone(edtPhone.getText().toString());
+        order.setRemark(edtMessage.getText().toString());
+        order.setTokenId(App.geTokenId());
+        order.setUserNum(App.userInfo.getUserNum());
         return true;
     }
 
@@ -213,7 +213,7 @@ public class CreateTakeExpressOrderAty extends BaseActivity {
             if (bean.getKey().equals(key)) {
                 bean.setSelect(true);
                 //设置
-                info.setTimeType(Integer.valueOf(key));
+                order.setTimeType(Integer.valueOf(key));
                 tvDeliverTime.setText((String) bean.getValue());
             }
         }

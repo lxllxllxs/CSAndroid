@@ -86,7 +86,7 @@ public class HomeFragment extends BaseFragment implements LocationListener {
         /**
          * 订水送水的交换图标
          */
-        MainMenu m2 = new MainMenu("我要收件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
+        MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
         MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
         MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);

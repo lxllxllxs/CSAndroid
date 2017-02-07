@@ -60,88 +60,97 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20px" />
+
+    <!--具有商家角色才显示-->
     <LinearLayout
-        android:background="@drawable/bg_selector_gray_white"
-        android:paddingLeft="30px"
-        android:paddingRight="30px"
-        android:orientation="horizontal"
-        android:id="@+id/ll_releasPro"
+        android:id="@+id/ll_only_seller"
+        android:visibility="gone"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="87px">
-        <ImageView
-            android:src="@mipmap/release_product"
-            android:layout_width="44px"
-            android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+        <View
+            android:background="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
         <Space
-            android:layout_width="30px"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:text="发布产品"
-            style="@style/BigTextView"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@drawable/bg_selector_gray_white"
-        android:paddingLeft="30px"
-        android:paddingRight="30px"
-        android:orientation="horizontal"
-        android:id="@+id/ll_product"
-        android:layout_width="match_parent"
-        android:layout_height="87px">
-        <ImageView
-            android:src="@mipmap/my_product"
-            android:layout_width="44px"
-            android:layout_height="match_parent"/>
-        <Space
-            android:layout_width="30px"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:text="我的商品"
-            style="@style/BigTextView"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="20px" />
+        <LinearLayout
+            android:background="@drawable/bg_selector_gray_white"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:orientation="horizontal"
+            android:id="@+id/ll_releasPro"
+            android:layout_width="match_parent"
+            android:layout_height="87px">
+            <ImageView
+                android:src="@mipmap/release_product"
+                android:layout_width="44px"
+                android:layout_height="match_parent"/>
+            <Space
+                android:layout_width="30px"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:text="发布产品"
+                style="@style/BigTextView"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <View
+            android:background="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
+        <LinearLayout
+            android:background="@drawable/bg_selector_gray_white"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:orientation="horizontal"
+            android:id="@+id/ll_product"
+            android:layout_width="match_parent"
+            android:layout_height="87px">
+            <ImageView
+                android:src="@mipmap/my_product"
+                android:layout_width="44px"
+                android:layout_height="match_parent"/>
+            <Space
+                android:layout_width="30px"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:text="我的商品"
+                style="@style/BigTextView"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <View
+            android:background="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
+        <LinearLayout
+            android:background="@drawable/bg_selector_gray_white"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:orientation="horizontal"
+            android:id="@+id/ll_sellProductOrder"
+            android:layout_width="match_parent"
+            android:layout_height="87px">
+            <ImageView
+                android:src="@mipmap/seller_order"
+                android:layout_width="44px"
+                android:layout_height="match_parent"/>
+            <Space
+                android:layout_width="30px"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:text="已卖商品"
+                style="@style/BigTextView"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@drawable/bg_selector_gray_white"
-        android:paddingLeft="30px"
-        android:paddingRight="30px"
-        android:orientation="horizontal"
-        android:id="@+id/ll_sellProductOrder"
-        android:layout_width="match_parent"
-        android:layout_height="87px">
-        <ImageView
-            android:src="@mipmap/seller_order"
-            android:layout_width="44px"
-            android:layout_height="match_parent"/>
-        <Space
-            android:layout_width="30px"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:text="已卖商品"
-            style="@style/BigTextView"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
@@ -149,7 +158,6 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="20px"/>
-
     <LinearLayout
         android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="30px"

@@ -7,14 +7,15 @@
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="20px"/>
     <LinearLayout
+
         android:background="@color/white"
         android:paddingLeft="20px"
         android:paddingRight="20px"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="120px">
+        android:layout_height="150px">
         <TextView
             android:paddingTop="10px"
             android:gravity="center_horizontal"
@@ -36,7 +37,7 @@
             style="@style/NormalTextView"
             android:maxLength="200"
             android:hint="@string/pick_up_good"
-            android:maxLines="2"
+            android:lines="3"
             android:background="@drawable/bg_0radiu_whitesolid_graytroke"
             android:layout_height="match_parent"/>
     </LinearLayout>

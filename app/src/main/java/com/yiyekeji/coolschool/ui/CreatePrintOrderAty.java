@@ -139,7 +139,7 @@ public class CreatePrintOrderAty extends BaseActivity {
 
     private boolean check() {
         if (TextUtils.isEmpty(edtRecipient.getText())) {
-            showShortToast("收货人不能为空！");
+            showShortToast("联系人不能为空！");
             return false;
         }
         if (TextUtils.isEmpty(edtPhone.getText())) {
@@ -151,11 +151,11 @@ public class CreatePrintOrderAty extends BaseActivity {
             return false;
         }
         if (TextUtils.isEmpty(edtAddress.getText())) {
-            showShortToast("收货地址不能为空！");
+            showShortToast("联系地址不能为空！");
             return false;
         }
         if (order.getFileId()==0){
-            showShortToast("文件信息错误！");
+            showShortToast("文件信息错误！再扫一下吧");
             return false;
         }
         order.setTokenId(App.geTokenId());
