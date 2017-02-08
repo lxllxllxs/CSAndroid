@@ -36,6 +36,7 @@ import com.yiyekeji.coolschool.ui.CreateTakeExpressOrderAty;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
+import com.yiyekeji.coolschool.utils.CheckEmulatorUtils;
 import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
@@ -88,17 +89,17 @@ public class HomeFragment extends BaseFragment implements LocationListener {
          */
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
-        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
-        MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
+//        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
+//        MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
         MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, CreatePrintOrderAty.class);
-        MainMenu m7 = new MainMenu("广告", R.mipmap.ic_ad, null);
+//        MainMenu m7 = new MainMenu("广告", R.mipmap.ic_ad, null);
         mainMenuList.add(m1);
         mainMenuList.add(m2);
         mainMenuList.add(m3);
-        mainMenuList.add(m4);
-        mainMenuList.add(m5);
+//        mainMenuList.add(m4);
+//        mainMenuList.add(m5);
         mainMenuList.add(m6);
-        mainMenuList.add(m7);
+//        mainMenuList.add(m7);
     }
 
     private void initView() {
@@ -111,13 +112,13 @@ public class HomeFragment extends BaseFragment implements LocationListener {
             @Override
             public void onItemClick(View view, int position) {
                 if(App.userInfo.getRoleType()==0&&position==0){
-                    if (CommonUtils.isEmulator(getActivity())) {
+                    if (CheckEmulatorUtils.isEmulator(getActivity())) {
                         showShortToast("签到失败，模拟器？");
                         return;
                     }
                     //打开模拟位置的话要终止
                     if (Settings.Secure.getInt(getActivity().getContentResolver(),Settings.Secure.ALLOW_MOCK_LOCATION,0)!= 0 ){
-                        showShortToast("签到失败,请先关闭模拟位置？");
+                        showShortToast("签到失败,请关闭模拟位置");
                         return;
                     }
                     setLocation();
@@ -151,6 +152,7 @@ public class HomeFragment extends BaseFragment implements LocationListener {
         getLoadDialog().dismiss();
         latitude=location.getLatitude();
         longitude=location.getLongitude();
+
 //        showLongToast(location.toString()+"==="+latitude+longitude);
         // 如果只是需要定位一次，这里就移除监听，停掉服务。如果要进行实时定位，可以在退出应用或者其他时刻停掉定位服务。
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -226,9 +228,8 @@ public class HomeFragment extends BaseFragment implements LocationListener {
         signIn.setImei(CommonUtils.getIMEI());
         signIn.setTokenId(App.userInfo.getTokenId());
         signIn.setUserNum(App.userInfo.getUserNum());
-        //放亿业科技坐标测试
-        signIn.setX(113.02954);
-        signIn.setY(22.622995);
+        signIn.setX(longitude);
+        signIn.setY(latitude);
         service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call= service.studentSignIn(signIn);
         call.enqueue(new Callback<ResponseBody>() {

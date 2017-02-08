@@ -10,7 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.ProductOrder;
+import com.yiyekeji.coolschool.bean.OtherOrder;
+import com.yiyekeji.coolschool.utils.DateUtils;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -21,17 +22,17 @@ import java.util.List;
 public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.ViewHolder> {
 
     private LayoutInflater mInflater;
-    private List<ProductOrder> productInfos;
+    private List<OtherOrder> orderList;
     private Context context;
 
-    public OtherOrderAdapter(Context context, List<ProductOrder> productInfos) {
-        this.productInfos = productInfos;
+    public OtherOrderAdapter(Context context, List<OtherOrder> orderList) {
+        this.orderList = orderList;
         mInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
-    public void notifyDataSetChanged(List<ProductOrder> productInfos) {
-        this.productInfos = productInfos;
+    public void notifyDataSetChanged(List<OtherOrder> orderList) {
+        this.orderList = orderList;
         notifyDataSetChanged();
     }
 
@@ -40,14 +41,16 @@ public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.Vi
             super(arg0);
             AutoUtils.auto(arg0);
         }
-        TextView tvProductName;
+        TextView tvTitle;
         TextView tvState;
+        TextView tvDate;
+        TextView tvOrderType;
         LinearLayout llParent;
     }
 
     @Override
     public int getItemCount() {
-        return productInfos.size();
+        return orderList.size();
     }
 
     /**
@@ -55,10 +58,12 @@ public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.Vi
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_buy_product_order_adapter, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_other_order_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llParent = (LinearLayout) view.findViewById(R.id.ll_parent);
-        viewHolder.tvProductName = (TextView) view.findViewById(R.id.tv_productName);
+        viewHolder.tvTitle = (TextView) view.findViewById(R.id.tv_title);
+        viewHolder.tvDate = (TextView) view.findViewById(R.id.tv_date);
+        viewHolder.tvOrderType=(TextView)view.findViewById(R.id.tv_orderType);
         viewHolder.tvState = (TextView) view.findViewById(R.id.tv_state);
         return viewHolder;
     }
@@ -68,15 +73,30 @@ public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.Vi
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductOrder info = productInfos.get(i);
-        viewHolder.tvProductName.setText(info.getpTitle());
-        if (info.getPoState() == 1) {
+        OtherOrder info = orderList.get(i);
+        viewHolder.tvTitle.setText(info.getContactName().concat(info.getContactAddr()));
+        if (info.getOrderState() == 1) {
             viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
         } else {
             viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
         }
-        viewHolder.tvState.setText(info.getPoState()==0?"待送货":"已完成");
-
+        viewHolder.tvDate.setText(DateUtils.subTimeFromMin(info.getOrderTime()));
+        viewHolder.tvState.setText(info.getOrderState()==0?"待处理":"已完成");
+        //订单类型 0 打印 1 上门收件 2 代拿快递
+        switch (info.getOrderType()) {
+            case 0:
+                viewHolder.tvOrderType.setText("打印");
+                viewHolder.tvOrderType.setTextColor(ContextCompat.getColor(context,R.color.orange));
+                break;
+            case 1:
+                viewHolder.tvOrderType.setText("上门收件");
+                viewHolder.tvOrderType.setTextColor(ContextCompat.getColor(context,R.color.theme_blue));
+                break;
+            case 2:
+                viewHolder.tvOrderType.setText("代拿快递");
+                viewHolder.tvOrderType.setTextColor(ContextCompat.getColor(context,R.color.theme_purple));
+                break;
+        }
         if (mOnItemClickLitener != null) {
             viewHolder.llParent.setOnClickListener(new View.OnClickListener() {
                 @Override

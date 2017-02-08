@@ -77,6 +77,10 @@ public class ModifyPwdActivity extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
                 ResponseBean rb=GsonUtil.fromJSon(response, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("修改成功！");

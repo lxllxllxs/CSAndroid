@@ -104,11 +104,8 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
         params.put("realName", App.userInfo.getName());
 //        params.put("xPosition",latitude);
 //        params.put("yPosition",longitude);
-        /**
-         * 百度地图：这里采用五邑大学的坐标
-         */
-        params.put("xPosition",22.595045);
-        params.put("yPosition",113.092399);
+        params.put("xPosition",longitude);
+        params.put("yPosition",latitude);
         RollCallService callService = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = callService.startCallName(params);
         showLoadDialog("");

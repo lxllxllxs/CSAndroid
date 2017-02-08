@@ -3,6 +3,8 @@ package com.yiyekeji.coolschool.inter;
 import com.yiyekeji.coolschool.bean.CreateDeliverExpressOrder;
 import com.yiyekeji.coolschool.bean.CreateTakeExpressOrder;
 
+import java.util.Map;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,4 +25,8 @@ public interface ExpressService {
      */
     @POST("express/createTakeExpressOrder ")
     Call<ResponseBody> createDeliverExpressOrder(@Body CreateDeliverExpressOrder order);
+
+    @POST("express/getOtherOrderList")
+    Call<ResponseBody> getOtherOrderList(@Body Map<String, Object> params);
+
 }

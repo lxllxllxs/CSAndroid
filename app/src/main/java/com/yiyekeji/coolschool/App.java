@@ -3,6 +3,7 @@ package com.yiyekeji.coolschool;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
@@ -84,9 +85,9 @@ public class App extends Application{
     }
 
     public static String geTokenId() {
-        if (tokenOutOfDate()) {
+    /*    if (tokenOutOfDate()) {
             return "false";
-        }
+        }*/
         return userInfo.getTokenId();
     }
 
@@ -142,6 +143,9 @@ public class App extends Application{
      */
     private static boolean tokenOutOfDate() {
         String oldTimeString = userInfo.getLastTime();
+        if (TextUtils.isEmpty(oldTimeString)) {
+            return true;
+        }
         Date oldDate = DateUtils.toDate(oldTimeString,
                 "yyyy-MM-dd HH:mm:ss");
         Date nowDate = DateUtils.toDate(DateUtils.getTimeString(),

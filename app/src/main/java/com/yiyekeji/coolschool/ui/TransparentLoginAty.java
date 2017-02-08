@@ -19,7 +19,7 @@ import retrofit2.Response;
 /**
  * Created by lxl on 2017/2/7.
  */
-public class TransparentLoginAty extends BaseActivity {
+public class  TransparentLoginAty extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -95,7 +95,11 @@
             android:label="其他订单"
             android:screenOrientation="portrait"
             />
-
+        <activity
+            android:name=".ui.OtherOrderDetailAty"
+            android:label="其他订单详情"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.RegisterActivity"
             android:label="注册"

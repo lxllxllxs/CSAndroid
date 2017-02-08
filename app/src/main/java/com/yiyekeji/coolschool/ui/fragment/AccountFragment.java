@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.ui.BuyerProductOrderListAty;
 import com.yiyekeji.coolschool.ui.MyProductListAty;
 import com.yiyekeji.coolschool.ui.MyShoppingCarAty;
 import com.yiyekeji.coolschool.ui.OtherOrderListAty;
@@ -102,7 +103,9 @@ public class AccountFragment extends BaseFragment {
             case R.id.ll_otherOrder:
                 intent.setClass(getActivity(), OtherOrderListAty.class);
                 break;
-
+            case R.id.ll_buyerProductOrder:
+                intent.setClass(getActivity(), BuyerProductOrderListAty.class);
+                break;
         }
         startActivity(intent);
     }
