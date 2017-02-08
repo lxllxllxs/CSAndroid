@@ -4,13 +4,16 @@ package com.example;
  * Created by lxl on 2017/2/6.
  */
 public class TestDistance {
-
+    static String s="<?XMLVERSION=\"1.0\"ENCODING=\"GBK\"?><YYXML><HEAD><RECODE>0000</ RECODE><REMSG>成功处理</REMSG></HEAD><BODY><CODELIST><CODE><NAME>收款</NAME><VALUE>YW_SK</VALUE></CODE><CODE><NAME>付款</NAME><VALUE>YW_FK</ VALUE></CODE></CODELIST></BODY></YYXML>";
 
     public static void main(String[] args){
-       String dis= ""+getDistance(113.090549,22.600382,
-                113.02954,22.622995);
-        System.out.println(dis);
+
+        String s2 =s.replaceAll(" ","").replace("\\\\","");
+
+        System.out.println(s2.length()+"'");
     }
+
+
 
     // 计算两点距离
     private final static double EARTH_RADIUS = 6378137.0;

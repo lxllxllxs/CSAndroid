@@ -29,4 +29,7 @@ public interface ExpressService {
     @POST("express/getOtherOrderList")
     Call<ResponseBody> getOtherOrderList(@Body Map<String, Object> params);
 
+    @POST("express/updateOtherOrderState")
+    Call<ResponseBody> updateOtherOrderState(@Body Map<String, Object> params);
+
 }

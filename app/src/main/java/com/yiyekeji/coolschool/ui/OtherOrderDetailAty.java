@@ -13,7 +13,7 @@ import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.OtherOrder;
 import com.yiyekeji.coolschool.bean.ResponseBean;
-import com.yiyekeji.coolschool.inter.ShopService;
+import com.yiyekeji.coolschool.inter.ExpressService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
@@ -114,10 +114,11 @@ public class OtherOrderDetailAty extends BaseActivity {
     private void updateProductOrderState() {
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.geTokenId());
-        params.put("poId", otherOrder.getMappingId());
-        ShopService service = RetrofitUtil.create(ShopService.class);
+        params.put("mappingId", otherOrder.getMappingId());
+        params.put("orderType", otherOrder.getOrderType());
+        ExpressService service = RetrofitUtil.create(ExpressService.class);
         showLoadDialog("");
-        Call<ResponseBody> call = service.updateProductOrderState(params);
+        Call<ResponseBody> call = service.updateOtherOrderState(params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
