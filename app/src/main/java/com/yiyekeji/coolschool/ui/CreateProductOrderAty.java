@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ChoseBean;
@@ -20,7 +19,6 @@ import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.yiyekeji.coolschool.utils.GsonUtil;
-import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
@@ -71,6 +69,7 @@ public class CreateProductOrderAty extends BaseActivity {
     EditText edtMessage;
     @InjectView(R.id.ll_deliverTime)
     LinearLayout llDeliverTime;
+    private boolean isShoppingCar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +102,18 @@ public class CreateProductOrderAty extends BaseActivity {
                 .concat(item.getPrice()));
 
         StringBuilder sb = new StringBuilder();
-        sb.append("总计：").append(getString(R.string.yuan)).append(item.getSubTotal());
+        sb.append("总计：").append(getString(R.string.yuan)).append(String.valueOf(totalPrice));
         tvTotalPrice.setText(sb.toString());
     }
 
+    double totalPrice;
     private void initData() {
         itemList = getIntent().getParcelableArrayListExtra("itemList");
-
+        totalPrice=getIntent().getDoubleExtra("totalPrice",0);
+        isShoppingCar=getIntent().getBooleanExtra("isShoppingCar",false);
         getTimeTypeList();
     }
+
 
     private void setDrawerFragment() {
  /*       SearChProductFragment spf = new SearChProductFragment();
@@ -159,13 +161,16 @@ public class CreateProductOrderAty extends BaseActivity {
         info.setProductOrderItems(itemList);
         info.setReceiveAddr(edtAddress.getText().toString());
         info.setReceiveName(edtRecipient.getText().toString());
-        info.setSum(itemList.get(0).getSubTotal());
+        info.setSum(totalPrice);
         info.setReceivePhone(edtPhone.getText().toString());
         info.setTimeType(0);
-        Gson gson = new Gson();
-        LogUtil.d("toJsonTree", gson.toJsonTree(info));
-        LogUtil.d("toJsonTree", gson.toJsonTree(info,CreateProductOrderInfo.class));
-
+        if (isShoppingCar) {
+            ArrayList<Integer> idS = new ArrayList<>();
+            for (ProductOrderItem item:itemList){
+                idS.add(item.getpId());
+            }
+            info.setCartItemIdList(idS);
+        }
         Call<ResponseBody> call = service.createProductOrder(info);
 
         call.enqueue(new Callback<ResponseBody>() {

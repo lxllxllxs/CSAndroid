@@ -1,11 +1,13 @@
 package com.yiyekeji.coolschool.bean;
 
+import com.yiyekeji.coolschool.inter.HaveName;
+
 import java.util.List;
 
 /**
  * Created by lxl on 2017/2/9.
  */
-public class ShoppingCarProduct {
+public class ShoppingCarProduct implements HaveName {
 
 
     /**
@@ -53,4 +55,19 @@ public class ShoppingCarProduct {
     }
 
 
+    @Override
+    public String getName() {
+        return getSupplierName();
+    }
+
+    private boolean isSelect;
+    @Override
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    @Override
+    public void setSelect(boolean b) {
+        this.isSelect = b;
+    }
 }

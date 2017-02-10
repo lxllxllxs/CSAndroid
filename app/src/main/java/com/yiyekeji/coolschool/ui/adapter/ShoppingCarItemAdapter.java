@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductListBean;
+import com.yiyekeji.coolschool.bean.ShoppingCarProduct;
 import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -23,11 +24,14 @@ public class ShoppingCarItemAdapter extends RecyclerView.Adapter<ShoppingCarItem
     private LayoutInflater mInflater;
     private List<ProductListBean> productInfoList;
     private Context context;
-
-    public ShoppingCarItemAdapter(Context context, List<ProductListBean> productInfoList) {
-        this.productInfoList = productInfoList;
+    ShoppingCarAdapter carAdapter;
+    ShoppingCarProduct product;
+    public ShoppingCarItemAdapter(Context context, ShoppingCarProduct shoppingCarProduct,ShoppingCarAdapter carAdapter) {
+        this.productInfoList = shoppingCarProduct.getProductList();
         mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.carAdapter=carAdapter;
+        this.product=shoppingCarProduct;
     }
 
     public void notifyDataSetChanged(List<ProductListBean> productInfoList) {
@@ -40,10 +44,12 @@ public class ShoppingCarItemAdapter extends RecyclerView.Adapter<ShoppingCarItem
             super(arg0);
             AutoUtils.auto(arg0);
         }
+        ImageView ivSelect;
         ImageView ivProduct;
         TextView tvName;
         TextView tvModel;
         TextView tvPrice;
+        TextView tvUnti;
         TextView tvNum;
     }
 
@@ -59,8 +65,10 @@ public class ShoppingCarItemAdapter extends RecyclerView.Adapter<ShoppingCarItem
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = mInflater.inflate(R.layout.item_shopping_car_item_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.ivSelect = (ImageView) view.findViewById(R.id.iv_select);
         viewHolder.ivProduct = (ImageView) view.findViewById(R.id.iv_product);
         viewHolder.tvName = (TextView) view.findViewById(R.id.tv_name);
+        viewHolder.tvUnti = (TextView) view.findViewById(R.id.tv_unti);
         viewHolder.tvModel = (TextView) view.findViewById(R.id.tv_model);
         viewHolder.tvNum = (TextView) view.findViewById(R.id.tv_num);
         viewHolder.tvPrice = (TextView) view.findViewById(R.id.tv_price);
@@ -73,21 +81,54 @@ public class ShoppingCarItemAdapter extends RecyclerView.Adapter<ShoppingCarItem
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductListBean productInfo = productInfoList.get(i);
+       final ProductListBean productInfo = productInfoList.get(i);
         GlideUtil.setImageToView(productInfo.getImagePath(), viewHolder.ivProduct);
-        viewHolder.tvName.setText(productInfo.getPTitle());
-        String price = String.valueOf(productInfo.getPmCount());
-        viewHolder.tvPrice.setText(context.getString(R.string.yuan).concat(price));
-        if (mOnItemClickLitener != null) {
-            viewHolder.ivProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(viewHolder.ivProduct, i);
-                }
-            });
+
+        viewHolder.ivSelect.setImageResource(R.mipmap.ic_no_select);
+        if (productInfo.isSelect()) {
+            viewHolder.ivSelect.setImageResource(R.mipmap.ic_selected);
         }
+        viewHolder.tvName.setText(productInfo.getPTitle());
+        viewHolder.tvModel.setText(productInfo.getPmTitle());
+        final String price = String.valueOf(productInfo.getPmPrice());
+        viewHolder.tvPrice.setText(context.getString(R.string.yuan).concat(price));
+        viewHolder.tvUnti.setText("/"+productInfo.getPUnit());
+        viewHolder.tvNum.setText(context.getString(R.string.multiply)+productInfo.getPmCount());
+        viewHolder.ivSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!productInfo.isSelect()) {
+                    viewHolder.ivSelect.setImageResource(R.mipmap.ic_selected);
+                    productInfo.setSelect(true);
+                } else {
+                    viewHolder.ivSelect.setImageResource(R.mipmap.ic_no_select);
+                    productInfo.setSelect(false);
+                }
+                checkSelectAll();
+                carAdapter.mOnItemClickLitener.onItemClick(v,i);
+                notifyDataSetChanged();
+            }
+        });
     }
 
+    int count=0;
+    int noSelectCount=0;
+    //这里只是改变父adapter的ui
+    public void checkSelectAll(){
+        for (ProductListBean bean:productInfoList){
+            if (bean.isSelect()){
+                count++;
+                continue;
+            }
+            noSelectCount++;
+        }
+        if (count == productInfoList.size()) {
+            carAdapter.setSelectAll(true,product);
+        }
+        if ( noSelectCount == productInfoList.size()){
+            carAdapter.setSelectAll(false,product);
+        }
+    }
 
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);

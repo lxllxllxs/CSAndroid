@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ProductListBean;
 import com.yiyekeji.coolschool.bean.ShoppingCarProduct;
 import com.yiyekeji.coolschool.widget.DividerItemDecoration;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -62,6 +63,9 @@ public class ShoppingCarAdapter extends RecyclerView.Adapter<ShoppingCarAdapter.
         viewHolder.ivSelect = (ImageView) view.findViewById(R.id.iv_select);
         viewHolder.tvName = (TextView) view.findViewById(R.id.tv_name);
         viewHolder.rvBlock = (RecyclerView) view.findViewById(R.id.rv_productBlock);
+        viewHolder.rvBlock.setLayoutManager(new LinearLayoutManager(context));
+        viewHolder.rvBlock.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
+
         return viewHolder;
     }
 
@@ -71,14 +75,34 @@ public class ShoppingCarAdapter extends RecyclerView.Adapter<ShoppingCarAdapter.
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ShoppingCarProduct productInfo = productInfoList.get(i);
-        ShoppingCarItemAdapter itemAdapter = new ShoppingCarItemAdapter(context, productInfo.getProductList());
+        final ShoppingCarProduct productInfo = productInfoList.get(i);
+        final ShoppingCarItemAdapter itemAdapter = new ShoppingCarItemAdapter(context, productInfo,this);
+        viewHolder.ivSelect.setImageResource(R.mipmap.ic_no_select);
+        if (productInfo.isSelect()) {
+            viewHolder.ivSelect.setImageResource(R.mipmap.ic_selected);
+        }
         viewHolder.rvBlock.setAdapter(itemAdapter);
-        viewHolder.rvBlock.setLayoutManager(new LinearLayoutManager(context));
-        viewHolder.rvBlock.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
-
         viewHolder.tvName.setText(productInfo.getSupplierName() + "  " + productInfo.getSupplierPhone());
-
+        viewHolder.ivSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!productInfo.isSelect()) {
+                    viewHolder.ivSelect.setImageResource(R.mipmap.ic_selected);
+                    productInfo.setSelect(true);
+                } else {
+                    viewHolder.ivSelect.setImageResource(R.mipmap.ic_no_select);
+                    productInfo.setSelect(false);
+                }
+                for (ProductListBean product:productInfoList.get(i).getProductList()){
+                    product.setSelect(productInfo.isSelect());
+                }
+                if (mOnItemClickLitener != null) {
+                    mOnItemClickLitener.onItemClick(v,i);
+                }
+                itemAdapter.notifyDataSetChanged(productInfoList.get(i).getProductList());
+                notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -86,6 +110,14 @@ public class ShoppingCarAdapter extends RecyclerView.Adapter<ShoppingCarAdapter.
         void onItemClick(View view, int position);
     }
 
+    private  void notifyDataSetChangede(){
+
+    }
+
+    public  void  setSelectAll(boolean b,ShoppingCarProduct product){
+        product.setSelect(b);
+        notifyDataSetChanged();
+    }
     public OnItemClickLitener mOnItemClickLitener;
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {

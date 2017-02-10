@@ -1,6 +1,8 @@
 package com.yiyekeji.coolschool.bean;
 
-public  class ProductListBean {
+import com.yiyekeji.coolschool.inter.HaveName;
+
+public  class ProductListBean implements HaveName{
         /**
          * pId : 12
          * pmTitle : 大
@@ -94,4 +96,20 @@ public  class ProductListBean {
         public void setPmId(int pmId) {
             this.pmId = pmId;
         }
+
+    @Override
+    public String getName() {
+        return pmTitle;
     }
+
+    private boolean isSelect;
+    @Override
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    @Override
+    public void setSelect(boolean b) {
+        this.isSelect = b;
+    }
+}

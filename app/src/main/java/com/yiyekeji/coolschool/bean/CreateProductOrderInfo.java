@@ -16,6 +16,23 @@ public class CreateProductOrderInfo implements Parcelable {
     private String receiveName;
     private String receivePhone;
 
+    public ArrayList<Integer> getCartItemIdList() {
+        return cartItemIdList;
+    }
+
+    public void setCartItemIdList(ArrayList<Integer> cartItemIdList) {
+        this.cartItemIdList = cartItemIdList;
+    }
+
+    public ArrayList<ProductOrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(ArrayList<ProductOrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
+
+    private ArrayList<Integer> cartItemIdList;
     public String getTokenId() {
         return tokenId;
     }
@@ -99,6 +116,9 @@ public class CreateProductOrderInfo implements Parcelable {
     private int timeType;
     private ArrayList<ProductOrderItem> orderItemList;
 
+    public CreateProductOrderInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -111,12 +131,10 @@ public class CreateProductOrderInfo implements Parcelable {
         dest.writeString(this.receiveAddr);
         dest.writeString(this.receiveName);
         dest.writeString(this.receivePhone);
+        dest.writeList(this.cartItemIdList);
         dest.writeString(this.userNum);
         dest.writeInt(this.timeType);
         dest.writeTypedList(this.orderItemList);
-    }
-
-    public CreateProductOrderInfo() {
     }
 
     protected CreateProductOrderInfo(Parcel in) {
@@ -125,12 +143,14 @@ public class CreateProductOrderInfo implements Parcelable {
         this.receiveAddr = in.readString();
         this.receiveName = in.readString();
         this.receivePhone = in.readString();
+        this.cartItemIdList = new ArrayList<Integer>();
+        in.readList(this.cartItemIdList, Integer.class.getClassLoader());
         this.userNum = in.readString();
         this.timeType = in.readInt();
         this.orderItemList = in.createTypedArrayList(ProductOrderItem.CREATOR);
     }
 
-    public static final Parcelable.Creator<CreateProductOrderInfo> CREATOR = new Parcelable.Creator<CreateProductOrderInfo>() {
+    public static final Creator<CreateProductOrderInfo> CREATOR = new Creator<CreateProductOrderInfo>() {
         @Override
         public CreateProductOrderInfo createFromParcel(Parcel source) {
             return new CreateProductOrderInfo(source);

@@ -261,9 +261,9 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
             tvConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (popWindow.isShowing()) {
+                  /*  if (popWindow.isShowing()) {
                         popWindow.dismiss();
-                    }
+                    }*/
                     if (countView.getCount()<1){
                         showShortToast("至少选中一件");
                         return;
@@ -344,6 +344,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         itemArrayList.add(productOrderItem);
         Intent intent = new Intent(ProductDetailAty.this, CreateProductOrderAty.class);
         intent.putExtra("itemList", itemArrayList);
+        intent.putExtra("totalPrice", productOrderItem.getSubTotal());
         startActivity(intent);
 
     }
@@ -366,6 +367,9 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
+                if (popWindow != null) {
+                    popWindow.dismiss();
+                }
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
@@ -374,7 +378,6 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast(rb.getMessage());
-                    finish();
                 } else {
                     showShortToast(rb.getMessage());
                 }
