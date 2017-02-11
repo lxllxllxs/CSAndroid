@@ -83,7 +83,6 @@ public class ShoppingCarItemAdapter extends RecyclerView.Adapter<ShoppingCarItem
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
        final ProductListBean productInfo = productInfoList.get(i);
         GlideUtil.setImageToView(productInfo.getImagePath(), viewHolder.ivProduct);
-
         viewHolder.ivSelect.setImageResource(R.mipmap.ic_no_select);
         if (productInfo.isSelect()) {
             viewHolder.ivSelect.setImageResource(R.mipmap.ic_selected);

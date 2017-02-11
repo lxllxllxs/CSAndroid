@@ -173,6 +173,7 @@ public class SellProductOrderDetailAty extends BaseActivity {
                 }
                 setConfiromButton(1);
                 showShortToast(rb.getMessage());
+                finish();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -192,6 +193,5 @@ public class SellProductOrderDetailAty extends BaseActivity {
                 tvConfirm.setBackgroundColor(ContextCompat.getColor(SellProductOrderDetailAty.this,R.color.gray_text));
                 break;
         }
-
     }
 }

@@ -69,8 +69,7 @@ public class CreateProductOrderAty extends BaseActivity {
     EditText edtMessage;
     @InjectView(R.id.ll_deliverTime)
     LinearLayout llDeliverTime;
-    private boolean isShoppingCar;
-
+    private ArrayList<Integer> cartItemIdList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +109,7 @@ public class CreateProductOrderAty extends BaseActivity {
     private void initData() {
         itemList = getIntent().getParcelableArrayListExtra("itemList");
         totalPrice=getIntent().getDoubleExtra("totalPrice",0);
-        isShoppingCar=getIntent().getBooleanExtra("isShoppingCar",false);
+        cartItemIdList=getIntent().getIntegerArrayListExtra("cartItemIdList");
         getTimeTypeList();
     }
 
@@ -154,7 +153,6 @@ public class CreateProductOrderAty extends BaseActivity {
     CreateProductOrderInfo info = new CreateProductOrderInfo();
     private void createOrder() {
         ShopService service = RetrofitUtil.create(ShopService.class);
-
         info.setTokenId(App.geTokenId());
         info.setUserNum(App.userInfo.getUserNum());
         itemList.get(0).setMessage(edtMessage.getText().toString());
@@ -164,13 +162,10 @@ public class CreateProductOrderAty extends BaseActivity {
         info.setSum(totalPrice);
         info.setReceivePhone(edtPhone.getText().toString());
         info.setTimeType(0);
-        if (isShoppingCar) {
-            ArrayList<Integer> idS = new ArrayList<>();
-            for (ProductOrderItem item:itemList){
-                idS.add(item.getpId());
-            }
-            info.setCartItemIdList(idS);
+        if (cartItemIdList!=null) {
+            info.setCartItemIdList(cartItemIdList);
         }
+
         Call<ResponseBody> call = service.createProductOrder(info);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -185,6 +180,7 @@ public class CreateProductOrderAty extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast(rb.getMessage());
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     showShortToast(rb.getMessage());

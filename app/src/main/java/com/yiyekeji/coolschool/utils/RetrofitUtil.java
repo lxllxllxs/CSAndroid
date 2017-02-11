@@ -9,6 +9,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -40,10 +41,12 @@ public class RetrofitUtil {
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             if (Config.DEBUG) {
-                System.out.println(String.format("发送请求 %s on %s%n%s",
-                        request.url(), chain.connection(), request.headers()));
+                Buffer buffer = new Buffer();
+                request.body().writeTo(buffer);
+                String requestBody = buffer.readUtf8();
+                System.out.println("RetrofitUtils:"+String.format("请求报文：%s",request.url()+requestBody));
             }
-          /*  //检测是否过期
+            /*  //检测是否过期
             if (App.userInfo!=null&&App.geTokenId().equals("false")){
                 UserService service=create(UserService.class);
                 UserInfo userInfo=new UserInfo();

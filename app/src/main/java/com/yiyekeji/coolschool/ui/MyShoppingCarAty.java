@@ -66,20 +66,6 @@ public class MyShoppingCarAty extends BaseActivity {
 
     private void initView() {
         titleBar.initView(this);
-      /*  titleBar.setTvRight("编辑", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isEditModel) {
-                    titleBar.setTvRightText("完成");
-                    isEditModel = true;
-                    tvDel.setVisibility(View.VISIBLE);
-                } else {
-                    titleBar.setTvRightText("编辑");
-                    isEditModel = false;
-                    tvDel.setVisibility(View.INVISIBLE);
-                }
-            }
-        });*/
         mAdapter = new ShoppingCarAdapter(this, productInfoList);
         rvProduct.setLayoutManager(new LinearLayoutManager(this));
         rvProduct.setAdapter(mAdapter);
@@ -87,7 +73,6 @@ public class MyShoppingCarAty extends BaseActivity {
         mAdapter.setOnItemClickLitener(new ShoppingCarAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                //这里的方法同样被子Adapter调用
                 calTotalPrice();
             }
         });
@@ -123,15 +108,17 @@ public class MyShoppingCarAty extends BaseActivity {
                     productInfoList = GsonUtil.listFromJSon(jsonString,
                             new TypeToken<List<ShoppingCarProduct>>() {
                             }.getType(), "myCartInfoList");
+                    calTotalPrice();
                     if (productInfoList == null) {
-                        return;
+                        productInfoList = new ArrayList<ShoppingCarProduct>();
                     }
                     mAdapter.notifyDataSetChanged(productInfoList);
                 } else {
+                    mAdapter.notifyDataSetChanged();
+                    calTotalPrice();
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -140,12 +127,60 @@ public class MyShoppingCarAty extends BaseActivity {
         });
     }
 
+    private void deleteCartItem() {
+        HashMap<String, Object> parms = new HashMap<>();
+        parms.put("tokenId", App.geTokenId());
+        parms.put("cartItemIdList", cartItemIdList);
+        ShopService service = RetrofitUtil.create(ShopService.class);
+        Call<ResponseBody> call = service.deleteCartItem(parms);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                getLoadDialog().dismiss();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    showShortToast(rb.getMessage());
+                    mAdapter.notifyDataSetChanged(productInfoList);
+                    refresh();
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                getLoadDialog().dismiss();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
+    }
 
+    private void addToCarItemList() {
+        items.clear();
+        for (ShoppingCarProduct carProduct : productInfoList) {
+            for (ProductListBean bean : carProduct.getProductList()) {
+                if (bean.isSelect()) {
+                    cartItemIdList.add(bean.getCartItemId());
+                }
+            }
+        }
+    }
 
     @OnClick({R.id.tv_del, R.id.tv_confirm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_del:
+                if (isEmpty()){
+                    showShortToast("至少选中一件！");
+                    return;
+                }
+                addToCarItemList();
+                deleteCartItem();
                 break;
             case R.id.tv_confirm:
                 if (isDiffer()){
@@ -162,12 +197,17 @@ public class MyShoppingCarAty extends BaseActivity {
         }
     }
 
+
+    private ArrayList<Integer> cartItemIdList = new ArrayList<>();
     private ArrayList<ProductOrderItem> items = new ArrayList<>();
     private void convertToProduct() {
         ProductOrderItem item;
+        items.clear();
+        cartItemIdList.clear();
         for (ShoppingCarProduct carProduct : productInfoList) {
             for (ProductListBean bean : carProduct.getProductList()) {
                 if (bean.isSelect()) {
+                    cartItemIdList.add(bean.getCartItemId());
                     item = new ProductOrderItem();
                     item.setSupplierNum(carProduct.getSupplierNum());
                     item.setPrice(String.valueOf(bean.getPmPrice()));
@@ -177,7 +217,7 @@ public class MyShoppingCarAty extends BaseActivity {
                     item.setpId(bean.getPId());
                     item.setPmCount(bean.getPmCount());
                     item.setUnit(bean.getPUnit());
-
+                    item.setPmId(bean.getPmId());
                     items.add(item);
                 }
             }
@@ -186,14 +226,16 @@ public class MyShoppingCarAty extends BaseActivity {
 
     private void calTotalPrice(){
         totalPrice=0;
-        for (ShoppingCarProduct carProduct : productInfoList) {
-            for (ProductListBean bean : carProduct.getProductList()) {
-                if (bean.isSelect()) {
-                    totalPrice = totalPrice + bean.getPmCount() * Double.valueOf(bean.getPmPrice());
+        if (productInfoList != null) {
+            for (ShoppingCarProduct carProduct : productInfoList) {
+                for (ProductListBean bean : carProduct.getProductList()) {
+                    if (bean.isSelect()) {
+                        totalPrice = totalPrice + bean.getPmCount() * Double.valueOf(bean.getPmPrice());
+                    }
                 }
             }
         }
-        tvTotalPrice.setText(getString(R.string.yuan).concat(String.valueOf(totalPrice)));
+        tvTotalPrice.setText("总计：  ".concat(getString(R.string.yuan).concat(String.valueOf(totalPrice))));
     }
 
     private double totalPrice;
@@ -201,7 +243,8 @@ public class MyShoppingCarAty extends BaseActivity {
         Intent intent = new Intent(MyShoppingCarAty.this, CreateProductOrderAty.class);
         intent.putExtra("itemList", items);
         intent.putExtra("totalPrice",totalPrice );
-        startActivity(intent);
+        intent.putExtra("cartItemIdList",cartItemIdList);
+        startActivityForResult(intent,0);
     }
 
     private boolean isEmpty() {
@@ -216,10 +259,7 @@ public class MyShoppingCarAty extends BaseActivity {
                 }
             }
         }
-        if (count==0){
-            return true;
-        }
-        return false;
+        return count==0;
     }
 
     private boolean isDiffer() {
@@ -232,9 +272,15 @@ public class MyShoppingCarAty extends BaseActivity {
                 }
             }
         }
-        if (identify > 1) {
-            return true;
+        return identify > 1;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (RESULT_OK == resultCode) {
+            refresh();
         }
-        return false;
     }
 }

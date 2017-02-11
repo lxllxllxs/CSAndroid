@@ -45,7 +45,7 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/tv_confirm"
-            android:text="确定"
+            android:text="结算"
             style="@style/BigTextView"
             android:textColor="@color/white"
             android:background="@color/theme_red"
