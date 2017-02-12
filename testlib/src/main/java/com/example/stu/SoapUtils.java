@@ -25,10 +25,10 @@ public class SoapUtils {
 						Iterator<Map.Entry<String, String>> it = headers.entrySet().iterator();
 						while (it.hasNext()) {
 							Map.Entry map=it.next();
-							urlConnection.addRequestProperty(map.getKey().toString(),map.getValue().toString());
+							urlConnection.addRequestProperty((String) map.getKey(),(String) map.getValue());
 						}
 					}
-					urlConnection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+//					urlConnection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 					urlConnection.setDoOutput(true);
 		            urlConnection.setDoInput(true);
 					// 构建请求参数

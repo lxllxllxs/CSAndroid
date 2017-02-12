@@ -23,7 +23,7 @@ public class TestStuSystemAty extends BaseActivity {
             @Override
             public void run() {
                 try {
-                  int result=  api.login("3112002665","150198");
+                  int result=  api.login("3112002665","1501981");
                     LogUtil.d("SubSystemApi:",result+"");
                 } catch (Exception e) {
                     e.printStackTrace();
