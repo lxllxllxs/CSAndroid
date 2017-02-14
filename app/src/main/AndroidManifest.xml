@@ -77,7 +77,7 @@
             />
         <activity
             android:name=".ui.SellerProductOrderListAty"
-            android:label="已卖出商品订单"
+            android:label="已卖商品"
             android:screenOrientation="portrait"
             />
         <activity

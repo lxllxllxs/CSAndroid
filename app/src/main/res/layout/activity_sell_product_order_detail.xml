@@ -1,205 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <com.yiyekeji.coolschool.widget.TitleBar
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="60px">
-        <TextView
-            android:gravity="center"
-            android:text="收货人    ："
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:gravity="center_vertical"
-            android:text="asdasd"
-            android:id="@+id/tv_recipient"
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            style="@style/NormalTextView"
-            android:textColor="@color/text_black"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
-            />
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70px">
-        <TextView
-            android:gravity="center"
-            android:text="手机号码："
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:gravity="center_vertical"
-            android:text="asdasd"
-            android:id="@+id/tv_phone"
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            style="@style/NormalTextView"
-            android:textColor="@color/text_black"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
-            />
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70px">
-        <TextView
-            android:gravity="center"
-            android:text="收货地址："
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:gravity="center_vertical"
-            android:text="asdasd"
-            android:id="@+id/tv_address"
-            android:paddingLeft="15px"
-            android:paddingRight="15px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            style="@style/NormalTextView"
-            android:textColor="@color/text_black"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_0radiu_whitesolid_whitetroke"
-            />
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <com.yiyekeji.coolschool.widget.BlueRedWhiteView
-        android:layout_width="match_parent"
-        android:layout_height="15px"/>
-    <include layout="@layout/item_product_order_item_adapter"/>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:id="@+id/ll_deliverTime"
-        android:background="@drawable/bg_selector_gray_white"
-        android:paddingLeft="20px"
-        android:paddingRight="15px"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="70px">
-        <TextView
-            android:gravity="center_vertical"
-            android:text="送货时间"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:layout_marginRight="30px"
-            android:gravity="center_vertical"
-            android:text="上午"
-            style="@style/NormalTextView"
-            android:textColor="@color/gray_text"
-            android:id="@+id/tv_deliverTime"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:src="@mipmap/arrow_right_gray"
-            android:layout_width="44px" style="@style/IconImageView"
-            android:padding="5px"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <LinearLayout
-        android:background="@color/white"
-        android:paddingLeft="20px"
-        android:paddingRight="20px"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="120px">
-        <TextView
-            android:paddingTop="10px"
-            android:gravity="center_horizontal"
-            android:text="留言"
-            style="@style/NormalTextView"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/tv_message"
-            android:gravity="top"
-            android:paddingLeft="10px"
-            android:paddingRight="10px"
-            android:layout_marginTop="10px"
-            android:layout_marginBottom="10px"
-            android:layout_marginLeft="20px"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            style="@style/NormalTextView"
-            android:maxLength="200"
-            android:background="@drawable/bg_0radiu_whitesolid_graytroke"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <Space
+    <include layout="@layout/include_create_order_header" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recyclerView"
         android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="0dp"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:background="@color/white"
         android:layout_height="90px">
         <TextView
+            android:id="@+id/tv_totalPrice"
+            android:text="总计：sdad"
+            style="@style/BigTextView"
+            android:textColor="@color/theme_red"
+            android:paddingRight="30px"
+            android:gravity="center_vertical|right"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
             android:id="@+id/tv_confirm"
-            android:text="接单"
+            android:text="确定"
             style="@style/BigTextView"
             android:textColor="@color/white"
             android:background="@color/theme_red"
             android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="160px"
             android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>

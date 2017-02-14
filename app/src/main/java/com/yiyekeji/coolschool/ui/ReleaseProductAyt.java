@@ -138,9 +138,9 @@ public class ReleaseProductAyt extends BaseActivity {
             new File(Config.IMG_TEMP_PATH).mkdirs();
         }
          NativeUtil.compressBitmap(bitmap,Config.IMG_TEMP_PATH+System.currentTimeMillis()+".jpg",true);
-        if (true) {
+      /*  if (true) {
             return;
-        }
+        }*/
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(), requestFile);
         MultipartBody.Part part2 = MultipartBody.Part.createFormData("userNum", App.userInfo.getUserNum());
