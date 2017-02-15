@@ -2,11 +2,13 @@ package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
@@ -40,13 +42,13 @@ public class SellProductOrderDetailAdapter extends RecyclerView.Adapter<SellProd
             super(arg0);
             AutoUtils.auto(arg0);
         }
-
         ImageView ivProduct;
         TextView tvName;
         TextView tvModel;
         TextView tvPrice;
         TextView tvNum;
         EditText edtMessage;
+        LinearLayout llRemark;
     }
 
     @Override
@@ -66,7 +68,8 @@ public class SellProductOrderDetailAdapter extends RecyclerView.Adapter<SellProd
         viewHolder.tvNum = (TextView) view.findViewById(R.id.tv_num);
         viewHolder.tvName = (TextView) view.findViewById(R.id.tv_name);
         viewHolder.tvPrice = (TextView) view.findViewById(R.id.tv_price);
-
+        viewHolder.tvPrice = (TextView) view.findViewById(R.id.tv_price);
+        viewHolder.llRemark = (LinearLayout) view.findViewById(R.id.ll_remark);
         viewHolder.edtMessage = (EditText) view.findViewById(R.id.edt_message);
         viewHolder.edtMessage.setFocusable(false);
         return viewHolder;
@@ -87,6 +90,12 @@ public class SellProductOrderDetailAdapter extends RecyclerView.Adapter<SellProd
                         .concat(item.getPUnit())));
         viewHolder.tvPrice.setText(context.getString(R.string.yuan)
                 .concat(item.getPmPrice()+""));
+
+        if (TextUtils.isEmpty(item.getRemark())) {
+            viewHolder.llRemark.setVisibility(View.GONE);
+        } else {
+            viewHolder.edtMessage.setText(item.getRemark());
+        }
 //        viewHolder.edtMessage.setText(item.g);
         if (mOnItemClickLitener != null) {
             viewHolder.ivProduct.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +105,6 @@ public class SellProductOrderDetailAdapter extends RecyclerView.Adapter<SellProd
                 }
             });
         }
-
     }
 
 

@@ -1,6 +1,5 @@
 package com.yiyekeji.coolschool.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,9 +59,10 @@ public class BuyerProductOrderListAty extends BaseActivity {
         mAdapter.setOnItemClickLitener(new BuyerProductOrderAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(BuyerProductOrderListAty.this, SellProductOrderDetailAty.class);
+                //买家不可点击 没有详情界面
+               /* Intent intent = new Intent(BuyerProductOrderListAty.this, SellProductOrderDetailAty.class);
                 intent.putExtra("pOrderId",orderList.get(position).getPoId());
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
     }

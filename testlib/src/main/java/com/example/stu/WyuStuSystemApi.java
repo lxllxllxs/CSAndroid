@@ -111,7 +111,7 @@ public class WyuStuSystemApi {
                     byte[] bytes=new byte[1024];
                     InputStream is = connection.getInputStream();
                     while((count=is.read(bytes))!=-1){
-                        sb.append(new String(bytes, 0, count));
+                        sb.append(new String(bytes, 0, count,"gbk"));
                     }
                     String content = sb.toString();
                     System.out.println("课程表信息:"+content);

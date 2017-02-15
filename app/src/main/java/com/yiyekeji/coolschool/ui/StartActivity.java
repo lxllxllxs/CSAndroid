@@ -67,7 +67,7 @@ public class StartActivity extends BaseActivity {
                 UserInfo  userInfo= GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (userInfo!=null) {
-                    showShortToast("成功登录！");
+//                    showShortToast("成功登录！");
 //                    userInfo.setPassword("");//清除密码  不清了
                     App.userInfo=userInfo;
                     startActivity(MainViewpagerActivity.class);

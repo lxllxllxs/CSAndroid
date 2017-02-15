@@ -11,13 +11,12 @@ import java.util.List;
  */
 public class SellerProductOrder implements Parcelable {
 
-
     /**
-     * pOrderItemList : [{"message":"A msg","pmPrice":1.9,"pmTitle":"A","pmCount":2,"pTitle":"lxl test orderlist","pmId":25,"pUnit":"kg","pImage":"http://59.110.143.46:8080/cs/OWUyYttg4.jpg"},{"message":"b msg","pmPrice":2,"pmTitle":"B","pmCount":2,"pTitle":"lxl test orderlist","pmId":26,"pUnit":"kg","pImage":"http://59.110.143.46:8080/cs/OWUyYttg4.jpg"}]
-     * receiveName : 学林
-     * sum : 7.8
-     * receivePhone : 15019861460
-     * receiveAddr : 43-214
+     * pOrderItemList : [{"pmPrice":40,"pmTitle":"草莓蛋糕","pmCount":2,"pTitle":"水果蛋糕","pmId":4,"pUnit":"磅","remark":"henhao","pImage":"http://img01.hua.com/uploadpic/newpic/5010032.jpg"},{"pmPrice":25,"pmTitle":"芒果蛋糕","pmCount":2,"pTitle":"水果蛋糕","pmId":3,"pUnit":"磅","remark":"henhao","pImage":"http://img01.hua.com/uploadpic/newpic/5010032.jpg"}]
+     * receiveName : 康健
+     * sum : 130
+     * receivePhone : 1359854785
+     * receiveAddr : 广东轻工职业技术学院
      * poState : 0
      * timeType : 午饭时间
      */
@@ -86,34 +85,26 @@ public class SellerProductOrder implements Parcelable {
         this.pOrderItemList = pOrderItemList;
     }
 
-    public static class POrderItemListBean {
+    public static class POrderItemListBean implements Parcelable {
         /**
-         * message : A msg
-         * pmPrice : 1.9
-         * pmTitle : A
+         * pmPrice : 40
+         * pmTitle : 草莓蛋糕
          * pmCount : 2
-         * pTitle : lxl test orderlist
-         * pmId : 25
-         * pUnit : kg
-         * pImage : http://59.110.143.46:8080/cs/OWUyYttg4.jpg
+         * pTitle : 水果蛋糕
+         * pmId : 4
+         * pUnit : 磅
+         * remark : henhao
+         * pImage : http://img01.hua.com/uploadpic/newpic/5010032.jpg
          */
 
-        private String message;
         private double pmPrice;
         private String pmTitle;
         private int pmCount;
         private String pTitle;
         private int pmId;
         private String pUnit;
+        private String remark;
         private String pImage;
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
 
         public double getPmPrice() {
             return pmPrice;
@@ -163,6 +154,14 @@ public class SellerProductOrder implements Parcelable {
             this.pUnit = pUnit;
         }
 
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
+
         public String getPImage() {
             return pImage;
         }
@@ -170,6 +169,49 @@ public class SellerProductOrder implements Parcelable {
         public void setPImage(String pImage) {
             this.pImage = pImage;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeDouble(this.pmPrice);
+            dest.writeString(this.pmTitle);
+            dest.writeInt(this.pmCount);
+            dest.writeString(this.pTitle);
+            dest.writeInt(this.pmId);
+            dest.writeString(this.pUnit);
+            dest.writeString(this.remark);
+            dest.writeString(this.pImage);
+        }
+
+        public POrderItemListBean() {
+        }
+
+        protected POrderItemListBean(Parcel in) {
+            this.pmPrice = in.readDouble();
+            this.pmTitle = in.readString();
+            this.pmCount = in.readInt();
+            this.pTitle = in.readString();
+            this.pmId = in.readInt();
+            this.pUnit = in.readString();
+            this.remark = in.readString();
+            this.pImage = in.readString();
+        }
+
+        public static final Creator<POrderItemListBean> CREATOR = new Creator<POrderItemListBean>() {
+            @Override
+            public POrderItemListBean createFromParcel(Parcel source) {
+                return new POrderItemListBean(source);
+            }
+
+            @Override
+            public POrderItemListBean[] newArray(int size) {
+                return new POrderItemListBean[size];
+            }
+        };
     }
 
     @Override
@@ -193,7 +235,7 @@ public class SellerProductOrder implements Parcelable {
 
     protected SellerProductOrder(Parcel in) {
         this.receiveName = in.readString();
-        this.sum = in.readDouble();
+        this.sum = in.readInt();
         this.receivePhone = in.readString();
         this.receiveAddr = in.readString();
         this.poState = in.readInt();

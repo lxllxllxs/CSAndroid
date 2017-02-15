@@ -75,10 +75,16 @@ public class SellProductOrderDetailAty extends BaseActivity {
         setConfiromButton(productOrder.getPoState());
         
         setAllUnEditable();
-        
+        setTotalPrice();
         mAdapter = new SellProductOrderDetailAdapter(this, productOrder.getPOrderItemList());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
+    }
+
+    private void setTotalPrice() {
+        tvTotalPrice.setText("总价："
+                .concat(getString(R.string.yuan)
+                        .concat(String.valueOf(productOrder.getSum()))));
     }
 
     private void setAllUnEditable() {
