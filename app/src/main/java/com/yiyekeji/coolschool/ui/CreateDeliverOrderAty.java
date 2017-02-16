@@ -179,6 +179,7 @@ public class CreateDeliverOrderAty extends BaseActivity {
                         bean.setValue(value);
                         beanArrayList.add(bean);
                     }
+                    tvDeliverTime.setText((String)beanArrayList.get(0).getValue());
                     beanArrayList.get(0).setSelect(true);
                 } catch (JSONException e) {
                     e.printStackTrace();
