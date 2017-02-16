@@ -185,6 +185,7 @@
         android:layout_width="match_parent"
         android:layout_height="20px"/>
     <LinearLayout
+        android:visibility="gone"
         android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="30px"
         android:paddingRight="30px"
@@ -205,15 +206,14 @@
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
+        <View
+            android:background="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20px"/>
     </LinearLayout>
-
-    <View
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1px"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20px"/>
     <LinearLayout
         android:background="@drawable/bg_selector_gray_white"
         android:paddingLeft="30px"

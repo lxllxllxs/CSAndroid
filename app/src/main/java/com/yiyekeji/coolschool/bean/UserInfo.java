@@ -22,10 +22,12 @@ public class UserInfo implements Cloneable,Parcelable {
 
     private String  pswAnswer;
 
-
+    private int isAdmin;
     private int id;
     private String tokenId;
     private String headImg;
+
+
     private String aBalance;
     private String imei;
     private String email;
@@ -33,6 +35,14 @@ public class UserInfo implements Cloneable,Parcelable {
     private String lastTime;
     private String wBalance;
     private String phone;
+
+    public int getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 
     public Object clone() throws CloneNotSupportedException
     {
@@ -277,6 +287,7 @@ public class UserInfo implements Cloneable,Parcelable {
         dest.writeString(this.userNum);
         dest.writeInt(this.roleType);
         dest.writeString(this.pswAnswer);
+        dest.writeInt(this.isAdmin);
         dest.writeInt(this.id);
         dest.writeString(this.tokenId);
         dest.writeString(this.headImg);
@@ -298,6 +309,7 @@ public class UserInfo implements Cloneable,Parcelable {
         this.userNum = in.readString();
         this.roleType = in.readInt();
         this.pswAnswer = in.readString();
+        this.isAdmin = in.readInt();
         this.id = in.readInt();
         this.tokenId = in.readString();
         this.headImg = in.readString();

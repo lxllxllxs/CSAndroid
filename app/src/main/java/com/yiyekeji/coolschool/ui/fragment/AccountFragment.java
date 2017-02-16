@@ -67,6 +67,10 @@ public class AccountFragment extends BaseFragment {
         if (App.userInfo.getIsSupplier() == 1) {
             llOnlySeller.setVisibility(View.VISIBLE);
         }
+        //根据是否管理员身份显示
+        if (App.userInfo.getIsAdmin()==1){
+            llOtherOrder.setVisibility(View.VISIBLE);
+        }
 
     }
 
