@@ -9,6 +9,7 @@ import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.utils.SPUtils;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
@@ -84,6 +85,7 @@ public class ModifyPwdActivity extends BaseActivity {
                 ResponseBean rb=GsonUtil.fromJSon(response, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("修改成功！");
+                    SPUtils.put(ModifyPwdActivity.this,"pwd","");
                     startActivity(LoginActivity.class);
                 } else {
                     showShortToast(rb.getMessage());

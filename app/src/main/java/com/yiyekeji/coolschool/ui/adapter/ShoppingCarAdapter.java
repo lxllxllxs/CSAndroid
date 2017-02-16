@@ -3,6 +3,7 @@ package com.yiyekeji.coolschool.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,11 @@ public class ShoppingCarAdapter extends RecyclerView.Adapter<ShoppingCarAdapter.
             viewHolder.ivSelect.setImageResource(R.mipmap.ic_selected);
         }
         viewHolder.rvBlock.setAdapter(itemAdapter);
-        viewHolder.tvName.setText(productInfo.getSupplierName() + "  " + productInfo.getSupplierPhone());
+        String number = productInfo.getSupplierPhone();
+        if (TextUtils.isEmpty(number)) {
+            number= "";
+        }
+        viewHolder.tvName.setText(productInfo.getSupplierName().concat(" ").concat(number));
         viewHolder.ivSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

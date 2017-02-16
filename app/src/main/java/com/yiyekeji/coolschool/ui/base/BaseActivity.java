@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.umeng.analytics.MobclickAgent;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.ui.LoginActivity;
 import com.yiyekeji.coolschool.widget.LoadDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -19,7 +20,7 @@ import com.zhy.autolayout.AutoLayoutActivity;
  * Created by Administrator on 2016/10/23.
  */
 public  class BaseActivity extends AutoLayoutActivity implements View.OnClickListener {
-
+    private final static String RELOGIN_MESSAGE = "账号已在其它设备登录,请重新登录";
     public static LoadDialog mdDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,12 +93,20 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
     }
     private Toast shortToast, longToast ;
 
-    protected void showShortToast(CharSequence text) {
+    protected void showShortToast(String text) {
         if(shortToast==null){
             shortToast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        }else{
-            shortToast.setText(text);
         }
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
+        /**
+         * 先这样处理
+         */
+        if (text.equals(RELOGIN_MESSAGE)) {
+            startActivity(LoginActivity.class);
+        }
+        shortToast.setText(text);
         shortToast.show();
     }
     protected void showLongToast(CharSequence text) {

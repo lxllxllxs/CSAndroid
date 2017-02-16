@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui.base;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.ui.LoginActivity;
 import com.yiyekeji.coolschool.widget.LoadDialog;
 
 import java.lang.reflect.Field;
@@ -16,16 +18,22 @@ import java.lang.reflect.Field;
 public class BaseFragment extends Fragment {
     private Toast shortToast, longToast ;
     private static LoadDialog fragmentDialog;
-
-    protected void showShortToast(CharSequence text) {
+    private final static String RELOGIN_MESSAGE = "账号已在其它设备登录,请重新登录";
+    protected void showShortToast(String text) {
+        if(shortToast==null){
+            shortToast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+        }
         if (TextUtils.isEmpty(text)) {
             return;
         }
-        if(shortToast==null){
-            shortToast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
-        }else{
-            shortToast.setText(text);
+        /**
+         * 先这样处理
+         */
+        if (text.equals(RELOGIN_MESSAGE)) {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            getActivity().startActivity(intent);
         }
+        shortToast.setText(text);
         shortToast.show();
     }
 
@@ -35,7 +43,7 @@ public class BaseFragment extends Fragment {
         super.onResume();
     }
 
-    protected void showLongToast(CharSequence text) {
+    protected void showLongToast(String text) {
         if (TextUtils.isEmpty(text)) {
             return;
         }
