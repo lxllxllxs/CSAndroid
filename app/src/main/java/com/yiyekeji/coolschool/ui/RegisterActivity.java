@@ -61,7 +61,7 @@ public class RegisterActivity extends BaseActivity {
     @InjectView(R.id.ledt_pswAnswer)
     LableEditView ledtPswAnswer;
 
-    private int roleTye = 0;
+    private int roleTye = 1;//0是学生 但现不开放
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class RegisterActivity extends BaseActivity {
                     return;
                 }
                 AlertDialog.Builder buidler = new AlertDialog.Builder(this);
-                buidler.setMessage("请记住密保："+ledtVerifyCode.getEditText()+"\n"+"在找回密码时将会用到")
+                buidler.setMessage("请记住邀请码："+ledtVerifyCode.getEditText()+"\n"+"在找回密码时将会用到")
                         .setNegativeButton("返回修改", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -117,7 +117,6 @@ public class RegisterActivity extends BaseActivity {
                 ledtVerifyCode.setVisibility(View.VISIBLE);
                 break;
         }
-
     }
 
     String loginName,realName,pwd,repeatPwd,pswAnswer,verifyCode;
@@ -153,7 +152,6 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("两次密码不一致！！");
             return false;
         }
-
         if (!RegexUtils.checkChinese(realName)) {
             showShortToast("姓名请输入中文！");
             return false;
@@ -174,10 +172,10 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("认证码不能为空！");
             return false;
         }
-        if (pswAnswer.length()!=4){
+   /*     if (pswAnswer.length()!=4){
             showShortToast("密保答案长度不对！");
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -188,6 +186,7 @@ public class RegisterActivity extends BaseActivity {
         userInfo.setPassword(pwd);
         userInfo.setRoleType(roleTye);
         userInfo.setPswAnswer(pswAnswer);
+        userInfo.setInviteCode(verifyCode);
         showLoadDialog("");
         UserService service = RetrofitUtil.create(UserService.class);
         Call<ResponseBean> call = service.register(userInfo);
@@ -206,7 +205,6 @@ public class RegisterActivity extends BaseActivity {
                     showShortToast("操作失败！" + rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBean> call, Throwable t) {
                 getLoadDialog().dismiss();

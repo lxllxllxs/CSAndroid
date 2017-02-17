@@ -5,13 +5,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <com.yiyekeji.coolschool.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
 
     <LinearLayout
         android:layout_marginTop="30px"
@@ -37,14 +34,15 @@
                 style="@style/BigTextView"
                 android:textColor="@color/black"
                 />
-
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_student"
                 android:padding="5px"
                 android:src="@mipmap/single_select"
                 android:layout_width="44px" style="@style/IconImageView"
                 android:layout_height="match_parent" />
             <TextView
+                android:visibility="gone"
                 android:gravity="center"
                 android:text="学生"
                 android:layout_width="wrap_content"
@@ -52,12 +50,11 @@
                 style="@style/BigTextView"
                 android:textColor="@color/text_black"
                 />
-
             <ImageView
                 android:id="@+id/iv_teacher"
                 android:layout_marginLeft="30px"
                 android:padding="5px"
-                android:src="@mipmap/single_no_select"
+                android:src="@mipmap/single_select"
                 android:layout_width="44px" style="@style/IconImageView"
                 android:layout_height="match_parent" />
             <TextView
@@ -68,31 +65,20 @@
                 style="@style/BigTextView"
                 android:textColor="@color/text_black"
                 />
-
-
         </LinearLayout>
 
         <com.yiyekeji.coolschool.widget.LableEditView
             android:id="@+id/ledt_loginName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText="学号/工号"
+            ledt:edtText="工号"
             ledt:text="用户账号"/>
-
-        <com.yiyekeji.coolschool.widget.LableEditView
-            android:visibility="gone"
-            android:id="@+id/ledt_verifyCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ledt:edtText="注册为老师需要认证码"
-            ledt:text="认证码"/>
-
 
         <com.yiyekeji.coolschool.widget.LableEditView
             android:id="@+id/ledt_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText="6~12位数字或字母"
+            ledt:edtText="6~8位数字或字母"
             ledt:text="登录密码"/>
         <com.yiyekeji.coolschool.widget.LableEditView
             android:id="@+id/ledt_confrimPwd"
@@ -107,11 +93,18 @@
             ledt:edtText="2~6个中文"
             ledt:text="真实姓名"/>
         <com.yiyekeji.coolschool.widget.LableEditView
+            android:visibility="gone"
             android:id="@+id/ledt_pswAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ledt:edtText="最亲密的人的生日4位"
             ledt:text="密保问题"/>
+        <com.yiyekeji.coolschool.widget.LableEditView
+            android:id="@+id/ledt_verifyCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ledt:edtText="6位英文数字"
+            ledt:text="邀请码"/>
         <com.yiyekeji.coolschool.widget.CButton
             android:layout_marginTop="30px"
             android:id="@+id/cb_confirm"

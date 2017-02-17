@@ -85,6 +85,9 @@ public class LableEditView extends AutoRelativeLayout {
         editText.addTextChangedListener(textWatcher);
     }
 
+    public void setLabelText(String text){
+        textView.setText(text);
+    }
 
     public void setEditText(String text){
         editText.setText(text);

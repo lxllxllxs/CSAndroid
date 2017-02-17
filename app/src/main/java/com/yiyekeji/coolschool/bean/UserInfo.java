@@ -26,9 +26,18 @@ public class UserInfo implements Cloneable,Parcelable {
     private int id;
     private String tokenId;
     private String headImg;
-
+    private String  inviteCode;
 
     private String aBalance;
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
     private String imei;
     private String email;
     private String addr;
@@ -291,6 +300,7 @@ public class UserInfo implements Cloneable,Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.tokenId);
         dest.writeString(this.headImg);
+        dest.writeString(this.inviteCode);
         dest.writeString(this.aBalance);
         dest.writeString(this.imei);
         dest.writeString(this.email);
@@ -313,6 +323,7 @@ public class UserInfo implements Cloneable,Parcelable {
         this.id = in.readInt();
         this.tokenId = in.readString();
         this.headImg = in.readString();
+        this.inviteCode = in.readString();
         this.aBalance = in.readString();
         this.imei = in.readString();
         this.email = in.readString();

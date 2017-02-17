@@ -49,9 +49,9 @@ public class CheckEmulatorUtils {
         String serial = android.os.Build.SERIAL;
         //"android"字符串针对夜神模拟器
         if (serial.equals("unknown")||serial.equals("android")) {
-            count++;
+            return true;
         }
-        if (checkPipes()){
+      /*  if (checkPipes()){
             LogUtil.d("CheckEmulatorUtils：checkPipes：捕捉到");
             count++;
         }
@@ -77,8 +77,8 @@ public class CheckEmulatorUtils {
         if (CheckEmulatorBuild(context)){
             LogUtil.d("CheckEmulatorUtils：EmulatorBuild：捕捉到");
             count++;
-        }
-        return count>0;
+        }*/
+        return false;
     }
 
 

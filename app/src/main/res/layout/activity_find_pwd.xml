@@ -11,19 +11,58 @@
         android:layout_height="wrap_content"/>
 
 
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="87px">
+        <TextView
+            android:gravity="center"
+            android:text="用户类型"
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:id="@+id/tv_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/BigTextView"
+            android:textColor="@color/black"
+            />
+        <ImageView
+            android:id="@+id/iv_student"
+            android:padding="5px"
+            android:src="@mipmap/single_select"
+            android:layout_width="44px" style="@style/IconImageView"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            android:text="学生"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/BigTextView"
+            android:textColor="@color/text_black"
+            />
+        <ImageView
+            android:id="@+id/iv_teacher"
+            android:layout_marginLeft="30px"
+            android:padding="5px"
+            android:src="@mipmap/single_no_select"
+            android:layout_width="44px" style="@style/IconImageView"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            android:text="老师"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/BigTextView"
+            android:textColor="@color/text_black"
+            />
+    </LinearLayout>
     <com.yiyekeji.coolschool.widget.LableEditView
         android:id="@+id/ledt_userNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ledt:edtText="学工号"
         ledt:text="账号       "/>
-
-    <com.yiyekeji.coolschool.widget.LableEditView
-        android:id="@+id/ledt_pswAnswere"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ledt:edtText="最亲密的人的生日4位"
-        ledt:text="密保问题"/>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
@@ -43,7 +82,12 @@
         ledt:edtText="重复密码"
         ledt:isPwd="true"
         ledt:text="重复密码"/>
-
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_pswOrCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText=""
+        ledt:text="子系统密码"/>
 
     <TextView
         android:layout_marginTop="20px"
@@ -55,4 +99,5 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="88px" />
+
 </LinearLayout>

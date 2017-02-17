@@ -2,6 +2,8 @@ package com.yiyekeji.coolschool.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
@@ -34,14 +36,19 @@ public class FindPwdActivity extends BaseActivity {
     TitleBar titleBar;
     @InjectView(R.id.ledt_userNum)
     LableEditView ledtUserNum;
-    @InjectView(R.id.ledt_pswAnswere)
-    LableEditView ledtPswAnswere;
     @InjectView(R.id.ledt_newPwd)
     LableEditView ledtNewPwd;
     @InjectView(R.id.ledt_reaptPwd)
     LableEditView ledtReaptPwd;
+    @InjectView(R.id.ledt_pswOrCode)
+    LableEditView ledtPswOrCode;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+    @InjectView(R.id.iv_student)
+    ImageView ivStudent;
+    @InjectView(R.id.iv_teacher)
+    ImageView ivTeacher;
+    private int roleTye = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +81,20 @@ public class FindPwdActivity extends BaseActivity {
             showShortToast("新密码两次输入不一致！");
             return;
         }
+        if (TextUtils.isEmpty(ledtPswOrCode.getEditText())) {
+            if (roleTye == 1) {
+                showShortToast("邀请码不能为空！");
+            } else {
+                showShortToast("子系统密码不能为空！");
+            }
+            return;
+        }
         Map<String, Object> params = new HashMap<>();
         params.put("userNum", ledtUserNum.getEditText());
-        params.put("pswAnswer", ledtPswAnswere.getEditText());
         params.put("newPsw", ledtNewPwd.getEditText());
+        params.put("roleType", roleTye);
+        params.put("codeOrPsw", ledtPswOrCode.getEditText());
+
         UserService service = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call = service.appFindPsw(params);
         showLoadDialog("");
@@ -108,8 +125,27 @@ public class FindPwdActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.tv_confirm)
-    public void onClick() {
-        appFindPsw();
+    @OnClick({R.id.tv_confirm, R.id.iv_student, R.id.iv_teacher})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_confirm:
+                appFindPsw();
+                break;
+            case R.id.iv_student:
+                roleTye = 0;
+                ivStudent.setImageResource(R.mipmap.single_select);
+                ivTeacher.setImageResource(R.mipmap.single_no_select);
+                ledtPswOrCode.setLabelText("子系统密码");
+                break;
+            case R.id.iv_teacher:
+                roleTye = 1;
+                ivStudent.setImageResource(R.mipmap.single_no_select);
+                ivTeacher.setImageResource(R.mipmap.single_select);
+                ledtPswOrCode.setLabelText("邀请码");
+                break;
+        }
     }
+
+
+
 }

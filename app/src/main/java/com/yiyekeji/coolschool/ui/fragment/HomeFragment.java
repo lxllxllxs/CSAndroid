@@ -112,6 +112,7 @@ public class HomeFragment extends BaseFragment implements LocationListener {
             @Override
             public void onItemClick(View view, int position) {
                 if(App.userInfo.getRoleType()==0&&position==0){
+                    // 除了夜神 根本装不了 哈哈
                     if (CheckEmulatorUtils.isEmulator(getActivity())) {
                         showShortToast("签到失败，模拟器？");
                         return;

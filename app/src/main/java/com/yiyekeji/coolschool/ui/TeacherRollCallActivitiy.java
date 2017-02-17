@@ -127,7 +127,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
                 getLoadDialog().dismiss();
             }
         });
-
     }
 
     private void initView() {
@@ -154,7 +153,8 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        } else if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null){
+        }
+        if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null){
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 getLoadDialog().dismiss();
                 showLongToast("没有GPS定位权限！");
@@ -176,7 +176,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
             showLongToast("没有GPS定位权限！");
             return;
         }
-        showShortToast(latitude + "==" + longitude);
         locationManager.removeUpdates(this);
         getCourseList();
     }
@@ -191,6 +190,7 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
     }
     @Override
     public void onProviderDisabled(String provider) {
+        getLoadDialog().dismiss();
     }
 
 }
