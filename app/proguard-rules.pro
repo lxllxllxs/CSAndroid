@@ -220,7 +220,10 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
-
+# 百度地图sdk
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**
 # 友盟统计分析
 -keepclassmembers class * { public <init>(org.json.JSONObject); }
 -keepclassmembers enum com.umeng.analytics.** {
