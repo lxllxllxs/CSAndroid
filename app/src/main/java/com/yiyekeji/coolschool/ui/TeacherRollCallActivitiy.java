@@ -154,14 +154,14 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
             }
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         }
-        if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null){
+       /* if (locationManager.getProvider(LocationManager.GPS_PROVIDER) != null){
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 getLoadDialog().dismiss();
                 showLongToast("没有GPS定位权限！");
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }
+        }*/
     }
     private double latitude,longitude;
     @Override
@@ -169,7 +169,7 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
         getLoadDialog().dismiss();
         latitude=location.getLatitude();
         longitude=location.getLongitude();
-//        showLongToast(location.toString()+"==="+latitude+longitude);
+        showLongToast(location.toString()+"==="+latitude+longitude);
         // 如果只是需要定位一次，这里就移除监听，停掉服务。如果要进行实时定位，可以在退出应用或者其他时刻停掉定位服务。
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             getLoadDialog().dismiss();
@@ -182,7 +182,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        getLoadDialog().dismiss();
     }
 
     @Override
@@ -190,7 +189,6 @@ public class TeacherRollCallActivitiy extends BaseActivity implements LocationLi
     }
     @Override
     public void onProviderDisabled(String provider) {
-        getLoadDialog().dismiss();
     }
 
 }
