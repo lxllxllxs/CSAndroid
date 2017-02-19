@@ -51,6 +51,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
     public BDLocationListener myListener = new MyLocationListener();
     private List<CourseInfo> courseInfos = new ArrayList<>();
     private CourseInfoAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,20 +59,21 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         ButterKnife.inject(this);
         mLocationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类
-        mLocationClient.registerLocationListener( myListener );
+        mLocationClient.registerLocationListener(myListener);
         initData();
         initView();
     }
 
     private void initData() {
         BdLocationUtlis.initLocation(mLocationClient);
-        mAdapter=new CourseInfoAdapter(this,courseInfos);
+        mAdapter = new CourseInfoAdapter(this, courseInfos);
         showLoadDialog("正在定位...");
 
         mLocationClient.start();
     }
 
     RollCallService service;
+
     private void getCourseList() {
         service = RetrofitUtil.create(RollCallService.class);
         Map<String, Object> params = new HashMap<>();
@@ -87,20 +89,22 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     courseInfos = GsonUtil.listFromJSon(jsonString,
-                            new TypeToken<List<CourseInfo>>() {}.getType(), "courseInfo");
+                            new TypeToken<List<CourseInfo>>() {
+                            }.getType(), "courseInfo");
                     LogUtil.d("CourseInfo", courseInfos.size());
                     mAdapter.notifyDataSetChanged(courseInfos);
                 } else {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
     }
 
-    private void startRollCall(CourseInfo info){
+    private void startRollCall(CourseInfo info) {
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("courseNo", info.getCourseNo());
@@ -110,8 +114,8 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         params.put("realName", App.userInfo.getName());
 //        params.put("xPosition",latitude);
 //        params.put("yPosition",longitude);
-        params.put("xPosition",longitude);
-        params.put("yPosition",latitude);
+        params.put("xPosition", longitude);
+        params.put("yPosition", latitude);
         RollCallService callService = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = callService.startCallName(params);
         showLoadDialog("");
@@ -128,6 +132,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -138,7 +143,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
     private void initView() {
         titleBar.initView(this);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setOnItemClickLitener(new CourseInfoAdapter.OnItemClickLitener() {
             @Override
@@ -148,7 +153,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         });
     }
 
-    private double latitude,longitude;
+    private double latitude, longitude;
     public class MyLocationListener implements BDLocationListener {
 
         @Override
@@ -162,13 +167,14 @@ public class TeacherRollCallActivitiy extends BaseActivity {
             sb.append(location.getLocType());    //获取类型类型
             sb.append("\nlatitude : ");
             sb.append(location.getLatitude());    //获取纬度信息
-            latitude=location.getLatitude();
-            longitude=location.getLongitude();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            showLongToast(latitude + "==" + longitude);
             sb.append("\nlontitude : ");
             sb.append(location.getLongitude());    //获取经度信息
             sb.append("\nradius : ");
             sb.append(location.getRadius());    //获取定位精准度
-            if (location.getLocType() == BDLocation.TypeGpsLocation){
+            if (location.getLocType() == BDLocation.TypeGpsLocation) {
                 // GPS定位结果
                 sb.append("\nspeed : ");
                 sb.append(location.getSpeed());    // 单位：公里每小时
@@ -182,7 +188,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                 sb.append(location.getAddrStr());    //获取地址信息
                 sb.append("\ndescribe : ");
                 sb.append("gps定位成功");
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
                 // 网络定位结果
                 sb.append("\naddr : ");
                 sb.append(location.getAddrStr());    //获取地址信息
@@ -220,6 +226,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
             mLocationClient.unRegisterLocationListener(this);
             getCourseList();
         }
+
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
 

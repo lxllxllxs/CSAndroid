@@ -55,5 +55,10 @@ public interface RollCallService {
     @POST("callname/getStudenCutClassNum")
     Call<ResponseBody> getStudenCutClassNum  (@Body Map<String, Object> params);
 
+    @POST("callname/insertCourse")
+    Call<ResponseBody> insertCourse  (@Body Map<String, Object> params);
+
+    @POST("callname/insertStudentCourse")
+    Call<ResponseBody> insertStudentCourse  (@Body Map<String, Object> params);
 
 }

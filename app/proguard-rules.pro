@@ -16,7 +16,7 @@
 #   public *;
 #}
 -keepattributes EnclosingMethod
-
+-keepattributes Exceptions, Signature, InnerClasses
 #############################################
 #
 # 对于一些基本指令的添加

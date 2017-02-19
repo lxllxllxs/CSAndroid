@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ledt="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.yiyekeji.coolschool.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_courseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="例：高等数学（一）"
+        ledt:text="课程名称"/>
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="例：120717"
+        ledt:text="上课班级"/>
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_classNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="例：黄浩川203"
+        ledt:text="课室编号"/>
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:id="@+id/ledt_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="例：100"
+        ledt:text="上课人数"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"/>
+    <TextView
+        android:text="确定"
+        android:gravity="center"
+        android:id="@+id/tv_confirm"
+        style="@style/BigTextView"
+        android:textColor="@color/white"
+        android:background="@color/theme_red"
+        android:layout_width="match_parent"
+        android:layout_height="88px"/>
+</LinearLayout>

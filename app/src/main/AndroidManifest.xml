@@ -228,6 +228,11 @@
             android:label="意见反馈"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".ui.AddCourseAty"
+            android:label="添加课程"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 
