@@ -13,7 +13,6 @@
               <TextView
                   android:textColor="@color/white"
                   style="@style/BigTextView"
-                  android:text="首页"
                   android:gravity="center"
                   android:layout_weight="1"
                   android:background="@color/theme_red"
@@ -38,7 +37,11 @@
        <android.support.v7.widget.RecyclerView
            android:id="@+id/recyclerView"
            android:layout_width="match_parent"
-           android:layout_height="match_parent">
+           android:layout_height="wrap_content"/>
 
-       </android.support.v7.widget.RecyclerView>
+       <View
+           android:background="@color/gray"
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"/>s
 </LinearLayout>

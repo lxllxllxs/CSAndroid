@@ -8,6 +8,7 @@
         android:id="@+id/roll_view_pager"
         android:layout_width="match_parent"
         android:layout_height="300px"
+        android:visibility="gone"
         app:rollviewpager_play_delay="3000"
         android:background="@color/white"
         />

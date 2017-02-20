@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -32,7 +33,13 @@ public class StartActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         initView();
-        login();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                login();
+            }
+        },2*1000);
+
     }
 
     private void initView() {
@@ -53,11 +60,9 @@ public class StartActivity extends BaseActivity {
         }
         userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call= userService.login(user);
-        showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
                 if (response.code()!=200){
                     showShortToast("网络错误"+response.code());
                     startActivity(LoginActivity.class);
@@ -78,7 +83,6 @@ public class StartActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
                 showShortToast(t.toString());
                 startActivity(LoginActivity.class);
             }

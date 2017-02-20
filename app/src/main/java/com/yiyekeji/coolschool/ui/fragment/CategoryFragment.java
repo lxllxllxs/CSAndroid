@@ -222,13 +222,14 @@ public class CategoryFragment extends BaseFragment {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
-                    showShortToast(rb.getMessage());
+//                    showShortToast(rb.getMessage());
                     return;
                 }
                 adList = GsonUtil.listFromJSon(jsonString,
                         new TypeToken<List<AdvertInfo>>() {
                         }.getType(), "advertInfo");
                 if (productInfoList != null) {
+                    rollViewPager.setVisibility(View.VISIBLE);
                     rollPagerViewAdapter.notifyDataSetChanged(adList);
                 }
             }
@@ -241,10 +242,6 @@ public class CategoryFragment extends BaseFragment {
     }
 
 
-    /**
-     * 设置轮播广告
-     * 点击时：判断有产品、供求、公司，就后台处理+1，跳转到具体的页面；如果没有就跳转到网页
-     */
     List<AdvertInfo> adList = new ArrayList<>();
 
     private void initRollPagerViewAdapter() {

@@ -126,7 +126,7 @@ public class AboutActivity extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
-                    showShortToast(rb.getMessage());
+                    showShortToast("已是最新版本");
                     return;
                 }
                 version = GsonUtil.fromJSon(jsonString,
