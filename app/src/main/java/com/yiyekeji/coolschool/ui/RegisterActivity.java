@@ -200,9 +200,10 @@ public class RegisterActivity extends BaseActivity {
                     showShortToast("注册成功！");
                     upLoadPhoneModel();//只上传一次设备数据
                     startActivity(LoginActivity.class);
+                    setResult(RESULT_OK);
                     finish();
                 } else {
-                    showShortToast("操作失败！" + rb.getMessage());
+                    showShortToast(rb.getMessage());
                 }
             }
             @Override

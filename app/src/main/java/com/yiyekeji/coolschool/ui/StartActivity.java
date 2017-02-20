@@ -39,7 +39,6 @@ public class StartActivity extends BaseActivity {
                 login();
             }
         },2*1000);
-
     }
 
     private void initView() {

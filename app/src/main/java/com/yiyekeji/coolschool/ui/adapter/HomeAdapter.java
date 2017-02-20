@@ -2,7 +2,6 @@ package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,8 +84,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
             }
         });
     }
-    @Override
-    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+ /*    @Override
+   public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
         if(manager instanceof GridLayoutManager) {
@@ -106,7 +105,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>
                 }
             });
         }
-    }
+    }*/
 
     private final  int TYPE_HEAD=0x123;
     private final  int TYPE_NORMAL=0x122;

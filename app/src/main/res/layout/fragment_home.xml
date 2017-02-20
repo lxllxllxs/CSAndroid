@@ -31,14 +31,41 @@
                   android:layout_height="match_parent" />
        </LinearLayout>
 
-       <Space
-           android:layout_width="match_parent"
-           android:layout_height="300px" />
+
+       <RelativeLayout
+           android:id="@+id/rl_rollCall"
+           android:layout_marginTop="100px"
+           android:layout_marginBottom="100px"
+           android:layout_gravity="center_horizontal"
+           android:background="@drawable/bg_red_circle"
+           android:orientation="horizontal"
+           android:layout_width="200px"
+           android:layout_height="200px">
+              <LinearLayout
+                  android:layout_centerInParent="true"
+                  android:layout_width="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_height="wrap_content">
+                     <ImageView
+                         android:id="@+id/iv_rollCall"
+                         android:src="@mipmap/ic_sign_in"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content" />
+                     <TextView
+                         android:id="@+id/tv_rollCall"
+                         style="@style/BigTextView"
+                         android:text="签到"
+                         android:layout_gravity="center"
+                         android:textColor="@color/white"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content" />
+              </LinearLayout>
+
+       </RelativeLayout>
        <android.support.v7.widget.RecyclerView
            android:id="@+id/recyclerView"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"/>
-
        <View
            android:background="@color/gray"
            android:layout_weight="1"

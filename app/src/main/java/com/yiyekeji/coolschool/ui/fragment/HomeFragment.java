@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -65,6 +66,12 @@ public class HomeFragment extends BaseFragment {
     RecyclerView recyclerView;
     @InjectView(R.id.tv_addCourse)
     TextView tvAddCourse;
+    @InjectView(R.id.rl_rollCall)
+    RelativeLayout rlRollCall;
+    @InjectView(R.id.iv_rollCall)
+    ImageView ivRollCall;
+    @InjectView(R.id.tv_rollCall)
+    TextView tvRollCall;
     private List<MainMenu> mainMenuList = new ArrayList<>();
     public BDLocationListener myListener = new MyLocationListener();
     public LocationClient mLocationClient = null;
@@ -79,20 +86,17 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initData();
         initView();
     }
 
     private void initData() {
-        MainMenu m1 = null;
         if (App.userInfo.getRoleType() == 1) {
-            m1 = new MainMenu("点名", R.mipmap.ic_roll_call, TeacherRollCallActivitiy.class);
-        } else {
-            mLocationClient = new LocationClient(App.getContext());
-            mLocationClient.registerLocationListener(myListener);
-            m1 = new MainMenu("签到", R.mipmap.ic_sign_in, null);
+            ivRollCall.setImageResource(R.mipmap.ic_roll_call);
+            tvRollCall.setText("点名");
         }
+        mLocationClient = new LocationClient(App.getContext());
+        mLocationClient.registerLocationListener(myListener);
         /**
          * 订水送水的交换图标
          */
@@ -102,7 +106,6 @@ public class HomeFragment extends BaseFragment {
 //        MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
         MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, CreatePrintOrderAty.class);
 //        MainMenu m7 = new MainMenu("广告", R.mipmap.ic_ad, null);
-        mainMenuList.add(m1);
         mainMenuList.add(m2);
         mainMenuList.add(m3);
 //        mainMenuList.add(m4);
@@ -121,19 +124,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 if (App.userInfo.getRoleType() == 0 && position == 0) {
-                    // 除了夜神 根本装不了 哈哈
-                    if (CheckEmulatorUtils.isEmulator(getActivity())) {
-                        showShortToast("签到失败，模拟器？");
-                        return;
-                    }
-                    //打开模拟位置的话要终止
-                    if (Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0) {
-                        showShortToast("签到失败,请关闭模拟位置");
-                        return;
-                    }
-                    showLoadDialog("");
-                    BdLocationUtlis.initLocation(mLocationClient);
-                    mLocationClient.start();
+
                 }
             }
         });
@@ -270,13 +261,38 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    @OnClick(R.id.tv_addCourse)
-    public void onClick() {
-        if (App.userInfo.getRoleType() == 1) {
-            startActivity(new Intent(getActivity(),AddCourseAty.class));
-        } else {
-            showDialog();
+    @OnClick({R.id.tv_addCourse, R.id.rl_rollCall})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_addCourse:
+                if (App.userInfo.getRoleType() == 1) {
+                    startActivity(new Intent(getActivity(), AddCourseAty.class));
+                } else {
+                    showDialog();
+                }
+                break;
+            case R.id.rl_rollCall:
+                if (App.userInfo.getRoleType() == 1) {
+                    startActivity(new Intent(getActivity(), TeacherRollCallActivitiy.class));
+                } else {
+                    // 除了夜神 根本装不了 哈哈
+                    if (CheckEmulatorUtils.isEmulator(getActivity())) {
+                        showShortToast("签到失败，模拟器？");
+                        return;
+                    }
+                    //打开模拟位置的话要终止
+                    if (Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0) {
+                        showShortToast("签到失败,请关闭模拟位置");
+                        return;
+                    }
+                    showLoadDialog("");
+                    BdLocationUtlis.initLocation(mLocationClient);
+                    mLocationClient.start();
+
+                }
+                break;
         }
+
     }
 
 
@@ -289,17 +305,18 @@ public class HomeFragment extends BaseFragment {
             longitude = location.getLongitude();
             getMyCoures();
         }
+
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
         }
     }
 
-    public void showDialog(){
+    public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View layout = LayoutInflater.from(getActivity()).inflate(R.layout.layout_add_coures_dialog, null);
         builder.setView(layout);
         builder.setTitle("输入课程编号");//设置标题内容
-        final EditText editText = (EditText)layout.findViewById(R.id.edt_addCourse);
+        final EditText editText = (EditText) layout.findViewById(R.id.edt_addCourse);
 
         builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
             @Override
@@ -321,7 +338,7 @@ public class HomeFragment extends BaseFragment {
         dlg.show();
     }
 
-    private void stuAddCourse(String coureseNo){
+    private void stuAddCourse(String coureseNo) {
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.geTokenId());
         params.put("userNum", App.userInfo.getUserNum());
@@ -345,6 +362,7 @@ public class HomeFragment extends BaseFragment {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();

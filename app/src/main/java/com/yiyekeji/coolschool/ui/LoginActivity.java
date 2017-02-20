@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.tv_register:
                 Intent intent = new Intent(this, RegisterActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 break;
             case R.id.tv_findPwd:
                 startActivity(FindPwdActivity.class);
@@ -131,6 +131,14 @@ public class LoginActivity extends BaseActivity {
         SPUtils.put(LoginActivity.this,PWD,ledtPwd.getEditText());
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            ledtLoginName.setEditText("");
+            ledtPwd.setEditText("");
+        }
+    }
 
     /**
      * 连续点击两次 关闭
