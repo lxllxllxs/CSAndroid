@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool.ui.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,10 +28,12 @@ import com.baidu.location.LocationClient;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.AndroidVersion;
 import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.MainMenu;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.StudentSign;
+import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.AddCourseAty;
 import com.yiyekeji.coolschool.ui.CreateDeliverOrderAty;
@@ -82,7 +85,6 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.inject(this, view);
         return view;
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -97,6 +99,8 @@ public class HomeFragment extends BaseFragment {
         }
         mLocationClient = new LocationClient(App.getContext());
         mLocationClient.registerLocationListener(myListener);
+
+        // checkUpdate();
         /**
          * 订水送水的交换图标
          */
@@ -369,5 +373,65 @@ public class HomeFragment extends BaseFragment {
                 showShortToast(getString(R.string.response_err));
             }
         });
+    }
+
+
+
+    AndroidVersion version = null;
+    private void checkUpdate() {
+        CommonService service = RetrofitUtil.create(CommonService.class);
+        Call<ResponseBody> call = service.checkVersion();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (!rb.getResult().equals("1")) {
+//                    showShortToast("已是最新版本");
+                    return;
+                }
+                version = GsonUtil.fromJSon(jsonString,
+                        AndroidVersion.class, "checkVersion");
+                if (version != null) {
+                    if (isNeedUpdate()) {
+                        AlertDialog.Builder buidler = new AlertDialog.Builder(getContext());
+                        buidler.setMessage(version.getDate() + "\n" + version.getContent())
+                                .setTitle(getString(R.string.update_title))
+                                .setNegativeButton(getString(R.string.update_cancle), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setPositiveButton(getString(R.string.update_confirm), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+//                                        startDownLoad();
+                                        //直接借用其他浏览器打开连接
+                                        Intent intent = new Intent();
+                                        intent.setAction("android.intent.action.VIEW");
+                                        Uri content_url = Uri.parse(version.getUrl());
+                                        intent.setData(content_url);
+                                        startActivity(intent);
+
+                                    }
+                                })
+                                .show();
+                    }
+                } else {
+//                    showShortToast(getString(R.string.check_version));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+    }
+    private boolean isNeedUpdate() {
+        if (version.getVersion() > (CommonUtils.getAppVersion())) {
+            return true;
+        }
+        return false;
     }
 }

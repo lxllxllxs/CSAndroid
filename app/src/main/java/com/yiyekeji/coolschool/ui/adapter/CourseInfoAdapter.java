@@ -43,6 +43,7 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
 
         TextView tvCourseName;
         TextView tvCout;
+        TextView  tvClassNo;
         TextView  tvClass;
         TextView  tvCheck;
         LinearLayout llContainer;
@@ -62,6 +63,7 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
         viewHolder.tvCourseName=(TextView)view.findViewById(R.id.tv_courseName);
+        viewHolder.tvClassNo=(TextView)view.findViewById(R.id.tv_classNo);
         viewHolder.tvCout=(TextView)view.findViewById(R.id.tv_count);
         viewHolder.tvClass=(TextView)view.findViewById(R.id.tv_class);
         viewHolder.tvCheck=(TextView)view.findViewById(R.id.tv_checkList);
@@ -78,9 +80,9 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
 
         String s=courseInfo.getCourseName()+"("+courseInfo.getRoomNum()+")";
         viewHolder.tvCourseName.setText(s);
-        viewHolder.tvCout.setText(courseInfo.getCount());
+        viewHolder.tvCout.setText(courseInfo.getCount().concat("人"));
         viewHolder.tvClass.setText(courseInfo.getCourseClass());
-
+        viewHolder.tvClassNo.setText(courseInfo.getCourseNo());
         viewHolder.tvCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

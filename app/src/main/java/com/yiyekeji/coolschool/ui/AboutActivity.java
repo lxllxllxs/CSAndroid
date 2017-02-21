@@ -134,15 +134,15 @@ public class AboutActivity extends BaseActivity {
                 if (version != null) {
                     if (isNeedUpdate()) {
                         AlertDialog.Builder buidler = new AlertDialog.Builder(AboutActivity.this);
-                        buidler.setMessage(version.getContent() + "\n" + version.getDate())
-                                .setTitle("准备下载更新？")
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        buidler.setMessage(version.getDate() + "\n" + version.getContent())
+                                .setTitle(getString(R.string.update_title))
+                                .setNegativeButton(getString(R.string.update_cancle), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                     }
                                 })
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(getString(R.string.update_confirm), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 //                                        startDownLoad();

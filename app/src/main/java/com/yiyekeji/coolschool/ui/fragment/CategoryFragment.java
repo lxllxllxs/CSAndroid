@@ -166,7 +166,6 @@ public class CategoryFragment extends BaseFragment {
                 }
                 showShortToast(rb.getMessage());
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -190,7 +189,7 @@ public class CategoryFragment extends BaseFragment {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
-                    showShortToast(rb.getMessage());
+//                    showShortToast(rb.getMessage());
                     return;
                 }
                 productInfoList = GsonUtil.listFromJSon(jsonString,

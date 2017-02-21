@@ -33,12 +33,7 @@ public class StartActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         initView();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                login();
-            }
-        },2*1000);
+        login();
     }
 
     private void initView() {
@@ -74,7 +69,11 @@ public class StartActivity extends BaseActivity {
 //                    showShortToast("成功登录！");
 //                    userInfo.setPassword("");//清除密码  不清了
                     App.userInfo=userInfo;
-                    startActivity(MainViewpagerActivity.class);
+                    new Handler().postDelayed(new Runnable(){
+                        public void run() {
+                            startActivity(MainViewpagerActivity.class);
+                        }
+                    }, 2*1000);
                 } else {
                     showShortToast(rb.getMessage());
                     startActivity(LoginActivity.class);

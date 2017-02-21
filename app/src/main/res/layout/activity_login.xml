@@ -29,7 +29,7 @@
         android:id="@+id/ledt_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText="请输入密码"
+        ledt:edtText="@string/login_stu"
         ledt:isPwd="true"
         ledt:text="密码"/>
     <View
