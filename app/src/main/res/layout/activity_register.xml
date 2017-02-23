@@ -90,7 +90,7 @@
             android:id="@+id/ledt_realName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText="2~6个中文"
+            ledt:edtText="2~4个中文"
             ledt:text="真实姓名"/>
         <com.yiyekeji.coolschool.widget.LableEditView
             android:visibility="gone"
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ledt:edtText="4位数字"
-            ledt:text="邀请码"/>
+            ledt:text="邀请码    "/>
         <com.yiyekeji.coolschool.widget.CButton
             android:layout_marginTop="30px"
             android:id="@+id/cb_confirm"

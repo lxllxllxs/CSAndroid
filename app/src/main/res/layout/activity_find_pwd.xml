@@ -86,8 +86,8 @@
         android:id="@+id/ledt_pswOrCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText=""
-        ledt:text="子系统密码"/>
+        ledt:edtText="输入服务子系统密码"
+        ledt:text="系统密码"/>
 
     <TextView
         android:layout_marginTop="20px"

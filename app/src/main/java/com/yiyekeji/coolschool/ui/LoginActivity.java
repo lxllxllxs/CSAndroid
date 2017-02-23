@@ -44,8 +44,11 @@ public class LoginActivity extends BaseActivity {
     TextView tvFindPwd;
 
 
-    private final String LOGIN_NAME="loginName";
-    private final String PWD="pwd";
+    private final String LOGIN_NAME = "loginName";
+    private final String PWD = "pwd";
+    @InjectView(R.id.tv_feedBack)
+    TextView tvFeedBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,15 +58,15 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-        if (SPUtils.contains(this,LOGIN_NAME)){
-            ledtLoginName.setEditText(SPUtils.getString(this,LOGIN_NAME));
+        if (SPUtils.contains(this, LOGIN_NAME)) {
+            ledtLoginName.setEditText(SPUtils.getString(this, LOGIN_NAME));
         }
-        if (SPUtils.contains(this,PWD)){
-            ledtPwd.setEditText(SPUtils.getString(this,PWD));
+        if (SPUtils.contains(this, PWD)) {
+            ledtPwd.setEditText(SPUtils.getString(this, PWD));
         }
     }
 
-    @OnClick({R.id.cb_login, R.id.tv_register, R.id.tv_findPwd})
+    @OnClick({R.id.cb_login, R.id.tv_register, R.id.tv_findPwd,R.id.tv_feedBack})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cb_login:
@@ -72,19 +75,23 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.tv_register:
                 Intent intent = new Intent(this, RegisterActivity.class);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
                 break;
             case R.id.tv_findPwd:
                 startActivity(FindPwdActivity.class);
+                break;
+            case R.id.tv_feedBack:
+                startActivity(FeedBackActivity.class);
                 break;
         }
     }
 
     UserService userService;
-    private void login(String name,String pwd) {
+
+    private void login(String name, String pwd) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
             showShortToast("账号或密码不能为空！");
-            return ;
+            return;
         }
         final UserInfo user = new UserInfo();
         user.setUserNum(name);
@@ -92,24 +99,24 @@ public class LoginActivity extends BaseActivity {
 
         user.setImei(CommonUtils.getIMEI());
         userService = RetrofitUtil.create(UserService.class);
-        Call<ResponseBody> call= userService.login(user);
+        Call<ResponseBody> call = userService.login(user);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 getLoadDialog().dismiss();
-                if (response.code()!=200){
-                    showShortToast("网络错误"+response.code());
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
-                UserInfo  userInfo= GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
+                UserInfo userInfo = GsonUtil.fromJSon(jsonString, UserInfo.class, "userInfo");
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
-                if (userInfo!=null) {
+                if (userInfo != null) {
 //                    showShortToast("成功登录！");
                     savaLoginInfo();
 //                    userInfo.setPassword("");//清除密码 不清了
-                    App.userInfo=userInfo;
+                    App.userInfo = userInfo;
                     Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
                     startActivity(intent);
 
@@ -126,9 +133,9 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void savaLoginInfo(){
+    private void savaLoginInfo() {
         SPUtils.put(LoginActivity.this, LOGIN_NAME, ledtLoginName.getEditText());
-        SPUtils.put(LoginActivity.this,PWD,ledtPwd.getEditText());
+        SPUtils.put(LoginActivity.this, PWD, ledtPwd.getEditText());
     }
 
     @Override
@@ -144,6 +151,7 @@ public class LoginActivity extends BaseActivity {
      * 连续点击两次 关闭
      */
     long[] mHits = new long[2];
+
     @Override
     public void onBackPressed() {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);

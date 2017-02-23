@@ -53,7 +53,8 @@ public class FeedBackActivity extends BaseActivity {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("userNum", App.userInfo.getUserNum());
+        String userNum = App.userInfo == null ? "0000000000" : App.userInfo.getUserNum();
+        params.put("userNum", userNum);
         params.put("content", edtFeedback.getText().toString());
         CommonService service = RetrofitUtil.create(CommonService.class);
         Call<ResponseBody> call = service.commitFeedBack(params);

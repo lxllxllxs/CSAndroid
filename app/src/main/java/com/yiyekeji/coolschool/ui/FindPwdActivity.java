@@ -135,13 +135,15 @@ public class FindPwdActivity extends BaseActivity {
                 roleTye = 0;
                 ivStudent.setImageResource(R.mipmap.single_select);
                 ivTeacher.setImageResource(R.mipmap.single_no_select);
-                ledtPswOrCode.setLabelText("子系统密码");
+                ledtPswOrCode.setLabelText("系统密码");
+                ledtPswOrCode.getEdit().setHint("输入服务子系统密码");
                 break;
             case R.id.iv_teacher:
                 roleTye = 1;
                 ivStudent.setImageResource(R.mipmap.single_no_select);
                 ivTeacher.setImageResource(R.mipmap.single_select);
-                ledtPswOrCode.setLabelText("邀请码");
+                ledtPswOrCode.setLabelText("邀请码    ");
+                ledtPswOrCode.getEdit().setHint("");
                 break;
         }
     }

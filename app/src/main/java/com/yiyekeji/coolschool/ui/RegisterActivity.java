@@ -156,8 +156,8 @@ public class RegisterActivity extends BaseActivity {
             showShortToast("姓名请输入中文！");
             return false;
         }
-        if (realName.length() < 2 || realName.length() > 6) {
-            showShortToast("姓名长度为2~6位！");
+        if (realName.length() < 2 || realName.length() > 4) {
+            showShortToast("姓名长度为2~4位！");
             return false;
         }
         if (!RegexUtils.checkDigit(loginName)) {
@@ -169,7 +169,7 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
         if (roleTye==1&&TextUtils.isEmpty(verifyCode)){
-            showShortToast("认证码不能为空！");
+            showShortToast("邀请码不能为空！");
             return false;
         }
    /*     if (pswAnswer.length()!=4){

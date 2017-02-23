@@ -229,7 +229,7 @@ public class HomeFragment extends BaseFragment {
             public void run() {
                 handler.sendEmptyMessage(0);
             }
-        }, 1000);
+        }, 2000);
     }
 
     @Override
@@ -288,7 +288,6 @@ public class HomeFragment extends BaseFragment {
                 }
                 break;
         }
-
     }
 
 
@@ -329,7 +328,6 @@ public class HomeFragment extends BaseFragment {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-
             }
         });
         final AlertDialog dlg = builder.create();
@@ -360,7 +358,6 @@ public class HomeFragment extends BaseFragment {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();

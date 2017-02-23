@@ -124,13 +124,12 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    showShortToast("已开始点名");
+                    showShortToast("开始点名");
                     startActivity(DynamicSignInActivity.class);
                 } else {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -158,10 +157,10 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         public void onReceiveLocation(BDLocation location) {
             getLoadDialog().dismiss();
             //使用百度坐标系统  113.029552,22.622779 亿业坐标
-//            latitude = 22.622779;
-//            longitude = 113.029552;
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            latitude = 22.622779;
+            longitude = 113.029552;
+//            latitude = location.getLatitude();
+//            longitude = location.getLongitude();
             mLocationClient.unRegisterLocationListener(this);
             getCourseList();
         }

@@ -62,11 +62,25 @@
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/tv_findPwd"
-            android:text="忘记密码?"
+            android:text="忘记密码？"
             style="@style/NormalTextView"
             android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_width="160px"
             android:layout_height="match_parent" />
     </RelativeLayout>
+
+    <Space
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+    <TextView
+        android:layout_marginBottom="50px"
+        style="@style/NormalTextView"
+        android:layout_gravity="center"
+        android:text="登录不了？"
+        android:gravity="center"
+        android:id="@+id/tv_feedBack"
+        android:layout_width="160px"
+        android:layout_height="wrap_content" />
 </LinearLayout>

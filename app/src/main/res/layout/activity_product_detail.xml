@@ -83,12 +83,10 @@
                 android:layout_height="1px"/>
 
             <android.support.v7.widget.RecyclerView
-
                 android:id="@+id/rv_imgs"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
-
             <TextView
                 android:id="@+id/tv_contac"
                 style="@style/NormalTextView"

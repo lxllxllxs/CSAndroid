@@ -37,6 +37,7 @@ import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -191,6 +192,7 @@ public class ReleaseProductAyt extends BaseActivity {
 
     private void setReleaseProduct() {
         releaseProduct.setSupplierNum(App.userInfo.getUserNum());
+        Collections.sort(imgsId);
         releaseProduct.setPictureIdList(imgsId);
     }
 
