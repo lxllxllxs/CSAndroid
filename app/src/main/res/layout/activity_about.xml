@@ -94,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="100px"/>
     <TextView
+        android:visibility="gone"
         android:gravity="center"
         android:text="工作室"
         style="@style/NormalTextView"
@@ -103,7 +104,7 @@
     <TextView
         android:layout_marginTop="10px"
         android:gravity="center"
-        android:text="手机号 邮箱"
+        android:text="@string/about_contact"
         style="@style/NormalTextView"
         android:textColor="@color/text_black"
         android:layout_width="match_parent"

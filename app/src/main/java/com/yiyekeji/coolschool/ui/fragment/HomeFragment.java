@@ -97,9 +97,6 @@ public class HomeFragment extends BaseFragment {
             ivRollCall.setImageResource(R.mipmap.ic_roll_call);
             tvRollCall.setText("点名");
         }
-        mLocationClient = new LocationClient(App.getContext());
-        mLocationClient.registerLocationListener(myListener);
-
         // checkUpdate();
         /**
          * 订水送水的交换图标
@@ -127,9 +124,6 @@ public class HomeFragment extends BaseFragment {
         mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (App.userInfo.getRoleType() == 0 && position == 0) {
-
-                }
             }
         });
     }
@@ -279,6 +273,8 @@ public class HomeFragment extends BaseFragment {
                 if (App.userInfo.getRoleType() == 1) {
                     startActivity(new Intent(getActivity(), TeacherRollCallActivitiy.class));
                 } else {
+                    mLocationClient = new LocationClient(App.getContext());
+                    mLocationClient.registerLocationListener(myListener);
                     // 除了夜神 根本装不了 哈哈
                     if (CheckEmulatorUtils.isEmulator(getActivity())) {
                         showShortToast("签到失败，模拟器？");
@@ -292,7 +288,6 @@ public class HomeFragment extends BaseFragment {
                     showLoadDialog("");
                     BdLocationUtlis.initLocation(mLocationClient);
                     mLocationClient.start();
-
                 }
                 break;
         }
@@ -301,15 +296,14 @@ public class HomeFragment extends BaseFragment {
 
 
     public class MyLocationListener implements BDLocationListener {
-
         @Override
         public void onReceiveLocation(BDLocation location) {
             getLoadDialog().dismiss();
+            mLocationClient.unRegisterLocationListener(myListener);
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             getMyCoures();
         }
-
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
         }

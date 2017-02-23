@@ -3,7 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
-
+    signingConfigs {
+        lxlSigning {
+            keyAlias 'lxl.keystore'
+            keyPassword 'lxl774785161'
+            storeFile file('E:/ASProject/CSAndroid/lxl.keystore')
+            storePassword 'lxl774785161'
+        }
+    }
     defaultConfig {
         applicationId "com.yiyekeji.coolschool"
         minSdkVersion 19
@@ -21,6 +28,10 @@ android {
             // 移除无用的resource文件
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.lxlSigning
+        }
+        debug {
+            signingConfig signingConfigs.lxlSigning
         }
     }
 }

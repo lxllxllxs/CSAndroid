@@ -19,7 +19,7 @@
         android:id="@+id/ledt_class"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ledt:edtText="例：120717"
+        ledt:edtText="例：120717,120716"
         ledt:text="上课班级"/>
     <com.yiyekeji.coolschool.widget.LableEditView
         android:id="@+id/ledt_classNo"

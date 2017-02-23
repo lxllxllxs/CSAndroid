@@ -40,6 +40,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,7 +91,7 @@ public class CategoryFragment extends BaseFragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCategory.setLayoutManager(linearLayoutManager);
-        mCategoryAdapter.setSelectColor(Color.WHITE, ContextCompat.getColor(getActivity(),R.color.theme_red));
+        mCategoryAdapter.setSelectColor(Color.WHITE, ContextCompat.getColor(getActivity(), R.color.theme_red));
         mCategoryAdapter.setOnItemClickLitener(new HaveNameAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -134,6 +135,7 @@ public class CategoryFragment extends BaseFragment {
 
     int rvHeight;
     int itemHeight = 0, offset;
+
     private void getCategoryList() {
         showLoadDialog("");
         Call<ResponseBody> call = service.getShopCategoryList();
@@ -151,7 +153,7 @@ public class CategoryFragment extends BaseFragment {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (infoList != null) {
                     infoList.get(0).setSelect(true);
-                    getProductLIst(((CategoryInfo)infoList.get(0)).getCategoryId());
+                    getProductLIst(((CategoryInfo) infoList.get(0)).getCategoryId());
                     mCategoryAdapter.notifyDataSetChanged(infoList);
                     final ViewTreeObserver vto = rvCategory.getViewTreeObserver();
                     vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -164,8 +166,9 @@ public class CategoryFragment extends BaseFragment {
                     });
                     return;
                 }
-                showShortToast(rb.getMessage());
+//                showShortToast(rb.getMessage());
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -174,8 +177,10 @@ public class CategoryFragment extends BaseFragment {
         });
     }
 
+    private int cId;
     private void getProductLIst(int pcId) {
         showLoadDialog("");
+        cId = pcId;
         HashMap<String, Object> map = new HashMap<>();
         map.put("pcId", pcId);
         Call<ResponseBody> call = service.getProductList(map);
@@ -190,6 +195,7 @@ public class CategoryFragment extends BaseFragment {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
 //                    showShortToast(rb.getMessage());
+                    tvRefresh.setVisibility(View.VISIBLE);
                     return;
                 }
                 productInfoList = GsonUtil.listFromJSon(jsonString,
@@ -203,6 +209,7 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
+                tvRefresh.setVisibility(View.VISIBLE);
                 showShortToast(getString(R.string.response_err));
             }
         });
@@ -232,6 +239,7 @@ public class CategoryFragment extends BaseFragment {
                     rollPagerViewAdapter.notifyDataSetChanged(adList);
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -274,4 +282,8 @@ public class CategoryFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
+    @OnClick(R.id.tv_refresh)
+    public void onClick() {
+        getProductLIst(cId);
+    }
 }

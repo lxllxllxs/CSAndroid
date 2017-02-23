@@ -48,7 +48,7 @@ public class DynamicSignInActivity extends BaseActivity {
     @InjectView(R.id.tv_count)
     TextView tvCount;
 
-    private final  int MAX_COUNT=90;
+    private final  int MAX_COUNT=30;
     private String number;
     private RollCallService service;
     Map<String, Object> params = new HashMap<>();
@@ -68,7 +68,7 @@ public class DynamicSignInActivity extends BaseActivity {
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("tnum", App.userInfo.getUserNum());
         service = RetrofitUtil.create(RollCallService.class);
-        //两秒更一次 共三分钟 一共90
+        //两秒更一次 共2分钟 一共60
         timer.schedule(mTask, 0, 2000);
     }
 
@@ -225,7 +225,7 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
     private void updateNumber() {
-        tvCount.setText(number);
+        tvCount.setText("已签到\n"+number);
     }
 
 

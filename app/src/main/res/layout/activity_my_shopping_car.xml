@@ -7,16 +7,31 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_product"
+    <FrameLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_product"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_emptyView"
+            style="@style/BigTextView"
+            android:text="空空如也"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="1px"/>
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:background="@color/white"

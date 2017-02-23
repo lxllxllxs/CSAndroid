@@ -157,8 +157,11 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         @Override
         public void onReceiveLocation(BDLocation location) {
             getLoadDialog().dismiss();
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            //使用百度坐标系统  113.029552,22.622779 亿业坐标
+            latitude = 22.622779;
+            longitude = 113.029552;
+//            latitude = location.getLatitude();
+//            longitude = location.getLongitude();
             mLocationClient.unRegisterLocationListener(this);
             getCourseList();
         }

@@ -11,7 +11,9 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.utils.SPUtils;
 
@@ -24,8 +26,6 @@ import retrofit2.Response;
  * Created by lxl on 2017/1/8.
  */
 public class StartActivity extends BaseActivity {
-    private final String LOGIN_NAME="loginName";
-    private final String PWD="pwd";
     UserInfo user = new UserInfo();
     UserService userService;
     @Override
@@ -33,10 +33,13 @@ public class StartActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         initView();
+        LogUtil.d("StartActivity:"+ CommonUtils.getCertificateSHA1Fingerprint(this));
         login();
     }
 
     private void initView() {
+        final String LOGIN_NAME="loginName";
+        final String PWD="pwd";
         if (SPUtils.contains(this,LOGIN_NAME)){
             user.setUserNum(SPUtils.getString(this,LOGIN_NAME));
         }

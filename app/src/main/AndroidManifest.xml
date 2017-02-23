@@ -35,12 +35,12 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="03R36jZvVXnb4dKu8lVShMUau7oBP0fD" />  <!--http://lbsyun.baidu.com/apiconsole/key-->
         <!--友盟Apikey-->
-        <meta-data android:name="UMENG_APPKEY" android:value="589348ad7666137d31001e62" />
-        <meta-data android:name="UMENG_CHANNEL" android:value="wandoujia" />
+        <meta-data android:name="UMENG_APPKEY" android:value="58ad4e828f4a9d191100096e" />
+        <meta-data android:name="UMENG_CHANNEL" android:value="360" />
         <meta-data android:name="UMENG_MESSAGE_SECRET" android:value="cd8852acf5a03938577d54715601f44e"/>
 
-        <meta-data android:name="design_width" android:value="720"></meta-data>
-        <meta-data android:name="design_height" android:value="1280"></meta-data>
+        <meta-data android:name="design_width" android:value="720"/>
+        <meta-data android:name="design_height" android:value="1280"/>
         <activity android:name=".ui.StartActivity"
                   android:alwaysRetainTaskState="true"
             >

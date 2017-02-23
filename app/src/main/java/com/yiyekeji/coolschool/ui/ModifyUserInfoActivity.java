@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -111,6 +112,9 @@ public class ModifyUserInfoActivity extends BaseActivity {
         }
         if (REQUEST_CODE==UserInfomationActivity.MOBILE){
             String mobile=ledtModifyMobile.getEditText();
+            if (TextUtils.isEmpty(mobile)){
+                return;
+            }
             if (!RegexUtils.checkMobile(mobile)) {
                 showShortToast("手机号码不正确！");
                 return;
@@ -119,6 +123,9 @@ public class ModifyUserInfoActivity extends BaseActivity {
         }
         if (REQUEST_CODE==UserInfomationActivity.EMAIL){
             String email=ledtModifyEmail.getEditText();
+            if (TextUtils.isEmpty(email)){
+                return;
+            }
             if (!RegexUtils.checkEmail(email)){
                 showShortToast("邮箱地址不正确！");
                 return;

@@ -2,6 +2,7 @@ package com.yiyekeji.coolschool;
 
 import android.test.InstrumentationTestCase;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
@@ -15,6 +16,9 @@ import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.NetUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,18 +39,42 @@ public class TestCallName extends InstrumentationTestCase {
         }
 
     }*/
-    public void testPring(){
-        System.out.print("hello world");
+
+    String data="";
+
+    private void con(UserInfo info) throws Exception {
+        URL url = new URL("http://123.207.13.169:8080/cs/user/appLogin");
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        Gson gson = new Gson();
+        byte[] datas =gson.toJson(info).getBytes();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setReadTimeout(15000);
+        urlConnection.setConnectTimeout(15000);
+        urlConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+        urlConnection.setRequestProperty("Content-Length",String.valueOf(datas.length));
+        urlConnection.setDoOutput(true);
+        urlConnection.setDoInput(true);
+        OutputStream os = urlConnection.getOutputStream();
+        os.write(datas);
+        os.flush();
+        os.close();
+        if (urlConnection.getResponseCode() == 200) {
+            count++;
+            LogUtil.d("第" + count + "个登录成功：" + info.getUserNum());
+        } else {
+            LogUtil.d("失败：");
+        }
     }
 
 
-    private void testStudentSign(){
-        for (int i=100;i<900;i++){
+    public void testStudentSign() throws Exception {
+        for (int i=545;i<800;i++){
             final UserInfo user = new UserInfo();
             user.setUserNum("0000000"+i);
             user.setPassword("qqqqqq");
             user.setImei(CommonUtils.getIMEI());
-            userService = RetrofitUtil.create(UserService.class);
+            con(user);
+          /*  userService = RetrofitUtil.create(UserService.class);
             Call<ResponseBody> call= userService.login(user);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -57,8 +85,13 @@ public class TestCallName extends InstrumentationTestCase {
                     String jsonString = GsonUtil.toJsonString(response);
                     UserInfo  userInfo= GsonUtil.fromJSon(jsonString,UserInfo.class,"userInfo") ;
                     ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                    if (rb.getResult().equals("1")){
+                        count++;
+                        LogUtil.d("第"+count+"个登录成功："+user.getUserNum());
+                        return;
+                    }
                     if (userInfo!=null) {
-                        testGetMyCoures(userInfo.getTokenId(), userInfo.getUserNum());
+//                        testGetMyCoures(userInfo.getTokenId(), userInfo.getUserNum());
                     } else {
                         LogUtil.d(rb.getMessage());
                     }
@@ -67,7 +100,7 @@ public class TestCallName extends InstrumentationTestCase {
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     LogUtil.d(t.toString());
                 }
-            });
+            });*/
         }
     }
 

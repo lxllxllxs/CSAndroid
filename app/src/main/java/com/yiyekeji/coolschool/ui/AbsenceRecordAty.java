@@ -87,6 +87,9 @@ public class AbsenceRecordAty extends BaseActivity {
         if (delItem == null) {
             return;
         }
+        if (service == null) {
+            service=RetrofitUtil.create(RollCallService.class);
+        }
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("cutClassId", delItem.getCutClassId());

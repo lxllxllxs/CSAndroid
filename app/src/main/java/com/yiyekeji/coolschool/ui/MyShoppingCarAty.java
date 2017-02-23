@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -48,6 +49,10 @@ public class MyShoppingCarAty extends BaseActivity {
     TextView tvConfirm;
     @InjectView(R.id.tv_del)
     TextView tvDel;
+    @InjectView(R.id.tv_emptyView)
+    TextView tvEmptyView;
+    @InjectView(R.id.ll_bottom)
+    LinearLayout llBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,15 +115,17 @@ public class MyShoppingCarAty extends BaseActivity {
                             }.getType(), "myCartInfoList");
                     calTotalPrice();
                     if (productInfoList == null) {
-                        productInfoList = new ArrayList<ShoppingCarProduct>();
+                        tvEmptyView.setVisibility(View.VISIBLE);
+                        return;
                     }
                     mAdapter.notifyDataSetChanged(productInfoList);
                 } else {
-                    mAdapter.notifyDataSetChanged();
-                    calTotalPrice();
-                    showShortToast(rb.getMessage());
+                    tvEmptyView.setVisibility(View.VISIBLE);
+                    llBottom.setVisibility(View.GONE);
+//                    showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -152,6 +159,7 @@ public class MyShoppingCarAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -175,7 +183,7 @@ public class MyShoppingCarAty extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_del:
-                if (isEmpty()){
+                if (isEmpty()) {
                     showShortToast("至少选中一件！");
                     return;
                 }
@@ -183,11 +191,11 @@ public class MyShoppingCarAty extends BaseActivity {
                 deleteCartItem();
                 break;
             case R.id.tv_confirm:
-                if (isDiffer()){
+                if (isDiffer()) {
                     showShortToast("暂不支持跨店！");
                     return;
                 }
-                if (isEmpty()){
+                if (isEmpty()) {
                     showShortToast("至少选中一件！");
                     return;
                 }
@@ -200,6 +208,7 @@ public class MyShoppingCarAty extends BaseActivity {
 
     private ArrayList<Integer> cartItemIdList = new ArrayList<>();
     private ArrayList<ProductOrderItem> items = new ArrayList<>();
+
     private void convertToProduct() {
         ProductOrderItem item;
         items.clear();
@@ -224,8 +233,8 @@ public class MyShoppingCarAty extends BaseActivity {
         }
     }
 
-    private void calTotalPrice(){
-        totalPrice=0;
+    private void calTotalPrice() {
+        totalPrice = 0;
         if (productInfoList != null) {
             for (ShoppingCarProduct carProduct : productInfoList) {
                 for (ProductListBean bean : carProduct.getProductList()) {
@@ -239,16 +248,17 @@ public class MyShoppingCarAty extends BaseActivity {
     }
 
     private double totalPrice;
+
     private void jumpToCreateOrder() {
         Intent intent = new Intent(MyShoppingCarAty.this, CreateProductOrderAty.class);
         intent.putExtra("itemList", items);
-        intent.putExtra("totalPrice",totalPrice );
-        intent.putExtra("cartItemIdList",cartItemIdList);
-        startActivityForResult(intent,0);
+        intent.putExtra("totalPrice", totalPrice);
+        intent.putExtra("cartItemIdList", cartItemIdList);
+        startActivityForResult(intent, 0);
     }
 
     private boolean isEmpty() {
-        int count=0;
+        int count = 0;
         for (ShoppingCarProduct carProduct : productInfoList) {
             if (carProduct.isSelect()) {
                 return false;
@@ -259,11 +269,11 @@ public class MyShoppingCarAty extends BaseActivity {
                 }
             }
         }
-        return count==0;
+        return count == 0;
     }
 
     private boolean isDiffer() {
-        int identify=0;
+        int identify = 0;
         for (ShoppingCarProduct carProduct : productInfoList) {
             for (ProductListBean bean : carProduct.getProductList()) {
                 if (bean.isSelect()) {

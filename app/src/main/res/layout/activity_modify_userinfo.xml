@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"/>
         <LinearLayout
+            android:visibility="gone"
             android:paddingLeft="10px"
             android:paddingRight="10px"
             android:orientation="horizontal"
