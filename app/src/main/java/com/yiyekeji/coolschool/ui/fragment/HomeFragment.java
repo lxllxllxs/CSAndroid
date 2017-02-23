@@ -98,9 +98,6 @@ public class HomeFragment extends BaseFragment {
             tvRollCall.setText("点名");
         }
         // checkUpdate();
-        /**
-         * 订水送水的交换图标
-         */
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
 //        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
@@ -300,6 +297,9 @@ public class HomeFragment extends BaseFragment {
         public void onReceiveLocation(BDLocation location) {
             getLoadDialog().dismiss();
             mLocationClient.unRegisterLocationListener(myListener);
+            //使用百度坐标系统  113.029552,22.622779 亿业坐标
+//            latitude = 22.622779;
+//            longitude = 113.029552;
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             getMyCoures();

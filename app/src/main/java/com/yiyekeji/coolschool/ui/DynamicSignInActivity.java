@@ -19,6 +19,7 @@ import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.adapter.HaveNameAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.RippleView;
 
@@ -59,34 +60,36 @@ public class DynamicSignInActivity extends BaseActivity {
         setContentView(R.layout.activity_dynamic_sign_in);
         ButterKnife.inject(this);
         initView();
-        initData();
     }
 
     private void initView() {
         rippleView.start();
-
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("tnum", App.userInfo.getUserNum());
         service = RetrofitUtil.create(RollCallService.class);
         //两秒更一次 共2分钟 一共60
-        timer.schedule(mTask, 0, 2000);
+        timer.schedule(getmTask(), 0, 2000);
     }
-
 
     private int countDown = 0;
     private Timer timer = new Timer();
-    private TimerTask mTask = new TimerTask() {
-        @Override
-        public void run() {
-            if (countDown == MAX_COUNT) {
-                timer.cancel();
-                handler.sendEmptyMessage(0);
-                return;
+
+
+    private TimerTask getmTask(){
+        return new TimerTask() {
+            @Override
+            public void run() {
+                LogUtil.d("DynamicSignInActivity:TimerTask正在运行"+countDown);
+                if (countDown >= MAX_COUNT) {
+                    timer.cancel();
+                    handler.sendEmptyMessage(0);
+                    return;
+                }
+                countDown++;
+                handler.sendEmptyMessage(1);
             }
-            countDown++;
-            handler.sendEmptyMessage(1);
-        }
-    };
+        };
+    }
 
 
     private Handler handler = new Handler(Looper.myLooper()) {
@@ -107,9 +110,6 @@ public class DynamicSignInActivity extends BaseActivity {
             }
         }
     };
-
-
-
 
     private void cancelRollCall() {
         Call<ResponseBody> call = service.cancelRollCall(params);
@@ -132,7 +132,6 @@ public class DynamicSignInActivity extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -170,7 +169,6 @@ public class DynamicSignInActivity extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -182,9 +180,12 @@ public class DynamicSignInActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!rippleView.isStarting()&&countDown!=MAX_COUNT) {
+        updateNumber();
+        if (!rippleView.isStarting()&&countDown<MAX_COUNT) {
             rippleView.start();
-            mTask.run();
+            timer = new Timer();
+            //两秒更一次 共2分钟 一共60
+            timer.schedule(getmTask(), 0, 2000);
         }
     }
 
@@ -192,9 +193,7 @@ public class DynamicSignInActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         rippleView.stop();
-        mTask.cancel();
-    }
-    private void initData() {
+        timer.cancel();
     }
 
     private void getNewSignIn() {

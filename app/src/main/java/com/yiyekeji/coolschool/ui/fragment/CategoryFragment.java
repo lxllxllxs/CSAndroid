@@ -180,6 +180,8 @@ public class CategoryFragment extends BaseFragment {
     private int cId;
     private void getProductLIst(int pcId) {
         showLoadDialog("");
+        productInfoList.clear();
+        tvRefresh.setVisibility(View.GONE);
         cId = pcId;
         HashMap<String, Object> map = new HashMap<>();
         map.put("pcId", pcId);
@@ -195,6 +197,7 @@ public class CategoryFragment extends BaseFragment {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
 //                    showShortToast(rb.getMessage());
+                    productAdapter.notifyDataSetChanged();
                     tvRefresh.setVisibility(View.VISIBLE);
                     return;
                 }
@@ -203,6 +206,8 @@ public class CategoryFragment extends BaseFragment {
                         }.getType(), "productList");
                 if (productInfoList != null) {
                     productAdapter.notifyDataSetChanged(productInfoList);
+                } else {
+                    productAdapter.notifyDataSetChanged();
                 }
             }
 
