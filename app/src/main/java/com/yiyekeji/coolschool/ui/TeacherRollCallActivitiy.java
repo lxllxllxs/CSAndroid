@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -102,7 +103,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         });
     }
 
-    private void startRollCall(CourseInfo info) {
+    private void startRollCall(final CourseInfo info) {
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("courseNo", info.getCourseNo());
@@ -125,7 +126,9 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("开始点名");
-                    startActivity(DynamicSignInActivity.class);
+                    Intent intent=new Intent(TeacherRollCallActivitiy.this,DynamicSignInActivity.class);
+                    intent.putExtra("info",info);
+                    startActivity(intent);
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -157,10 +160,10 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         public void onReceiveLocation(BDLocation location) {
             getLoadDialog().dismiss();
             //使用百度坐标系统  113.029552,22.622779 亿业坐标
-            latitude = 22.622779;
-            longitude = 113.029552;
-//            latitude = location.getLatitude();
-//            longitude = location.getLongitude();
+//            latitude = 22.622779;
+//            longitude = 113.029552;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             mLocationClient.unRegisterLocationListener(this);
             getCourseList();
         }

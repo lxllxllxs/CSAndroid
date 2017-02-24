@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.yiyekeji.coolschool.widget.RippleView
-        android:id="@+id/rippleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
     <TextView
-        android:id="@+id/tv_count"
+        android:id="@+id/tv_title"
         style="@style/BigTextView"
-        android:text="0"
         android:gravity="center"
-        android:background="@color/transparent"
+        android:background="@color/theme_red"
         android:textColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="88px">
+
+    </TextView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.yiyekeji.coolschool.widget.RippleView
+            android:id="@+id/rippleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            style="@style/BigTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/white" />
+    </FrameLayout>
+</LinearLayout>

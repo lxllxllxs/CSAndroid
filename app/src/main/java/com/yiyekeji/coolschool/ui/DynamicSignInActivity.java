@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ClassAbsenceInfo;
+import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.HaveName;
 import com.yiyekeji.coolschool.inter.RollCallService;
@@ -49,10 +50,13 @@ public class DynamicSignInActivity extends BaseActivity {
     @InjectView(R.id.tv_count)
     TextView tvCount;
 
-    private final  int MAX_COUNT=30;
+    private final int MAX_COUNT = 30;
+    @InjectView(R.id.tv_title)
+    TextView tvTitle;
     private String number;
     private RollCallService service;
     Map<String, Object> params = new HashMap<>();
+    CourseInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,10 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
     private void initView() {
+        info = getIntent().getParcelableExtra("info");
+        if (info != null) {
+            tvTitle.setText(info.getCourseName()+" "+info.getCourseClass());
+        }
         rippleView.start();
         params.put("tokenId", App.userInfo.getTokenId());
         params.put("tnum", App.userInfo.getUserNum());
@@ -75,11 +83,11 @@ public class DynamicSignInActivity extends BaseActivity {
     private Timer timer = new Timer();
 
 
-    private TimerTask getmTask(){
+    private TimerTask getmTask() {
         return new TimerTask() {
             @Override
             public void run() {
-                LogUtil.d("DynamicSignInActivity:TimerTask正在运行"+countDown);
+                LogUtil.d("DynamicSignInActivity:TimerTask正在运行" + countDown);
                 if (countDown >= MAX_COUNT) {
                     timer.cancel();
                     handler.sendEmptyMessage(0);
@@ -132,6 +140,7 @@ public class DynamicSignInActivity extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -155,20 +164,20 @@ public class DynamicSignInActivity extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    ArrayList<ClassAbsenceInfo> infos=GsonUtil.listFromJSon(jsonString,
+                    ArrayList<ClassAbsenceInfo> infos = GsonUtil.listFromJSon(jsonString,
                             new TypeToken<List<ClassAbsenceInfo>>() {
-                    }.getType(), "signsInfo");
+                            }.getType(), "signsInfo");
                     Intent intent = new Intent(DynamicSignInActivity.this, AbsenceRecordAty.class);
                     intent.putParcelableArrayListExtra("infos", infos);
                     startActivity(intent);
                     finish();
-                } else if (rb.getResult().equals("2")){
+                } else if (rb.getResult().equals("2")) {
                     showShortToast(rb.getMessage());
-                }
-                else {
+                } else {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -181,7 +190,7 @@ public class DynamicSignInActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateNumber();
-        if (!rippleView.isStarting()&&countDown<MAX_COUNT) {
+        if (!rippleView.isStarting() && countDown < MAX_COUNT) {
             rippleView.start();
             timer = new Timer();
             //两秒更一次 共2分钟 一共60
@@ -224,7 +233,7 @@ public class DynamicSignInActivity extends BaseActivity {
     }
 
     private void updateNumber() {
-        tvCount.setText("已签到\n"+number);
+        tvCount.setText("已签到\n" + number);
     }
 
 
