@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.widget.TextView;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
@@ -25,18 +26,21 @@ public class MainViewpagerActivity extends BaseActivity {
     ViewPager viewpager;
     @InjectView(R.id.tabHost)
     FakeTabHost tabHost;
+    @InjectView(R.id.tv_test)
+    TextView tvTest;
     private List<Fragment> fragmentList = new ArrayList<>();
 
 
-    private String[] titles={"首页","商场","我的"};
-    private int[] resId={R.mipmap.ic_home,R.mipmap.ic_market,R.mipmap.ic_my};
-    private int[] resIdNo={R.mipmap.ic_home_no,R.mipmap.ic_market_no,R.mipmap.ic_my_no};
+    private String[] titles = {"首页", "商场", "我的"};
+    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_my};
+    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_my_no};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_viewpager);
         ButterKnife.inject(this);
+        tvTest.setText("helloo ");
         initView();
 
         initViewPager();
@@ -46,7 +50,7 @@ public class MainViewpagerActivity extends BaseActivity {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new CategoryFragment());
         fragmentList.add(new AccountFragment());
-        tabHost.setTabHost(fragmentList,titles,resId,resIdNo,viewpager);
+        tabHost.setTabHost(fragmentList, titles, resId, resIdNo, viewpager);
     }
 
     private void initView() {
@@ -56,6 +60,7 @@ public class MainViewpagerActivity extends BaseActivity {
      * 连续点击两次 关闭
      */
     long[] mHits = new long[2];
+
     @Override
     public void onBackPressed() {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);

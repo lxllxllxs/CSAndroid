@@ -82,6 +82,7 @@
     native <methods>;
 }
 
+
 # 保留在Activity中的方法参数是view的方法，
 # 这样以来我们在layout中写的onClick就不会被影响
 -keepclassmembers class * extends android.app.Activity{
@@ -102,15 +103,6 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
-
--keepclasseswithmembers class * {                                               # 保持自定义控件类不被混淆
-    public <init>(android.content.Context, android.util.AttributeSet);
-}
-
--keepclasseswithmembers class * {
-    public <init>(android.content.Context, android.util.AttributeSet, int);     # 保持自定义控件类不被混淆
-}
-
 
 
 # 保留Parcelable序列化类不被混淆
@@ -174,16 +166,10 @@
 
 #-----------处理第三方依赖库---------
 # ButterKnife
--keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-
+-keep class **$$ViewInjector { *; }
+-keepnames class * { @butterknife.InjectView *;}
+#--------------------
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
@@ -198,7 +184,11 @@
 -keep class com.google.gson.stream.** { *; }
 # 使用Gson时需要配置Gson的解析对象及变量都不混淆。不然Gson会找不到变量。
 # 将下面替换成自己的实体类
--keep class com.yiyekeji.coolschool.bean.** { *; }
+-keep public class com.yiyekeji.coolschool.bean.** { *; }
+
+
+-keep public class com.yiyekeji.coolschool.ui.MainViewpagerActivity { *; }
+-keep public class com.yiyekeji.coolschool.widget.** { *; }
 
 # OkHttp3
 -dontwarn com.squareup.okhttp3.**
