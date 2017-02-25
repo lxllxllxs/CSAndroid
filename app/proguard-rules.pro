@@ -103,6 +103,16 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+-keepclasseswithmembers class * {                                               # 保持自定义控件类不被混淆
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);     # 保持自定义控件类不被混淆
+}
+
+
+
 # 保留Parcelable序列化类不被混淆
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
@@ -182,7 +192,8 @@
 }
 
 # Gson
--keepattributes Signature-keepattributes *Annotation*
+-keepattributes Signature
+-keepattributes *Annotation*
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 # 使用Gson时需要配置Gson的解析对象及变量都不混淆。不然Gson会找不到变量。

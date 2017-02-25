@@ -55,7 +55,21 @@
             <View
                 android:background="@color/gray"
                 android:layout_width="match_parent"
-                android:layout_height="2px"/>
+                android:layout_height="1px"/>
+            <TextView
+                android:id="@+id/tv_contac"
+                style="@style/NormalTextView"
+                android:textColor="@color/text_black"
+                android:text="联系人"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="60px" />
+            <View
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
             <TextView
                 style="@style/NormalTextView"
                 android:textColor="@color/text_black"
@@ -87,16 +101,6 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"/>
-            <TextView
-                android:id="@+id/tv_contac"
-                style="@style/NormalTextView"
-                android:textColor="@color/text_black"
-                android:text="联系人"
-                android:paddingLeft="20px"
-                android:paddingRight="20px"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="60px" />
         </LinearLayout>
     </com.yiyekeji.coolschool.widget.DockAtTopScrollView>
     <!--头部-->

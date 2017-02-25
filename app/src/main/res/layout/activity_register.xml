@@ -103,7 +103,7 @@
             android:id="@+id/ledt_verifyCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ledt:edtText="4位数字"
+            ledt:edtText=""
             ledt:text="邀请码    "/>
         <com.yiyekeji.coolschool.widget.CButton
             android:layout_marginTop="30px"

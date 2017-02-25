@@ -157,7 +157,7 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
                         return;
                     }
                     productInfo.setSupplierNum(info.getUserNum());
-                    tvContac.setText(info.getsName().concat(info.getsPhone() == null ? "" : info.getsPhone()));
+                    tvContac.setText("联系卖家："+info.getsName().concat(info.getsPhone() == null ? "" : info.getsPhone()));
                 } else {
                     showShortToast(rb.getMessage());
                 }
