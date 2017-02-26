@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.widget.TextView;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
@@ -26,8 +25,6 @@ public class MainViewpagerActivity extends BaseActivity {
     ViewPager viewpager;
     @InjectView(R.id.tabHost)
     FakeTabHost tabHost;
-    @InjectView(R.id.tv_test)
-    TextView tvTest;
     private List<Fragment> fragmentList = new ArrayList<>();
 
 
@@ -40,7 +37,6 @@ public class MainViewpagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_viewpager);
         ButterKnife.inject(this);
-        tvTest.setText("helloo ");
         initView();
 
         initViewPager();

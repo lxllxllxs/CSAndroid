@@ -9,13 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 
-    <TextView
-        android:id="@+id/tv_test"
-        android:text="hellooooooooooo"
-        android:textColor="@color/text_black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <com.yiyekeji.coolschool.widget.FakeTabHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"

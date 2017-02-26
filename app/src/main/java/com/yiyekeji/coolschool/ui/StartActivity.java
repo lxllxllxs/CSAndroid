@@ -75,11 +75,13 @@ public class StartActivity extends BaseActivity {
                     new Handler().postDelayed(new Runnable(){
                         public void run() {
                             startActivity(MainViewpagerActivity.class);
+                            finish();
                         }
                     }, 2*1000);
                 } else {
                     showShortToast(rb.getMessage());
                     startActivity(LoginActivity.class);
+                    finish();
                 }
             }
             @Override

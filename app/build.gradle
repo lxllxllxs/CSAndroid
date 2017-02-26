@@ -7,7 +7,7 @@ android {
         lxlSigning {
             keyAlias 'lxl.keystore'
             keyPassword 'lxl774785161'
-            storeFile file('E:/ASProject/CSAndroid/lxl.keystore')
+            storeFile file('C:/lxl.keystore')
             storePassword 'lxl774785161'
         }
     }
