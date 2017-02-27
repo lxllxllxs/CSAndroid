@@ -78,11 +78,11 @@ public class CourseInfoAdapter extends RecyclerView.Adapter<CourseInfoAdapter.Vi
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         final CourseInfo courseInfo = courseInfoList.get(i);
 
-        String s=courseInfo.getCourseName()+"("+courseInfo.getRoomNum()+")";
+        String s=courseInfo.getCourseName()+"("+courseInfo.getCourseNo()+")";
         viewHolder.tvCourseName.setText(s);
         viewHolder.tvCout.setText(courseInfo.getCount().concat("人"));
         viewHolder.tvClass.setText(courseInfo.getCourseClass());
-        viewHolder.tvClassNo.setText(courseInfo.getCourseNo());
+        viewHolder.tvClassNo.setText(courseInfo.getRoomNum());
         viewHolder.tvCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

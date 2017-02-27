@@ -100,14 +100,14 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
         if (TextUtils.isEmpty(text)) {
             return;
         }
+        shortToast.setText(text);
+        shortToast.show();
         /**
          * 先这样处理
          */
         if (text.equals(RELOGIN_MESSAGE)) {
             startActivity(LoginActivity.class);
         }
-        shortToast.setText(text);
-        shortToast.show();
     }
     protected void showLongToast(CharSequence text) {
         if(longToast==null){

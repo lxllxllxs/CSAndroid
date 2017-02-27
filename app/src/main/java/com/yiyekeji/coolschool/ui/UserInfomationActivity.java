@@ -103,15 +103,15 @@ public class UserInfomationActivity extends BaseActivity {
         tvEmail.setText(useInfo.getEmail());
     }
 
-    @OnClick({R.id.ll_realName, R.id.ll_sex, R.id.ll_mobile, R.id.ll_email, R.id.ll_address})
+    @OnClick({ R.id.ll_sex, R.id.ll_mobile, R.id.ll_email, R.id.ll_address})
     public void onClick(View view) {
         Intent intent = new Intent(this, ModifyUserInfoActivity.class);
         intent.putExtra("userInfo",useInfo);
         switch (view.getId()) {
-            case R.id.ll_realName:
+       /*     case R.id.ll_realName:
                 intent.setFlags(REAL_NAME);
                 startActivityForResult(intent,REAL_NAME);
-                break;
+                break;*/
             case R.id.ll_sex:
                 intent.putExtra("sex", useInfo.getSex());
                 intent.setFlags(SEX);

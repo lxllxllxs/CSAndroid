@@ -119,6 +119,7 @@ public class LoginActivity extends BaseActivity {
                     App.userInfo = userInfo;
                     Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
                     startActivity(intent);
+                    finish();
 
                 } else {
                     showShortToast(rb.getMessage());
@@ -141,10 +142,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            ledtLoginName.setEditText("");
-            ledtPwd.setEditText("");
-        }
+//        if (resultCode == RESULT_OK) {
+//            ledtLoginName.setEditText("");
+//            ledtPwd.setEditText("");
+//        }
     }
 
     /**

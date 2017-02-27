@@ -50,7 +50,7 @@ public class DynamicSignInActivity extends BaseActivity {
     @InjectView(R.id.tv_count)
     TextView tvCount;
 
-    private final int MAX_COUNT = 30;
+    private final int MAX_COUNT = 60;
     @InjectView(R.id.tv_title)
     TextView tvTitle;
     private String number;
