@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.DateUtils;
+import com.yiyekeji.coolschool.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +82,7 @@ public class App extends Application{
 
     public static void removeActivity(Activity activity){
         activityList.remove(activity);
+        LogUtil.d("App:移除一个Activity"+activity.getLocalClassName());
     }
 
     public static void removeAllActivity(){

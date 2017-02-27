@@ -1,7 +1,11 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -11,7 +15,6 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
-import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
@@ -28,16 +31,28 @@ import retrofit2.Response;
 public class StartActivity extends BaseActivity {
     UserInfo user = new UserInfo();
     UserService userService;
+    final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=0x123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         initView();
-        LogUtil.d("StartActivity:"+ CommonUtils.getCertificateSHA1Fingerprint(this));
-        login();
     }
 
     private void initView() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+            return;
+        }
+        LogUtil.d("已获得读写权限");
+        setEditView();
+        login();
+    }
+
+    private void setEditView() {
         final String LOGIN_NAME="loginName";
         final String PWD="pwd";
         if (SPUtils.contains(this,LOGIN_NAME)){
@@ -46,9 +61,29 @@ public class StartActivity extends BaseActivity {
         if (SPUtils.contains(this,PWD)){
             user.setPassword(SPUtils.getString(this,PWD));
         }
+    }
+
+    private void setIMEI(){
         TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         String szImei = TelephonyMgr.getDeviceId();
         user.setImei(szImei);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode,grantResults);
+    }
+
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                setEditView();
+                login();
+            } else {
+                startActivity(LoginActivity.class);
+            }
+        }
     }
     private void login() {
         if (TextUtils.isEmpty(user.getUserNum())||  TextUtils.isEmpty(user.getPassword())) {

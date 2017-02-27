@@ -97,7 +97,7 @@ public class HomeFragment extends BaseFragment {
             ivRollCall.setImageResource(R.mipmap.ic_roll_call);
             tvRollCall.setText("点名");
         }
-        // checkUpdate();
+         checkUpdate();//开启更新检测
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
 //        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
@@ -214,6 +214,9 @@ public class HomeFragment extends BaseFragment {
         View layout = inflater.inflate(R.layout.layout_sigin_success, null);//获取自定义布局
         ImageView imageView = (ImageView) layout.findViewById(R.id.iv_success);
         TextView tvMsg = (TextView) layout.findViewById(R.id.tv_message);
+        //成双成对
+        imageView.setImageResource(R.mipmap.success);
+        tvMsg.setText("签到成功");
         if (!isSuccess) {
             tvMsg.setText("签到失败");
             imageView.setImageResource(R.mipmap.fail);

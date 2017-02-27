@@ -15,6 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keepattributes InnerClasses
 -keepattributes EnclosingMethod
 -keepattributes Exceptions, Signature, InnerClasses
 #############################################
