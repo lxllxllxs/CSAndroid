@@ -131,12 +131,12 @@ public class HomeFragment extends BaseFragment {
         params.put("userNum", App.userInfo.getUserNum());
         service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = service.getMyCourse(params);
-        showLoadDialog("正在签到");
+        showLoadDialog("正在签到",getActivity());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() != 200) {
-                    getLoadDialog().dismiss();
+                    dismissDialog();
                     showShortToast("网络错误" + response.code());
                     return;
                 }
@@ -148,14 +148,14 @@ public class HomeFragment extends BaseFragment {
                 if (infos != null) {
                     startSignIn();
                 } else {
-                    getLoadDialog().dismiss();
+                    dismissDialog();
                     showShortToast(rb.getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
@@ -179,7 +179,7 @@ public class HomeFragment extends BaseFragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
@@ -196,7 +196,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
@@ -297,7 +297,7 @@ public class HomeFragment extends BaseFragment {
             showShortToast("签到失败,请关闭模拟位置");
             return;
         }
-        showLoadDialog("");
+        showLoadDialog("",getActivity());
         BdLocationUtlis.initLocation(mLocationClient);
         mLocationClient.start();
     }
@@ -315,7 +315,7 @@ public class HomeFragment extends BaseFragment {
     public class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
-            getLoadDialog().dismiss();
+            dismissDialog();
             mLocationClient.unRegisterLocationListener(myListener);
             //使用百度坐标系统  113.029552,22.622779 亿业坐标
 //            latitude = 22.622779;
@@ -362,11 +362,11 @@ public class HomeFragment extends BaseFragment {
         params.put("courseNo", coureseNo);
         RollCallService service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = service.insertStudentCourse(params);
-        showLoadDialog("");
+        showLoadDialog("",getActivity());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 String jsonString = GsonUtil.toJsonString(response);
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
@@ -381,7 +381,7 @@ public class HomeFragment extends BaseFragment {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(getString(R.string.response_err));
             }
         });

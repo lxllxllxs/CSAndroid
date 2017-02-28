@@ -1,7 +1,10 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
@@ -38,10 +41,18 @@ public class MainViewpagerActivity extends BaseActivity {
         setContentView(R.layout.activity_main_viewpager);
         ButterKnife.inject(this);
         initView();
-
+        checkPermission();
         initViewPager();
     }
 
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                startActivity(intent);
+            }
+        }
+    }
     private void initViewPager() {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new CategoryFragment());

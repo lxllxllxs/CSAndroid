@@ -1,10 +1,10 @@
 package com.yiyekeji.coolschool.ui.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 
 public class BaseFragment extends Fragment {
     private Toast shortToast, longToast ;
-    private static LoadDialog fragmentDialog;
+    private  LoadDialog fragmentDialog;
     private final static String RELOGIN_MESSAGE = "账号已在其它设备登录,请重新登录";
     protected void showShortToast(String text) {
         if(shortToast==null){
@@ -58,11 +58,12 @@ public class BaseFragment extends Fragment {
      *mdialog静态持有引用被finsh掉的activity 导致android.view.WindowManager$BadTokenException: Unable to add window -- token android.os.Bind。。
      * @param msg
      */
-    public  void showLoadDialog(String msg) {
-        if (fragmentDialog == null) {
-            fragmentDialog = new LoadDialog(getActivity(), R.layout.layout_load_dialog,
-                    R.style.DialogLogin);
-            fragmentDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+    public  void showLoadDialog(String msg, Context context) {
+        if (context == null) {
+            return;
+        }
+        if (fragmentDialog==null) {
+            fragmentDialog = new LoadDialog(context, R.layout.layout_load_dialog, R.style.DialogLogin);
         }
         if (fragmentDialog.isShowing()) {
             return;
@@ -73,9 +74,6 @@ public class BaseFragment extends Fragment {
         fragmentDialog.show();
     }
 
-    private void show(){
-
-    }
     /**
      *当fragment进行到detached状态时，它会重置它的内部状态。
      然而，它没有重置mChildFragmentManager.这是当前版本support库的一个bug.
@@ -115,10 +113,11 @@ public class BaseFragment extends Fragment {
 
     /**
      * 获取dialog对象
-     *
      * @return
      */
-    protected LoadDialog getLoadDialog() {
-        return fragmentDialog;
+    protected void dismissDialog() {
+        if (fragmentDialog != null) {
+            fragmentDialog.dismiss();
+        }
     }
 }
