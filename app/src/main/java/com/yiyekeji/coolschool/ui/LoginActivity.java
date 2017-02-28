@@ -136,10 +136,8 @@ public class LoginActivity extends BaseActivity {
             showShortToast("账号或密码不能为空！");
             return;
         }
-
         user.setUserNum(name);
         user.setPassword(pwd);
-
         userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call = userService.login(user);
         showLoadDialog("");
@@ -176,7 +174,16 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 没有权限直接不保存
+     */
     private void savaLoginInfo() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            return;
+        }
         SPUtils.put(LoginActivity.this, LOGIN_NAME, ledtLoginName.getEditText());
         SPUtils.put(LoginActivity.this, PWD, ledtPwd.getEditText());
     }

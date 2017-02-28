@@ -75,7 +75,6 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
     }
 
 
-
     /**
      * 载入loadDialog控件
      *

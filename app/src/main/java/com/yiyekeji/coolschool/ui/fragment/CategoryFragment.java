@@ -137,12 +137,12 @@ public class CategoryFragment extends BaseFragment {
     int itemHeight = 0, offset;
 
     private void getCategoryList() {
-        showLoadDialog("");
+//        showLoadDialog("");
         Call<ResponseBody> call = service.getShopCategoryList();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+//                getLoadDialog().dismiss();
                 if (response.code() != 200) {
                     return;
                 }
@@ -171,7 +171,7 @@ public class CategoryFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+//                getLoadDialog().dismiss();
                 showShortToast(getString(R.string.response_err));
             }
         });
@@ -179,7 +179,7 @@ public class CategoryFragment extends BaseFragment {
 
     private int cId;
     private void getProductLIst(int pcId) {
-        showLoadDialog("");
+//        showLoadDialog("");
         productInfoList.clear();
         tvRefresh.setVisibility(View.GONE);
         cId = pcId;
@@ -189,7 +189,7 @@ public class CategoryFragment extends BaseFragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+//                getLoadDialog().dismiss();
                 if (response.code() != 200) {
                     return;
                 }
@@ -213,7 +213,7 @@ public class CategoryFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+//                getLoadDialog().dismiss();
                 tvRefresh.setVisibility(View.VISIBLE);
                 showShortToast(getString(R.string.response_err));
             }
@@ -221,12 +221,12 @@ public class CategoryFragment extends BaseFragment {
     }
 
     private void getAdList() {
-        showLoadDialog("");
+//        showLoadDialog("");
         Call<ResponseBody> call = service.getShopAdvertList();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+//                getLoadDialog().dismiss();
                 if (response.code() != 200) {
                     return;
                 }
@@ -247,7 +247,7 @@ public class CategoryFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+//                getLoadDialog().dismiss();
                 showShortToast(getString(R.string.response_err));
             }
         });

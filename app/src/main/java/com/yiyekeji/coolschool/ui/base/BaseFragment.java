@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.LoginActivity;
 import com.yiyekeji.coolschool.widget.LoadDialog;
@@ -60,20 +59,23 @@ public class BaseFragment extends Fragment {
      * @param msg
      */
     public  void showLoadDialog(String msg) {
-        if (BaseActivity.mdDialog == null) {
-            BaseActivity.mdDialog = new LoadDialog(App.getContext(), R.layout.layout_load_dialog,
+        if (fragmentDialog == null) {
+            fragmentDialog = new LoadDialog(getActivity(), R.layout.layout_load_dialog,
                     R.style.DialogLogin);
-            BaseActivity.mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            fragmentDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         }
-        if (BaseActivity.mdDialog.isShowing()) {
+        if (fragmentDialog.isShowing()) {
             return;
         }
         initLoadDialog(msg);
         // 默认不能按屏幕取消dialog
-        BaseActivity.mdDialog.setCanceledOnTouchOutside(false);
-        BaseActivity.mdDialog.show();
+        fragmentDialog.setCanceledOnTouchOutside(false);
+        fragmentDialog.show();
     }
 
+    private void show(){
+
+    }
     /**
      *当fragment进行到detached状态时，它会重置它的内部状态。
      然而，它没有重置mChildFragmentManager.这是当前版本support库的一个bug.
@@ -103,7 +105,7 @@ public class BaseFragment extends Fragment {
      */
     protected  void initLoadDialog(String msg) {
 
-        View view = BaseActivity.mdDialog.getEntryView();
+        View view = fragmentDialog.getEntryView();
         ((TextView) view.findViewById(R.id.CtvInitTip)).setText(msg);
         if (TextUtils.isEmpty(msg)) {
             ((TextView) view.findViewById(R.id.CtvInitTip))
@@ -117,6 +119,6 @@ public class BaseFragment extends Fragment {
      * @return
      */
     protected LoadDialog getLoadDialog() {
-        return BaseActivity.mdDialog;
+        return fragmentDialog;
     }
 }
