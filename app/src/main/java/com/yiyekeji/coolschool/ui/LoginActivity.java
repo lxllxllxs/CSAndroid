@@ -1,8 +1,13 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -13,8 +18,8 @@ import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
 import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
-import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.utils.SPUtils;
 import com.yiyekeji.coolschool.widget.CButton;
@@ -42,7 +47,8 @@ public class LoginActivity extends BaseActivity {
     TextView tvRegister;
     @InjectView(R.id.tv_findPwd)
     TextView tvFindPwd;
-
+    final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=0x123;
+    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
 
     private final String LOGIN_NAME = "loginName";
     private final String PWD = "pwd";
@@ -58,19 +64,56 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-        if (SPUtils.contains(this, LOGIN_NAME)) {
-            ledtLoginName.setEditText(SPUtils.getString(this, LOGIN_NAME));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_PHONE_STATE
+                    },
+                    WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+            return;
         }
-        if (SPUtils.contains(this, PWD)) {
-            ledtPwd.setEditText(SPUtils.getString(this, PWD));
-        }
+        doAfterGranted();
+    }
+    private void doAfterGranted(){
+        LogUtil.d("已获得读写权限");
+        setEditView();
+        TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        String szImei = TelephonyMgr.getDeviceId();
+        user.setImei(szImei);
     }
 
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                doAfterGranted();
+            } else {
+                LogUtil.d("noGranted");
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode,grantResults);
+    }
+
+    private void setEditView() {
+        final String LOGIN_NAME="loginName";
+        final String PWD="pwd";
+        if (SPUtils.contains(this,LOGIN_NAME)){
+            user.setUserNum(SPUtils.getString(this,LOGIN_NAME));
+        }
+        if (SPUtils.contains(this,PWD)){
+            user.setPassword(SPUtils.getString(this,PWD));
+        }
+    }
     @OnClick({R.id.cb_login, R.id.tv_register, R.id.tv_findPwd,R.id.tv_feedBack})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cb_login:
-//                login("1111111111", "qqqqqq");
                 login(ledtLoginName.getEditText(), ledtPwd.getEditText());
                 break;
             case R.id.tv_register:
@@ -87,17 +130,16 @@ public class LoginActivity extends BaseActivity {
     }
 
     UserService userService;
-
+    UserInfo  user = new UserInfo();
     private void login(String name, String pwd) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
             showShortToast("账号或密码不能为空！");
             return;
         }
-        final UserInfo user = new UserInfo();
+
         user.setUserNum(name);
         user.setPassword(pwd);
 
-        user.setImei(CommonUtils.getIMEI());
         userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call = userService.login(user);
         showLoadDialog("");

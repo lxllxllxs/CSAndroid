@@ -1,9 +1,13 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,7 +64,7 @@ public class RegisterActivity extends BaseActivity {
     LableEditView ledtVerifyCode;
     @InjectView(R.id.ledt_pswAnswer)
     LableEditView ledtPswAnswer;
-
+    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
     private int roleTye = 1;//0是学生 但现不开放
 
     @Override
@@ -214,11 +218,35 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode,grantResults);
+    }
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == READ_PHONE_STATE_REQUEST_CODE) {
+           /* if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                startActivity(LoginActivity.class);
+            }*/
+            upLoadPhoneModel();
+        }
+    }
     /**
      * pType	String	手机型号
      * pSize	String 	手机屏幕大小
      */
     private void upLoadPhoneModel() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.READ_PHONE_STATE
+                    },
+                    READ_PHONE_STATE_REQUEST_CODE);
+            return;
+        }
+
         Map<String, Object> params = new HashMap<>();
         params.put("pType", Build.MODEL);
         int[] screenSize = ScreenUtils.getScreenSize(this, true);

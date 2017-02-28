@@ -1,7 +1,9 @@
 package com.yiyekeji.coolschool.ui.fragment;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +11,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,23 +103,16 @@ public class HomeFragment extends BaseFragment {
          checkUpdate();//开启更新检测
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
-//        MainMenu m4 = new MainMenu("订水", R.mipmap.ic_deliver_water, null);
-//        MainMenu m5 = new MainMenu("再来一桶", R.mipmap.ic_order_water, null);
         MainMenu m6 = new MainMenu("打印", R.mipmap.ic_print, CreatePrintOrderAty.class);
-//        MainMenu m7 = new MainMenu("广告", R.mipmap.ic_ad, null);
         mainMenuList.add(m2);
         mainMenuList.add(m3);
-//        mainMenuList.add(m4);
-//        mainMenuList.add(m5);
         mainMenuList.add(m6);
-//        mainMenuList.add(m7);
     }
 
     private void initView() {
 
         HomeAdapter mAdapter = new HomeAdapter(getActivity(), mainMenuList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-//        recyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
             @Override
@@ -273,27 +269,49 @@ public class HomeFragment extends BaseFragment {
                 if (App.userInfo.getRoleType() == 1) {
                     startActivity(new Intent(getActivity(), TeacherRollCallActivitiy.class));
                 } else {
-                    mLocationClient = new LocationClient(App.getContext());
-                    mLocationClient.registerLocationListener(myListener);
-                    // 除了夜神 根本装不了 哈哈
-                    if (CheckEmulatorUtils.isEmulator(getActivity())) {
-                        showShortToast("签到失败，模拟器？");
-                        return;
-                    }
-                    //打开模拟位置的话要终止
-                    if (Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0) {
-                        showShortToast("签到失败,请关闭模拟位置");
-                        return;
-                    }
-                    showLoadDialog("");
-                    BdLocationUtlis.initLocation(mLocationClient);
-                    mLocationClient.start();
+                    startLocation();
                 }
                 break;
         }
     }
 
 
+    private void startLocation(){
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                            Manifest.permission.READ_PHONE_STATE
+                    },
+                    READ_PHONE_STATE_REQUEST_CODE);
+            return;
+        }
+        mLocationClient = new LocationClient(App.getContext());
+        mLocationClient.registerLocationListener(myListener);
+        // 除了夜神 根本装不了 哈哈
+        if (CheckEmulatorUtils.isEmulator(getActivity())) {
+            showShortToast("签到失败，模拟器？");
+            return;
+        }
+        //打开模拟位置的话要终止
+        if (Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION, 0) != 0) {
+            showShortToast("签到失败,请关闭模拟位置");
+            return;
+        }
+        showLoadDialog("");
+        BdLocationUtlis.initLocation(mLocationClient);
+        mLocationClient.start();
+    }
+    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode,grantResults);
+    }
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == READ_PHONE_STATE_REQUEST_CODE) {
+            startLocation();
+        }
+    }
     public class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -423,9 +441,6 @@ public class HomeFragment extends BaseFragment {
         });
     }
     private boolean isNeedUpdate() {
-        if (version.getVersion() > (CommonUtils.getAppVersion())) {
-            return true;
-        }
-        return false;
+        return version.getVersion() > (CommonUtils.getAppVersion());
     }
 }

@@ -32,6 +32,7 @@ public class StartActivity extends BaseActivity {
     UserInfo user = new UserInfo();
     UserService userService;
     final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=0x123;
+    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,14 +42,25 @@ public class StartActivity extends BaseActivity {
 
     private void initView() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
             //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE
+            },
                     WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
         }
+        doAfterGranted();
+    }
+
+    private void doAfterGranted(){
         LogUtil.d("已获得读写权限");
         setEditView();
+        TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+        String szImei = TelephonyMgr.getDeviceId();
+        user.setImei(szImei);
         login();
     }
 
@@ -63,11 +75,6 @@ public class StartActivity extends BaseActivity {
         }
     }
 
-    private void setIMEI(){
-        TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-        String szImei = TelephonyMgr.getDeviceId();
-        user.setImei(szImei);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -77,9 +84,8 @@ public class StartActivity extends BaseActivity {
 
     private void doNext(int requestCode, int[] grantResults) {
         if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setEditView();
-                login();
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                doAfterGranted();
             } else {
                 startActivity(LoginActivity.class);
             }
@@ -123,6 +129,7 @@ public class StartActivity extends BaseActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 showShortToast(t.toString());
                 startActivity(LoginActivity.class);
+                finish();
             }
         });
     }

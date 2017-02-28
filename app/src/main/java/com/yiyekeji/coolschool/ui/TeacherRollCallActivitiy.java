@@ -1,8 +1,12 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -56,6 +60,20 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roll_call);
         ButterKnife.inject(this);
+        checkPermission();
+
+    }
+
+    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.READ_PHONE_STATE
+                    },
+                    READ_PHONE_STATE_REQUEST_CODE);
+            return;
+        }
         mLocationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
@@ -63,11 +81,26 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         initView();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode,grantResults);
+    }
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == READ_PHONE_STATE_REQUEST_CODE) {
+           /* if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                startActivity(LoginActivity.class);
+            }*/
+            checkPermission();
+        }
+    }
+
     private void initData() {
         BdLocationUtlis.initLocation(mLocationClient);
         mAdapter = new CourseInfoAdapter(this, courseInfos);
         showLoadDialog("正在定位...");
-
         mLocationClient.start();
     }
 
@@ -111,8 +144,6 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         params.put("courseName", info.getCourseName());
         params.put("userNum", App.userInfo.getUserNum());
         params.put("realName", App.userInfo.getName());
-//        params.put("xPosition",latitude);
-//        params.put("yPosition",longitude);
         params.put("xPosition", longitude);
         params.put("yPosition", latitude);
         RollCallService callService = RetrofitUtil.create(RollCallService.class);
