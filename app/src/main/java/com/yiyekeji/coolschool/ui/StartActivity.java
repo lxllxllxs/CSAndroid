@@ -51,7 +51,6 @@ public class StartActivity extends BaseActivity {
             }, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
             return;
         }
-        showShortToast("已获得读写权限");
         doAfterGranted();
     }
 
@@ -96,7 +95,6 @@ public class StartActivity extends BaseActivity {
             startActivity(LoginActivity.class);
             return;
         }
-        showShortToast("开始登录");
         userService = RetrofitUtil.create(UserService.class);
         Call<ResponseBody> call= userService.login(user);
         call.enqueue(new Callback<ResponseBody>() {

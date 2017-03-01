@@ -61,17 +61,16 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         setContentView(R.layout.activity_roll_call);
         ButterKnife.inject(this);
         checkPermission();
-
     }
 
-    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
+    final int ACCESS_COARSE_LOCATION_REQUEST_CODE=0x122;
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                             Manifest.permission.READ_PHONE_STATE
                     },
-                    READ_PHONE_STATE_REQUEST_CODE);
+                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
             return;
         }
         mLocationClient = new LocationClient(getApplicationContext());
@@ -87,12 +86,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         doNext(requestCode,grantResults);
     }
     private void doNext(int requestCode, int[] grantResults) {
-        if (requestCode == READ_PHONE_STATE_REQUEST_CODE) {
-           /* if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
-                startActivity(LoginActivity.class);
-            }*/
+        if (requestCode == ACCESS_COARSE_LOCATION_REQUEST_CODE) {
             checkPermission();
         }
     }
@@ -123,10 +117,14 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                     courseInfos = GsonUtil.listFromJSon(jsonString,
                             new TypeToken<List<CourseInfo>>() {
                             }.getType(), "courseInfo");
+                    if (courseInfos == null) {
+                        return;
+                    }
                     LogUtil.d("CourseInfo", courseInfos.size());
                     mAdapter.notifyDataSetChanged(courseInfos);
                 } else {
                     showShortToast(rb.getMessage());
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 

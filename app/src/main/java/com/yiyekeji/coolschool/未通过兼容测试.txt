@@ -1,3 +1,19 @@
 1.小米6.0后自动允许权限 但是 启动加载图有问题 变空白
 2.华为 P9 plus 通过测试 6.0
 3.乐视 le2  通过测试  6.0
+
+崩溃收集：
+SYSTEM_ALERT_WINDOW权限问题
+LoadDialog在Fragment中创建引用的问题（跟上面有关）
+
+危险权限：定位 ：LOCATION 学生签到定位 老师点名定位
+危险权限：读写 ：STORAGE SharePerference文件存储等
+危险权限：读写 ：PHONE  读取设备IMEI
+
+特殊权限:警告弹窗：SYSTEM_ALERT_WINDOW
+
+
+
+努比亚 登录出错 5.1版本：
+ RetrofitUtils:
+ 请求报文：http://123.207.13.169:8080/cs/user/appLogin{"id":0,"imei":"869464024108894","isAdmin":0,"isSupplier":0,"password":"qqqqqq","roleType":0,"sex":0,"userNum":"0000000600"}

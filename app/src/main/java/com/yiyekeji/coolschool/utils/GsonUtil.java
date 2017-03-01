@@ -51,6 +51,7 @@ public class GsonUtil {
     }
 
     /**
+     * 是
      * 第二层 当作是内部类 需要标签
      * @param jsonString
      * @param tClass
@@ -60,6 +61,10 @@ public class GsonUtil {
      */
     public static <T> T fromJSon(String jsonString,Class<T> tClass,String modelTag){
         try {
+            //看看这里能否捕抓到问题
+            if (TextUtils.isEmpty(jsonString)) {
+                return null;
+            }
             JSONObject object=new JSONObject(jsonString);
             return gson.fromJson(object.getString(modelTag),tClass);
         } catch (JSONException e) {

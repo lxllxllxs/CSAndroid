@@ -3,6 +3,7 @@ package com.yiyekeji.coolschool.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,7 @@ import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
@@ -24,6 +26,10 @@ import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.utils.SPUtils;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.LableEditView;
+import com.zhy.autolayout.utils.ScreenUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -61,6 +67,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         initView();
+        upLoadPhoneModel();
     }
 
     private void initView() {
@@ -160,12 +167,10 @@ public class LoginActivity extends BaseActivity {
                     Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
                     startActivity(intent);
                     finish();
-
                 } else {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 getLoadDialog().dismiss();
@@ -197,6 +202,29 @@ public class LoginActivity extends BaseActivity {
 //        }
     }
 
+
+    /**
+     * 直接上传型号信息了
+     */
+    private void upLoadPhoneModel() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("pType", Build.MODEL);
+        int[] screenSize = ScreenUtils.getScreenSize(this, true);
+        String Size = screenSize[0] + "×" + screenSize[1];
+        params.put("pSize", Size);
+        LogUtil.d("upLoadPhoneModel", params.toString());
+        CommonService commonService = RetrofitUtil.create(CommonService.class);
+        Call<ResponseBody> call = commonService.appUploadPhoneModel(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+
+    }
     /**
      * 连续点击两次 关闭
      */
