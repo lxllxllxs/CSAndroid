@@ -1,19 +1,19 @@
 <resources>
-    <string name="app_name">邑大生活</string>
+    <string name="app_name">邑生活</string>
 
     <string name="response_err">网络错误</string>
     <string name="yuan">¥</string>
     <string name="multiply">×</string>
     <string name="check_version">已是最新版本</string>
-    <string name="about_share">扫一扫 下载邑大生活</string>
+    <string name="about_share">扫一扫 下载邑生活</string>
     <string name="pick_up_good">请描述物品种类、大小、重量、邮寄省份、快递公司等</string>
     <string name="home_deliver">请粘贴取件的短信内容到这里，有其他需说明的请注明</string>
     <string name="propaganda">更多功能正在开发，敬请期待</string>
-    <string name="login_stu">学生初始密码为子系统密码</string>
+    <string name="login_stu">默认为子系统密码</string>
 
     <string name="upload_file">电脑浏览器访问 123.207.13.169:8080/cs/upload \n成功后扫码添加文件信息</string>
     <string name="update_title">发现新版本</string>
     <string name="update_cancle">暂不更新</string>
     <string name="update_confirm">现在更新</string>
-    <string name="about_contact">联系我们：774785161@qq.com</string>
+    <string name="about_contact">联系我们：wyulife@163.com</string>
 </resources>

@@ -91,9 +91,13 @@ public class OtherOrderListAty extends BaseActivity {
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if(!rb.getResult().equals("1")){
+                    showShortToast(rb.getMessage());
+                    return;
+                }
                 orderList= GsonUtil.listFromJSon(jsonString,
                         new TypeToken<List<OtherOrder>>() {}.getType(),"otherOrderList") ;
-                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (orderList!=null) {
                     mAdapter.notifyDataSetChanged(orderList);
                 } else {

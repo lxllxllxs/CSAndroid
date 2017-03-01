@@ -184,4 +184,6 @@ public class BitmapCompressor {
         bos.close();
         return myCaptureFile;
     }
+
+
 }
