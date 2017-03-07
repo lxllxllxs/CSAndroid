@@ -187,7 +187,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBean> call, Response<ResponseBean> response) {
                 ResponseBean rb = response.body();
-                getLoadDialog().dismiss();
+                dismissDialog();
                 LogUtil.d(rb.toString());
                 if (rb.getResult().equals("1")) {
                     showShortToast("注册成功！");
@@ -200,7 +200,7 @@ public class RegisterActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBean> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });

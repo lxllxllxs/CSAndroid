@@ -48,11 +48,12 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
     }
     /**
      * 获取dialog对象
-     *
      * @return
      */
-    protected LoadDialog getLoadDialog() {
-        return BaseActivity.mdDialog;
+    protected void dismissDialog() {
+        if (mdDialog != null) {
+            mdDialog.dismiss();
+        }
     }
     /**
      * 创建loadDialog
@@ -65,13 +66,13 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
                     R.style.DialogLogin);
             mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
         }
-        if (BaseActivity.mdDialog.isShowing()) {
+        if (mdDialog.isShowing()) {
             return;
         }
         initLoadDialog(msg);
         // 默认不能按屏幕取消dialog
-        BaseActivity.mdDialog.setCanceledOnTouchOutside(false);
-        BaseActivity.mdDialog.show();
+        mdDialog.setCanceledOnTouchOutside(false);
+        mdDialog.show();
     }
 
 
@@ -83,7 +84,7 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
      */
     protected  void initLoadDialog(String msg) {
 
-        View view = BaseActivity.mdDialog.getEntryView();
+        View view = mdDialog.getEntryView();
         ((TextView) view.findViewById(R.id.CtvInitTip)).setText(msg);
         if (TextUtils.isEmpty(msg)) {
             ((TextView) view.findViewById(R.id.CtvInitTip))

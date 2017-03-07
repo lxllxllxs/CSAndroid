@@ -11,7 +11,7 @@
     <string name="propaganda">更多功能正在开发，敬请期待</string>
     <string name="login_stu">默认为子系统密码</string>
 
-    <string name="upload_file">电脑浏览器访问 123.207.13.169:8080/cs/upload \n成功后扫码添加文件信息</string>
+    <string name="upload_file">电脑浏览器访问 www.wyulife.cn:8080/cs/upload \n成功后扫码添加文件信息</string>
     <string name="update_title">发现新版本</string>
     <string name="update_cancle">暂不更新</string>
     <string name="update_confirm">现在更新</string>

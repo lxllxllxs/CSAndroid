@@ -98,7 +98,7 @@ public class AbsenceRecordAty extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
@@ -116,7 +116,7 @@ public class AbsenceRecordAty extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(getString(R.string.response_err));
             }
         });
@@ -144,7 +144,7 @@ public class AbsenceRecordAty extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 String jsonString = GsonUtil.toJsonString(response);
                 infoList = GsonUtil.listFromJSon(jsonString,
                         new TypeToken<List<ClassAbsenceInfo>>() {
@@ -158,7 +158,7 @@ public class AbsenceRecordAty extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
             }
         });
     }

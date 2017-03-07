@@ -110,7 +110,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
@@ -150,7 +150,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
@@ -164,7 +164,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
             }
         });
     }
@@ -187,12 +187,13 @@ public class TeacherRollCallActivitiy extends BaseActivity {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            getLoadDialog().dismiss();
+            dismissDialog();
             //使用百度坐标系统  113.029552,22.622779 亿业坐标
 //            latitude = 22.622779;
 //            longitude = 113.029552;
             latitude = location.getLatitude();
             longitude = location.getLongitude();
+            LogUtil.d("latitude==" + latitude + "===" + longitude);
             mLocationClient.unRegisterLocationListener(this);
             getCourseList();
         }

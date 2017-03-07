@@ -78,7 +78,7 @@ public class AboutActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 String jsonString = GsonUtil.toJsonString(response);
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
@@ -92,7 +92,7 @@ public class AboutActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(getString(R.string.response_err));
             }
         });
@@ -122,7 +122,7 @@ public class AboutActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
@@ -164,7 +164,7 @@ public class AboutActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(getString(R.string.response_err));
             }
         });

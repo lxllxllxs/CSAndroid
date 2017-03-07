@@ -73,7 +73,7 @@ public class SettingActivity extends BaseActivity {
                                 showLoadDialog("");
                                 GlideCacheUtil.getInstance().clearImageAllCache(SettingActivity.this);
                                 GlideCacheUtil.getInstance().clearImageDiskCache(SettingActivity.this);
-                                getLoadDialog().dismiss();
+                                dismissDialog();
                                 refresh();
                             }
                         })

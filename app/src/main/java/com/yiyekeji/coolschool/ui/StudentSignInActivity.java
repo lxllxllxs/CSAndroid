@@ -63,7 +63,7 @@ public class StudentSignInActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                getLoadDialog().dismiss();
+//                dismissDialog();
                 if (response.code()!=200){
                     return;
                 }
@@ -78,7 +78,7 @@ public class StudentSignInActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
@@ -106,7 +106,7 @@ public class StudentSignInActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
@@ -125,7 +125,7 @@ public class StudentSignInActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 if (response.code()!=200){
                     showShortToast("网络错误"+response.code());
                     return;
@@ -142,7 +142,7 @@ public class StudentSignInActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
@@ -186,7 +186,7 @@ public class StudentSignInActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
@@ -216,7 +216,7 @@ public class StudentSignInActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 if (response.code()!=200){
                     showShortToast("网络错误"+response.code());
                     return;
@@ -232,7 +232,7 @@ public class StudentSignInActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getLoadDialog().dismiss();
+                dismissDialog();
                 showShortToast(t.toString());
             }
         });
