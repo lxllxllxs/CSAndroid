@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:id="@+id/ll_parent"
+    android:layout_height="200px">
+    <TextView
+        android:padding="20px"
+        android:id="@+id/tv_content"
+        android:text="asdasdqwecxgaaaaaaaaaaaaaaaaaaaaaaaaaaxxxxxxxxxxxxdfhyuikhnm"
+        style="@style/BigTextView"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="130px" />
+    <LinearLayout
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50px">
+        <TextView
+            android:id="@+id/tv_postMan"
+            android:text="发帖人"
+            android:gravity="center_vertical"
+            style="@style/NormalTextView"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_commentCount"
+            style="@style/NormalTextView"
+            android:layout_marginRight="15px"
+            android:text="评论数"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:drawablePadding="5px"
+            android:drawableLeft="@mipmap/arrow_right_gray"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/NormalTextView"
+            android:layout_marginRight="15px"
+            android:text="日期"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:drawableLeft="@mipmap/arrow_right_gray"
+            android:drawablePadding="5px"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="15px"/>
+</LinearLayout>

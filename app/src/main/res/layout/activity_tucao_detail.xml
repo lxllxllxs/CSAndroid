@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.yiyekeji.coolschool.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60px">
+        <TextView
+            android:id="@+id/tv_postMan"
+            android:text="发帖人"
+            android:gravity="center_vertical"
+            style="@style/NormalTextView"
+            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/iv_sex"
+            android:layout_width="44px"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_select"
+            />
+        <TextView
+            android:id="@+id/tv_date"
+            android:text="日期"
+            android:gravity="right|center_vertical"
+            style="@style/NormalTextView"
+            android:textColor="@color/gray_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <TextView
+        android:padding="20px"
+        android:id="@+id/tv_content"
+        android:text="zhengwen"
+        style="@style/BigTextView"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_height="50px">
+        <TextView
+            android:id="@+id/tv_commentCount"
+            style="@style/SmallTextView"
+            android:layout_marginRight="15px"
+            android:text="评论数"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:drawablePadding="5px"
+            android:drawableLeft="@mipmap/arrow_right_gray"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_viewCount"
+            style="@style/SmallTextView"
+            android:text="评论数"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_text"
+            android:layout_width="wrap_content"
+            android:drawableLeft="@mipmap/arrow_right_gray"
+            android:drawablePadding="5px"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="20px"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+
+</LinearLayout>

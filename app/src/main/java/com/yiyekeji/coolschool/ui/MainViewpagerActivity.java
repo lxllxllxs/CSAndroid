@@ -14,6 +14,7 @@ import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.ui.fragment.AccountFragment;
 import com.yiyekeji.coolschool.ui.fragment.CategoryFragment;
 import com.yiyekeji.coolschool.ui.fragment.HomeFragment;
+import com.yiyekeji.coolschool.ui.fragment.TuCaoFragment;
 import com.yiyekeji.coolschool.widget.FakeTabHost;
 
 import java.util.ArrayList;
@@ -31,9 +32,9 @@ public class MainViewpagerActivity extends BaseActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
 
-    private String[] titles = {"首页", "商场", "我的"};
-    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_my};
-    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_my_no};
+    private String[] titles = {"首页", "商场","我的", "吐槽"};
+    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_my, R.mipmap.ic_my};
+    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_my_no, R.mipmap.ic_my_no};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainViewpagerActivity extends BaseActivity {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new CategoryFragment());
         fragmentList.add(new AccountFragment());
+        fragmentList.add(new TuCaoFragment());
         tabHost.setTabHost(fragmentList, titles, resId, resIdNo, viewpager);
     }
 
