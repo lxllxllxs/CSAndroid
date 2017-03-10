@@ -96,14 +96,15 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         setContentView(R.layout.activity_product_detail);
         ButterKnife.inject(this);
 //        initView();
+        ivBack.setTag(R.mipmap.ic_product_back);
+        ivProductBuycar.setTag(R.mipmap.ic_product_buycar);
         initData();
     }
 
     private void initViewAfter() {
-        ivBack.setImageResource(R.mipmap.ic_product_back);
         tvTitle.setAlpha(0);
-        initScrollListener();
 
+        initScrollListener();
         if (productInfo == null) {
             return;
         }

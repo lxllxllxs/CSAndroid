@@ -1,7 +1,11 @@
 package com.yiyekeji.coolschool.ui.base;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,13 +50,35 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
         super.onPause();
         MobclickAgent.onPause(this);
     }
+
+
+    final int CANCLE_DIALOG=0x123;
+    private Handler handler=new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case CANCLE_DIALOG:
+                    disMis();
+                    break;
+            }
+        }
+    };
+    final String XIAOMI="Xiaomi";
+    private void disMis(){
+        if (mdDialog != null) {
+            mdDialog.dismiss();
+        }
+    }
     /**
      * 获取dialog对象
      * @return
      */
     protected void dismissDialog() {
-        if (mdDialog != null) {
-            mdDialog.dismiss();
+        if (Build.MANUFACTURER.equals(XIAOMI)) {
+            handler.sendEmptyMessage(CANCLE_DIALOG);
+        } else {
+            disMis();
         }
     }
     /**

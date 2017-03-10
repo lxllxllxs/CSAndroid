@@ -14,7 +14,6 @@ import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.ui.fragment.AccountFragment;
 import com.yiyekeji.coolschool.ui.fragment.CategoryFragment;
 import com.yiyekeji.coolschool.ui.fragment.HomeFragment;
-import com.yiyekeji.coolschool.ui.fragment.TuCaoFragment;
 import com.yiyekeji.coolschool.widget.FakeTabHost;
 
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class MainViewpagerActivity extends BaseActivity {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new CategoryFragment());
         fragmentList.add(new AccountFragment());
-        fragmentList.add(new TuCaoFragment());
+//        fragmentList.add(new TuCaoFragment());//这个第二期加
         tabHost.setTabHost(fragmentList, titles, resId, resIdNo, viewpager);
     }
 
