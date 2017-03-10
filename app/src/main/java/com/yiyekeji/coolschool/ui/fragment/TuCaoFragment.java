@@ -52,7 +52,18 @@ public class TuCaoFragment extends BaseFragment {
 
     private void initView() {
         setPullRefreshListView();
+    }
 
+    private void initData() {
+        TuCao tu;
+        for (int i=0;i<10;i++){
+            tu=new TuCao();
+            tu.setContent(i+"asdasdadadzxclzjcwepoirupwoitpg;lcxv;l;hkjl;");
+            tu.setCommentCount(i+"");
+            tu.setPostMan("老王");
+            tu.setDate("03-08 20:30");
+            datas.add(tu);
+        }
     }
 
     private void setPullRefreshListView() {
@@ -90,20 +101,6 @@ public class TuCaoFragment extends BaseFragment {
         recyclerView.setAdapter(pullRreshAdapter);
 
     }
-
-    private void initData() {
-        TuCao tu;
-        for (int i=0;i<10;i++){
-            tu=new TuCao();
-            tu.setContent(i+"contentn");
-            tu.setCommentCount(i+"count");
-            tu.setPostMan("i"+i);
-            tu.setDate("date" + i);
-            datas.add(tu);
-        }
-
-    }
-
 
     @Override
     public void onDestroyView() {
