@@ -73,7 +73,7 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                     ACCESS_COARSE_LOCATION_REQUEST_CODE);
             return;
         }
-        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient = new LocationClient(this);
         //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);
         initData();
@@ -124,7 +124,6 @@ public class TeacherRollCallActivitiy extends BaseActivity {
                     mAdapter.notifyDataSetChanged(courseInfos);
                 } else {
                     showShortToast(rb.getMessage());
-                    mAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -189,10 +188,10 @@ public class TeacherRollCallActivitiy extends BaseActivity {
         public void onReceiveLocation(BDLocation location) {
             dismissDialog();
             //使用百度坐标系统  113.029552,22.622779 亿业坐标
-            latitude = 22.622779;
-            longitude = 113.029552;
-//            latitude = location.getLatitude();
-//            longitude = location.getLongitude();
+//            latitude = 22.622779;
+//            longitude = 113.029552;
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             LogUtil.d("latitude==" + latitude + "===" + longitude);
             mLocationClient.unRegisterLocationListener(this);
             getCourseList();
