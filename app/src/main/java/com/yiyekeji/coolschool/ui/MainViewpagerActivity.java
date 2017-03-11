@@ -31,9 +31,9 @@ public class MainViewpagerActivity extends BaseActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
 
-    private String[] titles = {"首页", "商场","我的", "吐槽"};
-    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_my, R.mipmap.ic_my};
-    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_my_no, R.mipmap.ic_my_no};
+    private String[] titles = {"首页", "商场","我的"};
+    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_my};
+    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_my_no};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class MainViewpagerActivity extends BaseActivity {
             }
         }
     }
+
     private void initViewPager() {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new CategoryFragment());
@@ -60,6 +61,7 @@ public class MainViewpagerActivity extends BaseActivity {
 //        fragmentList.add(new TuCaoFragment());//这个第二期加
         tabHost.setTabHost(fragmentList, titles, resId, resIdNo, viewpager);
     }
+
 
     private void initView() {
     }

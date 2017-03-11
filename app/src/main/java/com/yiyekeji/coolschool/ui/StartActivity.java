@@ -98,6 +98,19 @@ public class StartActivity extends BaseActivity {
     }
 
     private void doNext(int requestCode, int[] grantResults) {
+        if (grantResults.length!=2){
+            showShortToast("请允许权限请求！");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                //申请WRITE_EXTERNAL_STORAGE权限
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE
+                }, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+            }
+            return;
+        }
         if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 doAfterGranted();

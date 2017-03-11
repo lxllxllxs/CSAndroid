@@ -140,7 +140,7 @@ public class LoginActivity extends BaseActivity {
     UserInfo  user = new UserInfo();
     private void login(String name, String pwd) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
-            showShortToast("账号或密码不能为空！");
+            showShortToast("账号和密码不能为空！");
             return;
         }
         user.setUserNum(name);
