@@ -3,15 +3,17 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <com.yiyekeji.coolschool.widget.TitleBar
-        android:id="@+id/title_bar"
+    <EditText
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:id="@+id/edt_addCourse"
+        android:gravity="top"
+        android:padding="10px"
+        android:hint="学生子系统密码"
+        android:textColor="@color/black"
+        android:singleLine="true"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
-    </WebView>
+
 </LinearLayout>

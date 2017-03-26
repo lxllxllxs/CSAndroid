@@ -3,10 +3,12 @@ package com.yiyekeji.coolschool;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.ui.LoginActivity;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.DateUtils;
 import com.yiyekeji.coolschool.utils.LogUtil;
@@ -34,6 +36,15 @@ public class App extends Application{
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
+    public static  UserInfo getUserInfo(){
+        if (userInfo == null||TextUtils.isEmpty(userInfo.getUserNum())) {
+            context.startActivity(new Intent(context, LoginActivity.class));
+            return new UserInfo();//这里是否会有隐患？？？？
+        }
+        return userInfo;
+    }
+
     public static boolean isExistSDCard() {
         if (android.os.Environment.getExternalStorageState().equals(
                 android.os.Environment.MEDIA_MOUNTED)) {

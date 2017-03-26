@@ -21,7 +21,7 @@ public class WyuStuSystemApi {
 		String b=api.login("3114004199","941119");
 		System.out.println("这里成功就返回lastCookie"+b);
 		try {
-			api.getCourseHtmlString(b);
+			api.getCourse(b);
 		} catch (TimeoutException e) {
 			e.printStackTrace();
 		}
@@ -106,7 +106,7 @@ public class WyuStuSystemApi {
 	 * @throws TimeoutException
 	 * @throws IOException
      */
-	public  void getCourseHtmlString(String lastCookie) throws TimeoutException,IOException {
+	public   String getCourse(String lastCookie) throws TimeoutException,IOException {
 		Map<String,String> headers= new HashMap<>();
 		headers.put("Cookie",lastCookie);
 		headers.put("Referer", "http://jwc.wyu.cn/student/menu.asp");
@@ -122,12 +122,15 @@ public class WyuStuSystemApi {
 			baos.flush();
 			String result = new String(baos.toByteArray(),"gbk");
 			System.out.println(result);
+//			return parseHtmlForLesson(result);
+			return result;
 		} else {
 			System.out.println("获取失败！");
+			return null;
 		}
 	}
 
-	public Map<Integer, Map<Integer, List<Lesson>>> parseHtmlForLesson(String xml){
+	private Map<Integer, Map<Integer, List<Lesson>>> parseHtmlForLesson(String xml){
 		return	HtmlParser.parseHtmlForLesson(xml);
 	}
 

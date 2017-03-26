@@ -70,6 +70,7 @@
             android:label="上传文件测试"
             android:screenOrientation="portrait"
             />
+
         <activity
             android:name=".ui.ModifyProductModelAty"
             android:label="规格编辑"
@@ -171,8 +172,8 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".ui.CreatePrintOrderAty"
-            android:label="打印订单"
+            android:name=".ui.ScheduleAty"
+            android:label="课程表"
             android:screenOrientation="portrait"
             />
         <activity
