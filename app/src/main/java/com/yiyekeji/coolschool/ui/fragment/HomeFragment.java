@@ -41,6 +41,7 @@ import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.AddCourseAty;
 import com.yiyekeji.coolschool.ui.CreateDeliverOrderAty;
 import com.yiyekeji.coolschool.ui.CreateTakeExpressOrderAty;
+import com.yiyekeji.coolschool.ui.QueryScoreAty;
 import com.yiyekeji.coolschool.ui.ScheduleAty;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
@@ -104,8 +105,10 @@ public class HomeFragment extends BaseFragment {
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
         MainMenu m6 = new MainMenu("课程表", R.mipmap.ic_print, ScheduleAty.class);
+        MainMenu m4 = new MainMenu("查成绩", R.mipmap.ic_print, QueryScoreAty.class);
         mainMenuList.add(m2);
         mainMenuList.add(m3);
+        mainMenuList.add(m4);
         mainMenuList.add(m6);
     }
 
