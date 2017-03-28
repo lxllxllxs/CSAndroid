@@ -13,9 +13,12 @@ import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CourseInfo;
+import com.yiyekeji.coolschool.bean.PullMsg;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.RollCallService;
+import com.yiyekeji.coolschool.inter.TeacherService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.DateUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
@@ -39,7 +42,7 @@ import retrofit2.Response;
  * Created by lxl on 2017/2/18.
  */
 public class CommitPullMsgAty extends BaseActivity {
-
+    PullMsg pullMsg = new PullMsg();
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
     @InjectView(R.id.ledt_title)
@@ -83,20 +86,24 @@ public class CommitPullMsgAty extends BaseActivity {
         spCourse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                showShortToast(list.get(position));
+                String courseNo=list.get(position).split("：")[0];
+                showShortToast("课程编号是："+courseNo);
+                pullMsg.setCourseNo(courseNo);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
 
     private void courseInfo2String(List<CourseInfo> infos,ArrayList<String> list){
-        for (CourseInfo info:
-             infos) {
-            list.add(info.getCourseNo());
+        for (CourseInfo info: infos) {
+            //这里是第一个
+            if (list.size()==0){
+                pullMsg.setCourseNo(info.getCourseNo());
+            }
+            list.add(info.getCourseNo()+"："+info.getCourseName());
         }
     }
 
@@ -121,15 +128,17 @@ public class CommitPullMsgAty extends BaseActivity {
             showShortToast("内容不能为空！");
             return false;
         }
+        pullMsg.setTeacherName(App.getUserInfo().getName());
+        pullMsg.setTitle(ledtTitle.getEditText());
+        pullMsg.setContent(edtDescrition.getText().toString());
+        pullMsg.setDate(DateUtils.getTimeString());
+        pullMsg.setValidDay("30");
         return true;
     }
 
     private void commitPullMsg() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("tokenId", App.geTokenId());
-        params.put("userNum", App.userInfo.getUserNum());
-        RollCallService service = RetrofitUtil.create(RollCallService.class);
-        Call<ResponseBody> call = service.insertCourse(params);
+        TeacherService service = RetrofitUtil.create(TeacherService.class);
+        Call<ResponseBody> call = service.inserPullMsg(pullMsg);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -148,7 +157,6 @@ public class CommitPullMsgAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();

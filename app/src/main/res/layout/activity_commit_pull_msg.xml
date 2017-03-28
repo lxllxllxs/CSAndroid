@@ -26,7 +26,7 @@
         android:layout_height="88px">
         <TextView
             android:gravity="center"
-            android:text="课程："
+            android:text="课程"
             android:paddingLeft="15px"
             android:paddingRight="15px"
             android:layout_width="wrap_content"

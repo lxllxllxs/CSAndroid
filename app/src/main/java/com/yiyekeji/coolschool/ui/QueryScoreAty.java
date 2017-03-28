@@ -65,7 +65,7 @@ public class QueryScoreAty extends BaseActivity {
      * 设置的
      */
     private void needSubSysPwd() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(QueryScoreAty.this);
         final View layout = LayoutInflater.from(this).inflate(R.layout.layout_input_sub_pwd, null);
         builder.setView(layout);
         builder.setTitle("输入学生子系统密码");//设置标题内容
@@ -86,7 +86,10 @@ public class QueryScoreAty extends BaseActivity {
             public void onClick(DialogInterface arg0, int arg1) {
             }
         });
-        final AlertDialog dlg = builder.create();
+        final AlertDialog dlg = builder.create();//这里可能诱发空指针
+        if (this.isDestroyed()) {
+            return;
+        }
         dlg.show();
     }
 
