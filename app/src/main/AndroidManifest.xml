@@ -241,6 +241,11 @@
             android:label="查成绩"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".ui.CommitPullMsgAty"
+            android:label="发布通知"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 

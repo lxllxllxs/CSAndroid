@@ -107,10 +107,9 @@ public class QueryScoreAty extends BaseActivity {
             @Override
             public void run() {
                 WyuStuSystemApi api = new WyuStuSystemApi();
+                Message msg = new Message();
                 try {
                     String result = api.login(studentNo, pwd);
-                    Message msg = new Message();
-
                     if (result.equals(ConstantUtils.LOGIN_SYS_ERROR)) {
                         msg.obj = "子系统出错,请重试！";
                         msg.what = Error;
@@ -126,12 +125,18 @@ public class QueryScoreAty extends BaseActivity {
                     //拿到lastCookie后
 //                    hashMap = api.getCourse(result);
                     msg.what = SUCCESS;
+
                     msg.obj = api.getScoreList(result);;
                     handler.sendMessage(msg);
                 } catch (IOException e) {
+                    msg.what = Error;
+                    msg.obj = "子系统出错,请重试！";
+                    handler.sendMessage(msg);
                     e.printStackTrace();
                 } catch (TimeoutException e) {
-                    showShortToast("连接超时，请重试！");
+                    msg.obj = "子系统出错,请重试！";
+                    msg.what = Error;
+                    handler.sendMessage(msg);
                     e.printStackTrace();
                 }
             }

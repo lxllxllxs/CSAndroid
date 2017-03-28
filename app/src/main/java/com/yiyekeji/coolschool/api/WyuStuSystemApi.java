@@ -1,16 +1,9 @@
 package com.yiyekeji.coolschool.api;
 
 import com.yiyekeji.coolschool.utils.ConstantUtils;
-import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.SoapUtils;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -115,27 +108,28 @@ public class WyuStuSystemApi {
 	public String getScoreList(String lastCookie) throws TimeoutException,ParseException, IOException{
 		List<ScoreRecord> list = new ArrayList<ScoreRecord>();
 
-		DefaultHttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet("http://jwc.wyu.edu.cn/student/f4_myscore.asp");
-		HttpResponse response = null;
 
-		get.setHeader("Referer", "http://jwc.wyu.edu.cn/student/menu.asp");
-		get.setHeader("Cookie",lastCookie);
-		HttpConnectionParams.setConnectionTimeout(client.getParams(), 17000);//连接时间
-		HttpConnectionParams.setSoTimeout(client.getParams(), 17000);//请求时间
-		response = client.execute(get);
-		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-			String html = EntityUtils.toString(response.getEntity(), "gb2312");
-			LogUtil.d("SubSystemApi","score html="+html);
-			client.getConnectionManager().shutdown();
+		Map<String,String> headers= new HashMap<>();
+		headers.put("Cookie",lastCookie);
+		headers.put("Referer", "http://jwc.wyu.cn/student/menu.asp");
+		HttpURLConnection connection = SoapUtils.call(new HashMap<String, String>(), headers, "http://jwc.wyu.edu.cn/student/f4_myscore.asp");
 
-			return html;
-			//L.i("SubSystemApi",HtmlParser.parseHtmlForScore(html, list));
-//			return HtmlParser.parseHtmlForScore(html, list);
+		if (connection != null && connection.getResponseCode() == 200) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte buffer[] = new byte[1024];
+			while ((len = connection.getInputStream().read(buffer)) != -1) {
+				baos.write(buffer, 0, len);
+			}
+			baos.flush();
+			String result = new String(baos.toByteArray(),"gbk");
+			System.out.println(result);
+//			return parseHtmlForLesson(result);
+			return result;
+		} else {
+			System.out.println("获取失败！");
+			return null;
 		}
-
-		client.getConnectionManager().shutdown();
-		return null;
 	}
 	/**
 	 * 获取包含学生的课程信息的htmlString

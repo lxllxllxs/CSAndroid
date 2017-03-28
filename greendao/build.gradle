@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'de.greenrobot:greendao-generator:2.1.0'
+}
+
+
+//设置自动生成类的目录,这个目录不是本lib的目录,而是另一个需要被主app引用的目录
+def outputDir = "../lib-greendao/src/main/java-gen"
+
+//自动创建文件夹
+task createDocs {
+    def docs = file(outputDir)
+    docs.mkdirs()
+}

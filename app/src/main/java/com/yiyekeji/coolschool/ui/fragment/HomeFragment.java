@@ -39,6 +39,7 @@ import com.yiyekeji.coolschool.bean.StudentSign;
 import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.AddCourseAty;
+import com.yiyekeji.coolschool.ui.CommitPullMsgAty;
 import com.yiyekeji.coolschool.ui.CreateDeliverOrderAty;
 import com.yiyekeji.coolschool.ui.CreateTakeExpressOrderAty;
 import com.yiyekeji.coolschool.ui.QueryScoreAty;
@@ -100,6 +101,8 @@ public class HomeFragment extends BaseFragment {
         if (App.userInfo.getRoleType() == 1) {
             ivRollCall.setImageResource(R.mipmap.ic_roll_call);
             tvRollCall.setText("点名");
+            MainMenu m1 = new MainMenu("发布通知", R.mipmap.ic_deliver, CommitPullMsgAty.class);
+            mainMenuList.add(m1);
         }
          checkUpdate();//开启更新检测
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
