@@ -1,6 +1,6 @@
 package com.yiyekeji.coolschool.inter;
 
-import com.yiyekeji.coolschool.bean.PullMsg;
+import com.yiyekeji.coolschool.dao.PullMsg;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

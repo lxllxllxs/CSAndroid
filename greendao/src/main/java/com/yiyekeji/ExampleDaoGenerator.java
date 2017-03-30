@@ -10,7 +10,7 @@ public class ExampleDaoGenerator {
 
     public static void main(String[] args) throws IOException, Exception {
         
-        Schema schema = new Schema(1, "com.yiyekeji.dao");
+        Schema schema = new Schema(1, "com.yiyekeji.coolschool.dao");
         addSendMessage(schema);
         DaoGenerator daoGenerator= new DaoGenerator();
         daoGenerator .generateAll(schema, "D:\\DaoExample");
@@ -26,13 +26,18 @@ public class ExampleDaoGenerator {
         LessonSchedule.addIdProperty();
         LessonSchedule.addStringProperty("studentNo");
         LessonSchedule.addStringProperty("htmlString");
-        /**
-         */
+
+
         Entity PullMsg= schema.addEntity("PullMsg");
         PullMsg.addIdProperty();
-        PullMsg.addStringProperty("studentNo");
-        PullMsg.addStringProperty("createDate");
-        PullMsg.addIntProperty("status");
+        PullMsg.addStringProperty("teacherName");
+        PullMsg.addStringProperty("title");
+        PullMsg.addStringProperty("courseNo");
+        PullMsg.addStringProperty("content");
+        PullMsg.addStringProperty("date");
+        PullMsg.addStringProperty("status");
+        PullMsg.addIntProperty("isRead");
+        PullMsg.addStringProperty("validDay");
     }
 
 
