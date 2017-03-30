@@ -13,14 +13,17 @@ import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.bean.TuCao;
 import com.yiyekeji.coolschool.dao.PullMsg;
 import com.yiyekeji.coolschool.db.DbUtil;
 import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.inter.StudentService;
+import com.yiyekeji.coolschool.inter.TuCaoService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.ui.fragment.AccountFragment;
 import com.yiyekeji.coolschool.ui.fragment.CategoryFragment;
 import com.yiyekeji.coolschool.ui.fragment.HomeFragment;
+import com.yiyekeji.coolschool.utils.DateUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.FakeTabHost;
@@ -61,6 +64,39 @@ public class MainViewpagerActivity extends BaseActivity {
         checkPermission();
         initViewPager();
         initData();
+        test();
+    }
+
+    private void test() {
+        TuCao tucao = new TuCao();
+        tucao.setDate(DateUtils.getTimeString());
+        tucao.setContent("This is the first Tucao");
+        tucao.setAuthor("luoxuelin");
+        tucao.setCommentCount("1");
+        tucao.setSex("1");
+        tucao.setUserNo(App.getUserInfo().getUserNum());
+        TuCaoService service = RetrofitUtil.create(TuCaoService.class);
+        Call<ResponseBody> call = service.insertTuCao(tucao);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() != 200) {
+                    dismissDialog();
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")){
+                    showLongToast("publish 吐槽 success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initData() {

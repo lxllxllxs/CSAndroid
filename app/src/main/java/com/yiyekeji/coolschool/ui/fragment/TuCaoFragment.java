@@ -60,7 +60,7 @@ public class TuCaoFragment extends BaseFragment {
             tu=new TuCao();
             tu.setContent(i+"asdasdadadzxclzjcwepoirupwoitpg;lcxv;l;hkjl;");
             tu.setCommentCount(i+"");
-            tu.setPostMan("老王");
+            tu.setAuthor("老王");
             tu.setDate("03-08 20:30");
             datas.add(tu);
         }

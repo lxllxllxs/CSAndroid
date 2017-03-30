@@ -10,7 +10,47 @@ public class TuCao implements Parcelable {
     private String content;
     private String date;
     private String commentCount;
-    private String postMan;
+    private String author;
+    private String userNo;
+    private String sex;
+    private int id;
+
+    public String getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(String userNo) {
+        this.userNo = userNo;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    @Override
+    public String toString() {
+        return "TuCao{" +
+                "content='" + content + '\'' +
+                ", date='" + date + '\'' +
+                ", commentCount='" + commentCount + '\'' +
+                ", author='" + author + '\'' +
+                ", userNo='" + userNo + '\'' +
+                ", sex='" + sex + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getContent() {
         return content;
@@ -36,12 +76,16 @@ public class TuCao implements Parcelable {
         this.commentCount = commentCount;
     }
 
-    public String getPostMan() {
-        return postMan;
+
+    public String getAuthor() {
+        return author;
     }
 
-    public void setPostMan(String postMan) {
-        this.postMan = postMan;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public TuCao() {
     }
 
     @Override
@@ -54,20 +98,23 @@ public class TuCao implements Parcelable {
         dest.writeString(this.content);
         dest.writeString(this.date);
         dest.writeString(this.commentCount);
-        dest.writeString(this.postMan);
-    }
-
-    public TuCao() {
+        dest.writeString(this.author);
+        dest.writeString(this.userNo);
+        dest.writeString(this.sex);
+        dest.writeInt(this.id);
     }
 
     protected TuCao(Parcel in) {
         this.content = in.readString();
         this.date = in.readString();
         this.commentCount = in.readString();
-        this.postMan = in.readString();
+        this.author = in.readString();
+        this.userNo = in.readString();
+        this.sex = in.readString();
+        this.id = in.readInt();
     }
 
-    public static final Parcelable.Creator<TuCao> CREATOR = new Parcelable.Creator<TuCao>() {
+    public static final Creator<TuCao> CREATOR = new Creator<TuCao>() {
         @Override
         public TuCao createFromParcel(Parcel source) {
             return new TuCao(source);

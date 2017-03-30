@@ -83,7 +83,7 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
         TuCao tuCao = tuCaoList.get(i);
 
         viewHolder.tvContent.setText(tuCao.getContent());
-        viewHolder.tvPostMan.setText(tuCao.getPostMan());
+        viewHolder.tvPostMan.setText(tuCao.getAuthor());
         viewHolder.tvCommentCount.setText(tuCao.getCommentCount());
         viewHolder.tvDate.setText(tuCao.getDate());
 
