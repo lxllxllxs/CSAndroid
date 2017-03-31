@@ -14,6 +14,15 @@ public class TuCao implements Parcelable {
     private String userNo;
     private String sex;
     private int id;
+    private String imgUrl;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public String getUserNo() {
         return userNo;
@@ -102,6 +111,7 @@ public class TuCao implements Parcelable {
         dest.writeString(this.userNo);
         dest.writeString(this.sex);
         dest.writeInt(this.id);
+        dest.writeString(this.imgUrl);
     }
 
     protected TuCao(Parcel in) {
@@ -112,6 +122,7 @@ public class TuCao implements Parcelable {
         this.userNo = in.readString();
         this.sex = in.readString();
         this.id = in.readInt();
+        this.imgUrl = in.readString();
     }
 
     public static final Creator<TuCao> CREATOR = new Creator<TuCao>() {
