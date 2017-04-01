@@ -26,7 +26,6 @@ public class NativeUtil {
             Rect rect = new Rect(0, 0, bit.getWidth(), bit.getHeight());
             canvas.drawBitmap(bit, null, rect, null);
             saveBitmap(result, quality, fileName, optimize);
-
             result.recycle();
         } else {
             saveBitmap(bit, quality, fileName, optimize);

@@ -246,6 +246,16 @@
             android:label="发布通知"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".ui.PublishTuCaoAyt"
+            android:label="我要吐槽"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.PullMsgListActivtiy"
+            android:label="通知"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 

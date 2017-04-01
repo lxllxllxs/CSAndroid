@@ -15,6 +15,30 @@ public class TuCao implements Parcelable {
     private String sex;
     private int id;
     private String imgUrl;
+    private int imgId;
+
+    public int getImgId() {
+        return imgId;
+    }
+
+    @Override
+    public String toString() {
+        return "TuCao{" +
+                "content='" + content + '\'' +
+                ", date='" + date + '\'' +
+                ", commentCount='" + commentCount + '\'' +
+                ", author='" + author + '\'' +
+                ", userNo='" + userNo + '\'' +
+                ", sex='" + sex + '\'' +
+                ", id=" + id +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", imgId=" + imgId +
+                '}';
+    }
+
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
+    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -34,19 +58,6 @@ public class TuCao implements Parcelable {
 
     public String getSex() {
         return sex;
-    }
-
-    @Override
-    public String toString() {
-        return "TuCao{" +
-                "content='" + content + '\'' +
-                ", date='" + date + '\'' +
-                ", commentCount='" + commentCount + '\'' +
-                ", author='" + author + '\'' +
-                ", userNo='" + userNo + '\'' +
-                ", sex='" + sex + '\'' +
-                ", id=" + id +
-                '}';
     }
 
     public void setSex(String sex) {
@@ -112,6 +123,7 @@ public class TuCao implements Parcelable {
         dest.writeString(this.sex);
         dest.writeInt(this.id);
         dest.writeString(this.imgUrl);
+        dest.writeInt(this.imgId);
     }
 
     protected TuCao(Parcel in) {
@@ -123,6 +135,7 @@ public class TuCao implements Parcelable {
         this.sex = in.readString();
         this.id = in.readInt();
         this.imgUrl = in.readString();
+        this.imgId = in.readInt();
     }
 
     public static final Creator<TuCao> CREATOR = new Creator<TuCao>() {
