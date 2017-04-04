@@ -11,13 +11,13 @@ public class NativeUtil {
     private static int DEFAULT_QUALITY = 95;
 
     public static void compressBitmap(Bitmap bit, String fileName,
-            boolean optimize) {
+            boolean optimize) throws Exception {
         compressBitmap(bit, DEFAULT_QUALITY, fileName, optimize);
 
     }
 
     public static void compressBitmap(Bitmap bit, int quality, String fileName,
-                                      boolean optimize) {
+                                      boolean optimize) throws  Exception{
         Log.d("native", "compress of native");
         if (bit.getConfig() != Bitmap.Config.ARGB_8888) {
             Bitmap result = Bitmap.createBitmap(bit.getWidth(), bit.getHeight(),

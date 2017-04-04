@@ -32,4 +32,14 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
+
+    <TextView
+        style="@style/BigTextView"
+        android:text="发布"
+        android:gravity="center"
+        android:background="@color/theme_red"
+        android:textColor="@color/white"
+        android:id="@+id/tv_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="88px" />
 </LinearLayout>

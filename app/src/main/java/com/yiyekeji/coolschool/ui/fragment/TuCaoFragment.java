@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.TuCao;
+import com.yiyekeji.coolschool.ui.PublishTuCaoAyt;
 import com.yiyekeji.coolschool.ui.TuCaoDetailAty;
 import com.yiyekeji.coolschool.ui.adapter.TuCaoAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by lxl on 2017/1/23.
@@ -36,6 +38,9 @@ public class TuCaoFragment extends BaseFragment {
     RecyclerView recyclerView;
     TuCaoAdapter pullRreshAdapter;
     List<TuCao> datas = new ArrayList<>();
+    @InjectView(R.id.tv_confirm)
+    TextView tvConfirm;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tu_cao, container, false);
@@ -56,10 +61,10 @@ public class TuCaoFragment extends BaseFragment {
 
     private void initData() {
         TuCao tu;
-        for (int i=0;i<10;i++){
-            tu=new TuCao();
-            tu.setContent(i+"asdasdadadzxclzjcwepoirupwoitpg;lcxv;l;hkjl;");
-            tu.setCommentCount(i+"");
+        for (int i = 0; i < 10; i++) {
+            tu = new TuCao();
+            tu.setContent(i + "asdasdadadzxclzjcwepoirupwoitpg;lcxv;l;hkjl;");
+            tu.setCommentCount(i + "");
             tu.setAuthor("老王");
             tu.setDate("03-08 20:30");
             datas.add(tu);
@@ -108,4 +113,13 @@ public class TuCaoFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
+    @OnClick({ R.id.tv_confirm})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_confirm:
+                Intent intent = new Intent(getActivity(), PublishTuCaoAyt.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

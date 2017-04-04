@@ -1,19 +1,19 @@
 <resources>
 
     <style name="EBigTextView" >
-        <item name="android:textSize">34px</item>
+        <item name="android:textSize">36px</item>
         <item name="android:textColor">@color/black</item>
     </style>
     <style name="BigTextView" >
-        <item name="android:textSize">30px</item>
+        <item name="android:textSize">32px</item>
         <item name="android:textColor">@color/black</item>
     </style>
     <style name="NormalTextView" >
-        <item name="android:textSize">26px</item>
+        <item name="android:textSize">28px</item>
 
     </style>
     <style name="SmallTextView" >
-        <item name="android:textSize">24px</item>
+        <item name="android:textSize">26px</item>
     </style>
 
     <style name="IconImageView" >

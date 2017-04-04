@@ -90,7 +90,7 @@ public class DbUtil {
         schedule.setHtmlString(htmlString);
         schedule.setStudentNo(App.getUserInfo().getUserNum());
         Query query = scheduleDao.queryBuilder()
-                .where(StudentScoreDao.Properties.StudentNo.eq(schedule.getStudentNo()))
+                .where(LessonScheduleDao.Properties.StudentNo.eq(schedule.getStudentNo()))
                 .build();
         if (query.list().isEmpty()) {
             scheduleDao.insert(schedule);

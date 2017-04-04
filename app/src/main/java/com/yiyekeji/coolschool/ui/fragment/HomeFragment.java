@@ -103,16 +103,18 @@ public class HomeFragment extends BaseFragment {
             tvRollCall.setText("点名");
             MainMenu m1 = new MainMenu("发布通知", R.mipmap.ic_deliver, CommitPullMsgAty.class);
             mainMenuList.add(m1);
+        } else {
+            MainMenu m6 = new MainMenu("课程表", R.mipmap.ic_print, ScheduleAty.class);
+            MainMenu m4 = new MainMenu("查成绩", R.mipmap.ic_print, QueryScoreAty.class);
+            mainMenuList.add(m4);
+            mainMenuList.add(m6);
         }
-         checkUpdate();//开启更新检测
+        checkUpdate();//开启更新检测
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
-        MainMenu m6 = new MainMenu("课程表", R.mipmap.ic_print, ScheduleAty.class);
-        MainMenu m4 = new MainMenu("查成绩", R.mipmap.ic_print, QueryScoreAty.class);
+
         mainMenuList.add(m2);
         mainMenuList.add(m3);
-        mainMenuList.add(m4);
-        mainMenuList.add(m6);
     }
 
     private void initView() {

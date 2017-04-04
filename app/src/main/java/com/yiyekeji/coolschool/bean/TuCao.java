@@ -20,7 +20,9 @@ public class TuCao implements Parcelable {
     public int getImgId() {
         return imgId;
     }
-
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
+    }
     @Override
     public String toString() {
         return "TuCao{" +
@@ -36,9 +38,7 @@ public class TuCao implements Parcelable {
                 '}';
     }
 
-    public void setImgId(int imgId) {
-        this.imgId = imgId;
-    }
+
 
     public String getImgUrl() {
         return imgUrl;

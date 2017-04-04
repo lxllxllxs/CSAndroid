@@ -19,8 +19,8 @@ public interface TuCaoService {
     Call<ResponseBody> insertTuCao(@Body TuCao tuCao);
 
     @Multipart
-    @POST("tucao/upLoadImg")
-    Call<ResponseBody> upLoadImg( @Part MultipartBody.Part... file);
+    @POST("tucao/upLoadTuCao")
+    Call<ResponseBody> upLoadTuCao( @Part MultipartBody.Part... file);
 
 
 }

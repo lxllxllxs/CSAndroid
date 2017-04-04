@@ -138,7 +138,11 @@ public class ReleaseProductAyt extends BaseActivity {
         if (!new File(Config.IMG_TEMP_PATH).exists()) {
             new File(Config.IMG_TEMP_PATH).mkdirs();
         }
-         NativeUtil.compressBitmap(bitmap,Config.IMG_TEMP_PATH+System.currentTimeMillis()+".jpg",true);
+        try {
+            NativeUtil.compressBitmap(bitmap,Config.IMG_TEMP_PATH+System.currentTimeMillis()+".jpg",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
       /*  if (true) {
             return;
         }*/

@@ -1,11 +1,8 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -14,21 +11,17 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
-import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.TuCao;
-import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.TuCaoService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.DateUtils;
+import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
-import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
-
-import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,32 +42,25 @@ import retrofit2.Response;
  * Created by lxl on 2017/1/19.
  */
 public class PublishTuCaoAyt extends BaseActivity {
-    @InjectView(R.id.title_bar)
-    TitleBar titleBar;
-    @InjectView(R.id.ledt_title)
-    LableEditView ledtTitle;
-    @InjectView(R.id.tv_cancel)
-    TextView tvCancel;
-    @InjectView(R.id.tv_confirm)
-    TextView tvConfirm;
 
 
-    CommonService service;
-    int  imgsId;
+    TuCaoService service;
+    int imgsId;
 
     String pic_path;
     List<String> imgPathList = new ArrayList<>();
     TuCao tuCao = new TuCao();
     final int CHOOSE_IMAGE = 0x123;
-    @InjectView(R.id.edt_descrition)
-    EditText edtDescrition;
-    @InjectView(R.id.tv_category)
-    TextView tvCategory;
-    @InjectView(R.id.rv_imgs)
-    RecyclerView rvImgs;
+    @InjectView(R.id.title_bar)
+    TitleBar titleBar;
     @InjectView(R.id.iv_add)
     ImageView ivAdd;
-
+    @InjectView(R.id.edt_descrition)
+    EditText edtDescrition;
+    @InjectView(R.id.tv_cancel)
+    TextView tvCancel;
+    @InjectView(R.id.tv_confirm)
+    TextView tvConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +72,7 @@ public class PublishTuCaoAyt extends BaseActivity {
     }
 
     private void initData() {
-        service = RetrofitUtil.create(CommonService.class);
-        imgPathList.add(R.mipmap.ic_add_pic + "");
+        service = RetrofitUtil.create(TuCaoService.class);
     }
 
     private void initView() {
@@ -97,21 +82,27 @@ public class PublishTuCaoAyt extends BaseActivity {
 
 
     private void upLoadImage(final String filePath) {
+        // TODO: 2017/4/1 这里可能要添加大小限制
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
-        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+      /*  Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         if (!new File(Config.IMG_TEMP_PATH).exists()) {
             new File(Config.IMG_TEMP_PATH).mkdirs();
         }
-        // TODO: 2017/4/1 这里可能要添加大小限制
-        NativeUtil.compressBitmap(bitmap, Config.IMG_TEMP_PATH + System.currentTimeMillis() + ".jpg", true);
-      /*  if (true) {
+        if (bitmap==null){
+            showShortToast("压缩图错误");
             return;
+        }
+
+        try {
+            NativeUtil.compressBitmap(bitmap, Config.IMG_TEMP_PATH + System.currentTimeMillis() + ".jpg", true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }*/
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(), requestFile);
         MultipartBody.Part part2 = MultipartBody.Part.createFormData("userNum", App.userInfo.getUserNum());
         showLoadDialog("");
-        Call<ResponseBody> call = service.upload(part, part2);
+        Call<ResponseBody> call = service.upLoadTuCao(part, part2);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -127,8 +118,8 @@ public class PublishTuCaoAyt extends BaseActivity {
                             new TypeToken<List<Integer>>() {
                             }.getType(), "idS");
                     imgPathList.remove(filePath);//无论如何都不再重试
-                    if (ids != null&&ids.size()>0) {
-                        imgsId=ids.get(0);
+                    if (ids != null && ids.size() > 0) {
+                        imgsId = ids.get(0);
                         LogUtil.d("上传成功！");
                     } else {
                         LogUtil.d("没有图片");
@@ -142,10 +133,11 @@ public class PublishTuCaoAyt extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
-                showShortToast(getString(R.string.response_err));
+                showShortToast(getString(R.string.response_err)+t.toString());
                 t.printStackTrace();
             }
         });
@@ -160,7 +152,7 @@ public class PublishTuCaoAyt extends BaseActivity {
         tuCao.setImgId(imgsId);
     }
 
-    @OnClick({R.id.ll_category, R.id.ll_model, R.id.tv_cancel, R.id.tv_confirm,R.id.iv_add})
+    @OnClick({R.id.tv_cancel, R.id.tv_confirm, R.id.iv_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add:
@@ -261,6 +253,7 @@ public class PublishTuCaoAyt extends BaseActivity {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
@@ -270,10 +263,12 @@ public class PublishTuCaoAyt extends BaseActivity {
 
     private void showImg(Intent data) {
         Uri selectedImage = data.getData();
-       /* pic_path = GetPathFromUri4kitkat.getPath(this, selectedImage);
+        pic_path = GetPathFromUri4kitkat.getPath(this, selectedImage);
         if (TextUtils.isEmpty(pic_path)) {
             return;
-        }*/
+        }
+        imgPathList.clear();
+        imgPathList.add(pic_path);
         ivAdd.setImageURI(selectedImage);
     }
 

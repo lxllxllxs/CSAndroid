@@ -250,6 +250,7 @@
             android:name=".ui.PublishTuCaoAyt"
             android:label="我要吐槽"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             />
         <activity
             android:name=".ui.PullMsgListActivtiy"
