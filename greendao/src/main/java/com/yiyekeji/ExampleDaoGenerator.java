@@ -27,6 +27,11 @@ public class ExampleDaoGenerator {
         LessonSchedule.addStringProperty("studentNo");
         LessonSchedule.addStringProperty("htmlString");
 
+        Entity StudentScore= schema.addEntity("StudentScore");
+        StudentScore.addIdProperty();
+        StudentScore.addStringProperty("studentNo");
+        StudentScore.addStringProperty("htmlString");
+
 
         Entity PullMsg= schema.addEntity("PullMsg");
         PullMsg.addIdProperty();
@@ -40,22 +45,4 @@ public class ExampleDaoGenerator {
         PullMsg.addStringProperty("validDay");
     }
 
-
-    private static void addStudent(Schema schema) {
-        Entity Student = schema.addEntity("Student");
-        Student.addIdProperty();
-        Student.addStringProperty("name");
-        Student.addStringProperty("age");
-        Student.addStringProperty("sex");
-        Student.addStringProperty("birthDay");//单聊 群聊？单聊没有此id
-        Student.addStringProperty("studentId");//文字还是语音还是图片
-        Student.addStringProperty("headImg");//非文本消息是需要根据messagetype转换
-        Student.addStringProperty("nation");//发送日期
-        Student.addStringProperty("phone");//发送状态
-        Student.addStringProperty("note");//收件人姓名
-
-        Entity Administrator = schema.addEntity("Administrator");
-        Administrator.addIdProperty();
-        Administrator.addStringProperty("name");
-    }
 }

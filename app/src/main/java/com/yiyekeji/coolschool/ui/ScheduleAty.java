@@ -18,6 +18,7 @@ import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.api.Lesson;
 import com.yiyekeji.coolschool.api.WyuStuSystemApi;
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.db.DbUtil;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.ConstantUtils;
 import com.yiyekeji.coolschool.utils.ThreadPools;
@@ -51,6 +52,8 @@ public class ScheduleAty extends BaseActivity {
 
     private void initView() {
         titleBar.initView(this);
+        //先加载
+        showWebView(DbUtil.getScheduleString());
     }
 
     private void initData() {
@@ -125,6 +128,8 @@ public class ScheduleAty extends BaseActivity {
                     }
 //                    hashMap = api.getCourse(result);
                     result = api.getCourse(result);
+                    //here save data
+                    DbUtil.insertScheduleString(result);
                     msg.what = SUCCESS;
                     msg.obj = result;
                     handler.sendMessage(msg);

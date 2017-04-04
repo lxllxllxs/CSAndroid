@@ -18,6 +18,7 @@ import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.api.Lesson;
 import com.yiyekeji.coolschool.api.WyuStuSystemApi;
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.db.DbUtil;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.ConstantUtils;
 import com.yiyekeji.coolschool.utils.ThreadPools;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeoutException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
+/**本地数据库保存htmlString
  * Created by lxl on 2017/3/26.
  */
 public class QueryScoreAty extends BaseActivity {
@@ -51,6 +52,8 @@ public class QueryScoreAty extends BaseActivity {
 
     private void initView() {
         titleBar.initView(this);
+        //先加载
+        showWebView(DbUtil.getScoreString());
     }
 
     private void initData() {
@@ -127,17 +130,20 @@ public class QueryScoreAty extends BaseActivity {
                     }
                     //拿到lastCookie后
 //                    hashMap = api.getCourse(result);
-                    msg.what = SUCCESS;
 
-                    msg.obj = api.getScoreList(result);;
+                    String htmlString=api.getScoreList(result);
+                    //here save data
+                    DbUtil.insertScoreString(htmlString);
+                    msg.what = SUCCESS;
+                    msg.obj =htmlString ;
                     handler.sendMessage(msg);
                 } catch (IOException e) {
                     msg.what = Error;
-                    msg.obj = "子系统出错,请重试！";
+                    msg.obj = "子系统出错,刷新失败！";
                     handler.sendMessage(msg);
                     e.printStackTrace();
                 } catch (TimeoutException e) {
-                    msg.obj = "子系统出错,请重试！";
+                    msg.obj = "子系统出错,刷新失败！";
                     msg.what = Error;
                     handler.sendMessage(msg);
                     e.printStackTrace();
