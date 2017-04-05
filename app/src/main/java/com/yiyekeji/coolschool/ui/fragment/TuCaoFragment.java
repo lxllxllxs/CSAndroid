@@ -103,7 +103,6 @@ public class TuCaoFragment extends BaseFragment {
             //上拉加载
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                showShortToast("上拉加载更多");
             }
         });
         pullRreshAdapter.setOnItemClickLitener(new TuCaoAdapter.OnItemClickLitener() {
@@ -127,7 +126,11 @@ public class TuCaoFragment extends BaseFragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (getContext() == null) {
+                    return;
+                }
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
@@ -151,6 +154,7 @@ public class TuCaoFragment extends BaseFragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
                 showShortToast(getString(R.string.response_err));
             }
         });
