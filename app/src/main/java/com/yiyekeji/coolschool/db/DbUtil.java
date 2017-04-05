@@ -76,6 +76,8 @@ public class DbUtil {
         if (query.list().isEmpty()) {
             scoreDao.insert(score);
         } else {
+            List<StudentScore> studentScoreList=query.list();
+            score.setId(studentScoreList.get(0).getId());
             scoreDao.update(score);
         }
 
@@ -95,6 +97,8 @@ public class DbUtil {
         if (query.list().isEmpty()) {
             scheduleDao.insert(schedule);
         } else {
+            List<LessonSchedule> scheduleList=query.list();
+            schedule.setId(scheduleList.get(0).getId());
             scheduleDao.update(schedule);
         }
     }
@@ -109,8 +113,8 @@ public class DbUtil {
                 .where(LessonScheduleDao.Properties.StudentNo.eq(studentNo))
                 .build();
         if (!query.list().isEmpty()) {
-            List<String> list = query.list();
-            return  list.get(0);
+            List<LessonSchedule> list = query.list();
+            return  list.get(0).getHtmlString();
         }
         return  "";
     }
@@ -125,8 +129,8 @@ public class DbUtil {
                 .where(StudentScoreDao.Properties.StudentNo.eq(studentNo))
                 .build();
         if (!query.list().isEmpty()) {
-            List<String> list = query.list();
-            return  list.get(0);
+            List<StudentScore> list = query.list();
+            return  list.get(0).getHtmlString();
         }
         return  "";
     }

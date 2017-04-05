@@ -10,21 +10,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.TuCao;
+import com.yiyekeji.coolschool.inter.TuCaoService;
 import com.yiyekeji.coolschool.ui.PublishTuCaoAyt;
 import com.yiyekeji.coolschool.ui.TuCaoDetailAty;
 import com.yiyekeji.coolschool.ui.adapter.TuCaoAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
+import com.yiyekeji.coolschool.utils.GsonUtil;
+import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.PullToRefreshRecycleView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lxl on 2017/1/23.
@@ -37,10 +48,9 @@ public class TuCaoFragment extends BaseFragment {
 
     RecyclerView recyclerView;
     TuCaoAdapter pullRreshAdapter;
-    List<TuCao> datas = new ArrayList<>();
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
-
+    List<TuCao> tuCaoList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tu_cao, container, false);
@@ -60,7 +70,7 @@ public class TuCaoFragment extends BaseFragment {
     }
 
     private void initData() {
-        TuCao tu;
+    /*    TuCao tu;
         for (int i = 0; i < 10; i++) {
             tu = new TuCao();
             tu.setContent(i + "asdasdadadzxclzjcwepoirupwoitpg;lcxv;l;hkjl;");
@@ -68,14 +78,14 @@ public class TuCaoFragment extends BaseFragment {
             tu.setAuthor("老王");
             tu.setDate("03-08 20:30");
             datas.add(tu);
-        }
+        }*/
     }
 
     private void setPullRefreshListView() {
         //使其支持上下拉事件
         prrvPullRefreshView.setMode(PullToRefreshBase.Mode.BOTH);
         recyclerView = prrvPullRefreshView.getRefreshableView();
-        pullRreshAdapter = new TuCaoAdapter(getContext(), datas);
+        pullRreshAdapter = new TuCaoAdapter(getContext(), tuCaoList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         prrvPullRefreshView.setOnPullEventListener(new PullToRefreshBase.OnPullEventListener<RecyclerView>() {
             @Override
@@ -87,6 +97,7 @@ public class TuCaoFragment extends BaseFragment {
             //下拉刷新
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                getTuCaoList();
             }
 
             //上拉加载
@@ -99,13 +110,52 @@ public class TuCaoFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), TuCaoDetailAty.class);
-                intent.putExtra("info", datas.get(position));
+                intent.putExtra("info", tuCaoList.get(position));
                 startActivity(intent);
             }
         });
         recyclerView.setAdapter(pullRreshAdapter);
-
     }
+
+    private static final int PAGE_SIZE = 15;
+    private void getTuCaoList() {
+        TuCaoService service = RetrofitUtil.create(TuCaoService.class);
+        Map<String, Object> params = new HashMap<>();
+        params.put("tuCaoId",0);
+        params.put("pageSize",PAGE_SIZE);
+        Call<ResponseBody> call = service.getTuCaoList(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dismissDialog();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    tuCaoList = GsonUtil.listFromJSon(jsonString,
+                            new TypeToken<List<TuCao>>() {
+                            }.getType(), "tuCaoList");
+                    if (tuCaoList != null) {
+                        pullRreshAdapter.notifyDataSetChanged(tuCaoList);
+                    } else {
+                        showShortToast("暂无内容");
+                    }
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dismissDialog();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
+    }
+
 
     @Override
     public void onDestroyView() {

@@ -2,6 +2,8 @@ package com.yiyekeji.coolschool.inter;
 
 import com.yiyekeji.coolschool.bean.TuCao;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,5 +24,6 @@ public interface TuCaoService {
     @POST("tucao/upLoadTuCao")
     Call<ResponseBody> upLoadTuCao( @Part MultipartBody.Part... file);
 
-
+    @POST("tucao/getTuCaoList")
+    Call<ResponseBody> getTuCaoList(@Body Map<String, Object> params);
 }

@@ -5,16 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.TuCao;
+import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
-
-import butterknife.InjectView;
 
 /**
  * Created by lxl on 2016/10/25.
@@ -42,15 +42,11 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
             super(arg0);
             AutoUtils.autoSize(arg0);
         }
-        @InjectView(R.id.tv_content)
+        ImageView ivTuCaoImg;
         TextView tvContent;
-        @InjectView(R.id.tv_postMan)
         TextView tvPostMan;
-        @InjectView(R.id.tv_commentCount)
         TextView tvCommentCount;
-        @InjectView(R.id.tv_date)
         TextView tvDate;
-        @InjectView(R.id.ll_parent)
         LinearLayout llParent;
     }
 
@@ -66,6 +62,7 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = mInflater.inflate(R.layout.item_tocao_list_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.ivTuCaoImg=(ImageView)view.findViewById(R.id.iv_tuCaoImg);
         viewHolder.llParent = (LinearLayout) view.findViewById(R.id.ll_parent);
         viewHolder.tvContent = (TextView) view.findViewById(R.id.tv_content);
         viewHolder.tvPostMan = (TextView) view.findViewById(R.id.tv_postMan);
@@ -86,7 +83,7 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
         viewHolder.tvPostMan.setText(tuCao.getAuthor());
         viewHolder.tvCommentCount.setText(tuCao.getCommentCount());
         viewHolder.tvDate.setText(tuCao.getDate());
-
+        GlideUtil.setImageToView(tuCao.getImgUrl(),viewHolder.ivTuCaoImg);
         if (mOnItemClickLitener != null) {
             viewHolder.llParent.setOnClickListener(new View.OnClickListener() {
                 @Override

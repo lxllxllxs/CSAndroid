@@ -3,7 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/white"
     android:id="@+id/ll_parent"
-    android:layout_height="200px">
+    android:layout_height="400px">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="200px">
+       <ImageView
+           android:layout_centerInParent="true"
+           android:id="@+id/iv_tuCaoImg"
+           android:scaleType="centerCrop"
+           android:layout_width="200px"
+           android:src="@mipmap/success"
+           android:layout_height="match_parent"/>
+   </RelativeLayout>
     <TextView
         android:padding="20px"
         android:id="@+id/tv_content"
