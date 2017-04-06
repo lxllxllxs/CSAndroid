@@ -4,6 +4,27 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/theme_red"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:layout_height="88px">
+        <TextView
+            android:text="吐槽"
+            style="@style/BigTextView"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:src="@mipmap/ic_publish"
+            android:id="@+id/iv_publishTuCao"
+            android:layout_width="44px"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     <FrameLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -31,15 +52,4 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-
-
-    <TextView
-        style="@style/BigTextView"
-        android:text="发布"
-        android:gravity="center"
-        android:background="@color/theme_red"
-        android:textColor="@color/white"
-        android:id="@+id/tv_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="88px" />
 </LinearLayout>

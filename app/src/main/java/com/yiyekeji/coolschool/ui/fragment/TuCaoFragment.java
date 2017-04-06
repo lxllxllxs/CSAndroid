@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -48,9 +49,10 @@ public class TuCaoFragment extends BaseFragment {
 
     RecyclerView recyclerView;
     TuCaoAdapter pullRreshAdapter;
-    @InjectView(R.id.tv_confirm)
-    TextView tvConfirm;
     List<TuCao> tuCaoList = new ArrayList<>();
+    @InjectView(R.id.iv_publishTuCao)
+    ImageView ivPublishTuCao;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tu_cao, container, false);
@@ -70,17 +72,10 @@ public class TuCaoFragment extends BaseFragment {
     }
 
     private void initData() {
-    /*    TuCao tu;
-        for (int i = 0; i < 10; i++) {
-            tu = new TuCao();
-            tu.setContent(i + "asdasdadadzxclzjcwepoirupwoitpg;lcxv;l;hkjl;");
-            tu.setCommentCount(i + "");
-            tu.setAuthor("老王");
-            tu.setDate("03-08 20:30");
-            datas.add(tu);
-        }*/
+
     }
 
+    private int lastTuCaoId;
     private void setPullRefreshListView() {
         //使其支持上下拉事件
         prrvPullRefreshView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -97,12 +92,15 @@ public class TuCaoFragment extends BaseFragment {
             //下拉刷新
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                lastTuCaoId=0;
+                tuCaoList.clear();
                 getTuCaoList();
             }
-
             //上拉加载
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                lastTuCaoId = tuCaoList.get(tuCaoList.size() - 1).getId();//降序 拿最后一个
+                getTuCaoList();
             }
         });
         pullRreshAdapter.setOnItemClickLitener(new TuCaoAdapter.OnItemClickLitener() {
@@ -117,11 +115,12 @@ public class TuCaoFragment extends BaseFragment {
     }
 
     private static final int PAGE_SIZE = 15;
+
     private void getTuCaoList() {
         TuCaoService service = RetrofitUtil.create(TuCaoService.class);
         Map<String, Object> params = new HashMap<>();
-        params.put("tuCaoId",0);
-        params.put("pageSize",PAGE_SIZE);
+        params.put("tuCaoId", lastTuCaoId);
+        params.put("pageSize", PAGE_SIZE);
         Call<ResponseBody> call = service.getTuCaoList(params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -167,10 +166,10 @@ public class TuCaoFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({ R.id.tv_confirm})
+    @OnClick({R.id.iv_publishTuCao})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_confirm:
+            case R.id.iv_publishTuCao:
                 Intent intent = new Intent(getActivity(), PublishTuCaoAyt.class);
                 startActivity(intent);
                 break;
