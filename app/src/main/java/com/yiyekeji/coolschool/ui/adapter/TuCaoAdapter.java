@@ -46,8 +46,8 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
             super(arg0);
             AutoUtils.autoSize(arg0);
         }
-        RelativeLayout rlImg;
         ImageView ivTuCaoImg;
+        ImageView ivSex;
         TextView tvContent;
         TextView tvPostMan;
         TextView tvCommentCount;
@@ -67,8 +67,8 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = mInflater.inflate(R.layout.item_tocao_list_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.rlImg = (RelativeLayout) view.findViewById(R.id.rl_img);
         viewHolder.ivTuCaoImg = (ImageView) view.findViewById(R.id.iv_tuCaoImg);
+        viewHolder.ivSex = (ImageView) view.findViewById(R.id.iv_sex);
         viewHolder.llParent = (LinearLayout) view.findViewById(R.id.ll_parent);
         viewHolder.tvContent = (TextView) view.findViewById(R.id.tv_content);
         viewHolder.tvPostMan = (TextView) view.findViewById(R.id.tv_postMan);
@@ -89,10 +89,15 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
         viewHolder.tvCommentCount.setText(tuCao.getCommentCount());
         viewHolder.tvDate.setText(tuCao.getDate().substring(5, 16));
         if (TextUtils.isEmpty(tuCao.getImgUrl())) {
-            viewHolder.rlImg.setVisibility(View.GONE);
+            viewHolder.ivTuCaoImg.setVisibility(View.GONE);
         } else {
-            viewHolder.rlImg.setVisibility(View.VISIBLE);
+            viewHolder.ivTuCaoImg.setVisibility(View.VISIBLE);
             GlideUtil.setImageToView(tuCao.getImgUrl(), viewHolder.ivTuCaoImg);
+        }
+        if (tuCao.getSex().equals("1")) {
+            viewHolder.ivSex.setImageResource(R.mipmap.ic_man);
+        } else {
+            viewHolder.ivSex.setImageResource(R.mipmap.ic_female);
         }
         if (mOnItemClickLitener != null) {
             viewHolder.llParent.setOnClickListener(new View.OnClickListener() {

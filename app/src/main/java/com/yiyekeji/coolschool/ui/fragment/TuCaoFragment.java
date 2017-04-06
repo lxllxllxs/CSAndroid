@@ -23,6 +23,7 @@ import com.yiyekeji.coolschool.ui.adapter.TuCaoAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.widget.DividerItemDecoration;
 import com.yiyekeji.coolschool.widget.PullToRefreshRecycleView;
 
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class TuCaoFragment extends BaseFragment {
             }
         });
         recyclerView.setAdapter(pullRreshAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
     }
 
     private static final int PAGE_SIZE = 15;

@@ -19,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/ll_img"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
@@ -48,7 +50,17 @@
                 android:minHeight="300px"
                 android:background="@drawable/bg_0radiu_whitesolid_graytroke"
                 android:layout_height="wrap_content"/>
-
+            <TextView
+                android:layout_marginTop="20px"
+                android:layout_marginBottom="20px"
+                android:text="添加图片"
+                android:gravity="center"
+                android:id="@+id/tv_addImg"
+                style="@style/BigTextView"
+                android:textColor="@color/white"
+                android:background="@color/theme_green"
+                android:layout_width="match_parent"
+                android:layout_height="80px"/>
             <Space
                 android:layout_weight="1"
                 android:layout_width="match_parent"

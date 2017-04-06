@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +47,6 @@ public class PublishTuCaoAyt extends BaseActivity {
 
     TuCaoService service;
     int imgsId;
-
     String pic_path;
     List<String> imgPathList = new ArrayList<>();
     TuCao tuCao = new TuCao();
@@ -61,6 +61,10 @@ public class PublishTuCaoAyt extends BaseActivity {
     TextView tvCancel;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+    @InjectView(R.id.tv_addImg)
+    TextView tvAddImg;
+    @InjectView(R.id.ll_img)
+    LinearLayout llImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +141,7 @@ public class PublishTuCaoAyt extends BaseActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
-                showShortToast(getString(R.string.response_err)+t.toString());
+                showShortToast(getString(R.string.response_err) + t.toString());
                 t.printStackTrace();
             }
         });
@@ -152,10 +156,10 @@ public class PublishTuCaoAyt extends BaseActivity {
         tuCao.setImgId(imgsId);
     }
 
-    @OnClick({R.id.tv_cancel, R.id.tv_confirm, R.id.iv_add})
+    @OnClick({R.id.tv_cancel, R.id.tv_confirm, R.id.tv_addImg})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_add:
+            case R.id.tv_addImg:
                 selectImg();
                 break;
             case R.id.tv_cancel:
@@ -201,6 +205,7 @@ public class PublishTuCaoAyt extends BaseActivity {
         switch (requestCode) {
             //处理图库返回
             case CHOOSE_IMAGE:
+                tvAddImg.setText("换一张");
                 showImg(data);
                 break;
             //处理相机返回
@@ -267,6 +272,7 @@ public class PublishTuCaoAyt extends BaseActivity {
         if (TextUtils.isEmpty(pic_path)) {
             return;
         }
+        llImg.setVisibility(View.VISIBLE);
         imgPathList.clear();
         imgPathList.add(pic_path);
         ivAdd.setImageURI(selectedImage);
