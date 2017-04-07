@@ -1,18 +1,23 @@
 package com.yiyekeji.coolschool.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.TuCao;
@@ -76,7 +81,7 @@ public class TuCaoFragment extends BaseFragment {
 
     }
 
-    private int lastTuCaoId;
+    private int lastTuCaoId=999999;
     private void setPullRefreshListView() {
         //使其支持上下拉事件
         prrvPullRefreshView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -93,14 +98,18 @@ public class TuCaoFragment extends BaseFragment {
             //下拉刷新
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                lastTuCaoId=0;
+                lastTuCaoId=999999;
                 tuCaoList.clear();
                 getTuCaoList();
             }
             //上拉加载
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                lastTuCaoId = tuCaoList.get(tuCaoList.size() - 1).getId();//降序 拿最后一个
+                if (tuCaoList.size() < 1) {
+                    lastTuCaoId=999999;
+                } else {
+                    lastTuCaoId = tuCaoList.get(tuCaoList.size() - 1).getId();//降序 拿最后一个
+                }
                 getTuCaoList();
             }
         });
@@ -108,16 +117,54 @@ public class TuCaoFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), TuCaoDetailAty.class);
-                intent.putExtra("info", tuCaoList.get(position));
+                intent.putExtra("tuCao", tuCaoList.get(position));
                 startActivity(intent);
             }
         });
+
+        if ( App.getUserInfo().getIsAdmin()==1){
+            setDeleteMenu();
+        }
         recyclerView.setAdapter(pullRreshAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
     }
 
+    private void setDeleteMenu() {
+        pullRreshAdapter.setOnItemLongClickLitener(new TuCaoAdapter.OnItemLongClickLitener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                TuCao tuCao=tuCaoList.get(position);
+                int cut=tuCao.getContent().length();
+                showDialog(cut>10?tuCao.getContent().substring(0,10):tuCao.getContent());
+            }
+        });
+    }
+
+    public void showDialog(String content) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("确定删除该条信息吗");//设置标题内容
+        builder.setMessage(content);
+        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                showShortToast("删除这条吐槽");
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        final AlertDialog dlg = builder.create();
+        dlg.show();
+    }
     private static final int PAGE_SIZE = 15;
 
+
+
+    /**
+     * tucao/getTuCaoList
+     */
     private void getTuCaoList() {
         TuCaoService service = RetrofitUtil.create(TuCaoService.class);
         Map<String, Object> params = new HashMap<>();
@@ -143,9 +190,13 @@ public class TuCaoFragment extends BaseFragment {
                             new TypeToken<List<TuCao>>() {
                             }.getType(), "tuCaoList");
                     if (tuCaoList != null) {
+                        if (tuCaoList.size()<1){
+                            showShortToast("暂无更多内容");
+                            return;
+                        }
                         pullRreshAdapter.notifyDataSetChanged(tuCaoList);
                     } else {
-                        showShortToast("暂无内容");
+                        showShortToast("发生错误");
                     }
                 } else {
                     showShortToast(rb.getMessage());

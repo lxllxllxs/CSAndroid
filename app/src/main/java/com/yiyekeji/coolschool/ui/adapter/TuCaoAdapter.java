@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
@@ -46,11 +45,13 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
             super(arg0);
             AutoUtils.autoSize(arg0);
         }
+
         ImageView ivTuCaoImg;
         ImageView ivSex;
         TextView tvContent;
         TextView tvPostMan;
         TextView tvCommentCount;
+        TextView tvViewCount;
         TextView tvDate;
         LinearLayout llParent;
     }
@@ -73,10 +74,10 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
         viewHolder.tvContent = (TextView) view.findViewById(R.id.tv_content);
         viewHolder.tvPostMan = (TextView) view.findViewById(R.id.tv_postMan);
         viewHolder.tvCommentCount = (TextView) view.findViewById(R.id.tv_commentCount);
+        viewHolder.tvViewCount = (TextView) view.findViewById(R.id.tv_viewCount);
         viewHolder.tvDate = (TextView) view.findViewById(R.id.tv_date);
         return viewHolder;
     }
-
 
     /**
      * 设置布局控件内容
@@ -87,6 +88,7 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
         viewHolder.tvContent.setText(tuCao.getContent());
         viewHolder.tvPostMan.setText(tuCao.getAuthor());
         viewHolder.tvCommentCount.setText(tuCao.getCommentCount());
+        viewHolder.tvViewCount.setText(tuCao.getViewCount());
         viewHolder.tvDate.setText(tuCao.getDate().substring(5, 16));
         if (TextUtils.isEmpty(tuCao.getImgUrl())) {
             viewHolder.ivTuCaoImg.setVisibility(View.GONE);
@@ -107,18 +109,33 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
                 }
             });
         }
+        if (mOnItemLongClickLitener != null) {
+            viewHolder.llParent.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mOnItemLongClickLitener.onItemLongClick(viewHolder.llParent, i);
+                    return true;
+                }
+
+            });
+        }
     }
 
 
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
-
+    public interface OnItemLongClickLitener {
+        void onItemLongClick(View view, int position);
+    }
     public OnItemClickLitener mOnItemClickLitener;
+    public OnItemLongClickLitener mOnItemLongClickLitener;
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
-
+    public void setOnItemLongClickLitener(OnItemLongClickLitener mOnItemLongClickLitener) {
+        this.mOnItemLongClickLitener = mOnItemLongClickLitener;
+    }
 }

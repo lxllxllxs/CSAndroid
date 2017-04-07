@@ -26,4 +26,8 @@ public interface TuCaoService {
 
     @POST("tucao/getTuCaoList")
     Call<ResponseBody> getTuCaoList(@Body Map<String, Object> params);
+
+    @POST("tucao/delTuCao")
+    Call<ResponseBody> delTuCao(@Body Map<String, Object> params);
+
 }

@@ -2,14 +2,18 @@ package com.yiyekeji.coolschool.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.bean.TuCao;
 import com.yiyekeji.coolschool.inter.RollCallService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
@@ -29,6 +33,7 @@ import retrofit2.Response;
  */
 public class TuCaoDetailAty extends BaseActivity {
 
+    TuCao tuCao;
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
     @InjectView(R.id.tv_postMan)
@@ -39,10 +44,12 @@ public class TuCaoDetailAty extends BaseActivity {
     TextView tvDate;
     @InjectView(R.id.tv_content)
     TextView tvContent;
-    @InjectView(R.id.tv_commentCount)
-    TextView tvCommentCount;
+    @InjectView(R.id.iv_detail)
+    ImageView ivDetail;
     @InjectView(R.id.tv_viewCount)
     TextView tvViewCount;
+    @InjectView(R.id.tv_commentCount)
+    TextView tvCommentCount;
     @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -57,9 +64,24 @@ public class TuCaoDetailAty extends BaseActivity {
 
     private void initView() {
         titleBar.initView(this);
+
+        if (!TextUtils.isEmpty(tuCao.getImgUrl())) {
+            ivDetail.setVisibility(View.VISIBLE);
+            GlideUtil.setImageToView(tuCao.getImgUrl(), ivDetail);
+        }
+        tvCommentCount.setText(tuCao.getCommentCount());
+        tvContent.setText(tuCao.getContent());
+        tvDate.setText(tuCao.getDate().substring(5,16));
+        tvPostMan.setText(tuCao.getAuthor());
+        if (tuCao.getSex().equals("1")) {
+            ivSex.setImageResource(R.mipmap.ic_man);
+        } else {
+            ivSex.setImageResource(R.mipmap.ic_female);
+        }
     }
 
     private void initData() {
+        tuCao = getIntent().getParcelableExtra("tuCao");
     }
 
 

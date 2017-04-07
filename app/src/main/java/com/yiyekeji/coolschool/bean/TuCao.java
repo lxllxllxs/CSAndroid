@@ -9,13 +9,25 @@ import android.os.Parcelable;
 public class TuCao implements Parcelable {
     private String content;
     private String date;
-    private String commentCount;
+    private int imgId;
     private String author;
     private String userNo;
     private String sex;
+
     private int id;
     private String imgUrl;
-    private int imgId;
+    private String viewCount;
+    public String getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(String viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    private String commentCount;
+
+
 
     public int getImgId() {
         return imgId;

@@ -10,20 +10,6 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent">
-        <TextView
-            android:padding="15px"
-            android:id="@+id/tv_content"
-            android:text="asdasdqwecxgaaaaaaaaaaaaaaaaaaaaaaaaaaxxxxxxxxxxxxdfhyuefccaaaaaaaaaaaaaaaaaaaaaarewwwwwwwwwwwwwwwwwwwwwikhnm"
-            style="@style/BigTextView"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <Space
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
         <LinearLayout
             android:paddingLeft="15px"
             android:paddingRight="15px"
@@ -43,7 +29,7 @@
             <ImageView
                 android:src="@mipmap/ic_man"
                 android:id="@+id/iv_sex"
-                android:text="发帖人"
+                android:text="某同学"
                 android:gravity="center_vertical"
                 android:layout_width="26px"
                 android:layout_height="match_parent"/>
@@ -51,16 +37,6 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
-            <TextView
-                android:id="@+id/tv_commentCount"
-                style="@style/NormalTextView"
-                android:layout_marginRight="15px"
-                android:text="评论数"
-                android:gravity="center_vertical"
-                android:textColor="@color/gray_text"
-                android:layout_width="wrap_content"
-                android:drawablePadding="5px"
-                android:layout_height="match_parent"/>
             <TextView
                 android:id="@+id/tv_date"
                 style="@style/NormalTextView"
@@ -71,6 +47,61 @@
                 android:layout_width="wrap_content"
                 android:drawablePadding="5px"
                 android:layout_height="match_parent"/>
+        </LinearLayout>
+        <TextView
+            android:paddingLeft="15px"
+            android:paddingRight="15px"
+            android:paddingBottom="15px"
+            android:id="@+id/tv_content"
+            android:text="asdasdqwecxgaaaaaaaaaaaaaaaaaaaaaaaaaaxxxxxxxxxxxxdfhyuefccaaaaaaaaaaaaaaaaaaaaaarewwwwwwwwwwwwwwwwwwwwwikhnm"
+            style="@style/BigTextView"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Space
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <LinearLayout
+            android:gravity="right"
+            android:layout_marginRight="15px"
+            android:paddingBottom="5px"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/ic_view"
+                android:gravity="center_vertical"
+                android:layout_width="26px"
+                android:layout_marginRight="5px"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/tv_viewCount"
+                style="@style/SmallTextView"
+                android:text="浏览量"
+                android:gravity="center_vertical"
+                android:textColor="@color/gray_text"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="15px"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_marginRight="5px"
+                android:src="@mipmap/ic_comment"
+                android:gravity="center_vertical"
+                android:layout_width="26px"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:layout_marginRight="15px"
+                android:id="@+id/tv_commentCount"
+                style="@style/SmallTextView"
+                android:text="评论数"
+                android:gravity="center_vertical"
+                android:textColor="@color/gray_text"
+                android:layout_width="wrap_content"
+                android:drawablePadding="5px"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
     <ImageView

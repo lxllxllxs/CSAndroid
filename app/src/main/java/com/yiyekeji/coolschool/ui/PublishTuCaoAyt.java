@@ -1,6 +1,8 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,17 +14,21 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
+import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.TuCao;
 import com.yiyekeji.coolschool.inter.TuCaoService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.DateUtils;
+import com.yiyekeji.coolschool.utils.FileUtils;
 import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
+
+import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,16 +61,14 @@ public class PublishTuCaoAyt extends BaseActivity {
     TitleBar titleBar;
     @InjectView(R.id.iv_add)
     ImageView ivAdd;
-    @InjectView(R.id.edt_descrition)
-    EditText edtDescrition;
-    @InjectView(R.id.tv_cancel)
-    TextView tvCancel;
-    @InjectView(R.id.tv_confirm)
-    TextView tvConfirm;
-    @InjectView(R.id.tv_addImg)
-    TextView tvAddImg;
     @InjectView(R.id.ll_img)
     LinearLayout llImg;
+    @InjectView(R.id.edt_descrition)
+    EditText edtDescrition;
+    @InjectView(R.id.tv_addImg)
+    TextView tvAddImg;
+    @InjectView(R.id.tv_confirm)
+    TextView tvConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +92,16 @@ public class PublishTuCaoAyt extends BaseActivity {
     private void upLoadImage(final String filePath) {
         // TODO: 2017/4/1 这里可能要添加大小限制
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
-      /*  Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        try {
+            if (FileUtils.getFileSize(file)>2) {
+                showShortToast("文件不能大于2m");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+    /*    Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         if (!new File(Config.IMG_TEMP_PATH).exists()) {
             new File(Config.IMG_TEMP_PATH).mkdirs();
         }
@@ -96,7 +109,6 @@ public class PublishTuCaoAyt extends BaseActivity {
             showShortToast("压缩图错误");
             return;
         }
-
         try {
             NativeUtil.compressBitmap(bitmap, Config.IMG_TEMP_PATH + System.currentTimeMillis() + ".jpg", true);
         } catch (Exception e) {
@@ -156,14 +168,11 @@ public class PublishTuCaoAyt extends BaseActivity {
         tuCao.setImgId(imgsId);
     }
 
-    @OnClick({R.id.tv_cancel, R.id.tv_confirm, R.id.tv_addImg})
+    @OnClick({R.id.tv_confirm, R.id.tv_addImg})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_addImg:
                 selectImg();
-                break;
-            case R.id.tv_cancel:
-                finish();
                 break;
             case R.id.tv_confirm:
                 //先检查  没有图片则直接上传
