@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.inter;
 
 import com.yiyekeji.coolschool.bean.TuCao;
+import com.yiyekeji.coolschool.bean.TuCaoComment;
 
 import java.util.Map;
 
@@ -27,7 +28,12 @@ public interface TuCaoService {
     @POST("tucao/getTuCaoList")
     Call<ResponseBody> getTuCaoList(@Body Map<String, Object> params);
 
-    @POST("tucao/delTuCao")
-    Call<ResponseBody> delTuCao(@Body Map<String, Object> params);
+    @POST("tucao/commentTuCao")
+    Call<ResponseBody> commentTuCao(@Body TuCaoComment comment);
 
+    @POST("tucao/getCommentList")
+    Call<ResponseBody> getCommentList(@Body Map<String, Object> params);
+
+    @POST("tucao/updateViewCount")
+    Call<ResponseBody> updateViewCount(@Body Map<String, Object> params);
 }

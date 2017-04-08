@@ -52,7 +52,7 @@
         </activity>
         <activity
             android:name=".ui.TuCaoDetailAty"
-            android:label=""
+            android:label="详情"
             android:screenOrientation="portrait"
             />
         <activity

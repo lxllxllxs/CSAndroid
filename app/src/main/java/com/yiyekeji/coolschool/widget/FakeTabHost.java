@@ -53,6 +53,12 @@ public class FakeTabHost extends AutoRelativeLayout {
         initView();
     }
 
+    public FakeTabHost(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        this.context = context;
+        initView();
+    }
+
     public void initView() {
         LayoutInflater.from(context).inflate(R.layout.layout_fake_tab_host, this);
         LinearLayout ll1,ll2,ll3,ll4,ll5;

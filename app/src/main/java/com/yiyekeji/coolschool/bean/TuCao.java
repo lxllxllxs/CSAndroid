@@ -129,25 +129,27 @@ public class TuCao implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.content);
         dest.writeString(this.date);
-        dest.writeString(this.commentCount);
+        dest.writeInt(this.imgId);
         dest.writeString(this.author);
         dest.writeString(this.userNo);
         dest.writeString(this.sex);
         dest.writeInt(this.id);
         dest.writeString(this.imgUrl);
-        dest.writeInt(this.imgId);
+        dest.writeString(this.viewCount);
+        dest.writeString(this.commentCount);
     }
 
     protected TuCao(Parcel in) {
         this.content = in.readString();
         this.date = in.readString();
-        this.commentCount = in.readString();
+        this.imgId = in.readInt();
         this.author = in.readString();
         this.userNo = in.readString();
         this.sex = in.readString();
         this.id = in.readInt();
         this.imgUrl = in.readString();
-        this.imgId = in.readInt();
+        this.viewCount = in.readString();
+        this.commentCount = in.readString();
     }
 
     public static final Creator<TuCao> CREATOR = new Creator<TuCao>() {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="15px"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/NormalTextView"
+            android:text="姓名"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50px"/>
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/SmallTextView"
+            android:text="2017-04-08 12:30"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="10px"
+        android:id="@+id/tv_content"
+        style="@style/BigTextView"
+        android:text="ssqweqwqwcccccccccccccccccccccccccccccccccccccccccccccc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5px"/>
+</LinearLayout>
