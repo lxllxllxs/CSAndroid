@@ -36,4 +36,9 @@ public interface TuCaoService {
 
     @POST("tucao/updateViewCount")
     Call<ResponseBody> updateViewCount(@Body Map<String, Object> params);
+
+
+
+    @POST("tucao/delTuCao")
+    Call<ResponseBody> delTuCao(@Body Map<String, Object> params);
 }

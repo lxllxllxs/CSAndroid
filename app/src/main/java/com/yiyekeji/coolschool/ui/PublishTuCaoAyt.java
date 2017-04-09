@@ -1,8 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
-import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.TuCao;
@@ -27,8 +24,6 @@ import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.TitleBar;
-
-import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,8 +88,8 @@ public class PublishTuCaoAyt extends BaseActivity {
         // TODO: 2017/4/1 这里可能要添加大小限制
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         try {
-            if (FileUtils.getFileSize(file)>2) {
-                showShortToast("文件不能大于2m");
+            if (FileUtils.getFileSize(file)>1) {
+                showShortToast("图片不能大于1M");
                 return;
             }
         } catch (Exception e) {

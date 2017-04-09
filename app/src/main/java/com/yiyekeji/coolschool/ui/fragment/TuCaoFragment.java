@@ -7,11 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,7 +76,7 @@ public class TuCaoFragment extends BaseFragment {
     }
 
     private void initData() {
-
+        getTuCaoList();
     }
 
     private int lastTuCaoId=999999;
@@ -98,9 +96,7 @@ public class TuCaoFragment extends BaseFragment {
             //下拉刷新
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                lastTuCaoId=999999;
-                tuCaoList.clear();
-                getTuCaoList();
+                refreshTuCaoList();
             }
             //上拉加载
             @Override
@@ -129,25 +125,35 @@ public class TuCaoFragment extends BaseFragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
     }
 
+    private void refreshTuCaoList() {
+        lastTuCaoId=999999;
+        tuCaoList.clear();
+        getTuCaoList();
+    }
+
+
+    /**
+     * 设置删除吐槽功能
+     */
     private void setDeleteMenu() {
         pullRreshAdapter.setOnItemLongClickLitener(new TuCaoAdapter.OnItemLongClickLitener() {
             @Override
             public void onItemLongClick(View view, int position) {
                 TuCao tuCao=tuCaoList.get(position);
                 int cut=tuCao.getContent().length();
-                showDialog(cut>10?tuCao.getContent().substring(0,10):tuCao.getContent());
+                showDialog(cut>10?tuCao.getContent().substring(0,10):tuCao.getContent(),tuCao.getId());
             }
         });
     }
 
-    public void showDialog(String content) {
+    public void showDialog(String content,final int tuCaoId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("确定删除该条信息吗");//设置标题内容
         builder.setMessage(content);
         builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                showShortToast("删除这条吐槽");
+                delTuCao(tuCaoId);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -186,15 +192,16 @@ public class TuCaoFragment extends BaseFragment {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    tuCaoList = GsonUtil.listFromJSon(jsonString,
+                   List<TuCao> tempList = GsonUtil.listFromJSon(jsonString,
                             new TypeToken<List<TuCao>>() {
                             }.getType(), "tuCaoList");
-                    if (tuCaoList != null) {
-                        if (tuCaoList.size()<1){
+                    if (tempList != null) {
+                        if (tempList.size()<1){
                             showShortToast("暂无更多内容");
                             return;
                         }
-                        pullRreshAdapter.notifyDataSetChanged(tuCaoList);
+                        tuCaoList.addAll(tempList);
+                        pullRreshAdapter.notifyDataSetChanged();
                     } else {
                         showShortToast("发生错误");
                     }
@@ -202,7 +209,49 @@ public class TuCaoFragment extends BaseFragment {
                     showShortToast(rb.getMessage());
                 }
             }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
+    }
 
+
+    /**
+     * tucao/delTuCao
+     *
+     */
+
+    private void delTuCao(int tuCaoId) {
+        List<Integer> tuCaoIds = new ArrayList<>();
+        TuCaoService service = RetrofitUtil.create(TuCaoService.class);
+        tuCaoIds.add(tuCaoId);
+        Map<String, Object> params = new HashMap<>();
+        params.put("tuCaoIds", tuCaoIds);
+        params.put("tokenId", App.geTokenId());
+        Call<ResponseBody> call = service.delTuCao(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (getContext() == null) {
+                    return;
+                }
+                dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    refreshTuCaoList();
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
