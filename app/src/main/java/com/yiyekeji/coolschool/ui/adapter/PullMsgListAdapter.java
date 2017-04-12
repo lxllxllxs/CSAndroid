@@ -39,6 +39,7 @@ public class PullMsgListAdapter extends RecyclerView.Adapter<PullMsgListAdapter.
             super(arg0);
             AutoUtils.autoSize(arg0);
         }
+        TextView tvTitle;
         TextView tvMain;
         TextView tvDate;
         TextView tvAuthor;
@@ -59,6 +60,7 @@ public class PullMsgListAdapter extends RecyclerView.Adapter<PullMsgListAdapter.
         View view = mInflater.inflate(R.layout.item_pull_msg_adapter, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
+        viewHolder.tvTitle=(TextView)view.findViewById(R.id.tv_title);
         viewHolder.tvMain=(TextView)view.findViewById(R.id.tv_content);
         viewHolder.tvDate=(TextView)view.findViewById(R.id.tv_date);
         viewHolder.tvAuthor=(TextView)view.findViewById(R.id.tv_author);
@@ -73,6 +75,7 @@ public class PullMsgListAdapter extends RecyclerView.Adapter<PullMsgListAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         PullMsg  pullMsg = pullMsgList.get(i);
+        viewHolder.tvTitle.setText(pullMsg.getTitle());
         viewHolder.tvMain.setText(pullMsg.getContent());
         viewHolder.tvDate.setText(pullMsg.getDate().substring(5,16));
         viewHolder.tvAuthor.setText(pullMsg.getTeacherName());

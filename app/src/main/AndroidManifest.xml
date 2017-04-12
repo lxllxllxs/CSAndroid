@@ -257,7 +257,11 @@
             android:label="通知"
             android:screenOrientation="portrait"
             />
-
+        <activity
+            android:name=".ui.PullMsgDetailAty"
+            android:label="消息详情"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.EditProductAyt"
             android:label="编辑商品"

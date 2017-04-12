@@ -6,34 +6,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.google.gson.reflect.TypeToken;
-import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
-import com.yiyekeji.coolschool.bean.CourseAbsenceInfo;
-import com.yiyekeji.coolschool.bean.CourseInfo;
-import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.dao.PullMsg;
 import com.yiyekeji.coolschool.db.DbUtil;
-import com.yiyekeji.coolschool.inter.RollCallService;
-import com.yiyekeji.coolschool.inter.StudentService;
 import com.yiyekeji.coolschool.ui.adapter.PullMsgListAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
-import com.yiyekeji.coolschool.utils.GsonUtil;
-import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.DividerItemDecoration;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by lxl on 2017/1/14.
@@ -61,7 +46,7 @@ public class PullMsgListActivtiy extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
@@ -73,6 +58,12 @@ public class PullMsgListActivtiy extends BaseActivity {
         mAdapter.setOnItemClickLitener(new PullMsgListAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                PullMsg msg=msgList.get(position);
+                msg.setIsRead(1);
+                DbUtil.upDatePullMsg(msg);
+                Intent intent = new Intent(PullMsgListActivtiy.this, PullMsgDetailAty.class);
+                intent.putExtra("content",msg.getContent());
+                startActivity(intent);
             }
         });
     }

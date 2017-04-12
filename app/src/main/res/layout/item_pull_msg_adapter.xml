@@ -5,7 +5,6 @@
               android:layout_height="wrap_content"
               android:background="@color/white"
               android:orientation="horizontal"
-              android:paddingLeft="15px"
               android:paddingRight="15px">
 
     <ImageView
@@ -13,23 +12,36 @@
         android:id="@+id/iv_isRead"
         android:layout_width="20px"
         android:src="@mipmap/ic_unread"
-        android:layout_marginRight="20px"
+        android:layout_marginRight="10px"
         android:layout_height="match_parent"/>
     <LinearLayout
         android:layout_width="0dp"
+        android:paddingRight="20px"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
-            android:paddingBottom="10px"
-            android:paddingTop="10px"
-            android:id="@+id/tv_content"
+            android:paddingBottom="5px"
+            android:paddingTop="5px"
+            android:id="@+id/tv_title"
             style="@style/BigTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="明月出天山，苍茫云海间"
             android:textColor="@color/black"/>
+        <TextView
+            android:paddingBottom="5px"
+            android:paddingTop="5px"
+            android:id="@+id/tv_content"
+            style="@style/SmallTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="明月出天山，苍茫云海间明月出天山，苍茫云海间明月出天山，苍茫云海间明月出天山，苍茫云海间明月出天山，苍茫云海间明月出天山，苍茫云海间明月出天山，苍茫云海间明月出天山，苍茫云海间"
+            android:textColor="@color/text_black"/>
        <LinearLayout
            android:orientation="horizontal"
            android:layout_width="match_parent"
@@ -56,7 +68,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:gravity="center_vertical|right"
-               android:text="2017-04-11 12:50"
+               android:text="04-11 12:50"
                android:textColor="@color/text_black"/>
        </LinearLayout>
     </LinearLayout>
