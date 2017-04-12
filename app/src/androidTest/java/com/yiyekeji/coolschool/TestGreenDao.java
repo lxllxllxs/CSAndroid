@@ -2,8 +2,11 @@ package com.yiyekeji.coolschool;
 
 import android.test.InstrumentationTestCase;
 
+import com.yiyekeji.coolschool.dao.PullMsg;
 import com.yiyekeji.coolschool.db.DbUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
+
+import java.util.List;
 
 public class TestGreenDao extends InstrumentationTestCase {
 
@@ -18,4 +21,13 @@ public class TestGreenDao extends InstrumentationTestCase {
         }
     }
 
+    public void  testGetAllMsg(){
+        List<PullMsg> list= DbUtil.getAllPullMsg();
+        if (list.isEmpty()) {
+            LogUtil.d("none");
+            System.out.println("none");
+        } else {
+            System.out.println("hava");
+        }
+    }
 }

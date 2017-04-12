@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +8,11 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
@@ -50,9 +56,9 @@ public class MainViewpagerActivity extends BaseActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
 
-    private String[] titles = {"首页", "商场","我的","吐槽"};
-    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_my, R.mipmap.ic_my};
-    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_my_no, R.mipmap.ic_my_no};
+    private String[] titles = {"首页", "商场","吐槽","我的"};
+    private int[] resId = {R.mipmap.ic_home, R.mipmap.ic_market, R.mipmap.ic_tucao, R.mipmap.ic_my};
+    private int[] resIdNo = {R.mipmap.ic_home_no, R.mipmap.ic_market_no, R.mipmap.ic_tucao_no, R.mipmap.ic_my_no};
     private List<PullMsg> pullMsgs;
     private List<CourseInfo> infos;
 
@@ -71,8 +77,8 @@ public class MainViewpagerActivity extends BaseActivity {
     private void initViewPager() {
         fragmentList.add(new HomeFragment());
         fragmentList.add(new CategoryFragment());
-        fragmentList.add(new AccountFragment());
         fragmentList.add(new TuCaoFragment());//这个第二期加
+        fragmentList.add(new AccountFragment());
         tabHost.setTabHost(fragmentList, titles, resId, resIdNo, viewpager);
     }
 
@@ -195,12 +201,27 @@ public class MainViewpagerActivity extends BaseActivity {
     private void checkUnReadMsg() {
         boolean haveUnRead = DbUtil.havaUnReadMsg();
         if (haveUnRead) {
-            showShortToast("here need to deal the unReadMsg");
-        } else {
-            showShortToast("this is nothing");
+            ((HomeFragment)fragmentList.get(0)).setIvUnReadVisiable();
         }
     }
+    public void showMsgDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("有未读消息！");//设置标题内容
 
+        builder.setPositiveButton("查看", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                startActivity(PullMsgListActivtiy.class);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        final AlertDialog dlg = builder.create();
+        dlg.show();
+    }
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {

@@ -42,6 +42,7 @@ import com.yiyekeji.coolschool.ui.AddCourseAty;
 import com.yiyekeji.coolschool.ui.CommitPullMsgAty;
 import com.yiyekeji.coolschool.ui.CreateDeliverOrderAty;
 import com.yiyekeji.coolschool.ui.CreateTakeExpressOrderAty;
+import com.yiyekeji.coolschool.ui.PullMsgListActivtiy;
 import com.yiyekeji.coolschool.ui.QueryScoreAty;
 import com.yiyekeji.coolschool.ui.ScheduleAty;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
@@ -80,6 +81,10 @@ public class HomeFragment extends BaseFragment {
     ImageView ivRollCall;
     @InjectView(R.id.tv_rollCall)
     TextView tvRollCall;
+    @InjectView(R.id.iv_pullMsg)
+    ImageView ivPullMsg;
+    @InjectView(R.id.iv_unRead)
+    ImageView ivUnRead;
     private List<MainMenu> mainMenuList = new ArrayList<>();
     public BDLocationListener myListener = new MyLocationListener();
     public LocationClient mLocationClient = null;
@@ -90,6 +95,7 @@ public class HomeFragment extends BaseFragment {
         ButterKnife.inject(this, view);
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -103,11 +109,13 @@ public class HomeFragment extends BaseFragment {
             tvRollCall.setText("点名");
             MainMenu m1 = new MainMenu("发布通知", R.mipmap.ic_deliver, CommitPullMsgAty.class);
             mainMenuList.add(m1);
+            ivPullMsg.setVisibility(View.INVISIBLE);
         } else {
             MainMenu m6 = new MainMenu("课程表", R.mipmap.ic_print, ScheduleAty.class);
             MainMenu m4 = new MainMenu("查成绩", R.mipmap.ic_print, QueryScoreAty.class);
             mainMenuList.add(m4);
             mainMenuList.add(m6);
+            ivPullMsg.setVisibility(View.VISIBLE);
         }
         checkUpdate();//开启更新检测
         MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
@@ -139,7 +147,7 @@ public class HomeFragment extends BaseFragment {
         params.put("userNum", App.userInfo.getUserNum());
         service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = service.getMyCourse(params);
-        showLoadDialog("正在签到",getActivity());
+        showLoadDialog("正在签到", getActivity());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -263,7 +271,7 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    @OnClick({R.id.tv_addCourse, R.id.rl_rollCall})
+    @OnClick({R.id.tv_addCourse, R.id.rl_rollCall, R.id.iv_pullMsg})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_addCourse:
@@ -280,11 +288,19 @@ public class HomeFragment extends BaseFragment {
                     startLocation();
                 }
                 break;
+            case R.id.iv_pullMsg:
+                ivUnRead.setVisibility(View.INVISIBLE);
+                Intent intent = new Intent(getActivity(), PullMsgListActivtiy.class);
+                startActivity(intent);
+                break;
         }
     }
 
+    public void setIvUnReadVisiable(){
+        ivUnRead.setVisibility(View.VISIBLE);
+    }
 
-    private void startLocation(){
+    private void startLocation() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
@@ -305,21 +321,25 @@ public class HomeFragment extends BaseFragment {
             showShortToast("签到失败,请关闭模拟位置");
             return;
         }
-        showLoadDialog("",getActivity());
+        showLoadDialog("", getActivity());
         BdLocationUtlis.initLocation(mLocationClient);
         mLocationClient.start();
     }
-    final int READ_PHONE_STATE_REQUEST_CODE=0x122;
+
+    final int READ_PHONE_STATE_REQUEST_CODE = 0x122;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        doNext(requestCode,grantResults);
+        doNext(requestCode, grantResults);
     }
+
     private void doNext(int requestCode, int[] grantResults) {
         if (requestCode == READ_PHONE_STATE_REQUEST_CODE) {
             startLocation();
         }
     }
+
     public class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -332,6 +352,7 @@ public class HomeFragment extends BaseFragment {
             longitude = location.getLongitude();
             getMyCoures();
         }
+
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
         }
@@ -370,7 +391,7 @@ public class HomeFragment extends BaseFragment {
         params.put("courseNo", coureseNo);
         RollCallService service = RetrofitUtil.create(RollCallService.class);
         Call<ResponseBody> call = service.insertStudentCourse(params);
-        showLoadDialog("",getActivity());
+        showLoadDialog("", getActivity());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -387,6 +408,7 @@ public class HomeFragment extends BaseFragment {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
@@ -396,8 +418,8 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
     AndroidVersion version = null;
+
     private void checkUpdate() {
         CommonService service = RetrofitUtil.create(CommonService.class);
         Call<ResponseBody> call = service.checkVersion();
@@ -448,6 +470,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
     private boolean isNeedUpdate() {
         return version.getVersion() > (CommonUtils.getAppVersion());
     }

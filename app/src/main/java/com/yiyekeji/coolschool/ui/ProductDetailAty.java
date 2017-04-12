@@ -117,6 +117,8 @@ public class ProductDetailAty extends BaseActivity implements DockAtTopScrollVie
         imageAdapter = new ImageAdapter(this, productInfo.getPictureList());
         rvImgs.setAdapter(imageAdapter);
         rvImgs.setLayoutManager(new LinearLayoutManager(this));
+        // FIXME: 2017/4/11/011 这里是解决滑动失去惯性用的
+        rvImgs.setNestedScrollingEnabled(false);
 
         getSellerInfo();
     }

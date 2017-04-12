@@ -41,6 +41,7 @@ public class PullMsgListAdapter extends RecyclerView.Adapter<PullMsgListAdapter.
         }
         TextView tvMain;
         TextView tvDate;
+        TextView tvAuthor;
         ImageView ivIsRead;
         LinearLayout llContainer;
     }
@@ -60,6 +61,7 @@ public class PullMsgListAdapter extends RecyclerView.Adapter<PullMsgListAdapter.
         viewHolder.llContainer=(LinearLayout)view.findViewById(R.id.ll_parent);
         viewHolder.tvMain=(TextView)view.findViewById(R.id.tv_content);
         viewHolder.tvDate=(TextView)view.findViewById(R.id.tv_date);
+        viewHolder.tvAuthor=(TextView)view.findViewById(R.id.tv_author);
         viewHolder.ivIsRead = (ImageView) view.findViewById(R.id.iv_isRead);
         return viewHolder;
     }
@@ -72,7 +74,9 @@ public class PullMsgListAdapter extends RecyclerView.Adapter<PullMsgListAdapter.
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         PullMsg  pullMsg = pullMsgList.get(i);
         viewHolder.tvMain.setText(pullMsg.getContent());
-        viewHolder.tvDate.setText(pullMsg.getDate());
+        viewHolder.tvDate.setText(pullMsg.getDate().substring(5,16));
+        viewHolder.tvAuthor.setText(pullMsg.getTeacherName());
+
         if (pullMsg.getIsRead() != 1) {
             viewHolder.ivIsRead.setVisibility(View.VISIBLE);
         } else {

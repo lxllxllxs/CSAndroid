@@ -13,6 +13,7 @@ import com.yiyekeji.coolschool.dao.StudentScore;
 import com.yiyekeji.coolschool.dao.StudentScoreDao;
 import com.yiyekeji.coolschool.utils.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.dao.query.Query;
@@ -133,6 +134,29 @@ public class DbUtil {
             return  list.get(0).getHtmlString();
         }
         return  "";
+    }
+
+
+    /**
+     * 获得所有通知消息
+     * @return
+     */
+    public static List<PullMsg> getAllPullMsg(){
+        Query query = pullMsgDao.queryBuilder()
+                .build();
+        if (!query.list().isEmpty()) {
+            List<PullMsg> list = query.list();
+            return  list;
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * 更新通知消息
+     * @return
+     */
+    public static void upDatePullMsg(PullMsg msg){
+        pullMsgDao.update(msg);
     }
 
 }
