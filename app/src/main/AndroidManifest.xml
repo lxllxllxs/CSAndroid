@@ -257,6 +257,12 @@
             android:label="通知"
             android:screenOrientation="portrait"
             />
+
+        <activity
+            android:name=".ui.EditProductAyt"
+            android:label="编辑商品"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 

@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.utils.GlideUtil;
 import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -76,12 +77,15 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         if (RegexUtils.checkDigit(path)){
             viewHolder.ivAdd.setImageResource(Integer.valueOf(path));
             viewHolder.ivDel.setVisibility(View.GONE);
-        }else {
+            //处理网址
+        } else if (path.contains("http://")) {
+            viewHolder.ivDel.setVisibility(View.VISIBLE);
+            GlideUtil.setImageToView(path,viewHolder.ivAdd);
+        } else {
             viewHolder.ivDel.setVisibility(View.VISIBLE);
             viewHolder.ivAdd.setImageBitmap(zoomImage(i));
         }
         viewHolder.ivAdd.setMaxHeight(140);
-
         if (mOnItemClickLitener != null) {
             viewHolder.ivAdd.setOnClickListener(new View.OnClickListener() {
                 @Override

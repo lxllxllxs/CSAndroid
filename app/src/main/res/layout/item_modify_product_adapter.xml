@@ -15,7 +15,6 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/tv_modify"
         android:gravity="center"
         style="@style/BigTextView"

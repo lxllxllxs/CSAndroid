@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductInfo;
+import com.yiyekeji.coolschool.ui.EditProductAyt;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -67,7 +69,7 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductInfo info = productInfos.get(i);
+        final ProductInfo info = productInfos.get(i);
         viewHolder.tvProductName.setText(info.getpTitle());
         if (info.getpState() == 1) {
             viewHolder.tvDel.setText("下架");
@@ -76,6 +78,16 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
             viewHolder.tvDel.setText("上架");
             viewHolder.tvDel.setBackgroundColor(ContextCompat.getColor(context, R.color.theme_green));
         }
+
+        //接入 修改产品
+        viewHolder.tvModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditProductAyt.class);
+                intent.putExtra("pId",info.getPid());
+                context.startActivity(intent);
+            }
+        });
         if (mDelClickLitener != null) {
             viewHolder.tvDel.setOnClickListener(new View.OnClickListener() {
                 @Override
