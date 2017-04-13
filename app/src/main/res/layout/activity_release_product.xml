@@ -119,6 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="240px">
         <TextView
+            android:layout_marginTop="10px"
             android:paddingTop="10px"
             android:gravity="center_horizontal"
             android:text="详情"

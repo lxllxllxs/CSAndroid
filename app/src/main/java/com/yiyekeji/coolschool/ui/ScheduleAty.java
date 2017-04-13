@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.api.HtmlParser;
 import com.yiyekeji.coolschool.api.Lesson;
 import com.yiyekeji.coolschool.api.WyuStuSystemApi;
 import com.yiyekeji.coolschool.bean.UserInfo;
@@ -53,7 +54,9 @@ public class ScheduleAty extends BaseActivity {
     private void initView() {
         titleBar.initView(this);
         //先加载
-        showWebView(DbUtil.getScheduleString());
+        String rawHtml=DbUtil.getScheduleString();
+        Map<Integer, Map<Integer, List<Lesson>>> lesson= HtmlParser.parseHtmlForLesson(rawHtml);
+        showWebView(rawHtml);
     }
 
     private void initData() {

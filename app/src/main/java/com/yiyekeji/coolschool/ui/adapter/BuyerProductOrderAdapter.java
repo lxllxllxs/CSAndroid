@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductOrder;
+import com.yiyekeji.coolschool.ui.CreateReturnOrderAty;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -42,6 +44,7 @@ public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductO
         }
         TextView tvProductName;
         TextView tvState;
+        TextView tvReject;
         LinearLayout llParent;
     }
 
@@ -60,23 +63,42 @@ public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductO
         viewHolder.llParent = (LinearLayout) view.findViewById(R.id.ll_parent);
         viewHolder.tvProductName = (TextView) view.findViewById(R.id.tv_productName);
         viewHolder.tvState = (TextView) view.findViewById(R.id.tv_state);
+        viewHolder.tvReject = (TextView) view.findViewById(R.id.tv_reject);
         return viewHolder;
     }
 
     /**
      * 设置布局控件内容
+     *
+     * 0是待送货
+     * 1是完成送货
+     * 2是退货中
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-        ProductOrder info = productInfos.get(i);
+        final ProductOrder info = productInfos.get(i);
         viewHolder.tvProductName.setText(info.getpTitle());
         if (info.getPoState() == 1) {
             viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
+            viewHolder.tvReject.setVisibility(View.VISIBLE);
+        } else if (info.getPoState() == 0) {
+            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
+            viewHolder.tvReject.setVisibility(View.GONE);
         } else {
             viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
+            viewHolder.tvReject.setVisibility(View.GONE);
         }
-        viewHolder.tvState.setText(info.getPoState()==0?"待送货":"已完成");
-
+        switch (info.getPoState()){
+            case  0:
+                viewHolder.tvState.setText("待送货");
+                break;
+            case  1:
+                viewHolder.tvState.setText("已完成");
+                break;
+            case  2:
+                viewHolder.tvState.setText("退货中");
+                break;
+        }
         if (mOnItemClickLitener != null) {
             viewHolder.llParent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +107,15 @@ public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductO
                 }
             });
         }
+
+        viewHolder.tvReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CreateReturnOrderAty.class);
+                intent.putExtra("info", info);
+                context.startActivity(intent);
+            }
+        });
     }
 
 

@@ -8,7 +8,6 @@
 
     <LinearLayout
         android:paddingLeft="30px"
-        android:paddingRight="30px"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,9 +23,21 @@
         <TextView
             android:id="@+id/tv_state"
             android:text="状态"
-            android:textSize="24px"
+            android:layout_marginRight="30px"
+            style="@style/NormalTextView"
             android:textColor="@color/theme_red"
             android:gravity="center_vertical|right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:visibility="gone"
+            android:padding="15px"
+            android:id="@+id/tv_reject"
+            android:text="退货"
+            style="@style/NormalTextView"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|right"
+            android:background="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
     </LinearLayout>

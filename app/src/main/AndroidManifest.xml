@@ -267,6 +267,11 @@
             android:label="编辑商品"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".ui.CreateReturnOrderAty"
+            android:label="退货"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 
