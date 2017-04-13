@@ -6,16 +6,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductOrder;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.adapter.BuyerProductOrderAdapter;
+import com.yiyekeji.coolschool.ui.adapter.TuCaoAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
+import com.yiyekeji.coolschool.widget.PullToRefreshRecycleView;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -36,8 +39,9 @@ import retrofit2.Response;
 public class BuyerProductOrderListAty extends BaseActivity {
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
-    @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @InjectView(R.id.prrv_pull_refresh_view)
+    PullToRefreshRecycleView prrvPullRefreshView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +54,30 @@ public class BuyerProductOrderListAty extends BaseActivity {
 
     BuyerProductOrderAdapter mAdapter;
     List<ProductOrder> orderList = new ArrayList<>();
+
     private void initView() {
         titleBar.initView(this);
-        mAdapter=new BuyerProductOrderAdapter(this,orderList);
+        //使其支持上下拉事件
+        prrvPullRefreshView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        recyclerView = prrvPullRefreshView.getRefreshableView();
+        prrvPullRefreshView.setOnPullEventListener(new PullToRefreshBase.OnPullEventListener<RecyclerView>() {
+            @Override
+            public void onPullEvent(PullToRefreshBase<RecyclerView> refreshView, PullToRefreshBase.State state, PullToRefreshBase.Mode direction) {
+            }
+        });
+        prrvPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
+            //下拉刷新
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+
+                getMyProductOrderList();
+            }
+            //上拉加载
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+            }
+        });
+        mAdapter = new BuyerProductOrderAdapter(this, orderList);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -81,28 +106,32 @@ public class BuyerProductOrderListAty extends BaseActivity {
             return;
         }
         ShopService service = RetrofitUtil.create(ShopService.class);
-        Call<ResponseBody> call=service.getMyProductOrderList(params);
+        Call<ResponseBody> call = service.getMyProductOrderList(params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
-                orderList= GsonUtil.listFromJSon(jsonString,
-                        new TypeToken<List<ProductOrder>>() {}.getType(),"orderList") ;
+                orderList = GsonUtil.listFromJSon(jsonString,
+                        new TypeToken<List<ProductOrder>>() {
+                        }.getType(), "orderList");
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
-                if (orderList!=null) {
+                if (orderList != null) {
                     mAdapter.notifyDataSetChanged(orderList);
                 } else {
                     showShortToast(rb.getMessage());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
             }
         });
     }
