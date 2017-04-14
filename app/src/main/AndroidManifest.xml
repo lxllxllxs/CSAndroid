@@ -123,7 +123,7 @@
         />
         <activity
             android:name=".ui.ReleaseProductAyt"
-            android:label="发布产品"
+            android:label="发布商品"
             android:screenOrientation="portrait"
             />
         <activity
@@ -143,12 +143,12 @@
             />
         <activity
             android:name=".ui.ProductDetailAty"
-            android:label="产品详情"
+            android:label="商品详情"
             android:screenOrientation="portrait"
             />
         <activity
             android:name=".ui.MyProductListAty"
-            android:label="我的产品"
+            android:label="我的商品"
             android:screenOrientation="portrait"
             />
         <activity
@@ -270,6 +270,11 @@
         <activity
             android:name=".ui.CreateReturnOrderAty"
             android:label="退货"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.RejectGoodAty"
+            android:label="退货订单"
             android:screenOrientation="portrait"
             />
     </application>

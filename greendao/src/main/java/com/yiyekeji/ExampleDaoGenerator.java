@@ -35,6 +35,7 @@ public class ExampleDaoGenerator {
 
         Entity PullMsg= schema.addEntity("PullMsg");
         PullMsg.addIdProperty();
+        PullMsg.addStringProperty("owner");
         PullMsg.addStringProperty("teacherName");
         PullMsg.addStringProperty("title");
         PullMsg.addStringProperty("courseNo");

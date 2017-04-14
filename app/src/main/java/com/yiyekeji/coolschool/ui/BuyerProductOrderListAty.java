@@ -46,7 +46,7 @@ public class BuyerProductOrderListAty extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_only_recycleview);
+        setContentView(R.layout.activity_only_pulltorefresh_recycleview);
         ButterKnife.inject(this);
         initView();
         initData();

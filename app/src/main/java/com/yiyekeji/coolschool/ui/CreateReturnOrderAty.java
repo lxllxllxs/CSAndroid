@@ -103,7 +103,7 @@ public class CreateReturnOrderAty extends BaseActivity {
         params.put("orderId", productOrder.getPoId());
         params.put("createDate", DateUtils.getTimeString());
         params.put("reason", edtDescrition.getText().toString());
-
+        params.put("userNo", App.getUserInfo().getUserNum());
         Call<ResponseBody> call = service.cancelOrder(params);
 
         call.enqueue(new Callback<ResponseBody>() {

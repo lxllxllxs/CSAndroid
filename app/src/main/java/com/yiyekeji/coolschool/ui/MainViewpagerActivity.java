@@ -179,8 +179,6 @@ public class MainViewpagerActivity extends BaseActivity {
                     for (PullMsg msg : pullMsgs) {
                         DbUtil.insertPullMsg(msg);
                     }
-                } else {
-                    showShortToast(rb.getMessage());
                 }
                 //无论结果如何都要检查有无未读消息
                 checkUnReadMsg();
