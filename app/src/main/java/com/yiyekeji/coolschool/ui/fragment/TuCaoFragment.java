@@ -197,7 +197,7 @@ public class TuCaoFragment extends BaseFragment {
                             }.getType(), "tuCaoList");
                     if (tempList != null) {
                         if (tempList.size()<1){
-                            showShortToast("暂无更多内容");
+//                            showShortToast("暂无更多内容");
                             return;
                         }
                         tuCaoList.addAll(tempList);
