@@ -130,15 +130,6 @@ public class ReleaseProductAyt extends BaseActivity {
 
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
-        try {
-            if (FileUtils.getFileSize(file)>1) {
-                showShortToast("图片不能大于1M");
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
        /* Bitmap bitmap= BitmapFactory.decodeFile(filePath);
         if (!new File(Config.IMG_TEMP_PATH).exists()) {
             new File(Config.IMG_TEMP_PATH).mkdirs();
@@ -363,6 +354,16 @@ public class ReleaseProductAyt extends BaseActivity {
         Uri selectedImage = data.getData();
         pic_path = GetPathFromUri4kitkat.getPath(this, selectedImage);
         if (TextUtils.isEmpty(pic_path)) {
+            return;
+        }
+        File file = new File(pic_path);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
+        try {
+            if (FileUtils.getFileSize(file)>1) {
+                showShortToast("图片不能大于1M");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
         //判断是否重复值

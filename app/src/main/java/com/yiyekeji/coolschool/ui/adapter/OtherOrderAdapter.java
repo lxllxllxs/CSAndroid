@@ -82,18 +82,18 @@ public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.Vi
         }
         viewHolder.tvDate.setText(DateUtils.subTimeFromMin(info.getOrderTime()));
         viewHolder.tvState.setText(info.getOrderState()==0?"待处理":"已完成");
-        //订单类型 0 打印 1 上门收件 2 代拿快递
+        //订单类型 0 打印 2上门收件  1 代拿快递
         switch (info.getOrderType()) {
             case 0:
                 viewHolder.tvOrderType.setText("打印");
                 viewHolder.tvOrderType.setTextColor(ContextCompat.getColor(context,R.color.orange));
                 break;
             case 1:
-                viewHolder.tvOrderType.setText("上门收件");
+                viewHolder.tvOrderType.setText("代拿快递");
                 viewHolder.tvOrderType.setTextColor(ContextCompat.getColor(context,R.color.theme_blue));
                 break;
             case 2:
-                viewHolder.tvOrderType.setText("代拿快递");
+                viewHolder.tvOrderType.setText("上门收件");
                 viewHolder.tvOrderType.setTextColor(ContextCompat.getColor(context,R.color.theme_purple));
                 break;
         }

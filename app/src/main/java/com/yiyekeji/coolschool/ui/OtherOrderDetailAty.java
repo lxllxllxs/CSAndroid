@@ -64,11 +64,15 @@ public class OtherOrderDetailAty extends BaseActivity {
     }
 
     private void initView() {
+
+        edtMessage.setHint("");
+
         edtRecipient.setText(otherOrder.getContactName());
         edtPhone.setText(otherOrder.getContactPhone());
         edtAddress.setText(otherOrder.getContactAddr());
         tvDeliverTime.setText(otherOrder.getTimeType());
         edtMessage.setText(otherOrder.getRemark());
+
 
         edtRecipient.setFocusable(false);
         edtPhone.setFocusable(false);
