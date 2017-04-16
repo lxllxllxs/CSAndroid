@@ -17,7 +17,7 @@
 
     <com.yiyekeji.coolschool.widget.CButton
         android:id="@+id/cb_addProduct"
-        cb:cb_text="+添加规格"
+        cb:cb_text="保存"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

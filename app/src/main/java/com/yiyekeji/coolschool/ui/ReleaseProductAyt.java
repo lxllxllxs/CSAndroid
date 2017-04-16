@@ -1,8 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
-import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
 import com.yiyekeji.coolschool.bean.ProductModel;
@@ -25,6 +22,7 @@ import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.adapter.AddImageAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.FileUtils;
 import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
@@ -32,8 +30,6 @@ import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
-
-import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -134,7 +130,16 @@ public class ReleaseProductAyt extends BaseActivity {
 
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
-        Bitmap bitmap= BitmapFactory.decodeFile(filePath);
+        try {
+            if (FileUtils.getFileSize(file)>1) {
+                showShortToast("图片不能大于1M");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+       /* Bitmap bitmap= BitmapFactory.decodeFile(filePath);
         if (!new File(Config.IMG_TEMP_PATH).exists()) {
             new File(Config.IMG_TEMP_PATH).mkdirs();
         }
@@ -142,7 +147,7 @@ public class ReleaseProductAyt extends BaseActivity {
             NativeUtil.compressBitmap(bitmap,Config.IMG_TEMP_PATH+System.currentTimeMillis()+".jpg",true);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
       /*  if (true) {
             return;
         }*/
