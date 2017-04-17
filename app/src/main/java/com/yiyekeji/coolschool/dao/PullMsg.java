@@ -7,6 +7,7 @@ package com.yiyekeji.coolschool.dao;
 public class PullMsg {
 
     private Long id;
+    private String owner;
     private String teacherName;
     private String title;
     private String courseNo;
@@ -23,8 +24,9 @@ public class PullMsg {
         this.id = id;
     }
 
-    public PullMsg(Long id, String teacherName, String title, String courseNo, String content, String date, String status, Integer isRead, String validDay) {
+    public PullMsg(Long id, String owner, String teacherName, String title, String courseNo, String content, String date, String status, Integer isRead, String validDay) {
         this.id = id;
+        this.owner = owner;
         this.teacherName = teacherName;
         this.title = title;
         this.courseNo = courseNo;
@@ -41,6 +43,14 @@ public class PullMsg {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getTeacherName() {

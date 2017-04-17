@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.TuCao;
 import com.yiyekeji.coolschool.inter.TuCaoService;
+import com.yiyekeji.coolschool.ui.MainViewpagerActivity;
 import com.yiyekeji.coolschool.ui.PublishTuCaoAyt;
 import com.yiyekeji.coolschool.ui.TuCaoDetailAty;
 import com.yiyekeji.coolschool.ui.adapter.TuCaoAdapter;
@@ -196,10 +198,10 @@ public class TuCaoFragment extends BaseFragment {
                             new TypeToken<List<TuCao>>() {
                             }.getType(), "tuCaoList");
                     if (tempList != null) {
-                        if (tempList.size()<1){
+                    /*    if (tempList.size()<1){
 //                            showShortToast("暂无更多内容");
                             return;
-                        }
+                        }*/
                         tuCaoList.addAll(tempList);
                         pullRreshAdapter.notifyDataSetChanged();
                     } else {
@@ -273,8 +275,16 @@ public class TuCaoFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.iv_publishTuCao:
                 Intent intent = new Intent(getActivity(), PublishTuCaoAyt.class);
-                startActivity(intent);
+                startActivityForResult(intent, MainViewpagerActivity.TUCAO);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode== Activity.RESULT_OK){
+            refreshTuCaoList();
         }
     }
 }

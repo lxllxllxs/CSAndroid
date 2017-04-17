@@ -24,18 +24,18 @@ public class ExampleDaoGenerator {
     private static void addSendMessage(Schema schema) {
         Entity LessonSchedule= schema.addEntity("LessonSchedule");
         LessonSchedule.addIdProperty();
-        LessonSchedule.addStringProperty("studentNo");
+        LessonSchedule.addStringProperty("studentNo");//归属
         LessonSchedule.addStringProperty("htmlString");
 
         Entity StudentScore= schema.addEntity("StudentScore");
         StudentScore.addIdProperty();
-        StudentScore.addStringProperty("studentNo");
+        StudentScore.addStringProperty("studentNo");//归属
         StudentScore.addStringProperty("htmlString");
 
 
         Entity PullMsg= schema.addEntity("PullMsg");
         PullMsg.addIdProperty();
-        PullMsg.addStringProperty("owner");
+        PullMsg.addStringProperty("owner");//归属
         PullMsg.addStringProperty("teacherName");
         PullMsg.addStringProperty("title");
         PullMsg.addStringProperty("courseNo");

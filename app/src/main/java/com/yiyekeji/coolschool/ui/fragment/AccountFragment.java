@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.BuyerProductOrderListAty;
+import com.yiyekeji.coolschool.ui.CancelOrderListAty;
 import com.yiyekeji.coolschool.ui.MyProductListAty;
 import com.yiyekeji.coolschool.ui.MyShoppingCarAty;
 import com.yiyekeji.coolschool.ui.OtherOrderListAty;
@@ -47,6 +48,8 @@ public class AccountFragment extends BaseFragment {
     LinearLayout llMyShoppingCar;
     @InjectView(R.id.ll_otherOrder)
     LinearLayout llOtherOrder;
+    @InjectView(R.id.ll_cancelOrder)
+    LinearLayout llCancelOrder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +71,7 @@ public class AccountFragment extends BaseFragment {
             llOnlySeller.setVisibility(View.VISIBLE);
         }
         //根据是否管理员身份显示
-        if (App.userInfo.getIsAdmin()==1){
+        if (App.userInfo.getIsAdmin() == 1) {
             llOtherOrder.setVisibility(View.VISIBLE);
         }
 
@@ -81,8 +84,8 @@ public class AccountFragment extends BaseFragment {
     }
 
     @OnClick({R.id.ll_userInfo, R.id.ll_setting, R.id.ll_releasPro,
-            R.id.ll_product, R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder,R.id.ll_myShoppingCar
-    ,R.id.ll_otherOrder})
+            R.id.ll_product, R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder, R.id.ll_myShoppingCar
+            , R.id.ll_otherOrder,R.id.ll_cancelOrder})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -109,6 +112,9 @@ public class AccountFragment extends BaseFragment {
                 break;
             case R.id.ll_buyerProductOrder:
                 intent.setClass(getActivity(), BuyerProductOrderListAty.class);
+                break;
+            case R.id.ll_cancelOrder:
+                intent.setClass(getActivity(), CancelOrderListAty.class);
                 break;
         }
         startActivity(intent);

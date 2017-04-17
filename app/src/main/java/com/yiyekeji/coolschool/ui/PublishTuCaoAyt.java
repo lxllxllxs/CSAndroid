@@ -257,6 +257,7 @@ public class PublishTuCaoAyt extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("发布成功！");
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     showShortToast(rb.getMessage());

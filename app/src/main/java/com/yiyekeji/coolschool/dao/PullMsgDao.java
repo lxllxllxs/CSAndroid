@@ -24,14 +24,15 @@ public class PullMsgDao extends AbstractDao<PullMsg, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property TeacherName = new Property(1, String.class, "teacherName", false, "TEACHER_NAME");
-        public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
-        public final static Property CourseNo = new Property(3, String.class, "courseNo", false, "COURSE_NO");
-        public final static Property Content = new Property(4, String.class, "content", false, "CONTENT");
-        public final static Property Date = new Property(5, String.class, "date", false, "DATE");
-        public final static Property Status = new Property(6, String.class, "status", false, "STATUS");
-        public final static Property IsRead = new Property(7, Integer.class, "isRead", false, "IS_READ");
-        public final static Property ValidDay = new Property(8, String.class, "validDay", false, "VALID_DAY");
+        public final static Property Owner = new Property(1, String.class, "owner", false, "OWNER");
+        public final static Property TeacherName = new Property(2, String.class, "teacherName", false, "TEACHER_NAME");
+        public final static Property Title = new Property(3, String.class, "title", false, "TITLE");
+        public final static Property CourseNo = new Property(4, String.class, "courseNo", false, "COURSE_NO");
+        public final static Property Content = new Property(5, String.class, "content", false, "CONTENT");
+        public final static Property Date = new Property(6, String.class, "date", false, "DATE");
+        public final static Property Status = new Property(7, String.class, "status", false, "STATUS");
+        public final static Property IsRead = new Property(8, Integer.class, "isRead", false, "IS_READ");
+        public final static Property ValidDay = new Property(9, String.class, "validDay", false, "VALID_DAY");
     };
 
 
@@ -48,14 +49,15 @@ public class PullMsgDao extends AbstractDao<PullMsg, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PULL_MSG\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"TEACHER_NAME\" TEXT," + // 1: teacherName
-                "\"TITLE\" TEXT," + // 2: title
-                "\"COURSE_NO\" TEXT," + // 3: courseNo
-                "\"CONTENT\" TEXT," + // 4: content
-                "\"DATE\" TEXT," + // 5: date
-                "\"STATUS\" TEXT," + // 6: status
-                "\"IS_READ\" INTEGER," + // 7: isRead
-                "\"VALID_DAY\" TEXT);"); // 8: validDay
+                "\"OWNER\" TEXT," + // 1: owner
+                "\"TEACHER_NAME\" TEXT," + // 2: teacherName
+                "\"TITLE\" TEXT," + // 3: title
+                "\"COURSE_NO\" TEXT," + // 4: courseNo
+                "\"CONTENT\" TEXT," + // 5: content
+                "\"DATE\" TEXT," + // 6: date
+                "\"STATUS\" TEXT," + // 7: status
+                "\"IS_READ\" INTEGER," + // 8: isRead
+                "\"VALID_DAY\" TEXT);"); // 9: validDay
     }
 
     /** Drops the underlying database table. */
@@ -74,44 +76,49 @@ public class PullMsgDao extends AbstractDao<PullMsg, Long> {
             stmt.bindLong(1, id);
         }
  
+        String owner = entity.getOwner();
+        if (owner != null) {
+            stmt.bindString(2, owner);
+        }
+ 
         String teacherName = entity.getTeacherName();
         if (teacherName != null) {
-            stmt.bindString(2, teacherName);
+            stmt.bindString(3, teacherName);
         }
  
         String title = entity.getTitle();
         if (title != null) {
-            stmt.bindString(3, title);
+            stmt.bindString(4, title);
         }
  
         String courseNo = entity.getCourseNo();
         if (courseNo != null) {
-            stmt.bindString(4, courseNo);
+            stmt.bindString(5, courseNo);
         }
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(5, content);
+            stmt.bindString(6, content);
         }
  
         String date = entity.getDate();
         if (date != null) {
-            stmt.bindString(6, date);
+            stmt.bindString(7, date);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(7, status);
+            stmt.bindString(8, status);
         }
  
         Integer isRead = entity.getIsRead();
         if (isRead != null) {
-            stmt.bindLong(8, isRead);
+            stmt.bindLong(9, isRead);
         }
  
         String validDay = entity.getValidDay();
         if (validDay != null) {
-            stmt.bindString(9, validDay);
+            stmt.bindString(10, validDay);
         }
     }
 
@@ -126,14 +133,15 @@ public class PullMsgDao extends AbstractDao<PullMsg, Long> {
     public PullMsg readEntity(Cursor cursor, int offset) {
         PullMsg entity = new PullMsg( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // teacherName
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // title
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // courseNo
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // content
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // date
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // status
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // isRead
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // validDay
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // owner
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // teacherName
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // title
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // courseNo
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // content
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // date
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // status
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // isRead
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // validDay
         );
         return entity;
     }
@@ -142,14 +150,15 @@ public class PullMsgDao extends AbstractDao<PullMsg, Long> {
     @Override
     public void readEntity(Cursor cursor, PullMsg entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setTeacherName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setCourseNo(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setContent(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setDate(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setStatus(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setIsRead(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setValidDay(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setOwner(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setTeacherName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTitle(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setCourseNo(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setContent(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setDate(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setStatus(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setIsRead(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setValidDay(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     /** @inheritdoc */

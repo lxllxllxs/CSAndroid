@@ -118,6 +118,8 @@ public class CreateReturnOrderAty extends BaseActivity {
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast(rb.getMessage());
+                    // TODO: 2017/4/17/017  这里返回
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     showShortToast(rb.getMessage());

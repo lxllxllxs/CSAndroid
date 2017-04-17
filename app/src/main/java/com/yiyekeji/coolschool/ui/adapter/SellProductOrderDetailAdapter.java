@@ -94,6 +94,8 @@ public class SellProductOrderDetailAdapter extends RecyclerView.Adapter<SellProd
         if (TextUtils.isEmpty(item.getRemark())) {
             viewHolder.llRemark.setVisibility(View.GONE);
         } else {
+            //// FIXME: 2017/4/17/017 这里忘了显示
+            viewHolder.llRemark.setVisibility(View.VISIBLE);
             viewHolder.edtMessage.setText(item.getRemark());
         }
 //        viewHolder.edtMessage.setText(item.g);

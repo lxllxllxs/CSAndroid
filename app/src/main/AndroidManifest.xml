@@ -50,6 +50,12 @@
 
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.CancleOrderDetailAty"
+            android:label="退货详情"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.TuCaoDetailAty"
             android:label="详情"
@@ -273,7 +279,7 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".ui.RejectGoodAty"
+            android:name=".ui.CancelOrderListAty"
             android:label="退货订单"
             android:screenOrientation="portrait"
             />

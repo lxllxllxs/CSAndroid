@@ -68,4 +68,11 @@ public interface ShopService {
 
     @POST("shop/cancelOrder")
     Call<ResponseBody> cancelOrder (@Body Map<String, Object> params);
+
+    @POST("shop/getCancelOrderList")
+    Call<ResponseBody> getCancelOrderList (@Body Map<String, Object> params);
+
+    @POST("shop/updateCancelOrderState")
+    Call<ResponseBody> updateCancelOrderState (@Body Map<String, Object> params);
+
 }

@@ -247,4 +247,20 @@ public class MainViewpagerActivity extends BaseActivity {
             App.removeAllActivity();
         }
     }
+
+    public static final int TUCAO = 837;
+    /*在fragment的管理类中，我们要实现这部操作，而他的主要作用是，当D这个activity回传数据到
+        这里碎片管理器下面的fragnment中时，往往会经过这个管理器中的onActivityResult的方法。*/
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*在这里，我们通过碎片管理器中的Tag，就是每个碎片的名称，来获取对应的fragment*/
+        switch (requestCode){
+            case TUCAO:
+                Fragment f =fragmentList.get(2);
+                /*然后在碎片中调用重写的onActivityResult方法*/
+                f.onActivityResult(requestCode, resultCode, data);
+                break;
+            
+        }
+    }
 }

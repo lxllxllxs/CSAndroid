@@ -46,6 +46,7 @@ public class DbUtil {
 
     public static void insertPullMsg(PullMsg pullMsg){
         pullMsg.setIsRead(0);//默认都是未读
+        pullMsg.setOwner(App.getUserInfo().getUserNum());
         //只要关心是否同信息 不用知道接收的
         Query query = pullMsgDao.queryBuilder()
                 .where(PullMsgDao.Properties.Id.eq(pullMsg.getId()))

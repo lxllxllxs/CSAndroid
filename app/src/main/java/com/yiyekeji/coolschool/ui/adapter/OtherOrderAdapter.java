@@ -74,7 +74,7 @@ public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         OtherOrder info = orderList.get(i);
-        viewHolder.tvTitle.setText(info.getContactName().concat(info.getContactAddr()));
+        viewHolder.tvTitle.setText(info.getContactName()+"   ".concat(info.getContactAddr()));
         if (info.getOrderState() == 1) {
             viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
         } else {

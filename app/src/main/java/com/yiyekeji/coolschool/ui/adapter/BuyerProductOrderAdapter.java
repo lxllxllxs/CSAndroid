@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductOrder;
 import com.yiyekeji.coolschool.ui.CreateReturnOrderAty;
+import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -73,30 +74,33 @@ public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductO
      * 0是待送货
      * 1是完成送货
      * 2是退货中
+     * 3 是退货完成
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         final ProductOrder info = productInfos.get(i);
         viewHolder.tvProductName.setText(info.getpTitle());
         if (info.getPoState() == 1) {
-            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
             viewHolder.tvReject.setVisibility(View.VISIBLE);
-        } else if (info.getPoState() == 0) {
-            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
-            viewHolder.tvReject.setVisibility(View.GONE);
         } else {
-            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
             viewHolder.tvReject.setVisibility(View.GONE);
         }
         switch (info.getPoState()){
             case  0:
                 viewHolder.tvState.setText("待送货");
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context,R.color.theme_red));
                 break;
             case  1:
                 viewHolder.tvState.setText("已完成");
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context,R.color.weixin_green));
                 break;
             case  2:
                 viewHolder.tvState.setText("退货中");
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context,R.color.theme_red));
+                break;
+            case  3:
+                viewHolder.tvState.setText("退货完成");
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context,R.color.weixin_green));
                 break;
         }
         if (mOnItemClickLitener != null) {
@@ -113,7 +117,7 @@ public class BuyerProductOrderAdapter extends RecyclerView.Adapter<BuyerProductO
             public void onClick(View v) {
                 Intent intent = new Intent(context, CreateReturnOrderAty.class);
                 intent.putExtra("info", info);
-                context.startActivity(intent);
+                ((BaseActivity)context).startActivityForResult(intent,0);
             }
         });
     }

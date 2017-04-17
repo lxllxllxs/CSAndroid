@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,8 +70,7 @@ public class BuyerProductOrderListAty extends BaseActivity {
             //下拉刷新
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-
-                getMyProductOrderList();
+                refreshData();
             }
             //上拉加载
             @Override
@@ -90,6 +90,11 @@ public class BuyerProductOrderListAty extends BaseActivity {
                 startActivity(intent);*/
             }
         });
+    }
+
+    //// TODO: 2017/4/17/017  这里要改成 可以处理 分页加载的方法
+    private void refreshData(){
+        getMyProductOrderList();
     }
 
     private void initData() {
@@ -136,4 +141,11 @@ public class BuyerProductOrderListAty extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            refreshData();
+        }
+    }
 }
