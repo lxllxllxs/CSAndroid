@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.db;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.dao.DaoMaster;
@@ -139,11 +140,17 @@ public class DbUtil {
 
 
     /**
+     *  fixme 根据owner获得其所有
      * 获得所有通知消息
      * @return
      */
     public static List<PullMsg> getAllPullMsg(){
+        String  owner=App.getUserInfo().getUserNum();
+        if (TextUtils.isEmpty(owner)) {
+            return new ArrayList<>();
+        }
         Query query = pullMsgDao.queryBuilder()
+                .where(PullMsgDao.Properties.Owner.eq(owner))
                 .build();
         if (!query.list().isEmpty()) {
             List<PullMsg> list = query.list();
