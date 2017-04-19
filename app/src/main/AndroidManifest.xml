@@ -52,6 +52,11 @@
         </activity>
 
         <activity
+            android:name=".ui.SelectProductImageAty"
+            android:label="选择图片"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".ui.CancleOrderDetailAty"
             android:label="退货详情"
             android:screenOrientation="portrait"
