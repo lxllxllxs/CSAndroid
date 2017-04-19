@@ -3,9 +3,7 @@ package com.yiyekeji.coolschool.test;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.xys.libzxing.zxing.encoding.EncodingUtils;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -24,7 +22,7 @@ public class TestZxingCreateAty extends BaseActivity {
     }
 
     public void createQRCode() {
-        try {
+     /*   try {
             //生成二维码图片，第一个参数是二维码的内容，第二个参数是正方形图片的边长，单位是像素
             Bitmap qrcodeBitmap = EncodingUtils.createQRCode("lxlxllx", 600,600,null);
             if (qrcodeBitmap!=null) {
@@ -34,7 +32,7 @@ public class TestZxingCreateAty extends BaseActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public byte[] Bitmap2Bytes(Bitmap bm) {

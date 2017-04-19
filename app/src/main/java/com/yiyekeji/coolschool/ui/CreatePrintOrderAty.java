@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ChoseBean;
@@ -94,9 +93,9 @@ public class CreatePrintOrderAty extends BaseActivity {
                 startActivityForResult(intent, 0);
                 break;
             case R.id.tv_addFile:
-                Intent intent1=new Intent();
+              /*  Intent intent1=new Intent();
                 intent1.setClass(CreatePrintOrderAty.this, CaptureActivity.class);
-                startActivityForResult(intent1,1);
+                startActivityForResult(intent1,1);*/
                 break;
         }
     }

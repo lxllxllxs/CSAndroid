@@ -1,1 +1,1 @@
-include ':app', ':zxing', ':pulltorefresh', ':greendao'
+include ':app', ':pulltorefresh', ':greendao'

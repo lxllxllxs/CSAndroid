@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 
@@ -29,8 +28,8 @@ public class TestZxingScanAty extends BaseActivity {
 
     @OnClick(R.id.tv_jump)
     public void onClick() {
-        Intent intent = new Intent(TestZxingScanAty.this, CaptureActivity.class);
-        startActivityForResult(intent,0);
+    /*    Intent intent = new Intent(TestZxingScanAty.this, CaptureActivity.class);
+        startActivityForResult(intent,0);*/
     }
 
     @Override
