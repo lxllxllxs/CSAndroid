@@ -1,11 +1,9 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
-import com.yiyekeji.coolschool.Config;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
 import com.yiyekeji.coolschool.bean.ProductInfo;
@@ -33,8 +30,6 @@ import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
-
-import net.bither.util.NativeUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -113,7 +108,7 @@ public class EditProductAyt extends BaseActivity {
         edtDescrition.setText(productInfo.getpDescrition());
         imgPathList=productInfo.getPictureList();
         imageAdapter = new AddImageAdapter(this, imgPathList);
-        rvImgs.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        rvImgs.setLayoutManager(new GridLayoutManager(this,3));
         rvImgs.setAdapter(imageAdapter);
         imageAdapter.setOnItemClickLitener(new AddImageAdapter.OnItemClickLitener() {
             @Override
@@ -139,18 +134,6 @@ public class EditProductAyt extends BaseActivity {
 
     private void upLoadImage(final String filePath) {
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
-        Bitmap bitmap= BitmapFactory.decodeFile(filePath);
-        if (!new File(Config.IMG_TEMP_PATH).exists()) {
-            new File(Config.IMG_TEMP_PATH).mkdirs();
-        }
-        try {
-            NativeUtil.compressBitmap(bitmap,Config.IMG_TEMP_PATH+System.currentTimeMillis()+".jpg",true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-      /*  if (true) {
-            return;
-        }*/
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(), requestFile);
         MultipartBody.Part part2 = MultipartBody.Part.createFormData("userNum", App.userInfo.getUserNum());

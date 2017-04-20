@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -20,7 +19,6 @@ import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
-import com.yiyekeji.coolschool.widget.DividerItemDecoration;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -104,13 +102,9 @@ public class SelectProductImageAty extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    imageList=GsonUtil.listFromJSon(jsonString,
-                            new TypeToken<List<ProductImage>>() {
-                            }.getType(), "productImages");
-                    if (imageList == null) {
-                        return;
-                    }
-                    mAdapter.notifyDataSetChanged(imageList);
+                    //需要移除 被删的
+                    imageList.remove(image);
+                    mAdapter.notifyDataSetChanged();
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -139,6 +133,7 @@ public class SelectProductImageAty extends BaseActivity {
                     titleBar.setTvRightText("编辑");
                 } else {
                     isEdit = true;
+                    titleBar.setTvRightText("完成");
                     mAdapter.setDelVisiable(true);
                 }
 
