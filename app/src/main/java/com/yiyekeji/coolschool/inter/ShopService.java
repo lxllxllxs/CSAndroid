@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.inter;
 
 import com.yiyekeji.coolschool.bean.CreateProductOrderInfo;
+import com.yiyekeji.coolschool.bean.ProductImage;
 import com.yiyekeji.coolschool.bean.ReleaseProduct;
 
 import java.util.Map;
@@ -78,4 +79,6 @@ public interface ShopService {
     @POST("shop/getProductImages")
     Call<ResponseBody> getProductImages (@Body Map<String, Object> params);
 
+    @POST("shop/delImage")
+    Call<ResponseBody> delImage(@Body ProductImage image);
 }

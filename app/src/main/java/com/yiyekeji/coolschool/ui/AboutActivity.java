@@ -86,7 +86,8 @@ public class AboutActivity extends BaseActivity {
                 }
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    GlideUtil.setImageToView(rb.getMessage(), ivShareApp);
+                    // FIXME: 2017/4/20/020 不使用任何缓存
+                    GlideUtil.setImage2ViewNoCache(rb.getMessage(), ivShareApp);
                 }
             }
 

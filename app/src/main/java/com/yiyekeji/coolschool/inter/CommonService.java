@@ -38,5 +38,4 @@ public interface CommonService {
 
     @POST("common/commitFeedBack")
     Call<ResponseBody> commitFeedBack(@Body Map<String, Object> params);
-
 }

@@ -62,7 +62,6 @@ public class SelectImageAdapter extends RecyclerView.Adapter<SelectImageAdapter.
         viewHolder.ivAdd = (ImageView) view.findViewById(R.id.iv_add);
         viewHolder.ivDel = (ImageView) view.findViewById(R.id.iv_del);
 
-        viewHolder.ivAdd.setVisibility(View.GONE);
         viewHolder.ivDel.setVisibility(View.GONE);
         return viewHolder;
     }
@@ -74,6 +73,11 @@ public class SelectImageAdapter extends RecyclerView.Adapter<SelectImageAdapter.
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 
         ProductImage image=imgList.get(i);
+        if (!isDelVisiable) {
+            viewHolder.ivDel.setVisibility(View.GONE);
+        } else {
+            viewHolder.ivDel.setVisibility(View.VISIBLE);
+        }
         GlideUtil.setImageToView(image.getImgUrl(),viewHolder.ivAdd);
         if (onItemClickLitener2 != null) {
             viewHolder.ivDel.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +94,12 @@ public class SelectImageAdapter extends RecyclerView.Adapter<SelectImageAdapter.
         void onItemClick(View view, int position);
     }
 
+
+    boolean isDelVisiable = false;
+    public void setDelVisiable(boolean b){
+        isDelVisiable = b;
+        notifyDataSetChanged();
+    }
 
     public OnItemClickLitener mOnItemClickLitener,onItemClickLitener2;
 

@@ -28,6 +28,18 @@ public class GlideUtil {
                 .into(imageView);
     }
 
+    //不设置任何缓存
+    public static void setImage2ViewNoCache(String url, ImageView imageView) {
+        if (TextUtils.isEmpty(url)||imageView==null) {
+            return;
+        }
+        Glide.with(App.getContext())
+                .load(Uri.parse(url))
+                .placeholder(R.mipmap.loading_pic) //占位符 也就是加载中的图片，可放个gif
+                .error(R.mipmap.load_fail)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(imageView);
+    }
 
 
     //裁剪
