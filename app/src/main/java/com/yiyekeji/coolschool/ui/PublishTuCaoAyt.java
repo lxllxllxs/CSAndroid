@@ -88,8 +88,8 @@ public class PublishTuCaoAyt extends BaseActivity {
         // TODO: 2017/4/1 这里可能要添加大小限制
         File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         try {
-            if (FileUtils.getFileSize(file)>1) {
-                showShortToast("图片不能大于1M");
+            if (FileUtils.getFileSize(file)>200) {
+                showShortToast("图片不能大于200k");
                 return;
             }
         } catch (Exception e) {
@@ -209,7 +209,6 @@ public class PublishTuCaoAyt extends BaseActivity {
         switch (requestCode) {
             //处理图库返回
             case CHOOSE_IMAGE:
-                tvAddImg.setText("换一张");
                 showImg(data);
                 break;
             //处理相机返回
@@ -277,6 +276,17 @@ public class PublishTuCaoAyt extends BaseActivity {
         if (TextUtils.isEmpty(pic_path)) {
             return;
         }
+        File file = new File(pic_path);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
+        try {
+            if (FileUtils.getFileSize(file)>200) {
+                showShortToast("图片不能大于200k");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        tvAddImg.setText("换一张");
         llImg.setVisibility(View.VISIBLE);
         imgPathList.clear();
         imgPathList.add(pic_path);

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductInfo;
+import com.yiyekeji.coolschool.ui.EditProductAyt;
 import com.yiyekeji.coolschool.ui.SelectProductImageAty;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -83,8 +84,8 @@ public class MyProductListAdapter extends RecyclerView.Adapter<MyProductListAdap
         viewHolder.tvModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, EditProductAyt.class);
-                Intent intent = new Intent(context, SelectProductImageAty.class);
+                Intent intent = new Intent(context, EditProductAyt.class);
+//                Intent intent = new Intent(context, SelectProductImageAty.class);
                 intent.putExtra("pId",info.getPid());
                 context.startActivity(intent);
             }

@@ -42,6 +42,11 @@ public class SelectProductImageAty extends BaseActivity {
     @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    boolean isEdit = false;
+    SelectImageAdapter mAdapter;
+
+   static List<ProductImage> imageList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +56,57 @@ public class SelectProductImageAty extends BaseActivity {
         initData();
     }
 
+
+    private void initView() {
+        titleBar.initView(this);
+
+        titleBar.setTvRight("编辑", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isEdit) {
+                    isEdit = false;
+                    mAdapter.setDelVisiable(false);
+                    titleBar.setTvRightText("编辑");
+                } else {
+                    isEdit = true;
+                    titleBar.setTvRightText("完成");
+                    mAdapter.setDelVisiable(true);
+                }
+
+            }
+        });
+
+        mAdapter=new SelectImageAdapter(this,imageList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,5));
+        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
+        mAdapter.setOnItemClickLitener(new SelectImageAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ProductImage image=imageList.get(position);
+                Intent intent=new Intent();
+                intent.putExtra("image",image);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+        //删除
+        mAdapter.setDelOnClickListener(new SelectImageAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ProductImage image =imageList.get(position);
+                showDialog(image);
+            }
+        });
+        recyclerView.setAdapter(mAdapter);
+    }
+
     private void initData() {
+        if (imageList.isEmpty()) {
+            getProductImages();
+        }
+    }
+
+    private void getProductImages() {
         ShopService service = RetrofitUtil.create(ShopService.class);
         Map<String, Object> params = new HashMap<>();
         params.put("userNo", App.getUserInfo().getUserNum());
@@ -84,7 +139,6 @@ public class SelectProductImageAty extends BaseActivity {
                 dismissDialog();
             }
         });
-
     }
 
     private void  delImage(final  ProductImage image){
@@ -116,54 +170,6 @@ public class SelectProductImageAty extends BaseActivity {
         });
 
     }
-
-
-    boolean isEdit = false;
-    SelectImageAdapter mAdapter;
-    List<ProductImage> imageList = new ArrayList<>();
-    private void initView() {
-        titleBar.initView(this);
-
-        titleBar.setTvRight("编辑", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isEdit) {
-                    isEdit = false;
-                    mAdapter.setDelVisiable(false);
-                    titleBar.setTvRightText("编辑");
-                } else {
-                    isEdit = true;
-                    titleBar.setTvRightText("完成");
-                    mAdapter.setDelVisiable(true);
-                }
-
-            }
-        });
-
-        mAdapter=new SelectImageAdapter(this,imageList);
-        //删除
-        mAdapter.setDelOnClickListener(new SelectImageAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                ProductImage image =imageList.get(position);
-                showDialog(image);
-            }
-        });
-        recyclerView.setLayoutManager(new GridLayoutManager(this,5));
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
-        mAdapter.setOnItemClickLitener(new SelectImageAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                ProductImage image= (ProductImage) imageList.get(position);
-                Intent intent=new Intent();
-                intent.putExtra("image",image);
-                setResult(RESULT_OK,intent);
-                finish();
-            }
-        });
-    }
-
 
     public void showDialog(final ProductImage image) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

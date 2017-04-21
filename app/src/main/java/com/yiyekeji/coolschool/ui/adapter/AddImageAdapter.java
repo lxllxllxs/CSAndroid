@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,19 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
     private LayoutInflater mInflater;
     private List<String> imgPathList;
     private Context context;
+    private int type=0;
 
     public AddImageAdapter(Context context, List<String> imgPathList) {
         this.imgPathList = imgPathList;
         mInflater = LayoutInflater.from(context);
         this.context = context;
+    }
+
+    public AddImageAdapter(Context context, List<String> imgPathList,int type) {
+        this.imgPathList = imgPathList;
+        mInflater = LayoutInflater.from(context);
+        this.context = context;
+        this.type=type;
     }
 
     public void notifyDataSetChanged(List<String> imgPathList) {
@@ -58,7 +67,18 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.item_add_image_adapter, viewGroup, false);
+        View view;
+        switch (type){
+            case 0:
+                view = mInflater.inflate(R.layout.item_add_image_adapter, viewGroup, false);
+                break;
+            case 1:
+                view = mInflater.inflate(R.layout.item_add_image_240_adapter, viewGroup, false);
+                break;
+            default:
+                view = mInflater.inflate(R.layout.item_add_image_adapter, viewGroup, false);
+                break;
+        }
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.flContainer=(FrameLayout)view.findViewById(R.id.fl_container);
         viewHolder.ivAdd = (ImageView) view.findViewById(R.id.iv_add);
@@ -74,6 +94,7 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
 
         String path=imgPathList.get(i);
         //如果是数字 即为resId
+
         if (RegexUtils.checkDigit(path)){
             viewHolder.ivAdd.setImageResource(Integer.valueOf(path));
             viewHolder.ivDel.setVisibility(View.GONE);
@@ -81,6 +102,8 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.ViewHo
         } else if (path.contains("http://")) {
             viewHolder.ivDel.setVisibility(View.VISIBLE);
             GlideUtil.setImageToView(path,viewHolder.ivAdd);
+        }else if (TextUtils.isEmpty(path)) {
+            viewHolder.ivDel.setVisibility(View.INVISIBLE);
         } else {
             viewHolder.ivDel.setVisibility(View.VISIBLE);
             viewHolder.ivAdd.setImageBitmap(zoomImage(i));

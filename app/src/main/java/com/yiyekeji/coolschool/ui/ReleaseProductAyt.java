@@ -358,7 +358,7 @@ public class ReleaseProductAyt extends BaseActivity {
         }
         File file = new File(pic_path);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
         try {
-            if (FileUtils.getFileSize(file)>1) {
+            if (FileUtils.getFileSize(file)>1024) {
                 showShortToast("图片不能大于1M");
                 return;
             }

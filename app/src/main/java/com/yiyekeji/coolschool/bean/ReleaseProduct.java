@@ -9,10 +9,20 @@ import java.util.ArrayList;
  * Created by lxl on 2017/1/20.
  */
 public class ReleaseProduct implements Parcelable {
+    // TODO: 2017/4/21/021 这个值默认为0
+    private int pId;
+    public int getpId() {
+        return pId;
+    }
+
+    public void setpId(int pId) {
+        this.pId = pId;
+    }
 
     private String tokenId;
     private String pTitle;
     private String pDescrition;
+
 
     public String getTokenId() {
         return tokenId;
@@ -86,6 +96,9 @@ public class ReleaseProduct implements Parcelable {
     }
 
 
+    public ReleaseProduct() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,6 +106,7 @@ public class ReleaseProduct implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.pId);
         dest.writeString(this.tokenId);
         dest.writeString(this.pTitle);
         dest.writeString(this.pDescrition);
@@ -103,10 +117,8 @@ public class ReleaseProduct implements Parcelable {
         dest.writeTypedList(this.modelList);
     }
 
-    public ReleaseProduct() {
-    }
-
     protected ReleaseProduct(Parcel in) {
+        this.pId = in.readInt();
         this.tokenId = in.readString();
         this.pTitle = in.readString();
         this.pDescrition = in.readString();
@@ -118,7 +130,7 @@ public class ReleaseProduct implements Parcelable {
         this.modelList = in.createTypedArrayList(ProductModel.CREATOR);
     }
 
-    public static final Parcelable.Creator<ReleaseProduct> CREATOR = new Parcelable.Creator<ReleaseProduct>() {
+    public static final Creator<ReleaseProduct> CREATOR = new Creator<ReleaseProduct>() {
         @Override
         public ReleaseProduct createFromParcel(Parcel source) {
             return new ReleaseProduct(source);

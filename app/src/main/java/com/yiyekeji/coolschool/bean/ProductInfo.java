@@ -13,6 +13,33 @@ public class ProductInfo implements Parcelable {
     private  String pTitle;
     private  String supplierNum;
 
+    private Integer pcId;
+    public Integer getpcId() {
+        return pcId;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductInfo{" +
+                "pImage='" + pImage + '\'' +
+                ", pTitle='" + pTitle + '\'' +
+                ", supplierNum='" + supplierNum + '\'' +
+                ", pcId=" + pcId +
+                ", pUnit='" + pUnit + '\'' +
+                ", pState=" + pState +
+                ", pDescrition='" + pDescrition + '\'' +
+                ", pId=" + pId +
+                ", pPrice=" + pPrice +
+                ", pSalenum=" + pSalenum +
+                ", modelList=" + modelList +
+                ", pictureList=" + pictureList +
+                '}';
+    }
+
+    public void setpcId(Integer pcId) {
+        this.pcId = pcId;
+    }
+
     public String getSupplierNum() {
         return supplierNum;
     }
@@ -34,22 +61,6 @@ public class ProductInfo implements Parcelable {
 
     public int getpState() {
         return pState;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductInfo{" +
-                "pImage='" + pImage + '\'' +
-                ", pTitle='" + pTitle + '\'' +
-                ", pUnit='" + pUnit + '\'' +
-                ", pState=" + pState +
-                ", pDescrition='" + pDescrition + '\'' +
-                ", pId=" + pId +
-                ", pPrice=" + pPrice +
-                ", pSalenum=" + pSalenum +
-                ", modelList=" + modelList +
-                ", pictureList=" + pictureList +
-                '}';
     }
 
     public void setpState(int pState) {
@@ -155,6 +166,7 @@ public class ProductInfo implements Parcelable {
         dest.writeString(this.pImage);
         dest.writeString(this.pTitle);
         dest.writeString(this.supplierNum);
+        dest.writeValue(this.pcId);
         dest.writeString(this.pUnit);
         dest.writeInt(this.pState);
         dest.writeString(this.pDescrition);
@@ -169,6 +181,7 @@ public class ProductInfo implements Parcelable {
         this.pImage = in.readString();
         this.pTitle = in.readString();
         this.supplierNum = in.readString();
+        this.pcId = (Integer) in.readValue(Integer.class.getClassLoader());
         this.pUnit = in.readString();
         this.pState = in.readInt();
         this.pDescrition = in.readString();

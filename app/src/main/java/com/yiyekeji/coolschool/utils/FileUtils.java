@@ -24,6 +24,6 @@ public class FileUtils {
             file.createNewFile();
             Log.e("获取文件大小", "文件不存在!");
         }
-        return size / 1024/1024;
+        return size / 1024;
     }
 }

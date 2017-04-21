@@ -87,6 +87,14 @@ public class SelectImageAdapter extends RecyclerView.Adapter<SelectImageAdapter.
                 }
             });
         }
+        if (mOnItemClickLitener != null) {
+            viewHolder.flContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickLitener.onItemClick(v,i);
+                }
+            });
+        }
     }
 
 

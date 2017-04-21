@@ -2,6 +2,9 @@ package com.yiyekeji.coolschool.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.EditText;
 
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ProductModel;
+import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -31,6 +35,10 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
     public void notifyDataSetChanged(List<ProductModel> modelList) {
         this.modelList = modelList;
         notifyDataSetChanged();
+    }
+
+    public void setData() {
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,7 +81,7 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
         viewHolder.edtPrice.setText(productModel.getPmPrice());
         viewHolder.edtBalance.setText(productModel.getPmBalance() + "");
 
-      /*  viewHolder.edtModel.addTextChangedListener(new TextWatcher() {
+        viewHolder.edtModel.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -84,6 +92,9 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString())){
+                    return;
+                }
                 modelList.get(i).setPmTitle(s.toString());
             }
         });
@@ -99,6 +110,9 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString())){
+                    return;
+                }
                 modelList.get(i).setPmPrice(s.toString());
             }
         });
@@ -119,7 +133,7 @@ public class ProductModelAdapter extends RecyclerView.Adapter<ProductModelAdapte
                 }
                 modelList.get(i).setPmBalance(Integer.valueOf(s.toString()));
             }
-        });*/
+        });
 
     }
 

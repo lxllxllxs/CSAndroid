@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
+import com.yiyekeji.coolschool.bean.ProductImage;
 import com.yiyekeji.coolschool.bean.ProductInfo;
 import com.yiyekeji.coolschool.bean.ProductModel;
 import com.yiyekeji.coolschool.bean.ReleaseProduct;
@@ -69,10 +70,9 @@ public class EditProductAyt extends BaseActivity {
 
 
     CommonService service;
-    ArrayList<Integer> imgsId = new ArrayList<>();
+    ArrayList<Integer> imgsId = new ArrayList<>(5);
 
-    String pic_path;
-    List<String> imgPathList = new ArrayList<>();
+    List<String> imgPathList = new ArrayList<>(5);
     ReleaseProduct releaseProduct = new ReleaseProduct();
     final int CHOOSE_IMAGE = 0x123;
     final int SELECT_CATEGORY = 0x122;
@@ -88,16 +88,19 @@ public class EditProductAyt extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_release_product);
+        setContentView(R.layout.activity_edit_product);
         ButterKnife.inject(this);
         titleBar.initView(this);
         initData();
     }
 
     private void initData() {
+        for (int i=0;i<5;i++){
+            imgPathList.add("");
+            imgsId.add(0);
+        }
         service = RetrofitUtil.create(CommonService.class);
         int pId=getIntent().getIntExtra("pId",0);
-        releaseProduct.setModelList(new ArrayList<ProductModel>());
         getProductInfo(pId);
     }
 
@@ -106,85 +109,42 @@ public class EditProductAyt extends BaseActivity {
         ledtUtil.setEditText(productInfo.getpUnit());
         ledtTitle.setEditText(productInfo.getpTitle());
         edtDescrition.setText(productInfo.getpDescrition());
-        imgPathList=productInfo.getPictureList();
-        imageAdapter = new AddImageAdapter(this, imgPathList);
+//        imgPathList=productInfo.getPictureList();
+
+        imageAdapter = new AddImageAdapter(this,imgPathList,1);
         rvImgs.setLayoutManager(new GridLayoutManager(this,3));
         rvImgs.setAdapter(imageAdapter);
         imageAdapter.setOnItemClickLitener(new AddImageAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                selectImg();
+                // TODO: 2017/4/21/021 记录位置
+                currentIndex = position;
+                Intent intent = new Intent(EditProductAyt.this,SelectProductImageAty.class);
+                startActivityForResult(intent, CHOOSE_IMAGE);
             }
         });
 
         imageAdapter.setDelOnClickListener(new AddImageAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (RegexUtils.checkDigit(imgPathList.get(position))||imgPathList.size()==1) {
-                    imgPathList.set(position,R.mipmap.ic_add_pic+"");
-                    imageAdapter.notifyDataSetChanged();
-                    return;
-                }
-                imgPathList.remove(position);
+                imgPathList.set(position,"");
+                imgsId.set(position,0);
                 imageAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-
-    private void upLoadImage(final String filePath) {
-        File file = new File(filePath);//访问手机端的文件资源，保证手机端sdcdrd中必须有这个文件
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData("fileUpload", file.getName(), requestFile);
-        MultipartBody.Part part2 = MultipartBody.Part.createFormData("userNum", App.userInfo.getUserNum());
-        MultipartBody.Part part3 = MultipartBody.Part.createFormData("type", "0");
-        showLoadDialog("");
-        Call<ResponseBody> call = service.upload(part, part2, part3);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                dismissDialog();
-                if (response.code() != 200) {
-                    showShortToast("网络错误" + response.code());
-                    return;
-                }
-                String jsonString = GsonUtil.toJsonString(response);
-                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
-                if (rb.getResult().equals("1")) {
-                    List<Integer> ids = GsonUtil.listFromJSon(jsonString,
-                            new TypeToken<List<Integer>>() {
-                            }.getType(), "idS");
-                    imgPathList.remove(filePath);//无论如何都不再重试
-                    if (ids != null) {
-                        imgsId.addAll(ids);
-                        LogUtil.d("上传成功！");
-                    } else {
-                        LogUtil.d("上传失败！");
-                    }
-                    if (imgPathList.size() > 0) {
-                        upLoadImage(imgPathList.get(0));
-                        return;
-                    }
-                    setReleaseProduct();
-                    releaseProduct();
-                    LogUtil.d("总共上传文件大小：" + imgsId.size() + "");
-                } else {
-                    showShortToast(rb.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                dismissDialog();
-                showShortToast(getString(R.string.response_err));
-                t.printStackTrace();
             }
         });
     }
 
     private void setReleaseProduct() {
         releaseProduct.setSupplierNum(App.userInfo.getUserNum());
-        Collections.sort(imgsId);
+        List<Integer> tempList = new ArrayList<>();
+        for (int i:imgsId){
+            if (i==0){
+                tempList.add(i);
+            }
+        }
+        imgsId.removeAll(tempList);
+        // TODO: 2017/4/21/021 注意这里要传入产品的id
+        releaseProduct.setpId(productInfo.getpId());
         releaseProduct.setPictureIdList(imgsId);
     }
 
@@ -208,13 +168,15 @@ public class EditProductAyt extends BaseActivity {
             case R.id.tv_confirm:
                 //先检查 有无空参数(除了默认的添加图片)
                 if (check()) {
-                    if (imgPathList.contains(R.mipmap.ic_add_pic+"")) {
-                        imgPathList.remove(R.mipmap.ic_add_pic + "");
+                    if (imgPathList.contains("")) {
+                        imgPathList.remove("");
                     }
                     if (imgPathList.isEmpty()){
                         return;
                     }
-                    upLoadImage(imgPathList.get(0));
+//                    upLoadImage(imgPathList.get(0));
+                    setReleaseProduct();
+                    releaseProduct();
                 }
                 break;
         }
@@ -243,6 +205,8 @@ public class EditProductAyt extends BaseActivity {
                     if (productInfo == null) {
                         return;
                     }
+                    // TODO: 2017/4/21/021 获得原先的
+                    releaseProduct.setModelList(productInfo.getModelList());
                     initViewAfter();
                 } else {
                     showShortToast(rb.getMessage());
@@ -259,10 +223,6 @@ public class EditProductAyt extends BaseActivity {
 
 
     private boolean check() {
-        if (imgPathList.size()==1&&RegexUtils.checkDigit(imgPathList.get(0))){
-            showShortToast("图片不能为空！");
-            return false;
-        }
         if (TextUtils.isEmpty(ledtTitle.getEditText())) {
             showShortToast("标题不能为空！");
             return false;
@@ -293,12 +253,6 @@ public class EditProductAyt extends BaseActivity {
         return true;
     }
 
-    private void selectImg() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, CHOOSE_IMAGE);
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -353,7 +307,7 @@ public class EditProductAyt extends BaseActivity {
         ShopService service = RetrofitUtil.create(ShopService.class);
 
         releaseProduct.setTokenId(App.geTokenId());
-        Call<ResponseBody> call = service.publicProduct(releaseProduct);
+        Call<ResponseBody> call = service.editProduct(releaseProduct);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -366,7 +320,7 @@ public class EditProductAyt extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
-                    showShortToast("发布成功！");
+                    showShortToast("修改成功！");
                     finish();
                 } else {
                     showShortToast(rb.getMessage());
@@ -380,21 +334,27 @@ public class EditProductAyt extends BaseActivity {
         });
     }
 
-    private void showImg(Intent data) {
-        Uri selectedImage = data.getData();
-        pic_path = GetPathFromUri4kitkat.getPath(this, selectedImage);
-        if (TextUtils.isEmpty(pic_path)) {
-            return;
-        }
-        //判断是否重复值
-        if (imgPathList.contains(pic_path)) {
-            return;
-        }
-        //
-        if (imgPathList.size() >= 5) {
-            imgPathList.remove(0);
-        }
-        imgPathList.add(pic_path);
+
+    private int currentIndex=0;
+    private void showImg(Intent intent) {
+        ProductImage selectedImage = intent.getParcelableExtra("image");
+     /*   switch (currentIndex) {
+            case 0:
+
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+
+        }*/
+        // TODO: 2017/4/21/021 图片显示和实际上传的图片id分开  sortId暂未使用
+        imgPathList.set(currentIndex,selectedImage.getImgUrl());
+        imgsId.set(currentIndex, selectedImage.getId());
         imageAdapter.notifyDataSetChanged();
 
     }
