@@ -14,9 +14,9 @@
             android:type="sweep"
             android:useLevel="false"
             android:startColor="#6BD3FF"
-            android:centerColor="#FF7121"
+            android:centerColor="#73D1C4"
             android:centerY="0.50"
-            android:endColor="#FFFF00" />
+            android:endColor="#11D31D" />
     </shape>
 
 </animated-rotate>

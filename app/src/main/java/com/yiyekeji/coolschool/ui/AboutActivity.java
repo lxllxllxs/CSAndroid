@@ -157,9 +157,12 @@ public class AboutActivity extends BaseActivity {
                                     }
                                 })
                                 .show();
+                    } else {
+                        showShortToast(getString(R.string.check_version));
                     }
+
                 } else {
-                    showShortToast(getString(R.string.check_version));
+                    showShortToast("服务器异常");
                 }
             }
 
