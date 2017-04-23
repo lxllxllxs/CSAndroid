@@ -1,5 +1,6 @@
 package com.yiyekeji.coolschool.ui.base;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,11 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.addActivity(this);
+    /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setEnterTransition(new Slide().setDuration(2000));
+            getWindow().setExitTransition(new Slide().setDuration(2000));
+        }*/
+
   /*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -148,6 +154,22 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
     public void startActivity(Class<?extends BaseActivity> activity){
         Intent intent =new Intent(this,activity);
         startActivity(intent);
+    }
+
+    public void startActivityWithAnima(Intent intent){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
+    }
+    public void startActivityWithAnima(Class<?extends BaseActivity> activity){
+        Intent intent =new Intent(this,activity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     @Override

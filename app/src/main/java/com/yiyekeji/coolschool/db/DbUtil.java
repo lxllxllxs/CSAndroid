@@ -140,7 +140,7 @@ public class DbUtil {
 
 
     /**
-     *  fixme 根据owner获得其所有
+     *  fixme 根据owner获得其所有 注意排序
      * 获得所有通知消息
      * @return
      */
@@ -151,6 +151,7 @@ public class DbUtil {
         }
         Query query = pullMsgDao.queryBuilder()
                 .where(PullMsgDao.Properties.Owner.eq(owner))
+                .orderDesc(PullMsgDao.Properties.Id)
                 .build();
         if (!query.list().isEmpty()) {
             List<PullMsg> list = query.list();

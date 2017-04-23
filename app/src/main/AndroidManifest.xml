@@ -185,7 +185,7 @@
         <activity
             android:name=".ui.ScheduleAty"
             android:label="课程表"
-            android:screenOrientation="portrait"
+            android:screenOrientation="landscape"
             />
         <activity
             android:name=".ui.CreateProductOrderAty"
