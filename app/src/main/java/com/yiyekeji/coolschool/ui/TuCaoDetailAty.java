@@ -91,7 +91,8 @@ public class TuCaoDetailAty extends BaseActivity {
         tvViewCount.setText(tuCao.getViewCount());
         tvContent.setText(tuCao.getContent());
         tvDate.setText(tuCao.getDate().substring(5, 16));
-        tvPostMan.setText(tuCao.getAuthor());
+        // FIXME: 2017/4/22 这里先屏蔽
+//        tvPostMan.setText(tuCao.getAuthor());
         if (tuCao.getSex().equals("1")) {
             ivSex.setImageResource(R.mipmap.ic_man);
         } else {

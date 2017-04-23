@@ -61,7 +61,20 @@ public class MyProductListAty extends BaseActivity {
 
         recyclerView=prrvPullRefreshView.getRefreshableView();
 
-        prrvPullRefreshView.setMode(PullToRefreshBase.Mode.DISABLED);
+        prrvPullRefreshView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+
+        prrvPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
+            //下拉刷新
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                refresh();
+            }
+            //上拉加载
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+            }
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
@@ -138,6 +151,7 @@ public class MyProductListAty extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
@@ -160,8 +174,17 @@ public class MyProductListAty extends BaseActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
                 showShortToast(getString(R.string.response_err));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK){
+            refresh();
+        }
     }
 }

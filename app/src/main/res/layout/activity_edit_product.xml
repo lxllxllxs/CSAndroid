@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ledt="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<com.yiyekeji.coolschool.widget.TitleBar
+android:id="@+id/title_bar"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"/>
+<ScrollView
     android:layout_width="match_parent"
     android:fillViewport="true"
-    android:layout_height="match_parent">
+    android:layout_weight="1"
+    android:layout_height="0dp">
 <LinearLayout
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.yiyekeji.coolschool.widget.TitleBar
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
     <TextView
         android:paddingRight="20px"
         android:paddingLeft="20px"
         android:textSize="22px"
-        android:text="需要重新指定图片，首张为详情图"
+        android:text="需要重新指定图片"
         android:textColor="@color/theme_red"
         android:background="@color/yellow_light"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="50px"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_imgs"
         android:layout_width="match_parent"
@@ -120,7 +124,7 @@
         android:paddingRight="20px"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="240px">
+        android:layout_height="220px">
         <TextView
             android:layout_marginTop="10px"
             android:paddingTop="10px"
@@ -145,8 +149,6 @@
             android:background="@drawable/bg_0radiu_whitesolid_graytroke"
             android:layout_height="match_parent"/>
     </LinearLayout>
-
-
 
     <Space
         android:layout_weight="1"
@@ -185,3 +187,4 @@
     </LinearLayout>
 </LinearLayout>
 </ScrollView>
+</LinearLayout>

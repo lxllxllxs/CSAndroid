@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:paddingLeft="20px"
+              android:id="@+id/ll_parent"
     android:background="@color/white"
     android:layout_height="87px">
     <TextView
@@ -15,6 +16,8 @@
         android:layout_height="match_parent" />
 
     <TextView
+        android:layout_marginTop="5px"
+        android:layout_marginBottom="5px"
         android:id="@+id/tv_modify"
         android:gravity="center"
         style="@style/BigTextView"
@@ -25,6 +28,9 @@
         android:layout_height="match_parent" />
 
     <TextView
+        android:layout_marginLeft="5px"
+        android:layout_marginTop="5px"
+        android:layout_marginBottom="5px"
         android:id="@+id/tv_del"
         android:gravity="center"
         android:text="删除"

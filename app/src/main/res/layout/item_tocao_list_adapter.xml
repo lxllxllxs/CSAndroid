@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_postMan"
-                android:text="发帖人"
+                android:text="某同学"
                 android:layout_marginRight="15px"
                 android:gravity="center_vertical"
                 style="@style/NormalTextView"

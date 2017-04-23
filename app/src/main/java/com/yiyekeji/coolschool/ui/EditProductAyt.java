@@ -1,7 +1,6 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.CategoryInfo;
@@ -24,26 +22,18 @@ import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.ShopService;
 import com.yiyekeji.coolschool.ui.adapter.AddImageAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
-import com.yiyekeji.coolschool.utils.GetPathFromUri4kitkat;
 import com.yiyekeji.coolschool.utils.GsonUtil;
-import com.yiyekeji.coolschool.utils.LogUtil;
-import com.yiyekeji.coolschool.utils.RegexUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,13 +85,21 @@ public class EditProductAyt extends BaseActivity {
     }
 
     private void initData() {
+        initImageIds();
+        service = RetrofitUtil.create(CommonService.class);
+        int pId=getIntent().getIntExtra("pId",0);
+        getProductInfo(pId);
+    }
+
+
+    //// TODO: 2017/4/22 提交后需要重新设置
+    private void initImageIds() {
+        imgsId.clear();
+        imgPathList.clear();
         for (int i=0;i<5;i++){
             imgPathList.add("");
             imgsId.add(0);
         }
-        service = RetrofitUtil.create(CommonService.class);
-        int pId=getIntent().getIntExtra("pId",0);
-        getProductInfo(pId);
     }
 
     AddImageAdapter imageAdapter;
@@ -315,14 +313,17 @@ public class EditProductAyt extends BaseActivity {
                 dismissDialog();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
+                    initImageIds();
                     return;
                 }
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (rb.getResult().equals("1")) {
                     showShortToast("修改成功！");
+                    setResult(RESULT_OK);
                     finish();
                 } else {
+                    initImageIds();
                     showShortToast(rb.getMessage());
                 }
             }
@@ -330,6 +331,7 @@ public class EditProductAyt extends BaseActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
+                initImageIds();
             }
         });
     }
