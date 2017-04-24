@@ -113,9 +113,10 @@ public class UserInfomationActivity extends BaseActivity {
                 startActivityForResult(intent,REAL_NAME);
                 break;*/
             case R.id.ll_sex:
-                intent.putExtra("sex", useInfo.getSex());
+                // FIXME: 2017/4/24/024 这里不应该可以修改
+            /*    intent.putExtra("sex", useInfo.getSex());
                 intent.setFlags(SEX);
-                startActivityForResult(intent,SEX);
+                startActivityForResult(intent,SEX);*/
                 break;
             case R.id.ll_mobile:
                 intent.setFlags(MOBILE);

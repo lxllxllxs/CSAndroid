@@ -21,7 +21,7 @@ public class TitleBar extends AutoRelativeLayout {
 
     private Context context;
     private RelativeLayout containerLayout;
-    private TextView bigTitleTv,tvRight;
+    private TextView bigTitleTv,tvRight,tvRight2;
     private ImageView iv_back;
     private Activity activity;
 
@@ -44,6 +44,7 @@ public class TitleBar extends AutoRelativeLayout {
         bigTitleTv = (TextView) findViewById(R.id.tv_title_bar_big_title);
         iv_back=(ImageView)findViewById(R.id.iv_back);
         tvRight=(TextView) findViewById(R.id.tv_right);
+        tvRight2=(TextView) findViewById(R.id.tv_right2);
         iv_back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +61,13 @@ public class TitleBar extends AutoRelativeLayout {
         tvRight.setVisibility(VISIBLE);
         tvRight.setText(text);
         tvRight.setOnClickListener(clickListener);
+    }
+
+
+    public void  setTvRight2(String text,OnClickListener clickListener){
+        tvRight2.setVisibility(VISIBLE);
+        tvRight2.setText(text);
+        tvRight2.setOnClickListener(clickListener);
     }
 
     public void  setTvRightText(String text){

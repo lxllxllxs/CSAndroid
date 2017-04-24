@@ -55,6 +55,7 @@ public class LogUtil {
 
     public static void d(String tag, String msg) {
         if(Config.DEBUG) {
+            System.out.println(tag+"::"+msg);
             Log.d(tag, msg);
         }
     }
