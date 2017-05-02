@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.AndroidVersion;
@@ -36,8 +38,10 @@ import com.yiyekeji.coolschool.bean.CourseInfo;
 import com.yiyekeji.coolschool.bean.MainMenu;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.StudentSign;
+import com.yiyekeji.coolschool.bean.TuCao;
 import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.RollCallService;
+import com.yiyekeji.coolschool.inter.TuCaoService;
 import com.yiyekeji.coolschool.ui.AddCourseAty;
 import com.yiyekeji.coolschool.ui.CommitPullMsgAty;
 import com.yiyekeji.coolschool.ui.CreateDeliverOrderAty;
@@ -46,7 +50,9 @@ import com.yiyekeji.coolschool.ui.PullMsgListActivtiy;
 import com.yiyekeji.coolschool.ui.QueryScoreAty;
 import com.yiyekeji.coolschool.ui.ScheduleAty;
 import com.yiyekeji.coolschool.ui.TeacherRollCallActivitiy;
+import com.yiyekeji.coolschool.ui.TuCaoDetailAty;
 import com.yiyekeji.coolschool.ui.adapter.HomeAdapter;
+import com.yiyekeji.coolschool.ui.adapter.TuCaoAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 import com.yiyekeji.coolschool.utils.BdLocationUtlis;
 import com.yiyekeji.coolschool.utils.CheckEmulatorUtils;
@@ -54,6 +60,7 @@ import com.yiyekeji.coolschool.utils.CommonUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.NetUtils;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
+import com.yiyekeji.coolschool.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,20 +82,22 @@ public class HomeFragment extends BaseFragment {
     RecyclerView recyclerView;
     @InjectView(R.id.tv_addCourse)
     TextView tvAddCourse;
-    @InjectView(R.id.rl_rollCall)
-    RelativeLayout rlRollCall;
-    @InjectView(R.id.iv_rollCall)
-    ImageView ivRollCall;
     @InjectView(R.id.tv_rollCall)
     TextView tvRollCall;
     @InjectView(R.id.iv_pullMsg)
     ImageView ivPullMsg;
     @InjectView(R.id.iv_unRead)
     ImageView ivUnRead;
+    @InjectView(R.id.recyclerView_hot)
+    RecyclerView recyclerViewHot;
     private List<MainMenu> mainMenuList = new ArrayList<>();
     public BDLocationListener myListener = new MyLocationListener();
     public LocationClient mLocationClient = null;
-
+    private double latitude, longitude;
+    RollCallService service;
+    List<CourseInfo> infos;
+    TuCaoAdapter pullRreshAdapter;
+    List<TuCao> tuCaoList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -105,41 +114,54 @@ public class HomeFragment extends BaseFragment {
 
     private void initData() {
         if (App.userInfo.getRoleType() == 1) {
-            ivRollCall.setImageResource(R.mipmap.ic_roll_call);
             tvRollCall.setText("点名");
-            MainMenu m1 = new MainMenu("发布通知", R.mipmap.ic_deliver, CommitPullMsgAty.class);
+            MainMenu m1 = new MainMenu("发布通知", R.mipmap.ic_pullmsg, CommitPullMsgAty.class);
             mainMenuList.add(m1);
             ivPullMsg.setVisibility(View.INVISIBLE);
         } else {
-            MainMenu m6 = new MainMenu("课程表", R.mipmap.ic_print, ScheduleAty.class);
-            MainMenu m4 = new MainMenu("查成绩", R.mipmap.ic_print, QueryScoreAty.class);
+            MainMenu m6 = new MainMenu("课程表", R.mipmap.ic_schedule, ScheduleAty.class);
+            MainMenu m4 = new MainMenu("查成绩", R.mipmap.ic_query, QueryScoreAty.class);
             mainMenuList.add(m4);
             mainMenuList.add(m6);
             ivPullMsg.setVisibility(View.VISIBLE);
         }
-        checkUpdate();//开启更新检测
-        MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_take_express, CreateTakeExpressOrderAty.class);
+        MainMenu m2 = new MainMenu("我要寄件", R.mipmap.ic_package, CreateTakeExpressOrderAty.class);
         MainMenu m3 = new MainMenu("代拿快递", R.mipmap.ic_deliver, CreateDeliverOrderAty.class);
 
         mainMenuList.add(m2);
         mainMenuList.add(m3);
+
+        checkUpdate();//开启更新检测
+        getTop5TuCaoList();
     }
 
     private void initView() {
 
         HomeAdapter mAdapter = new HomeAdapter(getActivity(), mainMenuList);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
             }
         });
+        recyclerView.setNestedScrollingEnabled(false);
+        //热门话题top5
+        pullRreshAdapter = new TuCaoAdapter(getContext(), tuCaoList);
+        recyclerViewHot.setLayoutManager(new LinearLayoutManager(getContext()));
+        pullRreshAdapter.setOnItemClickLitener(new TuCaoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), TuCaoDetailAty.class);
+                intent.putExtra("tuCao", tuCaoList.get(position));
+                startActivity(intent);
+            }
+        });
+        recyclerViewHot.setAdapter(pullRreshAdapter);
+        recyclerViewHot.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
+        recyclerViewHot.setNestedScrollingEnabled(false);
     }
 
-    private double latitude, longitude;
-    RollCallService service;
-    List<CourseInfo> infos;
 
     private void getMyCoures() {
         Map<String, Object> params = new HashMap<>();
@@ -271,7 +293,7 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    @OnClick({R.id.tv_addCourse, R.id.rl_rollCall, R.id.iv_pullMsg})
+    @OnClick({R.id.tv_addCourse,R.id.tv_rollCall, R.id.iv_pullMsg})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_addCourse:
@@ -281,7 +303,7 @@ public class HomeFragment extends BaseFragment {
                     showDialog();
                 }
                 break;
-            case R.id.rl_rollCall:
+            case R.id.tv_rollCall:
                 if (App.userInfo.getRoleType() == 1) {
                     startActivity(new Intent(getActivity(), TeacherRollCallActivitiy.class));
                 } else {
@@ -296,7 +318,7 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    public void setIvUnReadVisiable(){
+    public void setIvUnReadVisiable() {
         ivUnRead.setVisibility(View.VISIBLE);
     }
 
@@ -417,9 +439,51 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+    private void getTop5TuCaoList() {
+        TuCaoService service = RetrofitUtil.create(TuCaoService.class);
+        Map<String, Object> params = new HashMap<>();
+        Call<ResponseBody> call = service.getTop5TuCaoList(params);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (getContext() == null) {
+                    return;
+                }
+                dismissDialog();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    List<TuCao> tempList = GsonUtil.listFromJSon(jsonString,
+                            new TypeToken<List<TuCao>>() {
+                            }.getType(), "tuCaoList");
+                    if (tempList != null) {
+                    /*    if (tempList.size()<1){
+//                            showShortToast("暂无更多内容");
+                            return;
+                        }*/
+                        tuCaoList.addAll(tempList);
+                        pullRreshAdapter.notifyDataSetChanged();
+                    } else {
+                        showShortToast("发生错误");
+                    }
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dismissDialog();
+                showShortToast(getString(R.string.response_err));
+            }
+        });
+    }
+
 
     AndroidVersion version = null;
-
     private void checkUpdate() {
         CommonService service = RetrofitUtil.create(CommonService.class);
         Call<ResponseBody> call = service.checkVersion();

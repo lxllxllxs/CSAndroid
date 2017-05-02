@@ -9,8 +9,8 @@ import de.greenrobot.daogenerator.Schema;
 public class ExampleDaoGenerator {
 
     public static void main(String[] args) throws IOException, Exception {
-        
-        Schema schema = new Schema(1, "com.yiyekeji.coolschool.dao");
+        // FIXME: 2017/5/2/002 这里要更改数据库的版本 否则崩溃
+        Schema schema = new Schema(2, "com.yiyekeji.coolschool.dao");
         addSendMessage(schema);
         DaoGenerator daoGenerator= new DaoGenerator();
         daoGenerator .generateAll(schema, "D:\\DaoExample");

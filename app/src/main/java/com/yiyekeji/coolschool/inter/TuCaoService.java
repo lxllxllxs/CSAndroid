@@ -18,6 +18,9 @@ import retrofit2.http.Part;
  */
 public interface TuCaoService {
 
+    @POST("tucao/getTop5TuCaoList")
+    Call<ResponseBody> getTop5TuCaoList(@Body Map<String, Object> params);
+
     @POST("tucao/insertTuCao")
     Call<ResponseBody> insertTuCao(@Body TuCao tuCao);
 
