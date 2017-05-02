@@ -22,8 +22,8 @@ public class SoapUtils {
 			URL url = new URL(urlString);
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.setRequestMethod("POST");
-			urlConnection.setReadTimeout(10000);
-			urlConnection.setConnectTimeout(10000);
+			urlConnection.setReadTimeout(30000);
+			urlConnection.setConnectTimeout(30000);
 			if (headers!=null&&headers.size()>0){
 				Iterator<Map.Entry<String, String>> it = headers.entrySet().iterator();
 				while (it.hasNext()) {

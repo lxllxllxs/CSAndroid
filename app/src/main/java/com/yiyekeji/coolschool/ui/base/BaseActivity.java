@@ -2,11 +2,13 @@ package com.yiyekeji.coolschool.ui.base;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +34,7 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         App.addActivity(this);
     /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
             getWindow().setEnterTransition(new Slide().setDuration(2000));
             getWindow().setExitTransition(new Slide().setDuration(2000));
         }*/
@@ -93,6 +96,14 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
      * @param msg
      */
     public  void showLoadDialog(String msg) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (! Settings.canDrawOverlays(this)) {
+                Toast.makeText(this,"请允许该应用在其他应用上层显示",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent,10);
+            }
+        }
         if (mdDialog == null) {
             mdDialog = new LoadDialog(App.getContext(), R.layout.layout_load_dialog,
                     R.style.DialogLogin);

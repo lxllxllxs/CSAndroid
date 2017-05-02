@@ -104,6 +104,7 @@ public class WyuStuSystemApi {
 	}
 	/*
          * 获取成绩
+         * fixme 这里需要大大延长时间
          */
 	public String getScoreList(String lastCookie) throws TimeoutException,ParseException, IOException{
 		List<ScoreRecord> list = new ArrayList<ScoreRecord>();

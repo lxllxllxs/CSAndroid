@@ -43,6 +43,7 @@
         <meta-data android:name="design_width" android:value="720"/>
         <meta-data android:name="design_height" android:value="1280"/>
         <activity android:name=".ui.StartActivity"
+
                   android:alwaysRetainTaskState="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -90,6 +91,7 @@
         <activity
             android:name=".ui.MainViewpagerActivity"
             android:label="主页"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             />
         <activity
@@ -186,6 +188,7 @@
             android:name=".ui.ScheduleAty"
             android:label="课程表"
             android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             />
         <activity
             android:name=".ui.CreateProductOrderAty"

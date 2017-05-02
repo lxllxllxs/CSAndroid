@@ -1,6 +1,7 @@
 package com.yiyekeji.coolschool.ui;
 
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -49,6 +50,26 @@ public class ScheduleAty extends BaseActivity {
         ButterKnife.inject(this);
         initView();
         initData();
+    }
+
+    // FIXME: 2017/5/2/002 使用这个 保证旋转时 不会重新加载onCreate
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+        }
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+        }
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO)
+        {
+        }
+        else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES)
+        {
+        }
     }
 
     private void initView() {
