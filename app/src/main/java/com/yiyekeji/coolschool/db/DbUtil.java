@@ -58,9 +58,10 @@ public class DbUtil {
     }
 
 
+    // FIXME: 2017/5/4/004 这里要增加 归属
     public static boolean havaUnReadMsg(){
         Query query = pullMsgDao.queryBuilder()
-                .where(PullMsgDao.Properties.IsRead.eq("0"))
+                .where(PullMsgDao.Properties.IsRead.eq("0"),PullMsgDao.Properties.Owner.eq(App.getUserInfo().getUserNum()))
                 .build();
         return !query.list().isEmpty();
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import com.google.gson.reflect.TypeToken;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.DateComParator;
 import com.yiyekeji.coolschool.bean.OtherOrder;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.ExpressService;
@@ -20,6 +21,7 @@ import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +101,8 @@ public class OtherOrderListAty extends BaseActivity {
                 orderList= GsonUtil.listFromJSon(jsonString,
                         new TypeToken<List<OtherOrder>>() {}.getType(),"otherOrderList") ;
                 if (orderList!=null) {
+                    // TODO: 2017/5/3/003 这里要根据日期进行排序
+                    Collections.sort(orderList, new DateComParator());
                     mAdapter.notifyDataSetChanged(orderList);
                 } else {
                     showShortToast(rb.getMessage());
