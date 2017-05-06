@@ -9,15 +9,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RegexUtils;
+import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.yiyekeji.coolschool.widget.TitleBar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lxl on 2017/1/7.
@@ -112,6 +123,12 @@ public class ModifyUserInfoActivity extends BaseActivity {
                 ledtNickName.setEditText(userInfo.getNickname());
                 break;
         }
+        titleBar.setBackOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveUserInfo();
+            }
+        });
     }
 
     private void saveUserInfo() {
@@ -153,30 +170,64 @@ public class ModifyUserInfoActivity extends BaseActivity {
             userInfo.setName(ledtModifyName.getEditText());
         }
 
+        // FIXME: 2017/5/6 如果字段等于开始的 不用对比
         if (REQUEST_CODE == UserInfomationActivity.NickName) {
             String name = ledtNickName.getEditText();
             if (name.length() < 2 || name.length() > 8) {
                 showShortToast("昵称2-6位！");
                 return;
             }
-            userInfo.setNickname(ledtNickName.getEditText());
+            if (name.equals(userInfo.getNickname())){
+                getBack();
+                return;
+            }
+            checkDuplicateName(name);
+            return;
         }
+        getBack();
+    }
+
+    private void getBack() {
         Intent intent1 = new Intent();
         intent1.putExtra("userInfo", userInfo);
         setResult(RESULT_OK, intent1);
+        finish();
+    }
+
+    private void checkDuplicateName(String nickName) {
+        UserService userService = RetrofitUtil.create(UserService.class);
+        Map<String, Object> params = new HashMap<>();
+        params.put("nickName",nickName);
+        Call<ResponseBody> call = userService.checkDuplicateName(params);
+
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dismissDialog();
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    // TODO: 2017/5/6 返回 通过
+                    userInfo.setNickname(ledtNickName.getEditText());
+                    getBack();
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dismissDialog();
+                showShortToast(t.getMessage());
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
-    }
-
-    @Override
-    public void finish() {
         saveUserInfo();
-        super.finish();
-
     }
 
     @OnClick({R.id.tv_male, R.id.tv_female, R.id.tv_secret})

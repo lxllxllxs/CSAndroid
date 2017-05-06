@@ -44,4 +44,7 @@ public interface UserService {
     @POST("user/appFindPsw")
     Call<ResponseBody> appFindPsw(@Body Map<String, Object> params);
 
+
+    @POST("user/checkDuplicateName")
+    Call<ResponseBody> checkDuplicateName(@Body Map<String, Object> params);
 }
