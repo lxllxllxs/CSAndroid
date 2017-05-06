@@ -115,6 +115,10 @@ public class TuCaoFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), TuCaoDetailAty.class);
+                // FIXME: 2017/5/6 防止极端情况 tuCaoList被清瞬间 点击
+                if (tuCaoList == null || tuCaoList.isEmpty()) {
+                    return;
+                }
                 intent.putExtra("tuCao", tuCaoList.get(position));
                 startActivity(intent);
             }

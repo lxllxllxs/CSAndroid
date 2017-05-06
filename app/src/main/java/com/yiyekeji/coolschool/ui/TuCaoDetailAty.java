@@ -91,8 +91,8 @@ public class TuCaoDetailAty extends BaseActivity {
         tvViewCount.setText(tuCao.getViewCount());
         tvContent.setText(tuCao.getContent());
         tvDate.setText(tuCao.getDate().substring(5, 16));
-        // FIXME: 2017/4/22 这里先屏蔽
-//        tvPostMan.setText(tuCao.getAuthor());
+        // FIXME: 2017/4/22 这里先屏蔽 这里改为用昵称
+        tvPostMan.setText(tuCao.getAuthor());
         if (tuCao.getSex().equals("1")) {
             ivSex.setImageResource(R.mipmap.ic_man);
         } else {
@@ -225,7 +225,8 @@ public class TuCaoDetailAty extends BaseActivity {
         }
         TuCaoComment comment = new TuCaoComment();
         comment.setContent(edtContent.getText().toString());
-        comment.setAuthor(App.getUserInfo().getName());
+        // FIXME: 2017/5/6 这里也要放昵称
+        comment.setAuthor(App.getUserInfo().getNickname());
         comment.setDate(DateUtils.getTimeString());
         comment.setTuCaoId(tuCao.getId());
         comment.setUserNo(App.getUserInfo().getUserNum());

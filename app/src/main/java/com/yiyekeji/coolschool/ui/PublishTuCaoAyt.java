@@ -156,7 +156,8 @@ public class PublishTuCaoAyt extends BaseActivity {
 
     private void setTuCao() {
         tuCao.setUserNo(App.userInfo.getUserNum());
-        tuCao.setAuthor(App.userInfo.getName());
+        // FIXME: 2017/5/6 这里改为用昵称
+        tuCao.setAuthor(App.userInfo.getNickname());
         tuCao.setSex(String.valueOf(App.userInfo.getSex()));
         tuCao.setDate(DateUtils.getTimeString());
         tuCao.setContent(edtDescrition.getText().toString());

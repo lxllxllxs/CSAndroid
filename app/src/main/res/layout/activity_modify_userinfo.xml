@@ -104,6 +104,14 @@
 
     <com.yiyekeji.coolschool.widget.LableEditView
         android:visibility="gone"
+        android:id="@+id/ledt_nickName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ledt:edtText="昵称"
+        ledt:text="昵称"/>
+
+    <com.yiyekeji.coolschool.widget.LableEditView
+        android:visibility="gone"
         android:id="@+id/ledt_modifyMobile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

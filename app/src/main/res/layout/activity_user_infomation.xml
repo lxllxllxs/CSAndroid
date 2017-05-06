@@ -135,7 +135,40 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="30px"/>
-
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:id="@+id/ll_nickName"
+        android:background="@color/white"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="87px">
+        <TextView
+            android:gravity="center_vertical"
+            android:text="昵称"
+            style="@style/BigTextView"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_marginRight="30px"
+            android:gravity="center_vertical"
+            android:text="15019861460"
+            style="@style/BigTextView"
+            android:textColor="@color/gray_text"
+            android:id="@+id/tv_nickName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:src="@mipmap/arrow_right_gray"
+            android:layout_width="44px" style="@style/IconImageView"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"
@@ -171,6 +204,8 @@
             android:layout_width="44px" style="@style/IconImageView"
             android:layout_height="match_parent"/>
     </LinearLayout>
+
+
     <View
         android:background="@color/gray"
         android:layout_width="match_parent"

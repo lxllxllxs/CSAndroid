@@ -84,8 +84,8 @@ public class TuCaoAdapter extends RecyclerView.Adapter<TuCaoAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         TuCao tuCao = tuCaoList.get(i);
         viewHolder.tvContent.setText(tuCao.getContent());
-        // TODO: 2017/4/22 这里以后接入昵称
-//        viewHolder.tvPostMan.setText(tuCao.getAuthor());
+        // TODO: 2017/4/22 这里以后接入昵称 接入昵称 author已经改为nickname
+        viewHolder.tvPostMan.setText(tuCao.getAuthor());
         viewHolder.tvCommentCount.setText(tuCao.getCommentCount());
         viewHolder.tvViewCount.setText(tuCao.getViewCount());
         viewHolder.tvDate.setText(tuCao.getDate().substring(5, 16));

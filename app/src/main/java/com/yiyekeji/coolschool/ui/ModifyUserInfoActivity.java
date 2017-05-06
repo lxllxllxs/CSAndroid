@@ -47,6 +47,8 @@ public class ModifyUserInfoActivity extends BaseActivity {
     LableEditView ledtModifyEmail;
     @InjectView(R.id.ledt_modifyAddress)
     LableEditView ledtModifyAddress;
+    @InjectView(R.id.ledt_nickName)
+    LableEditView ledtNickName;
 
 
     private String realName;
@@ -56,20 +58,21 @@ public class ModifyUserInfoActivity extends BaseActivity {
     private String address;
 
     private UserInfo userInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_userinfo);
         ButterKnife.inject(this);
-        userInfo=getIntent().getParcelableExtra("userInfo");
-        REQUEST_CODE=getIntent().getFlags();
+        userInfo = getIntent().getParcelableExtra("userInfo");
+        REQUEST_CODE = getIntent().getFlags();
         initView();
     }
 
     private void initView() {
-        switch (REQUEST_CODE){
+        switch (REQUEST_CODE) {
             case UserInfomationActivity.SEX:
-                titleBar.initView(this,"修改性别");
+                titleBar.initView(this, "修改性别");
                 llModifySex.setVisibility(View.VISIBLE);
                 switch (userInfo.getSex()) {
                     case 0:
@@ -84,35 +87,40 @@ public class ModifyUserInfoActivity extends BaseActivity {
                 }
                 break;
             case UserInfomationActivity.REAL_NAME:
-                titleBar.initView(this,"修改姓名");
+                titleBar.initView(this, "修改姓名");
                 ledtModifyName.setVisibility(View.VISIBLE);
                 ledtModifyName.setEditText(userInfo.getName());
                 break;
             case UserInfomationActivity.MOBILE:
-                titleBar.initView(this,"修改手机号码");
+                titleBar.initView(this, "修改手机号码");
                 ledtModifyMobile.setVisibility(View.VISIBLE);
                 ledtModifyMobile.setEditText(userInfo.getPhone());
                 break;
             case UserInfomationActivity.EMAIL:
-                titleBar.initView(this,"修改邮箱");
+                titleBar.initView(this, "修改邮箱");
                 ledtModifyEmail.setVisibility(View.VISIBLE);
                 ledtModifyEmail.setEditText(userInfo.getEmail());
                 break;
             case UserInfomationActivity.ADDRESS:
-                titleBar.initView(this,"修改住宿地址");
+                titleBar.initView(this, "修改住宿地址");
                 ledtModifyAddress.setVisibility(View.VISIBLE);
                 ledtModifyAddress.setEditText(userInfo.getAddr());
+                break;
+            case UserInfomationActivity.NickName:
+                titleBar.initView(this, "修改昵称");
+                ledtNickName.setVisibility(View.VISIBLE);
+                ledtNickName.setEditText(userInfo.getNickname());
                 break;
         }
     }
 
     private void saveUserInfo() {
-        if (REQUEST_CODE==UserInfomationActivity.ADDRESS){
+        if (REQUEST_CODE == UserInfomationActivity.ADDRESS) {
             userInfo.setAddr(ledtModifyAddress.getEditText());
         }
-        if (REQUEST_CODE==UserInfomationActivity.MOBILE){
-            String mobile=ledtModifyMobile.getEditText();
-            if (TextUtils.isEmpty(mobile)){
+        if (REQUEST_CODE == UserInfomationActivity.MOBILE) {
+            String mobile = ledtModifyMobile.getEditText();
+            if (TextUtils.isEmpty(mobile)) {
                 return;
             }
             if (!RegexUtils.checkMobile(mobile)) {
@@ -121,32 +129,41 @@ public class ModifyUserInfoActivity extends BaseActivity {
             }
             userInfo.setPhone(mobile);
         }
-        if (REQUEST_CODE==UserInfomationActivity.EMAIL){
-            String email=ledtModifyEmail.getEditText();
-            if (TextUtils.isEmpty(email)){
+        if (REQUEST_CODE == UserInfomationActivity.EMAIL) {
+            String email = ledtModifyEmail.getEditText();
+            if (TextUtils.isEmpty(email)) {
                 return;
             }
-            if (!RegexUtils.checkEmail(email)){
+            if (!RegexUtils.checkEmail(email)) {
                 showShortToast("邮箱地址不正确！");
                 return;
             }
             userInfo.setEmail(email);
         }
-        if (REQUEST_CODE==UserInfomationActivity.REAL_NAME){
-            String name=ledtModifyName.getEditText();
-            if (!RegexUtils.checkChinese(name)){
+        if (REQUEST_CODE == UserInfomationActivity.REAL_NAME) {
+            String name = ledtModifyName.getEditText();
+            if (!RegexUtils.checkChinese(name)) {
                 showShortToast("只能中文！");
                 return;
             }
-            if (name.length()<2||name.length()>6){
+            if (name.length() < 2 || name.length() > 6) {
                 showShortToast("2~6位中文！");
                 return;
             }
             userInfo.setName(ledtModifyName.getEditText());
         }
-        Intent intent1=new Intent();
+
+        if (REQUEST_CODE == UserInfomationActivity.NickName) {
+            String name = ledtNickName.getEditText();
+            if (name.length() < 2 || name.length() > 8) {
+                showShortToast("昵称2-6位！");
+                return;
+            }
+            userInfo.setNickname(ledtNickName.getEditText());
+        }
+        Intent intent1 = new Intent();
         intent1.putExtra("userInfo", userInfo);
-        setResult(RESULT_OK,intent1);
+        setResult(RESULT_OK, intent1);
     }
 
     @Override
@@ -164,7 +181,7 @@ public class ModifyUserInfoActivity extends BaseActivity {
 
     @OnClick({R.id.tv_male, R.id.tv_female, R.id.tv_secret})
     public void onClick(View view) {
-        if (REQUEST_CODE==UserInfomationActivity.SEX) {
+        if (REQUEST_CODE == UserInfomationActivity.SEX) {
             switch (view.getId()) {
                 case R.id.tv_male:
                     setMale();
@@ -182,7 +199,7 @@ public class ModifyUserInfoActivity extends BaseActivity {
         }
         Intent intent = new Intent();
         intent.putExtra("userInfo", userInfo);
-        setResult(RESULT_OK,intent);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -191,11 +208,13 @@ public class ModifyUserInfoActivity extends BaseActivity {
         ivFemale.setVisibility(View.INVISIBLE);
         ivSecret.setVisibility(View.VISIBLE);
     }
+
     private void setMale() {
         ivFemale.setVisibility(View.INVISIBLE);
         ivSecret.setVisibility(View.INVISIBLE);
         ivMale.setVisibility(View.VISIBLE);
     }
+
     private void setFemale() {
         ivMale.setVisibility(View.INVISIBLE);
         ivSecret.setVisibility(View.INVISIBLE);

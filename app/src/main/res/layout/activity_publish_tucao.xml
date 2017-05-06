@@ -39,15 +39,14 @@
             <EditText
                 android:id="@+id/edt_descrition"
                 android:gravity="top"
-                android:paddingLeft="20px"
-                android:paddingRight="20px"
+                android:padding="15px"
                 android:layout_marginTop="20px"
                 android:layout_marginBottom="20px"
                 android:layout_marginLeft="20px"
                 android:layout_width="match_parent"
                 style="@style/BigTextView"
                 android:hint=""
-                android:minHeight="300px"
+                android:minHeight="400px"
                 android:background="@drawable/bg_0radiu_whitesolid_graytroke"
                 android:layout_height="wrap_content"/>
             <TextView

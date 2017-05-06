@@ -69,8 +69,8 @@ public class TuCaoCommentAdapter extends RecyclerView.Adapter<TuCaoCommentAdapte
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         TuCaoComment comment = commentList.get(i);
         viewHolder.tvContent.setText(comment.getContent());
-        // FIXME: 2017/4/23 这里以后改昵称
-//        viewHolder.tvName.setText(comment.getAuthor());
+//         FIXME: 2017/4/23 这里以后改昵称
+        viewHolder.tvName.setText(comment.getAuthor());
         viewHolder.tvDate.setText(comment.getDate().substring(5, 16));
     }
 

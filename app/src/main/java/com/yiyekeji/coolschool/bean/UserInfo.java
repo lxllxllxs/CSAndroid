@@ -45,6 +45,7 @@ public class UserInfo implements Cloneable,Parcelable {
     private String wBalance;
     private String phone;
 
+    private String nickname;
     public int getIsAdmin() {
         return isAdmin;
     }
@@ -53,78 +54,19 @@ public class UserInfo implements Cloneable,Parcelable {
         this.isAdmin = isAdmin;
     }
 
-    public Object clone() throws CloneNotSupportedException
-    {
-        return super.clone();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserInfo userInfo = (UserInfo) o;
-
-        if (roleType != userInfo.roleType) return false;
-        if (id != userInfo.id) return false;
-        if (isSupplier != userInfo.isSupplier) return false;
-        if (sex != userInfo.sex) return false;
-        if (name != null ? !name.equals(userInfo.name) : userInfo.name != null) return false;
-        if (password != null ? !password.equals(userInfo.password) : userInfo.password != null)
-            return false;
-        if (userNum != null ? !userNum.equals(userInfo.userNum) : userInfo.userNum != null)
-            return false;
-        if (tokenId != null ? !tokenId.equals(userInfo.tokenId) : userInfo.tokenId != null)
-            return false;
-        if (headImg != null ? !headImg.equals(userInfo.headImg) : userInfo.headImg != null)
-            return false;
-        if (aBalance != null ? !aBalance.equals(userInfo.aBalance) : userInfo.aBalance != null)
-            return false;
-        if (imei != null ? !imei.equals(userInfo.imei) : userInfo.imei != null) return false;
-        if (email != null ? !email.equals(userInfo.email) : userInfo.email != null) return false;
-        if (addr != null ? !addr.equals(userInfo.addr) : userInfo.addr != null) return false;
-        if (lastTime != null ? !lastTime.equals(userInfo.lastTime) : userInfo.lastTime != null)
-            return false;
-        if (wBalance != null ? !wBalance.equals(userInfo.wBalance) : userInfo.wBalance != null)
-            return false;
-        if (phone != null ? !phone.equals(userInfo.phone) : userInfo.phone != null) return false;
-        return regTime != null ? regTime.equals(userInfo.regTime) : userInfo.regTime == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (userNum != null ? userNum.hashCode() : 0);
-        result = 31 * result + roleType;
-        result = 31 * result + id;
-        result = 31 * result + (tokenId != null ? tokenId.hashCode() : 0);
-        result = 31 * result + (headImg != null ? headImg.hashCode() : 0);
-        result = 31 * result + (aBalance != null ? aBalance.hashCode() : 0);
-        result = 31 * result + (imei != null ? imei.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (addr != null ? addr.hashCode() : 0);
-        result = 31 * result + (lastTime != null ? lastTime.hashCode() : 0);
-        result = 31 * result + (wBalance != null ? wBalance.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + isSupplier;
-        result = 31 * result + sex;
-        result = 31 * result + (regTime != null ? regTime.hashCode() : 0);
-        return result;
-    }
-
     @Override
     public String toString() {
         return "UserInfo{" +
                 "name='" + name + '\'' +
-
                 ", password='" + password + '\'' +
                 ", userNum='" + userNum + '\'' +
                 ", roleType=" + roleType +
+                ", pswAnswer='" + pswAnswer + '\'' +
+                ", isAdmin=" + isAdmin +
                 ", id=" + id +
                 ", tokenId='" + tokenId + '\'' +
                 ", headImg='" + headImg + '\'' +
+                ", inviteCode='" + inviteCode + '\'' +
                 ", aBalance='" + aBalance + '\'' +
                 ", imei='" + imei + '\'' +
                 ", email='" + email + '\'' +
@@ -132,11 +74,27 @@ public class UserInfo implements Cloneable,Parcelable {
                 ", lastTime='" + lastTime + '\'' +
                 ", wBalance='" + wBalance + '\'' +
                 ", phone='" + phone + '\'' +
-                ", isSupplier='" + isSupplier + '\'' +
-                ", sex='" + sex + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", isSupplier=" + isSupplier +
+                ", sex=" + sex +
                 ", regTime='" + regTime + '\'' +
                 '}';
     }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Object clone() throws CloneNotSupportedException
+
+    {
+        return super.clone();
+    }
+
 
     private int isSupplier;
     private int sex;
@@ -285,6 +243,73 @@ public class UserInfo implements Cloneable,Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInfo userInfo = (UserInfo) o;
+
+        if (roleType != userInfo.roleType) return false;
+        if (isAdmin != userInfo.isAdmin) return false;
+        if (id != userInfo.id) return false;
+        if (isSupplier != userInfo.isSupplier) return false;
+        if (sex != userInfo.sex) return false;
+        if (name != null ? !name.equals(userInfo.name) : userInfo.name != null) return false;
+        if (password != null ? !password.equals(userInfo.password) : userInfo.password != null)
+            return false;
+        if (userNum != null ? !userNum.equals(userInfo.userNum) : userInfo.userNum != null)
+            return false;
+        if (pswAnswer != null ? !pswAnswer.equals(userInfo.pswAnswer) : userInfo.pswAnswer != null)
+            return false;
+        if (tokenId != null ? !tokenId.equals(userInfo.tokenId) : userInfo.tokenId != null)
+            return false;
+        if (headImg != null ? !headImg.equals(userInfo.headImg) : userInfo.headImg != null)
+            return false;
+        if (inviteCode != null ? !inviteCode.equals(userInfo.inviteCode) : userInfo.inviteCode != null)
+            return false;
+        if (aBalance != null ? !aBalance.equals(userInfo.aBalance) : userInfo.aBalance != null)
+            return false;
+        if (imei != null ? !imei.equals(userInfo.imei) : userInfo.imei != null) return false;
+        if (email != null ? !email.equals(userInfo.email) : userInfo.email != null) return false;
+        if (addr != null ? !addr.equals(userInfo.addr) : userInfo.addr != null) return false;
+        if (lastTime != null ? !lastTime.equals(userInfo.lastTime) : userInfo.lastTime != null)
+            return false;
+        if (wBalance != null ? !wBalance.equals(userInfo.wBalance) : userInfo.wBalance != null)
+            return false;
+        if (phone != null ? !phone.equals(userInfo.phone) : userInfo.phone != null) return false;
+        if (nickname != null ? !nickname.equals(userInfo.nickname) : userInfo.nickname != null)
+            return false;
+        return regTime != null ? regTime.equals(userInfo.regTime) : userInfo.regTime == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (userNum != null ? userNum.hashCode() : 0);
+        result = 31 * result + roleType;
+        result = 31 * result + (pswAnswer != null ? pswAnswer.hashCode() : 0);
+        result = 31 * result + isAdmin;
+        result = 31 * result + id;
+        result = 31 * result + (tokenId != null ? tokenId.hashCode() : 0);
+        result = 31 * result + (headImg != null ? headImg.hashCode() : 0);
+        result = 31 * result + (inviteCode != null ? inviteCode.hashCode() : 0);
+        result = 31 * result + (aBalance != null ? aBalance.hashCode() : 0);
+        result = 31 * result + (imei != null ? imei.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (addr != null ? addr.hashCode() : 0);
+        result = 31 * result + (lastTime != null ? lastTime.hashCode() : 0);
+        result = 31 * result + (wBalance != null ? wBalance.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + isSupplier;
+        result = 31 * result + sex;
+        result = 31 * result + (regTime != null ? regTime.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -308,6 +333,7 @@ public class UserInfo implements Cloneable,Parcelable {
         dest.writeString(this.lastTime);
         dest.writeString(this.wBalance);
         dest.writeString(this.phone);
+        dest.writeString(this.nickname);
         dest.writeInt(this.isSupplier);
         dest.writeInt(this.sex);
         dest.writeString(this.regTime);
@@ -331,6 +357,7 @@ public class UserInfo implements Cloneable,Parcelable {
         this.lastTime = in.readString();
         this.wBalance = in.readString();
         this.phone = in.readString();
+        this.nickname = in.readString();
         this.isSupplier = in.readInt();
         this.sex = in.readInt();
         this.regTime = in.readString();
