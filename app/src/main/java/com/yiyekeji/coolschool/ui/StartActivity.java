@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
@@ -53,8 +54,39 @@ public class StartActivity extends BaseActivity {
         ButterKnife.inject(this);
         initView();
     }
+    /**
+     * 跳转到魅族的权限管理系统
+     */
+    private void gotoMeizuPermission() {
+        Toast.makeText(this,"请在该应用的权限管理中打开桌面悬浮窗权限",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.putExtra("packageName", BuildConfig.APPLICATION_ID);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
 
+        }
+    }
     private void initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                if("Meizu".equals(android.os.Build.MANUFACTURER)){
+                    gotoMeizuPermission();
+                    // FIXME: 2017/5/3/003 这里小米可以正常
+                }else {
+                    Toast.makeText(this,"请允许该应用在其他应用上层显示",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+                }
+              /*  Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent,10);*/
+            }
+        }
+
         int[] size = ScreenUtils.getScreenSize(this, false);
         int width=size[0];
         int height=size[1];

@@ -96,17 +96,21 @@ public  class BaseActivity extends AutoLayoutActivity implements View.OnClickLis
      * @param msg
      */
     public  void showLoadDialog(String msg) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (! Settings.canDrawOverlays(this)) {
+        // FIXME: 2017/5/3/003 魅蓝不能正确跳转 移动到第一页做 检查 只检查一次
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
                 Toast.makeText(this,"请允许该应用在其他应用上层显示",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+              *//*  Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent,10);
+                startActivityForResult(intent,10);*//*
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                startActivity(intent);
             }
-        }
+        }*/
         if (mdDialog == null) {
             mdDialog = new LoadDialog(App.getContext(), R.layout.layout_load_dialog,
                     R.style.DialogLogin);
+            // FIXME: 2017/5/3/003 这里不能用System.Alert 魅蓝不显示
             mdDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_TOAST);
         }
         if (mdDialog.isShowing()) {

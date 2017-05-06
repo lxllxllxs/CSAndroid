@@ -1,5 +1,7 @@
 package com.yiyekeji.coolschool.utils;
 
+import android.support.annotation.NonNull;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,8 +18,15 @@ public class DateUtils {
     private java.sql.Date today = new java.sql.Date(lNow);
     private java.sql.Time now = new java.sql.Time(lNow);
 
-
-
+    public static Date dateStringToDate(@NonNull String dateStr){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
     /**
