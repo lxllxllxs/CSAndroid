@@ -92,7 +92,6 @@
         <activity
             android:name=".ui.MainViewpagerActivity"
             android:label="主页"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             />
         <activity
