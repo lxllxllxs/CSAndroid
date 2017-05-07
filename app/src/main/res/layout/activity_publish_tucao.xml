@@ -13,6 +13,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         android:layout_weight="1">
         <LinearLayout
             android:orientation="vertical"
@@ -49,6 +50,10 @@
                 android:minHeight="400px"
                 android:background="@drawable/bg_0radiu_whitesolid_graytroke"
                 android:layout_height="wrap_content"/>
+            <Space
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
             <TextView
                 android:layout_marginTop="20px"
                 android:layout_marginBottom="20px"
@@ -59,13 +64,8 @@
                 android:textColor="@color/white"
                 android:background="@color/theme_green"
                 android:layout_width="match_parent"
-                android:layout_height="80px"/>
-            <Space
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+                android:layout_height="88px"/>
             <LinearLayout
-                android:layout_marginBottom="10px"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="88px">
