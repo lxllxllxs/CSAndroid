@@ -3,11 +3,13 @@ package com.yiyekeji.coolschool.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.bean.UserInfo;
@@ -177,11 +179,19 @@ public class ModifyUserInfoActivity extends BaseActivity {
                 showShortToast("昵称2-6位！");
                 return;
             }
+            // FIXME: 2017/5/7 进来该页面而没有修改
             if (name.equals(userInfo.getNickname())){
                 getBack();
                 return;
             }
+            // FIXME: 2017/5/7 没有保存 再次进来
+            if (name.equals(App.getUserInfo().getNickname())){
+                userInfo.setNickname(name);
+                getBack();
+                return;
+            }
             checkDuplicateName(name);
+            // FIXME: 2017/5/7漏了这步结果直接返回
             return;
         }
         getBack();
@@ -224,10 +234,28 @@ public class ModifyUserInfoActivity extends BaseActivity {
         });
     }
 
-    @Override
+  /*  @Override
     public void onBackPressed() {
         super.onBackPressed();
-        saveUserInfo();
+    }*/
+
+    /**
+     * 监听Back键按下事件,方法2:
+     * 注意:
+     * 返回值表示:是否能完全处理该事件
+     * 在此处返回false,所以会继续传播该事件.
+     * 在具体项目中此处的返回值视情况而定.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            saveUserInfo();
+            // FIXME: 2017/5/7 这里要拦截 自己作关闭处理
+            return true;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+
     }
 
     @OnClick({R.id.tv_male, R.id.tv_female, R.id.tv_secret})
