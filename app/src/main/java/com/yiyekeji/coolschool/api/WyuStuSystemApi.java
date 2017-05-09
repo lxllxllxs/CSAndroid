@@ -1,12 +1,18 @@
 package com.yiyekeji.coolschool.api;
 
+import com.yiyekeji.coolschool.bean.StudentInfo;
 import com.yiyekeji.coolschool.utils.ConstantUtils;
 import com.yiyekeji.coolschool.utils.SoapUtils;
 
 import org.apache.http.ParseException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,6 +108,59 @@ public class WyuStuSystemApi {
 		}
 		return ConstantUtils.LOGIN_CONTACT_ERROR;
 	}
+
+
+	/*
+  * 获取学生信息
+  */
+	public StudentInfo getStudentInfo(String userID) throws IOException {
+		Map<String, String> headers = new HashMap<>();
+		Map<String, String> params = new HashMap<>();
+		headers.put("Referer","http://jwc.wyu.edu.cn/student/qinfo.htm");
+		params.put("S", userID);
+		params.put("button","%B2%E9%D1%AF");
+		HttpURLConnection connection = SoapUtils.call(params,headers,"http://jwc.wyu.edu.cn/student/qinfo.asp");
+		if (connection != null && connection.getResponseCode() == 200) {
+			StringBuilder sb = new StringBuilder();
+			int count=0;
+			byte[] bytes=new byte[1024];
+			InputStream is = connection.getInputStream();
+			while((count=is.read(bytes))!=-1){
+				sb.append(new String(bytes, 0, count,"gbk"));
+			}
+			String content = sb.toString();
+			System.out.println("学生信息:"+content);
+			return parseHtmlOfStudentInfos(content);
+		}
+		return null;
+	}
+
+
+	/*
+  * 解析返回的学生信息的html 返回一个StudentInfo集合
+  */
+	public static StudentInfo parseHtmlOfStudentInfos(String html) {
+		StudentInfo sInfo = null;
+		Document doc = null;
+		String[] stu = new String[8]; //暂时存放学生各种信息
+		if (html != null && html != "") {
+			doc = Jsoup.parse(html);
+			int i = 0;//给stu加数据的循环标记
+			Elements tds = doc.select("td");//获取所有标签为<td....的数据
+			for (Element td : tds) {
+				Elements bElements = td.select("b");
+				if(!bElements.isEmpty()){ //若存在<b>标签的话，跳过
+					continue;
+				}else{
+					stu[i++] = td.text().toString();
+				}
+			}
+			sInfo = new StudentInfo(stu);
+			return sInfo;
+		}
+		return null;
+	}
+
 	/*
          * 获取成绩
          * fixme 这里需要大大延长时间

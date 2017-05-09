@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,21 +18,28 @@ import android.widget.TextView;
 
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
+import com.yiyekeji.coolschool.api.WyuStuSystemApi;
 import com.yiyekeji.coolschool.bean.ResponseBean;
+import com.yiyekeji.coolschool.bean.StudentInfo;
 import com.yiyekeji.coolschool.bean.UserInfo;
+import com.yiyekeji.coolschool.db.DbUtil;
 import com.yiyekeji.coolschool.inter.CommonService;
 import com.yiyekeji.coolschool.inter.UserService;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
+import com.yiyekeji.coolschool.utils.ConstantUtils;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.LogUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.utils.SPUtils;
+import com.yiyekeji.coolschool.utils.ThreadPools;
 import com.yiyekeji.coolschool.widget.CButton;
 import com.yiyekeji.coolschool.widget.LableEditView;
 import com.zhy.autolayout.utils.ScreenUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -138,7 +148,7 @@ public class LoginActivity extends BaseActivity {
 
     UserService userService;
     UserInfo  user = new UserInfo();
-    private void login(String name, String pwd) {
+    private void login(final String name, final String pwd) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
             showShortToast("账号和密码不能为空！");
             return;
@@ -146,7 +156,7 @@ public class LoginActivity extends BaseActivity {
         user.setUserNum(name);
         user.setPassword(pwd);
         userService = RetrofitUtil.create(UserService.class);
-        Call<ResponseBody> call = userService.login(user);
+        Call<ResponseBody> call = userService.androidLogin(user);
         showLoadDialog("");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -159,14 +169,13 @@ public class LoginActivity extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 UserInfo userInfo = GsonUtil.fromJSon(jsonString, UserInfo.class, "userInfo");
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                // FIXME: 2017/5/9/009 2是Android手机端登录的标记
+                if (rb.getResult().equals("2")){
+                    loginFromApp(name,pwd);
+                }
                 if (userInfo != null) {
 //                    showShortToast("成功登录！");
-                    savaLoginInfo();
-//                    userInfo.setPassword("");//清除密码 不清了
-                    App.userInfo = userInfo;
-                    Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
-                    startActivity(intent);
-                    finish();
+                    afterLoginSuccess(userInfo);
                 } else {
                     showShortToast(rb.getMessage());
                 }
@@ -175,6 +184,119 @@ public class LoginActivity extends BaseActivity {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
                 showShortToast(t.toString());
+            }
+        });
+    }
+
+    private void afterLoginSuccess(UserInfo userInfo) {
+        savaLoginInfo();
+        App.userInfo = userInfo;
+        Intent intent = new Intent(LoginActivity.this, MainViewpagerActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private static final int Error = 369;
+    private static final int SUCCESS = 895;
+    // TODO: 2017/5/9/009 这个变量专门处理初次登录所用 
+    private Handler handler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            dismissDialog();
+            switch (msg.what) {
+                case Error:
+                    showShortToast(msg.obj.toString());
+                    break;
+                case SUCCESS:
+                    StudentInfo studentInfo=(StudentInfo) msg.obj;
+                    user.setName(studentInfo.getUserName());
+                    user.setUserNum(studentInfo.getUserID());
+                    if(studentInfo.getUserSex().trim().equals("男")){
+                        user.setSex(1);
+                    }else{
+                        user.setSex(0);
+                    }
+                    inserUser(user);
+                    break;
+            }
+        }
+    };
+
+
+    /**
+     * 插入后已是登录完成
+     * @param info
+     */
+    private void inserUser(final  UserInfo info) {
+        userService = RetrofitUtil.create(UserService.class);
+        Call<ResponseBody> call = userService.insertUser(info);
+        showLoadDialog("");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dismissDialog();
+                if (response.code() != 200) {
+                    showShortToast("网络错误" + response.code());
+                    return;
+                }
+                String jsonString = GsonUtil.toJsonString(response);
+                ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
+                if (rb.getResult().equals("1")) {
+                    // FIXME: 2017/5/9/009 这里返回的就是完整的UserInfo
+                    UserInfo userInfo = GsonUtil.fromJSon(jsonString, UserInfo.class, "userInfo");
+                    afterLoginSuccess(userInfo);
+                } else {
+                    showShortToast(rb.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dismissDialog();
+                showShortToast(t.toString());
+            }
+        });
+    }
+
+    /**
+     * API直接返回HTml字符串 用WebView加载即可
+     * 或是处理后封装好的数据
+     * @param studentNo
+     * @param pwd
+     */
+    private void loginFromApp(final String studentNo, final String pwd) {
+        showLoadDialog("初次登录需要初始化数据...");
+        ThreadPools.getInstance().addRunnable(new Runnable() {
+            @Override
+            public void run() {
+                WyuStuSystemApi api = new WyuStuSystemApi();
+                Message msg = new Message();
+                try {
+                    String result = api.login(studentNo, pwd);
+                    if (result.equals(ConstantUtils.LOGIN_SYS_ERROR)) {
+                        msg.obj = "子系统出错,请重试！";
+                        msg.what = Error;
+                        handler.sendMessage(msg);
+                        return;
+                    }
+                    if (result.equals(ConstantUtils.LOGIN_PSW_ERROR)) {
+                        msg.obj = "学校系统用户名或者密码错误";
+                        msg.what = Error;
+                        handler.sendMessage(msg);
+                        return;
+                    }
+                    //拿到lastCookie后
+//                    hashMap = api.getCourse(result);
+                    StudentInfo info=api.getStudentInfo(studentNo);
+                    msg.what = SUCCESS;
+                    msg.obj =info ;
+                    handler.sendMessage(msg);
+                } catch (IOException e) {
+                    msg.what = Error;
+                    msg.obj = "子系统出错,刷新失败！";
+                    handler.sendMessage(msg);
+                    e.printStackTrace();
+                }
             }
         });
     }

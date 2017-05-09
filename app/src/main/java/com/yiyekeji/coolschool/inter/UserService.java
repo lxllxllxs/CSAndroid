@@ -20,6 +20,14 @@ public interface UserService {
     @POST("user/appLogin")
     Call<ResponseBody> login(@Body UserInfo user);
 
+    // TODO: 2017/5/9/009 Android自己登录
+    @POST("user/androidLogin")
+    Call<ResponseBody> androidLogin(@Body UserInfo user);
+
+    // TODO: 2017/5/9/0010 配合Android 登录 插入用户
+     @POST("user/insertUser")
+    Call<ResponseBody> insertUser(@Body UserInfo user);
+
     @POST("user/appGetUserInfo")
     Call<ResponseBody> getUserInfo(@Body UserInfo user);
 
