@@ -35,6 +35,10 @@ public class SoapUtils {
 			urlConnection.setDoInput(true);
 			// 构建请求参数
 			StringBuffer sb = new StringBuffer();
+			// FIXME: 2017/5/9 这里存在空指针???
+			if (params == null) {
+				return null;
+			}
 			if (!params.isEmpty()) {
 				for (Map.Entry<String, String> e : params.entrySet()) {
 					sb.append(e.getKey());

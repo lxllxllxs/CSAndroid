@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -35,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
+ * fixme 和查成绩因为使用SoapUtil 存在许多空指针地方
  * Created by lxl on 2017/3/26.
  */
 public class ScheduleAty extends BaseActivity {
@@ -184,7 +184,8 @@ public class ScheduleAty extends BaseActivity {
 
     }
 
-    private Handler handler = new Handler(Looper.myLooper()) {
+    // FIXME: 2017/5/9 去掉构造参数
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

@@ -3,7 +3,6 @@ package com.yiyekeji.coolschool.ui;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -170,7 +169,8 @@ public class QueryScoreAty extends BaseActivity {
 
     }
 
-    private Handler handler = new Handler(Looper.myLooper()) {
+    // FIXME: 2017/5/9  handler可能空指针？、？ 去掉构造函数参数
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
