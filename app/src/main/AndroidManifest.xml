@@ -52,7 +52,11 @@
 
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ui.UserExpressOrderListAty"
+            android:label="快递订单"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.SelectProductImageAty"
             android:label="选择图片"

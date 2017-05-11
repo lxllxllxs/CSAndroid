@@ -18,6 +18,7 @@ import com.yiyekeji.coolschool.ui.OtherOrderListAty;
 import com.yiyekeji.coolschool.ui.ReleaseProductAyt;
 import com.yiyekeji.coolschool.ui.SellerProductOrderListAty;
 import com.yiyekeji.coolschool.ui.SettingActivity;
+import com.yiyekeji.coolschool.ui.UserExpressOrderListAty;
 import com.yiyekeji.coolschool.ui.UserInfomationActivity;
 import com.yiyekeji.coolschool.ui.base.BaseFragment;
 
@@ -50,6 +51,8 @@ public class AccountFragment extends BaseFragment {
     LinearLayout llOtherOrder;
     @InjectView(R.id.ll_cancelOrder)
     LinearLayout llCancelOrder;
+    @InjectView(R.id.ll_userExpress)
+    LinearLayout llUserExpress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,10 +88,13 @@ public class AccountFragment extends BaseFragment {
 
     @OnClick({R.id.ll_userInfo, R.id.ll_setting, R.id.ll_releasPro,
             R.id.ll_product, R.id.ll_buyerProductOrder, R.id.ll_sellProductOrder, R.id.ll_myShoppingCar
-            , R.id.ll_otherOrder,R.id.ll_cancelOrder})
+            , R.id.ll_otherOrder, R.id.ll_cancelOrder,R.id.ll_userExpress})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.ll_userExpress:
+                intent.setClass(getActivity(), UserExpressOrderListAty.class);
+                break;
             case R.id.ll_userInfo:
                 intent.setClass(getActivity(), UserInfomationActivity.class);
                 break;

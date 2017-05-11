@@ -78,6 +78,10 @@ public class OtherOrderDetailAty extends BaseActivity {
         edtPhone.setFocusable(false);
         edtAddress.setFocusable(false);
         edtMessage.setFocusable(false);
+        // TODO: 2017/5/11 默认隐藏 只有管理员才可以见
+        if (App.userInfo.getIsAdmin()==1){
+            tvConfirm.setVisibility(View.VISIBLE);
+        }
         setConfiromButton(otherOrder.getOrderState());
     }
 

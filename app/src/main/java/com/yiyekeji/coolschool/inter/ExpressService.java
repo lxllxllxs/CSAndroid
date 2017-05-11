@@ -15,6 +15,11 @@ import retrofit2.http.POST;
  */
 public interface ExpressService {
 
+    //用户获取其订单
+    @POST("express/getUserOtherOrderList ")
+    Call<ResponseBody> getUserOtherOrderList(@Body  Map<String, Object> params);
+
+
     @POST("express/createDoorExpressOrder ")
     Call<ResponseBody> createDoorExpressOrder(@Body CreateTakeExpressOrder order);
 
