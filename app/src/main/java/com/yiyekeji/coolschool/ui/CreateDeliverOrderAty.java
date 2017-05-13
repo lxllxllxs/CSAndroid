@@ -56,6 +56,8 @@ public class CreateDeliverOrderAty extends BaseActivity {
     EditText edtMessage;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+    @InjectView(R.id.ll_confirm)
+    LinearLayout llConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,8 @@ public class CreateDeliverOrderAty extends BaseActivity {
 
     private void initView() {
         titleBar.initView(this);
-
+        //// FIXME: 2017/5/12  这里要显示
+        llConfirm.setVisibility(View.VISIBLE);
         edtAddress.setText(App.userInfo.getAddr() == null ? "" : App.userInfo.getAddr());
         edtRecipient.setText(App.userInfo.getName());
         edtPhone.setText(App.userInfo.getPhone() == null ? "" : App.userInfo.getPhone());
@@ -128,6 +131,7 @@ public class CreateDeliverOrderAty extends BaseActivity {
     }
 
     CreateDeliverExpressOrder order = new CreateDeliverExpressOrder();
+
     private boolean check() {
         if (TextUtils.isEmpty(edtRecipient.getText())) {
             showShortToast("联系人不能为空！");
@@ -179,7 +183,7 @@ public class CreateDeliverOrderAty extends BaseActivity {
                         bean.setValue(value);
                         beanArrayList.add(bean);
                     }
-                    tvDeliverTime.setText((String)beanArrayList.get(0).getValue());
+                    tvDeliverTime.setText((String) beanArrayList.get(0).getValue());
                     beanArrayList.get(0).setSelect(true);
                 } catch (JSONException e) {
                     e.printStackTrace();

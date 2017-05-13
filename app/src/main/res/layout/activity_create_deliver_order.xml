@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"/>
     <LinearLayout
+        android:id="@+id/ll_confirm"
         android:visibility="invisible"
         android:orientation="horizontal"
         android:layout_width="match_parent"

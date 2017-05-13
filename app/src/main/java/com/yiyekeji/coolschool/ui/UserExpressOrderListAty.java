@@ -125,7 +125,7 @@ public class UserExpressOrderListAty extends BaseActivity {
                 String jsonString = GsonUtil.toJsonString(response);
                 ResponseBean rb = GsonUtil.fromJSon(jsonString, ResponseBean.class);
                 if (!rb.getResult().equals("1")) {
-                    showShortToast(rb.getMessage());
+                    showShortToast("暂无订单");
                     return;
                 }
                 List<OtherOrder>  temp = GsonUtil.listFromJSon(jsonString,
@@ -137,7 +137,7 @@ public class UserExpressOrderListAty extends BaseActivity {
                     Collections.sort(orderList, new DateComParator());
                     mAdapter.notifyDataSetChanged(orderList);
                 } else {
-                    showShortToast(rb.getMessage());
+                    showShortToast("暂无订单");
                 }
             }
 

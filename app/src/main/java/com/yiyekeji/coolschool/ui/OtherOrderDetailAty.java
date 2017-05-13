@@ -52,6 +52,8 @@ public class OtherOrderDetailAty extends BaseActivity {
     EditText edtMessage;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+    @InjectView(R.id.ll_confirm)
+    LinearLayout llConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +81,8 @@ public class OtherOrderDetailAty extends BaseActivity {
         edtAddress.setFocusable(false);
         edtMessage.setFocusable(false);
         // TODO: 2017/5/11 默认隐藏 只有管理员才可以见
-        if (App.userInfo.getIsAdmin()==1){
-            tvConfirm.setVisibility(View.VISIBLE);
+        if (App.userInfo.getIsAdmin() == 1) {
+            llConfirm.setVisibility(View.VISIBLE);
         }
         setConfiromButton(otherOrder.getOrderState());
     }
