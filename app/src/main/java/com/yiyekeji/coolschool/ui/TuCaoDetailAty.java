@@ -127,6 +127,8 @@ public class TuCaoDetailAty extends BaseActivity {
     private List<TuCaoComment> commentList = new ArrayList<>();
 
     private void setCommentRecyclerView() {
+        // FIXME: 2017/5/13/011 这里是解决滑动失去惯性用的
+        rvComment.setNestedScrollingEnabled(false);
         mAdapter = new TuCaoCommentAdapter(this, commentList);
         rvComment.setAdapter(mAdapter);
         rvComment.setLayoutManager(new LinearLayoutManager(this));

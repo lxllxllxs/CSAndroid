@@ -23,14 +23,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.AndroidVersion;
@@ -147,6 +145,8 @@ public class HomeFragment extends BaseFragment {
         });
         recyclerView.setNestedScrollingEnabled(false);
         //热门话题top5
+        // FIXME: 2017/5/13/011 这里是解决滑动失去惯性用的
+        recyclerViewHot.setNestedScrollingEnabled(false);
         pullRreshAdapter = new TuCaoAdapter(getContext(), tuCaoList);
         recyclerViewHot.setLayoutManager(new LinearLayoutManager(getContext()));
         pullRreshAdapter.setOnItemClickLitener(new TuCaoAdapter.OnItemClickLitener() {
