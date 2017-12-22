@@ -102,7 +102,8 @@ public class OtherOrderListAty extends BaseActivity {
                         new TypeToken<List<OtherOrder>>() {}.getType(),"otherOrderList") ;
                 if (orderList!=null) {
                     // TODO: 2017/5/3/003 这里要根据日期进行排序
-                    Collections.sort(orderList, new DateComParator());
+                    // 2017-12-22 排序交给后台
+//                    Collections.sort(orderList, new DateComParator());
                     mAdapter.notifyDataSetChanged(orderList);
                 } else {
                     showShortToast(rb.getMessage());

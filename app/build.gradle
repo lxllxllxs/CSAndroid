@@ -30,7 +30,7 @@ android {
             signingConfig signingConfigs.lxlSigning
         }
         debug {
-            signingConfig signingConfigs.lxlSigning
+//            signingConfig signingConfigs.lxlSigning
         }
     }
 }
