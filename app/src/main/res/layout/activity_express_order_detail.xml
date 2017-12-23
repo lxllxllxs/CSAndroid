@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_create_order_header" />
+    <LinearLayout
+        android:layout_marginTop="10px"
+        android:background="@color/white"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="150px">
+        <TextView
+            android:paddingTop="10px"
+            android:gravity="center_horizontal"
+            android:text="留言"
+            style="@style/BigTextView"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText
+            android:id="@+id/edt_message"
+            android:gravity="top"
+            android:paddingLeft="10px"
+            android:paddingRight="10px"
+            android:layout_marginTop="10px"
+            android:layout_marginBottom="10px"
+            android:layout_marginLeft="20px"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            style="@style/NormalTextView"
+            android:maxLength="200"
+            android:hint="@string/home_deliver"
+            android:lines="3"
+            android:background="@drawable/bg_0radiu_whitesolid_graytroke"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:id="@+id/ll_confirm"
+        android:visibility="invisible"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="90px">
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:text="确定"
+            style="@style/BigTextView"
+            android:textColor="@color/white"
+            android:background="@color/theme_red"
+            android:gravity="center"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_marginRight="10px"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="10px"
+            android:id="@+id/tv_self"
+            android:text="自取"
+            style="@style/BigTextView"
+            android:textColor="@color/white"
+            android:background="@color/theme_red"
+            android:gravity="center"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

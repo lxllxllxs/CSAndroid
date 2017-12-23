@@ -77,13 +77,23 @@ public class OtherOrderAdapter extends RecyclerView.Adapter<OtherOrderAdapter.Vi
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         OtherOrder info = orderList.get(i);
         viewHolder.tvTitle.setText(info.getContactName()+"   ".concat(info.getContactAddr()));
-        if (info.getOrderState() == 1) {
-            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
-        } else {
-            viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
-        }
         viewHolder.tvDate.setText(DateUtils.subTimeFromMin(info.getOrderTime()));
-        viewHolder.tvState.setText(info.getOrderState()==0?"待处理":"已完成");
+        //// TODO: 2017/12/23  有三种状态 0待处理 1 已完成 2 自取
+        switch (info.getOrderState()){
+            case 0:
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.theme_red));
+                viewHolder.tvState.setText("待处理");
+                break;
+            case 1:
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
+                viewHolder.tvState.setText("已完成");
+                break;
+            case 2:
+                viewHolder.tvState.setTextColor(ContextCompat.getColor(context, R.color.weixin_green));
+                viewHolder.tvState.setText("自取");
+                break;
+        }
+
         //订单类型 0 打印 2上门收件  1 代拿快递
         switch (info.getOrderType()) {
             case 0:

@@ -52,13 +52,16 @@ public class OtherOrderDetailAty extends BaseActivity {
     EditText edtMessage;
     @InjectView(R.id.tv_confirm)
     TextView tvConfirm;
+    @InjectView(R.id.tv_self)
+    TextView tvSelf;
+
     @InjectView(R.id.ll_confirm)
     LinearLayout llConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_deliver_order);
+        setContentView(R.layout.activity_express_order_detail);
         ButterKnife.inject(this);
         titleBar.initView(this);
         initData();
@@ -84,6 +87,9 @@ public class OtherOrderDetailAty extends BaseActivity {
         if (App.userInfo.getIsAdmin() == 1) {
             llConfirm.setVisibility(View.VISIBLE);
         }
+        if (otherOrder.getOrderState()!=0){
+             tvSelf.setVisibility(View.GONE);
+        }
         setConfiromButton(otherOrder.getOrderState());
     }
 
@@ -94,38 +100,35 @@ public class OtherOrderDetailAty extends BaseActivity {
     OtherOrder otherOrder;
 
 
-    @OnClick({R.id.tv_confirm})
+    @OnClick({R.id.tv_confirm,R.id.tv_self})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
-                if (otherOrder.getOrderState() == 1) {
+                if (otherOrder.getOrderState()!= 0) {
                     return;
                 }
-                AlertDialog.Builder buidler = new AlertDialog.Builder(this);
-                buidler.setMessage("确定完成该订单吗？")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                updateProductOrderState();
-                            }
-                        })
-                        .show();
+                updateProductOrderState(1);//完成
                 break;
+            case R.id.tv_self:
+                if (otherOrder.getOrderState() != 0) {
+                    return;
+                }
+                updateProductOrderState(2);//自取
+                break;
+
         }
     }
 
-
-    private void updateProductOrderState() {
+    /**
+     * 增加状态
+     * @param state
+     */
+    private void updateProductOrderState(final int state) {
         Map<String, Object> params = new HashMap<>();
         params.put("tokenId", App.geTokenId());
         params.put("mappingId", otherOrder.getMappingId());
         params.put("orderType", otherOrder.getOrderType());
+        params.put("state", state);
         ExpressService service = RetrofitUtil.create(ExpressService.class);
         showLoadDialog("");
         Call<ResponseBody> call = service.updateOtherOrderState(params);
@@ -143,7 +146,8 @@ public class OtherOrderDetailAty extends BaseActivity {
                     showShortToast(rb.getMessage());
                     return;
                 }
-                setConfiromButton(1);
+                tvSelf.setVisibility(View.GONE);
+                setConfiromButton(state);
                 showShortToast(rb.getMessage());
             }
 
@@ -154,6 +158,10 @@ public class OtherOrderDetailAty extends BaseActivity {
         });
     }
 
+    /**
+     * 对应订单的三种状态
+     * @param type
+     */
     private void setConfiromButton(int type) {
         switch (type) {
             case 0:
@@ -162,6 +170,10 @@ public class OtherOrderDetailAty extends BaseActivity {
                 break;
             case 1:
                 tvConfirm.setText("已完成");
+                tvConfirm.setBackgroundColor(ContextCompat.getColor(OtherOrderDetailAty.this, R.color.gray_text));
+                break;
+            case 2:
+                tvConfirm.setText("已自取");
                 tvConfirm.setBackgroundColor(ContextCompat.getColor(OtherOrderDetailAty.this, R.color.gray_text));
                 break;
         }

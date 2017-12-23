@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.yiyekeji.coolschool.App;
 import com.yiyekeji.coolschool.R;
 import com.yiyekeji.coolschool.bean.DateComParator;
@@ -14,10 +15,12 @@ import com.yiyekeji.coolschool.bean.OtherOrder;
 import com.yiyekeji.coolschool.bean.ResponseBean;
 import com.yiyekeji.coolschool.inter.ExpressService;
 import com.yiyekeji.coolschool.ui.adapter.OtherOrderAdapter;
+import com.yiyekeji.coolschool.ui.adapter.UserExpressOrderAdapter;
 import com.yiyekeji.coolschool.ui.base.BaseActivity;
 import com.yiyekeji.coolschool.utils.GsonUtil;
 import com.yiyekeji.coolschool.utils.RetrofitUtil;
 import com.yiyekeji.coolschool.widget.DividerGridItemDecoration;
+import com.yiyekeji.coolschool.widget.PullToRefreshRecycleView;
 import com.yiyekeji.coolschool.widget.TitleBar;
 
 import java.util.ArrayList;
@@ -39,13 +42,13 @@ import retrofit2.Response;
 public class OtherOrderListAty extends BaseActivity {
     @InjectView(R.id.title_bar)
     TitleBar titleBar;
-    @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
-
+    @InjectView(R.id.prrv_pull_refresh_view)
+    PullToRefreshRecycleView prrvPullRefreshView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_only_recycleview);
+        setContentView(R.layout.activity_only_pulltorefresh_recycleview);
         ButterKnife.inject(this);
         initView();
         initData();
@@ -53,9 +56,30 @@ public class OtherOrderListAty extends BaseActivity {
 
     OtherOrderAdapter mAdapter;
     List<OtherOrder> orderList = new ArrayList<>();
+
+
     private void initView() {
         titleBar.initView(this);
-        mAdapter=new OtherOrderAdapter(this,orderList);
+        mAdapter = new OtherOrderAdapter(this, orderList);
+
+        recyclerView = prrvPullRefreshView.getRefreshableView();
+        prrvPullRefreshView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        prrvPullRefreshView.setOnPullEventListener(new PullToRefreshBase.OnPullEventListener<RecyclerView>() {
+            @Override
+            public void onPullEvent(PullToRefreshBase<RecyclerView> refreshView, PullToRefreshBase.State state, PullToRefreshBase.Mode direction) {
+            }
+        });
+        prrvPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
+            //下拉刷新
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+                initData();
+            }
+            //上拉加载
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+            }
+        });
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -68,6 +92,7 @@ public class OtherOrderListAty extends BaseActivity {
             }
         });
     }
+
 
     private void initData() {
         getOtherOrderList();
@@ -88,6 +113,7 @@ public class OtherOrderListAty extends BaseActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
                 if (response.code() != 200) {
                     showShortToast("网络错误" + response.code());
                     return;
@@ -112,6 +138,7 @@ public class OtherOrderListAty extends BaseActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 dismissDialog();
+                prrvPullRefreshView.onRefreshComplete();
             }
         });
     }

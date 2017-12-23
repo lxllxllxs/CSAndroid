@@ -19,7 +19,7 @@ android {
         multiDexEnabled true
     }
     buildTypes {
-        release {
+    /*    release {
             // 混淆
             minifyEnabled true
             // Zipalign优化
@@ -28,9 +28,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.lxlSigning
-        }
+        }*/
         debug {
-//            signingConfig signingConfigs.lxlSigning
+            signingConfig signingConfigs.lxlSigning
         }
     }
 }
